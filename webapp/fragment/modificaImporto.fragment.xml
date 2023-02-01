@@ -1,0 +1,46 @@
+<core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:u="sap.ui.unified"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:menu="sap.m.MenuItem"
+    xmlns:menBtn="sap.m.Menu"
+    height="100%">
+    <Table id="idModificaImporto" inset="false" showSeparators="Inner" items="{HeaderNIMI>/}">
+        <headerToolbar>
+            <OverflowToolbar>
+                <content>
+                    <Title text="Dettagli NI" />
+                </content>
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+            <Column demandPopin="true" hAlign="Center">
+                <Label text="Struttura Amministrativa Responsabile" />
+            </Column>
+            <Column demandPopin="true" hAlign="Center">
+                <Label text="Posizione Finanziaria" />
+            </Column>
+            <Column demandPopin="true" hAlign="Center">
+                <Label text="Oggetto della spesa" />
+            </Column>
+            <Column demandPopin="true" hAlign="Center">
+                <Label text="Mese" />
+            </Column>
+            <Column demandPopin="true" hAlign="Center">
+                <Label text="Tesoreria" />
+            </Column>
+        </columns>
+        <ColumnListItem>
+            <Text text="{HeaderNIMI>Fistl}" />
+            <Text text="{HeaderNIMI>Fipex}" />
+            <Input value="{HeaderNIMI>ZoggSpesa}" id="oggSpesa"/>
+            <Text text="{path: 'HeaderNIMI>Zmese', formatter:'.formatter.getMonthName'}" />
+            <Text text="{HeaderNIMI>ZflagTess}" />
+        </ColumnListItem>
+    </Table>
+</core:FragmentDefinition>

@@ -1,0 +1,55 @@
+<core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:u="sap.ui.unified"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:menu="sap.m.MenuItem"
+    xmlns:menBtn="sap.m.Menu"
+    height="100%">
+    <Table class="sapUiSizeCompact" id="HeaderNIW" includeItemInSelection="true" items="{HeaderNIW>/}">
+        <columns>
+            <Column width="10%">
+                <Label text="Codice ISIN" />
+            </Column>
+            <Column width="10%">
+                <Label text="Tipologia" />
+            </Column>
+            <Column width="10%">
+                <Label text="Sottotipologia" />
+            </Column>
+            <Column width="13%">
+                <Label text="Tasso di Interesse" />
+            </Column>
+            <Column width="10%">
+                <Label text="Data inizio" />
+            </Column>
+            <Column width="13%">
+                <Label text="Data Scadenza" />
+            </Column>
+            <Column width="13%">
+                <Label text="Data Pagamento" />
+            </Column>
+            <Column width="4%">
+                <Label text="C/R" />
+            </Column>
+            <Column width="10%">
+                <Label text="Importo Titolo" />
+            </Column>
+        </columns>
+        <ColumnListItem>
+            <Text text="{HeaderNIW>ZcodIsin}" />
+            <Text text="{HeaderNIW>Ztipo}" />
+            <Text text="{HeaderNIW>Zsottotipo}" />
+            <Text text="{HeaderNIW>Ztassoint}" />
+            <Text text="{HeaderNIW>ZdataInizio}" />
+            <Text text="{HeaderNIW>Zfbdt}" />
+            <Text text="{HeaderNIW>ZdataPag}" />
+            <Text text="{HeaderNIW>ZcompRes}" wrapping="false"/>
+            <Text text="{HeaderNIW>ZimpoTitolo}" />
+        </ColumnListItem>
+    </Table>
+</core:FragmentDefinition>

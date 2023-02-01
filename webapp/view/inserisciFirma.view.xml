@@ -1,0 +1,85 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:u="sap.ui.unified"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:l="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:menu="sap.m.MenuItem"
+    xmlns:menBtn="sap.m.Menu" height="100%" controllerName="project1.controller.inserisciFirma">
+    <f:DynamicPage id="dynamicPageId" showFooter="true">
+        <f:header>
+            <f:DynamicPageHeader pinnable="false">
+                <l:HorizontalLayout allowWrapping="true">
+                    <l:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="Location" text="Warehouse A" />
+                        <ObjectAttribute title="Halway" text="23L" />
+                        <ObjectAttribute title="Rack" text="34" />
+                    </l:VerticalLayout>
+
+                    <l:VerticalLayout>
+                        <ObjectAttribute title="Availability" />
+                        <ObjectStatus text="In Stock" state="Success" />
+                    </l:VerticalLayout>
+                </l:HorizontalLayout>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <form:SimpleForm editable="true"  title="Inserimento dati per invio della firma">
+                <Panel height="100%">
+                    <content>
+                        <l:Grid>
+                            <l:content>
+                                <VBox >
+                                    <Label text="Codice Ufficio:" required="true"/>
+                                    <Input value="" width="100%" showValueHelp="true">
+                                        <core:Item key=""/>
+                                    </Input>
+                                    <layoutData>
+                                        <l:GridData span="L6 M6 S6" />
+                                    </layoutData>
+                                </VBox>
+                                <VBox>
+                                    <Label text="Dirigente/Direttore Finanziario:" required="true"/>
+                                    <Input value="" width="100%" showValueHelp="true">
+                                        <core:Item key=""/>
+                                    </Input>
+                                    <layoutData>
+                                        <l:GridData span="L6 M6 S6" />
+                                    </layoutData>
+                                </VBox>
+                                <VBox>
+                                    <Label text="Data Protocollo" />
+                                    <DatePicker id="DataPro" displayFormat="dd/MM/yyyy" />
+                                    <layoutData>
+                                        <l:GridData span="L6 M6 S6" />
+                                    </layoutData>
+                                </VBox>
+                                <VBox>
+                                    <Label text="N. Protocollo" />
+                                    <Input value="" width="100%" showValueHelp="false">
+                                        <core:Item key=""/>
+                                    </Input>
+                                    <layoutData>
+                                        <l:GridData span="L6 M6 S6" />
+                                    </layoutData>
+                                </VBox>
+                            </l:content>
+                        </l:Grid>
+                    </content>
+                </Panel>
+            </form:SimpleForm>
+            <!-- <core:Title text="Inserimento dati per invio della firma" />
+             -->
+        </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <Button text="Indietro" type="Emphasized" press="onBackButton" />
+                <ToolbarSpacer />
+                <Button type="Emphasized" text="Conferma" press="onConfirm" />
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

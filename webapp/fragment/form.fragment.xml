@@ -1,0 +1,344 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <VBox class="sapUiSmallMargin">
+        <f:SimpleForm
+            id="SimpleFormChangeColumn__threeGroups234"
+            editable="true"
+            layout="ResponsiveGridLayout"
+            labelSpanXL="6"
+            labelSpanL="6"
+            labelSpanM="6"
+            labelSpanS="12"
+            adjustLabelSpan="false"
+            emptySpanXL="0"
+            emptySpanL="0"
+            emptySpanM="0"
+            emptySpanS="0"
+            columnsM="2"
+            columnsL="4"
+            columnsXL="3"
+            singleContainerFullSize="false"
+        >
+            <f:content>
+                <core:Title text="Estremi Impegno" />
+                <Label text="Esercizio" class="sapUiTinyMarginBottom" required="true" />
+
+                <ComboBox id="mese1">
+                    <core:Item id="mese2" key="{respModel>matricola}"
+                        text="{respModel>cognome} {respModel>nome} {respModel>matricola}" />
+                </ComboBox>
+
+                <Label text="N. Decreto" class="sapUiTinyMarginBottom" required="true"
+                    labelFor="inputDecreto" />
+
+                <Input id="inputDecreto" type="Text" placeholder="Matchcode da definire"
+                    enabled="true" editable="false" />
+                <Label text="Beneficiario:" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputBeneficiario" type="Text" placeholder="Beneficiario dell'Impegno"
+                    enabled="true" editable="false" />
+
+                <Label text="Nome:" class="sapUiTinyMarginBottom" />
+
+                <Input id="InputNome" type="Text" placeholder="Nome Beneficiario" editable="false" />
+
+                <core:Title text=" " />
+
+                <Label text="Amministrazione" class="sapUiTinyMarginBottom" required="true" />
+                <ComboBox id="mese12" showClearIcon="true">
+                    <core:Item id="mese23" key="{respModel>matricola}"
+                        text="{respModel>cognome} {respModel>nome} {respModel>matricola}" />
+                </ComboBox>
+
+                <Label text="IPE:" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputIPE" type="Text" placeholder="Matchcode da definire" enabled="true"
+                    editable="false" />
+                <Label text="Codice Fiscale:" class="sapUiTinyMarginBottom" />
+
+                <Input id="InputCodiceFiscale" type="Text"
+                    placeholder="CF del beneficiario prevalorizzato" enabled="true" editable="false" />
+                <Label text="Cognome:" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputCognome" type="Text" placeholder="Cognome beneficiario"
+                    enabled="true" editable="false" />
+                <core:Title text=" " />
+                <Label text="Ufficio I Livello:" class="sapUiTinyMarginbottom" required="false" />
+
+                <Input id="inputaUff" type="Text" enabled="true" editable="true" />
+                <Label text="N. Clausola:" class="sapUiTinyMarginBottom" required="true" />
+
+                <Input id="inputNClausolaa" type="Number" placeholder="Matchcode da definire"
+                    enabled="true" editable="true" />
+                <Label text="Codice Fiscale Estero:" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputCFEstero" type="Text" enabled="true" editable="false" />
+                <Label text="P. IVA:" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputPIVA" type="Text" placeholder="Partita IVA del beneficiario"
+                    enabled="true" editable="false" />
+                <core:Title text=" " />
+                <Label text="Ufficio II Livello:" class="sapUiTinyMarginbottom" labelFor="inputbUff" />
+                <Input id="inputbUff" type="Text" enabled="true" editable="true" />
+
+                <Label text="Oggetto della spesa:" class="sapUiTinyMarginBottom" />
+                <Input id="inputOggSpesa" type="Text" placeholder="Prevalorizzato" enabled="true"
+                    editable="false" />
+                <Label text="Sede estera:" class="sapUiMediumMarginTop" />
+
+                <Input id="inputSEstera" type="Text" placeholder="Prevalorizzato" enabled="true"
+                    editable="false" class="sapUiMediumMarginTop" />
+            </f:content>
+        </f:SimpleForm>
+        <f:SimpleForm
+            id="SimpleFormChangeColumn__threeGroups234-2"
+            editable="true"
+            layout="ResponsiveGridLayout"
+            labelSpanXL="6"
+            labelSpanL="6"
+            labelSpanM="6"
+            labelSpanS="12"
+            adjustLabelSpan="false"
+            emptySpanXL="0"
+            emptySpanL="0"
+            emptySpanM="0"
+            emptySpanS="0"
+            columnsM="2"
+            columnsL="3"
+            columnsXL="3"
+            singleContainerFullSize="false"
+        >
+            <f:content>
+                <core:Title text="Imputazione Contabile" />
+                <Label text="Esercizio di Gestione" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputEsGestion" type="Text" enabled="true" editable="true" />
+
+                <Label text="Struttura Amministrativa Responsabile" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputSAR" type="Text" enabled="true" placeholder="prevalorizzato"
+                    editable="false" />
+
+                <core:Title text=" " />
+
+                <Label text="Posizione Finanziaria" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputPosFin" type="Text" placeholder="Prevalorizzato" enabled="true"
+                    editable="false" />
+
+                <Label text="ID Autorizzazione" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputIDAut" type="Text" placeholder="Derivato dall'Impegno"
+                    enabled="true" editable="false" />
+
+                <core:Title text=" " />
+
+                <!-- <Label text=""
+                    class="sapUiLargeMarginTop"/> -->
+
+                <Label text="EPR" class="sapUiMediumMarginTop" />
+                <Input id="inputEPR" type="Text" enabled="true" editable="true"
+                    class="sapUiMediumMarginTop" />
+            </f:content>
+        </f:SimpleForm>
+        <f:SimpleForm
+            id="SimpleFormChangeColumn__threeGroups234-3"
+            editable="true"
+            layout="ResponsiveGridLayout"
+            labelSpanXL="6"
+            labelSpanL="6"
+            labelSpanM="6"
+            labelSpanS="12"
+            adjustLabelSpan="false"
+            emptySpanXL="0"
+            emptySpanL="0"
+            emptySpanM="0"
+            emptySpanS="0"
+            columnsM="2"
+            columnsL="3"
+            columnsXL="3"
+            singleContainerFullSize="false"
+        >
+            <f:content>
+                <core:Title text="Beneficiario Nota di Imputazione" />
+                <Label text="Beneficiario" required="true" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputBeneficiario-2" type="Text" enabled="true" editable="true" />
+
+                <Label text="Modalità di pagamento" class="sapUiTinyMarginBottom" required="true" />
+
+                <ComboBox id="BoxMdP">
+                    <core:Item id="MdP" key="{respModel>matricola}"
+                        text="{respModel>cognome} {respModel>nome} {respModel>matricola}" />
+                </ComboBox>
+                <core:Title text=" " />
+                <Label text="Nome" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputNome-2" type="Text" placeholder="Banca d'Italia" enabled="true"
+                    editable="true" />
+
+                <Label text="IBAN" required="true" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputIBAN" type="Text" enabled="true" editable="true" />
+            </f:content>
+        </f:SimpleForm>
+        <f:SimpleForm
+            id="SimpleFormChangeColumn__threeGroups234-4"
+            editable="true"
+            layout="ResponsiveGridLayout"
+            labelSpanXL="6"
+            labelSpanL="6"
+            labelSpanM="6"
+            labelSpanS="12"
+            adjustLabelSpan="false"
+            emptySpanXL="0"
+            emptySpanL="0"
+            emptySpanM="0"
+            emptySpanS="0"
+            columnsM="2"
+            columnsL="3"
+            columnsXL="3"
+            singleContainerFullSize="false"
+        >
+            <f:content>
+                <core:Title text="Imputazione Contabile" />
+                <Label text="Centro di Costo" required="true" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputCdC" type="Text" enabled="true" editable="true" />
+                <Label text="Conto Co.Ge." required="true" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputContoCoGe" type="Text" enabled="true" editable="true" />
+                <core:Title text=" " />
+                <Label text="Descrizione" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputDesc1" type="Text" editable="false" />
+                <Label text="Descrizione" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputDesc2" type="Text" editable="false" />
+                <core:Title text=" " />
+                <core:Title text="Importi della Liquidazione" />
+                <Label text="Importo Liquidazione" required="true" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputImportiLiq" type="Text" editable="True" />
+                <core:Title text=" " />
+                <core:Title text=" " />
+                <core:Title text="Dati Contabili" />
+                <Label text="Disponibilità Impegno" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputDispImp" type="Text" editable="True" />
+                <core:Title text=" " />
+                <Label text="Disponibilità di cassa (PG)" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputDispCassa" type="Text" editable="True" />
+                <core:Title text=" " />
+                <Label text="AccantonamentoIPE" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputAccIPE" type="Text" editable="True" />
+            </f:content>
+        </f:SimpleForm>
+
+        <f:SimpleForm
+            id="SimpleFormChangeColumn__threeGroups234-5"
+            editable="true"
+            layout="ResponsiveGridLayout"
+            labelSpanXL="2"
+            labelSpanL="2"
+            labelSpanM="2"
+            labelSpanS="4"
+            adjustLabelSpan="false"
+            emptySpanXL="0"
+            emptySpanL="0"
+            emptySpanM="0"
+            emptySpanS="0"
+            columnsM="1"
+            columnsL="1"
+            columnsXL="1"
+            singleContainerFullSize="false"
+        >
+            <f:content>
+                <core:Title text="Dati NI" />
+                <Label text="Data Protocollo" class="sapUiTinyMarginBottom">
+                    <layoutData>
+                        <l:GridData span="XL3 L2 M4 S5" />
+                    </layoutData>
+                </Label>
+
+                <DatePicker id="DP1" valueFormat="dd-mm-yyyy" displayFormat="long"
+                    class="sapUiTinyyMarginBottom">
+                    <layoutData>
+                        <l:GridData span="XL3 L2 M4 S5" />
+                    </layoutData>
+                </DatePicker>
+
+                <Label text="N. Protocollo" class="sapUiTinyMarginBottom">
+                    <layoutData>
+                        <l:GridData indent="XL3 L4 M4 S5" />
+                        <l:GridData span="XL3 L4 M4 S5" />
+                    </layoutData>
+                </Label>
+
+                <Input id="inputNProtoccollo" type="Text" editable="True">
+                    <layoutData>
+                        <l:GridData span="XL2 L1 M2 S4" />
+                    </layoutData>
+                </Input>
+
+                <Label text="Codice Gestionale" required="true" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputCodiceGest" type="Text" editable="True">
+                    <layoutData>
+                        <l:GridData span="XL3 L1 M4 S5" />
+                    </layoutData>
+                </Input>
+                <Label text="Descrizione" class="sapUiTinyMarginBottom">
+                    <layoutData>
+                        <l:GridData indent="XL3 L2 M4 S5" />
+                        <l:GridData span="XL3 L5 M4 S5" />
+                    </layoutData>
+                </Label>
+
+                <Input id="inputDescr" type="Text" editable="False">
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M2 S4" />
+                    </layoutData>
+                </Input>
+                <Label text="Località di pagamento" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputLocPagamento" type="Text" editable="True">
+                    <layoutData>
+                        <l:GridData span="XL3 L2 M4 S5" />
+                    </layoutData>
+                </Input>
+                <Label text="Causale di pagamento" required="true" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputCausPagamento" type="Text" editable="True"
+                    placeholder="Pagamento interessi" />
+                <Label text="Data esigibilità" class="sapUiTinyMarginBottom">
+                    <layoutData>
+                        <l:GridData span="XL3 L2 M4 S5" />
+                    </layoutData>
+                </Label>
+
+                <DatePicker id="DP2" valueFormat="dd-mm-yyyy" displayFormat="long"
+                    class="sapUiTinyyMarginBottom">
+                    <layoutData>
+                        <l:GridData span="XL3 L2 M4 S5" />
+                    </layoutData>
+                </DatePicker>
+
+                <Label text="Zona di intervento" class="sapUiTinyMarginBottom">
+                    <layoutData>
+                        <l:GridData indent="XL3 L4 M4 S5" />
+                        <l:GridData span="XL3 L4 M4 S5" />
+                    </layoutData>
+                </Label>
+
+                <Input id="inputZInterv" type="Text" editable="True">
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M2 S4" />
+                    </layoutData>
+                </Input>
+            </f:content>
+        </f:SimpleForm>
+    </VBox>
+</core:FragmentDefinition>

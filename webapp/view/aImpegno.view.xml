@@ -1,0 +1,47 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:u="sap.ui.unified"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:menu="sap.m.MenuItem"
+    xmlns:menBtn="sap.m.Menu"
+    height="100%"
+    controllerName="project1.controller.aImpegno"
+>
+    <App id="app">
+        <f:DynamicPage showFooter="true">
+            <f:header>
+                <f:DynamicPageHeader pinnable="false">
+                    <layout:HorizontalLayout allowWrapping="true">
+                        <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                            <ObjectAttribute title="Location" text="Warehouse A" />
+                            <ObjectAttribute title="Halway" text="23L" />
+                            <ObjectAttribute title="Rack" text="34" />
+                        </layout:VerticalLayout>
+
+                        <layout:VerticalLayout>
+                            <ObjectAttribute title="Availability" />
+                            <ObjectStatus text="In Stock" state="Success" />
+                        </layout:VerticalLayout>
+                    </layout:HorizontalLayout>
+
+                </f:DynamicPageHeader>
+            </f:header>
+            <f:content>
+                <core:Fragment fragmentName="project1.fragment.form" type="XML" />
+            </f:content>
+            <f:footer>
+                <OverflowToolbar>
+                    <Button text="Indietro" type="Emphasized" press="onBackButton" />
+                    <ToolbarSpacer />
+                    <Button type="Emphasized" text="Salva" press="onCancelNI" icon="sap-icon://save" />
+                </OverflowToolbar>
+            </f:footer>
+        </f:DynamicPage>
+    </App>
+</mvc:View>

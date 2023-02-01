@@ -1,0 +1,64 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:u="sap.ui.unified"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:menu="sap.m.MenuItem"
+    xmlns:menBtn="sap.m.Menu"
+    height="100%"
+    controllerName="project1.controller.modificaImporto"
+>
+    <f:DynamicPage id="dynamicPageId" showFooter="true">
+        <f:header>
+            <f:DynamicPageHeader pinnable="false">
+                <layout:HorizontalLayout allowWrapping="true">
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <HBox id="idHBox1">
+                            <VBox id="idVBox11" class="sapUiSmallMargin" width="auto">
+                                <Label id="numNI" text="{i18n>NumeroNI}" design="Bold"/>
+                                <Text id="numNI1"/>
+                            </VBox>
+                            <VBox id="idVBox12" class="sapUiSmallMargin" width="auto">
+                                <Label id="data" text="{i18n>Data}" design="Bold"/>
+                                <Text id="data1" wrapping="true"/>
+                            </VBox>
+                            <VBox id="idVBox13" class="sapUiSmallMargin" width="auto">
+                                <Label id="statoNI" text="{i18n>statoNI}" design="Bold"/>
+                                <Text id="statoNI1"/>
+                            </VBox>
+                            <VBox id="idVBox14" class="sapUiSmallMargin" width="auto">
+                                <Label id="importoTot" text="{i18n>importoTot}" design="Bold"/>
+                                <Text id="importoTot1"/>
+                            </VBox>
+                        </HBox>
+                    </layout:VerticalLayout>
+                </layout:HorizontalLayout>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <IconTabBar id="idIconTabBar" class="sapUiResponsiveContentPadding" select="onSelect">
+                <items>
+                    <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">
+                        <core:Fragment fragmentName="project1.fragment.modificaImporto" type="XML" />
+                    </IconTabFilter>
+                    <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
+                    </IconTabFilter>
+                    <IconTabFilter icon="sap-icon://documents" text="Fascicolo" key="Fascicolo">
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <Button text="Indietro" type="Emphasized" press="onBackButton" />
+                <ToolbarSpacer />
+                <Button type="Emphasized" text="Salva" press="onSaveDati" icon="sap-icon://save" />
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

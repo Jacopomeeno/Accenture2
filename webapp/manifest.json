@@ -1,0 +1,226 @@
+{
+  "_version": "1.48.0",
+  "sap.app": {
+    "id": "project1",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "Gestione Note di Imputazione ",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.8.3",
+      "toolsId": "02a3dfb2-37fb-4c3c-a4da-663b63416c45"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZS4_NOTEIMPUTAZIONI_SRV",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.108.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.suite.ui.generic.template": {},
+        "sap.ui.comp": {},
+        "sap.ui.generic.app": {},
+        "sap.ui.table": {},
+        "sap.ushell": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "project1.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {}
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "project1.view",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "clearControlAggregation": false
+      },
+      "routes": [
+        {
+          "name": "View1",
+          "pattern": "",
+          "greedy": false,
+          "target": "Targetview1"
+        },
+        {
+          "name": "wizard",
+          "pattern": "wizard",
+          "titleTarget": "",
+          "greedy": false,
+          "target": "Targetwizard"
+        },
+        {
+          "name": "iconTabBar",
+          "pattern": "iconTabBar/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+          "titleTarget": "",
+          "greedy": false,
+          "target": "TargeticonTabBar"
+        },
+        {
+          "name": "iconTabBar2",
+          "pattern": "iconTabBar2",
+          "titleTarget": "",
+          "greedy": false,
+          "target": "TargeticonTabBar2"
+        },
+        {
+          "name": "inserisciFirma",
+          "pattern": "inserisciFirma",
+          "titleTarget": "",
+          "greedy": false,
+          "target": "TargetinserisciFirma"
+        },
+        {
+          "name": "aImpegno",
+          "pattern": "aImpegno",
+          "titleTarget": "",
+          "greedy": false,
+          "target": "TargetaImpegno"
+        },
+        {
+          "name": "modificaDettaglio",
+          "pattern": "modificaDettaglio",
+          "titleTarget": "",
+          "greedy": false,
+          "target": "TargetmodificaDettaglio"
+        },
+        {
+          "name": "modificaImporto",
+          "pattern": "modificaImporto",
+          "titleTarget": "",
+          "greedy": false,
+          "target": "TargetmodificaImporto"
+        }
+      ],
+      "targets": {
+        "Targetview1": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "View1",
+          "viewName": "View1",
+          "viewLevel": 1
+        },
+        "Targetwizard": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "wizard",
+          "viewName": "wizard",
+          "viewLevel": 1
+        },
+        "TargeticonTabBar": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "iconTabBar",
+          "viewName": "iconTabBar",
+          "viewLevel": 1
+        },
+        "TargeticonTabBar2": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "iconTabBar2",
+          "viewName": "iconTabBar2",
+          "viewLevel": 1
+        },
+        "TargetinserisciFirma": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "inserisciFirma",
+          "viewName": "inserisciFirma",
+          "viewLevel": 1
+        },
+        "TargetmodificaDettaglio": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "modificaDettaglio",
+          "viewName": "modificaDettaglio",
+          "viewLevel": 1
+        },
+        "TargetmodificaImporto": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "modificaImporto",
+          "viewName": "modificaImporto",
+          "viewLevel": 1
+        },
+        "TargetaImpegno": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "aImpegno",
+          "viewName": "aImpegno",
+          "viewLevel": 1
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "project1.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "App"
+    }
+  }
+}

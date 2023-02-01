@@ -1,0 +1,66 @@
+<core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:u="sap.ui.unified"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:menu="sap.m.MenuItem"
+    xmlns:menBtn="sap.m.Menu"
+    height="100%">
+    <Table class="sapUiSizeCompact" id="HeaderITB" includeItemInSelection="true" items="{HeaderITB>/}" mode="MultiSelect" visible="true">
+        <headerToolbar>
+            <OverflowToolbar>
+                <content>
+                    <ToolbarSpacer />
+                    <Button type="Emphasized" text="Modifica Importo NI" enabled="false" press="onEditImporto" id="editImporto" />
+                    <Button type="Emphasized" text="Modifica Dettagli NI" enabled="false" press="onEditRow" id="editRow" />
+                    <Button icon="sap-icon://add" type="Emphasized" text="Inserisci riga" enabled="false" press="onAddRow" id="addRow" />
+                    <Button icon="sap-icon://less" type="Emphasized" text="Cancella riga" enabled="false" press="onDeleteRow" id="deleteRow" />
+                </content>
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+            <Column width="10%">
+                <Label text="Codice ISIN" />
+            </Column>
+            <Column width="10%">
+                <Label text="Tipologia" />
+            </Column>
+            <Column width="10%">
+                <Label text="Sottotipologia" />
+            </Column>
+            <Column width="13%">
+                <Label text="Tasso di Interesse" />
+            </Column>
+            <Column width="10%">
+                <Label text="Data inizio" />
+            </Column>
+            <Column width="13%">
+                <Label text="Data Scadenza" />
+            </Column>
+            <Column width="13%">
+                <Label text="Data Pagamento" />
+            </Column>
+            <Column width="4%">
+                <Label text="C/R" />
+            </Column>
+            <Column width="10%">
+                <Label text="Importo Titolo" />
+            </Column>
+        </columns>
+        <ColumnListItem>
+            <Text text="{HeaderITB>ZcodIsin}" />
+            <Text text="{HeaderITB>Ztipo}" />
+            <Text text="{HeaderITB>Zsottotipo}" />
+            <Text text="{HeaderITB>Ztassoint}" />
+            <Text text="{path:'HeaderITB>ZdataInizio', formatter:'.formatter.convert'}" />
+            <Text text="{path:'HeaderITB>Zfbdt', formatter:'.formatter.convert'}" />
+            <Text text="{path:'HeaderITB>ZdataPag', formatter:'.formatter.convert'}" />
+            <Text text="{HeaderITB>ZcompRes}" wrapping="false"/>
+            <Text text="{HeaderITB>ZimpoTitolo}" />
+        </ColumnListItem>
+    </Table>
+</core:FragmentDefinition>
