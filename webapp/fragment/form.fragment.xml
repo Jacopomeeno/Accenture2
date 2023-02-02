@@ -69,7 +69,7 @@
             emptySpanL="0"
             emptySpanM="0"
             emptySpanS="0"
-            columnsM="2"
+            columnsM="1"
             columnsL="1"
             columnsXL="1"
             singleContainerFullSize="false"
@@ -77,7 +77,7 @@
         <f:content>
                 <OverflowToolbar>
                     <ToolbarSpacer/>
-                <Button type="Emphasized" id="Avvio" text="Avvio" press="onStart"/>
+                <Button type="Emphasized" id="Avvio" text="Avvio" press="onSearch"/>
             </OverflowToolbar>
         </f:content>
         </f:SimpleForm>
