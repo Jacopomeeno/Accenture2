@@ -85,7 +85,7 @@ sap.ui.define([
 
             onSelect: function (oEvent) {
                 var key = oEvent.getParameters().key;
-                if (key === "ListaDettagli") {
+                if (key === "dettagliNI") {
                     //this.callPositionNI()
                     this.getView().byId("idIconTabBar").destroyContent()
                     

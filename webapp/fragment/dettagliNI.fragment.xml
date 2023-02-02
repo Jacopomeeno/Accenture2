@@ -23,44 +23,32 @@
             </OverflowToolbar>
         </headerToolbar>
         <columns>
-            <Column width="10%">
+            <Column width="auto">
                 <Label text="Codice ISIN" />
             </Column>
-            <Column width="10%">
-                <Label text="Tipologia" />
+            <Column width="auto">
+                <Label text="Sottotipologia primo livello" />
             </Column>
-            <Column width="10%">
-                <Label text="Sottotipologia" />
+            <Column width="auto">
+                <Label text="Descrizione" />
             </Column>
-            <Column width="13%">
-                <Label text="Tasso di Interesse" />
-            </Column>
-            <Column width="10%">
-                <Label text="Data inizio" />
-            </Column>
-            <Column width="13%">
-                <Label text="Data Scadenza" />
-            </Column>
-            <Column width="13%">
+            <Column width="auto">
                 <Label text="Data Pagamento" />
             </Column>
-            <Column width="4%">
-                <Label text="C/R" />
+            <Column width="auto">
+                <Label text="Importo NI" />
             </Column>
-            <Column width="10%">
-                <Label text="Importo Titolo" />
+            <Column width="auto">
+                <Label text="Importo Residuo" />
             </Column>
         </columns>
         <ColumnListItem>
             <Text text="{HeaderITB>ZcodIsin}" />
             <Text text="{HeaderITB>Ztipo}" />
-            <Text text="{HeaderITB>Zsottotipo}" />
-            <Text text="{HeaderITB>Ztassoint}" />
-            <Text text="{path:'HeaderITB>ZdataInizio', formatter:'.formatter.convert'}" />
-            <Text text="{path:'HeaderITB>Zfbdt', formatter:'.formatter.convert'}" />
+            <Text text="{HeaderITB>}" />
             <Text text="{path:'HeaderITB>ZdataPag', formatter:'.formatter.convert'}" />
-            <Text text="{HeaderITB>ZcompRes}" wrapping="false"/>
-            <Text text="{HeaderITB>ZimpoTitolo}" />
+            <Input value="{HeaderNIWstep3>}"/>
+            <Input value="{HeaderNIWstep3>}"/>
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

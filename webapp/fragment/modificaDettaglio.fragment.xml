@@ -31,16 +31,12 @@
             <Column demandPopin="true" hAlign="Center">
                 <Label text="Mese" />
             </Column>
-            <Column demandPopin="true" hAlign="Center">
-                <Label text="Tesoreria" />
-            </Column>
         </columns>
         <ColumnListItem>
             <Text text="{HeaderNIM>Fistl}" />
             <Text text="{HeaderNIM>Fipex}" />
             <Input value="{HeaderNIM>ZoggSpesa}" id="oggSpesa"/>
             <Text text="{path: 'HeaderNIM>Zmese', formatter:'.formatter.getMonthName'}" />
-            <Text text="{HeaderNIM>ZflagTess}" />
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

@@ -36,8 +36,8 @@
             <Text text="{HeaderNIW>Ztipo}"/>
             <Text text="{path:'HeaderNIW>ZdataPag', formatter:'.formatter.convert'}" />
             <Text text="{HeaderNIW>ZimpoTitolo}" />
-            <Text text="{HeaderNIW>}" />
-            <Text text="{HeaderNIW>}" />
+            <Text text="{HeaderNIW>ZimpoAss}" />
+            <Text text="{HeaderNIW>ZimpoRes}" />
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>
