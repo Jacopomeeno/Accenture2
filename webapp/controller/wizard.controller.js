@@ -284,7 +284,7 @@ sap.ui.define([
                                 PositionNISet: []
                             }
                             deepEntity.HeaderNISet = {
-                                Bukrs: 'c127', // cambiare
+                                Bukrs: 'c127',
                                 Gjahr: '2023',
                                 Zamministr: 'aaa',
                                 ZchiaveNi: '12534', //da incrementare / uguale agli altri 2
@@ -300,7 +300,7 @@ sap.ui.define([
                             };
 
                             deepEntity.PositionNISet.push({
-                                Bukrs: 'c126', //cambiare
+                                Bukrs: 'c127',
                                 Gjahr: '2023',
                                 Zamministr: 'aaa',
                                 ZchiaveNi: '12534', //da incrementare / uguale agli altri 2
