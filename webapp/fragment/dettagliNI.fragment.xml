@@ -47,8 +47,8 @@
             <Text text="{HeaderITB>Ztipo}" />
             <Text text="{HeaderITB>}" />
             <Text text="{path:'HeaderITB>ZdataPag', formatter:'.formatter.convert'}" />
-            <Input value="{HeaderNIWstep3>}"/>
-            <Input value="{HeaderNIWstep3>}"/>
+            <Text text="{HeaderITB>}" />
+            <Text text="{HeaderITB>}" />
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

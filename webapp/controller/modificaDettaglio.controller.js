@@ -36,40 +36,35 @@ sap.ui.define(
             },
 
             onSaveDati: function () {
-                //aggiunge dati
-                var oMdlM = new sap.ui.model.json.JSONModel();
-                var spesa= this.getView().byId("HeaderNIM")
-                MessageBox.warning("Sei sicuro di voler modificare la NI?", {
-                    actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                    emphasizedAction: MessageBox.Action.YES,
-                    onClose: function (oAction) {
-                        if (oAction === sap.m.MessageBox.Action.YES) {
-                            //var oggSpesa = this.getView().byId("oggSpesa").getValue()
-                            var that = this;
-                            var aData = jQuery.ajax({
-                                type: "PATCH",
-                                contentType: "application/json",
-                                url: "/sap/opu/odata/sap/ZS4_NOTEIMPUTAZIONI_SRV/HeaderNISet",
-                                dataType: "json",
-                                async: false,
-                                body: JSON.stringify({
-                                    ZoggSpesa: oggSpesa
-                                  }),
-                                success: function (data, textStatus, jqXHR) {
-                                    // resolve(data.value)
-                                    //console.log(data)
-                                    oMdlITB.setData(data.d.results);
-                                    //that.getView().getModel("temp").setProperty('/PositionNISet', data.d.results)
-                                    //console.log(data.d.results)
-                                },
-                                error: function (error) {
-                                    var e = error;
-                                }
-                            });
-                            MessageBox.success("Operazione eseguita con successo")
-                        }
-                    }
-                })
+               /*update operation*/
+               var that = this
+               var oggSpesa= this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
+               MessageBox.warning("Sei sicuro di voler modificare la NI?", {
+                   actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                   emphasizedAction: MessageBox.Action.YES,
+                   onClose: function (oAction) {
+                       if (oAction === sap.m.MessageBox.Action.YES) {
+                           var oModel = that.getView().getModel(); 
+                           var editSpesa = {
+                            ZoggSpesa:oggSpesa
+                           };
+                           //editImp.importoRes = that.getView().byId("importoRes").getValue();
+                           //HeaderNISet('Bukrs='" + oEvent.getParameters().arguments.campo +"'
+                           //'ZoggSpesa=''" + editSpesa.oggSpesa + "'
+                           oModel.update("/HeaderNISet('ZoggSpesa='" + editSpesa.oggSpesa +"')", editSpesa, {
+                               method: "PUT",
+                               success: function (data) {
+                                   //console.log("success");
+                                   MessageBox.success("Operazione eseguita con successo")
+                               },
+                               error: function (e) {
+                                   //console.log("error");
+                                   MessageBox.error("Operazione non eseguita")
+                               }
+                           });
+                       }
+                   }
+               });
             },
 
 

@@ -10,37 +10,34 @@
     xmlns:menu="sap.m.MenuItem"
     xmlns:menBtn="sap.m.Menu"
     height="100%">
-    <Table id="idModificaImporto" inset="false" showSeparators="Inner" items="{HeaderNIMI>/}">
-        <headerToolbar>
-            <OverflowToolbar>
-                <content>
-                    <Title text="Dettagli NI" />
-                </content>
-            </OverflowToolbar>
-        </headerToolbar>
+    <Table class="sapUiSizeCompact" id="PositionNIMI" includeItemInSelection="true" items="{PositionNIMI>/}" visible="true">
         <columns>
-            <Column demandPopin="true" hAlign="Center">
-                <Label text="Struttura Amministrativa Responsabile" />
+            <Column width="auto">
+                <Label text="Codice ISIN" />
             </Column>
-            <Column demandPopin="true" hAlign="Center">
-                <Label text="Posizione Finanziaria" />
+            <Column width="25%">
+                <Label text="Sottotipologia primo livello" />
             </Column>
-            <Column demandPopin="true" hAlign="Center">
-                <Label text="Oggetto della spesa" />
+            <Column width="auto">
+                <Label text="Descrizione" />
             </Column>
-            <Column demandPopin="true" hAlign="Center">
-                <Label text="Mese" />
+            <Column width="auto">
+                <Label text="Data Pagamento" />
             </Column>
-            <Column demandPopin="true" hAlign="Center">
-                <Label text="Tesoreria" />
+            <Column width="auto">
+                <Label text="Importo NI" />
+            </Column>
+            <Column width="auto">
+                <Label text="Importo Residuo" />
             </Column>
         </columns>
         <ColumnListItem>
-            <Text text="{HeaderNIMI>Fistl}" />
-            <Text text="{HeaderNIMI>Fipex}" />
-            <Input value="{HeaderNIMI>ZoggSpesa}" id="oggSpesa"/>
-            <Text text="{path: 'HeaderNIMI>Zmese', formatter:'.formatter.getMonthName'}" />
-            <Text text="{HeaderNIMI>ZflagTess}" />
+            <Text text="{PositionNIMI>ZcodIsin}" />
+            <Text text="{PositionNIMI>Ztipo}" />
+            <Text text="{PositionNIMI>}" />
+            <Text text="{path:'PositionNIMI>ZdataPag', formatter:'.formatter.convert'}" />
+            <Input value="{PositionNIMI>}" id="importoNI" /> <!-- ZIMPO_TITOLO -->
+            <Input value="{PositionNIMI>}" id="importoRes" />    <!-- ZIMPO_RES -->
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

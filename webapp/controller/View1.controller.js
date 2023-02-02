@@ -110,20 +110,45 @@ sap.ui.define([
                 });
             },
 
-            onNavToIconTB: function(){
+            onNavToIconTB: function () {
                 var row = this.getView().byId("HeaderNI").getSelectedItem().getBindingContext("HeaderNI").getObject()
-                    // var selectedRow = this.getView().byId("HeaderNI").getSelectedItem().mAggregations.cells
-                    // this.getView().getModel("temp").setProperty("/", {selectedRow});
+                // var selectedRow = this.getView().byId("HeaderNI").getSelectedItem().mAggregations.cells
+                // this.getView().getModel("temp").setProperty("/", {selectedRow});
                 // var HeaderITB = new sap.ui.model.json.JSONModel();
                 // HeaderITB.setData(row);
                 // this.getView().getModel("temp").setProperty('/', HeaderITB)
-                
-                this.getOwnerComponent().getRouter().navTo("iconTabBar", {campo:row.Bukrs, campo1:row.Gjahr, campo2: row.Zamministr, campo3:row.ZchiaveNi, campo4:row.ZidNi, campo5:row.ZRagioCompe})
+
+                this.getOwnerComponent().getRouter().navTo("iconTabBar", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
             },
 
             navToDettagliNI: function (oEvent) {
                 this.onNavToIconTB()
             },
+
+
+            //CONTROLLO PER FAR VISUALIZZARE SOLO UN FILTRO NELLE COMBOBOX
+
+            // checkItemCB: function (oEvent) {
+            //     //this.getView().byId("filterbar").mAggregations.filterGroupItems
+            //     var listaDoppEG = []
+            //     var listaEG = []
+            //     var numFilter = oEvent.getParameters().selectionSet.length;
+            //     for (var i = 0; i < numFilter; i++) {
+            //         var valore = oEvent.getParameters().selectionSet[i].mProperties.value
+            //         if (valore && valore != "null") {
+            //             if (!listaEG.includes(valore)) {
+            //                 listaEG.push({
+            //                     code: valore
+            //                 });
+            //                 listaDoppEG.push(valore)
+            //             }
+
+            //         }
+
+            //     }
+            //     var esGestioneModel = new sap.ui.model.json.JSONModel(listaEG);
+            //     this.getOwnerComponent().setModel(esGestioneModel, "esGestioneModel");
+            // },
 
             onSearch: function (oEvent) {
                 var that = this;
@@ -137,7 +162,7 @@ sap.ui.define([
                 var numFilter = oEvent.getParameters().selectionSet.length;
 
                 for (let i = 0; i < numFilter; i++) {
-                    
+
                     bindingInfo = "items"
                     path = oEvent.getParameters().selectionSet[i].getBindingInfo(bindingInfo)
                     if (path == undefined) {
@@ -148,61 +173,61 @@ sap.ui.define([
                     if (filtro) {
                         if (filtro.mProperties.dateValue instanceof Date || !isNaN(filtro.mProperties.dateValue)) {
                             if (i == 5) {
-                                if(oEvent.getParameters().selectionSet[5].mProperties.value!= ''){
-                                datiNI.push(new Filter({
-                                    path: "ZdataCreaz",
-                                    operator: FilterOperator.BT,
-                                    value1: oEvent.getParameters().selectionSet[5].mProperties.value,
-                                    value2: oEvent.getParameters().selectionSet[6].mProperties.value
-                                }));
-                            }
+                                if (oEvent.getParameters().selectionSet[5].mProperties.value != '') {
+                                    datiNI.push(new Filter({
+                                        path: "ZdataCreaz",
+                                        operator: FilterOperator.BT,
+                                        value1: oEvent.getParameters().selectionSet[5].mProperties.value,
+                                        value2: oEvent.getParameters().selectionSet[6].mProperties.value
+                                    }));
+                                }
                             }
                             if (i == 18) {
-                                if(oEvent.getParameters().selectionSet[18].mProperties.value!= ''){
-                                datiNI.push(new Filter({
-                                    path: "ZdataFirmNi",
-                                    operator: FilterOperator.BT,
-                                    value1: oEvent.getParameters().selectionSet[18].mProperties.value,
-                                    value2: oEvent.getParameters().selectionSet[19].mProperties.value
-                                }));
-                            }
+                                if (oEvent.getParameters().selectionSet[18].mProperties.value != '') {
+                                    datiNI.push(new Filter({
+                                        path: "ZdataFirmNi",
+                                        operator: FilterOperator.BT,
+                                        value1: oEvent.getParameters().selectionSet[18].mProperties.value,
+                                        value2: oEvent.getParameters().selectionSet[19].mProperties.value
+                                    }));
+                                }
                             }
                             if (i == 20) {
-                                if(oEvent.getParameters().selectionSet[20].mProperties.value!= ''){
-                                datiNI.push(new Filter({
-                                    path: "ZdataProtAmm",
-                                    operator: FilterOperator.BT,
-                                    value1: oEvent.getParameters().selectionSet[20].mProperties.value,
-                                    value2: oEvent.getParameters().selectionSet[21].mProperties.value
-                                }));
-                            }
+                                if (oEvent.getParameters().selectionSet[20].mProperties.value != '') {
+                                    datiNI.push(new Filter({
+                                        path: "ZdataProtAmm",
+                                        operator: FilterOperator.BT,
+                                        value1: oEvent.getParameters().selectionSet[20].mProperties.value,
+                                        value2: oEvent.getParameters().selectionSet[21].mProperties.value
+                                    }));
+                                }
                             }
                             if (i == 23) {
-                                if(oEvent.getParameters().selectionSet[23].mProperties.value!= ''){
-                                datiNI.push(new Filter({
-                                    path: "ZdataProtRag",
-                                    operator: FilterOperator.BT,
-                                    value1: oEvent.getParameters().selectionSet[23].mProperties.value,
-                                    value2: oEvent.getParameters().selectionSet[24].mProperties.value
-                                }));
-                            }
+                                if (oEvent.getParameters().selectionSet[23].mProperties.value != '') {
+                                    datiNI.push(new Filter({
+                                        path: "ZdataProtRag",
+                                        operator: FilterOperator.BT,
+                                        value1: oEvent.getParameters().selectionSet[23].mProperties.value,
+                                        value2: oEvent.getParameters().selectionSet[24].mProperties.value
+                                    }));
+                                }
                             }
                         }
-                        else if(oEvent.getParameters().selectionSet[i].mProperties.value != ''){
+                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '') {
                             datiNI.push(new Filter({
                                 path: path.sorter.sPath,
                                 operator: FilterOperator.EQ,
-                                value1: filtro.getValue()                           
+                                value1: filtro.getValue()
                             }));
-                         //datiNI.push("?$filter= "+path.sorter.sPath+" eq '" + filtro.getValue() + "'");
+                            //datiNI.push("?$filter= "+path.sorter.sPath+" eq '" + filtro.getValue() + "'");
                         }
-                        else if(i==6 || i==19 || i==21 || i==24){
+                        else if (i == 6 || i == 19 || i == 21 || i == 24) {
                             continue
                         }
                     }
                 }
                 //console.log(datiNI)
-                
+
                 var that = this;
                 var oMdl = new sap.ui.model.json.JSONModel();
                 this.getView().getModel().read("/HeaderNISet", {
@@ -219,13 +244,15 @@ sap.ui.define([
                     }
                 });
 
-            
+
 
                 this.getOwnerComponent().setModel(oMdl, "HeaderNI");
                 //sap.ui.getCore().TableModel = oMdlW;
                 this.getView().byId("Esporta").setEnabled(true);
                 this.getView().byId("DettagliNI").setEnabled(false);
                 this.getView().byId("PreimpostazioneNI").setEnabled(true);
+
+                //this.checkItemCB(oEvent)
             },
 
             navToWizard: function (oEvent) {
