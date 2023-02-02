@@ -34,12 +34,16 @@
             </f:header>
             <f:content>
                 <core:Fragment fragmentName="project1.fragment.form" type="XML" />
+                <!-- <OverflowToolbar>
+                    <ToolbarSpacer/>
+                <Button type="Emphasized" id="Avvio" text="Avvio" press="onStart"/>
+            </OverflowToolbar> -->
             </f:content>
             <f:footer>
                 <OverflowToolbar>
                     <Button text="Indietro" type="Emphasized" press="onBackButton" />
                     <ToolbarSpacer />
-                    <Button type="Emphasized" text="Salva" press="onCancelNI" icon="sap-icon://save" />
+                    <Button type="Emphasized" text="Calcola" press="onCalcNI" />
                 </OverflowToolbar>
             </f:footer>
         </f:DynamicPage>
