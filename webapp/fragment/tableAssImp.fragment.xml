@@ -10,7 +10,7 @@
     xmlns:menu="sap.m.MenuItem"
     xmlns:menBtn="sap.m.Menu" 
     height="100%">
-    <Table class="sapUiSizeCompact" id="HeaderNIAssImp" includeItemInSelection="true" items="{HeaderNIAssImp>/}" mode="MultiSelectLeft" >
+    <Table class="sapUiSizeCompact" id="HeaderNIAssImp" includeItemInSelection="true" items="{HeaderNIAssImp>/}" mode="MultiSelect" >
         <columns>
             <Column demandPopin="true" hAlign="Center">
                 <Label text="EPR" />
@@ -29,7 +29,7 @@
             </Column>
         </columns>
         <ColumnListItem type="Active">
-            <Text text="{HeaderNIAssImp>EPR}" />
+            <Text text="{HeaderNIAssImp>Epr}" />
             <Text text="{HeaderNIAssImp>Zgeber}" />
             <Text text="{HeaderNIAssImp>ZCodCla}" />
             <Text text="{HeaderNIAssImp>ZDISPON}" />

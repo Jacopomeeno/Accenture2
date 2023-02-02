@@ -48,9 +48,6 @@ sap.ui.define(
                            var editSpesa = {
                             ZoggSpesa:oggSpesa
                            };
-                           //editImp.importoRes = that.getView().byId("importoRes").getValue();
-                           //HeaderNISet('Bukrs='" + oEvent.getParameters().arguments.campo +"'
-                           //'ZoggSpesa=''" + editSpesa.oggSpesa + "'
                            oModel.update("/HeaderNISet('ZoggSpesa='" + editSpesa.ZoggSpesa +"')", editSpesa, {
                                method: "PUT",
                                success: function (data) {
