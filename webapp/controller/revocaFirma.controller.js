@@ -5,9 +5,9 @@ sap.ui.define(
         'sap/ui/export/Spreadsheet',
         "sap/ui/core/library"
     ],
-      /**
-     * @param {typeof sap.ui.core.mvc.Controller} Controller
-     */
+    /**
+   * @param {typeof sap.ui.core.mvc.Controller} Controller
+   */
     function (BaseController, JSONModel, Spreadsheet, CoreLibrary) {
         "use strict";
         var EdmType = sap.ui.export.EdmType
@@ -21,7 +21,7 @@ sap.ui.define(
         return BaseController.extend("project1.controller.inserisciInvioFirma", {
             onInit() {
                 var oProprietà = new JSONModel(),
-                oInitialModelState = Object.assign({}, oData);
+                    oInitialModelState = Object.assign({}, oData);
                 oProprietà.setData(oInitialModelState);
                 this.getView().setModel(oProprietà);
             },

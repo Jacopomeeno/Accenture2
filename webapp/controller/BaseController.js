@@ -52,7 +52,7 @@ sap.ui.define([
 		 * Event handler when the share by E-Mail button has been clicked
 		 * @public
 		 */
-		
+
 
 		/**
 		 * Adds a history entry in the FLP page history
@@ -60,7 +60,7 @@ sap.ui.define([
 		 * @param {object} oEntry An entry object to add to the hierachy array as expected from the ShellUIService.setHierarchy method
 		 * @param {boolean} bReset If true resets the history before the new entry is added
 		 */
-		
+
 
 	});
 

@@ -47,7 +47,7 @@ sap.ui.define(
                             var editImp = {};
                             editImp.importoNI = that.getView().byId("importoNI").getValue();
                             editImp.importoRes = that.getView().byId("importoRes").getValue();
-                            
+
                             oModel.update("/PositionNISet('" + editImp.importoNI + "',)", editImp, {
                                 method: "PUT",
                                 success: function (data) {

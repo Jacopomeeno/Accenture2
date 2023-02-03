@@ -1,10 +1,10 @@
 sap.ui.define([
-        "./BaseController",
-        'sap/ui/model/json/JSONModel',
-        'sap/ui/export/Spreadsheet',
-        "sap/ui/core/library",
-        "project1/model/DateFormatter"
-    ],
+    "./BaseController",
+    'sap/ui/model/json/JSONModel',
+    'sap/ui/export/Spreadsheet',
+    "sap/ui/core/library",
+    "project1/model/DateFormatter"
+],
 
     function (BaseController, JSONModel, Spreadsheet, CoreLibrary, DateFormatter) {
         "use strict";
@@ -43,7 +43,7 @@ sap.ui.define([
                 this.viewHeader()
             },
 
-            viewHeader: function(){
+            viewHeader: function () {
                 this.getView().getModel().getProperty("/HeaderNISet('S001','2022','020','2022-020.08401378.0000000002','0000000002','0840')")
 
                 // var numeroNI = modelH.oData.selectedRow[0].mProperties.text
@@ -88,13 +88,13 @@ sap.ui.define([
                 if (key === "dettagliNI") {
                     //this.callPositionNI()
                     this.getView().byId("idIconTabBar").destroyContent()
-                    
+
 
                 }
 
                 else if (key === "Workflow") {
                     this.getView().byId("idIconTabBar").destroyContent()
-                    
+
                 }
                 else if (key === "Fascicolo") {
 
@@ -105,6 +105,7 @@ sap.ui.define([
 
             onBackButton: function () {
                 this.getOwnerComponent().getRouter().navTo("View1");
+                this.getView().byId("editImporto").setEnabled(false);
                 this.getView().byId("editRow").setEnabled(false);
                 this.getView().byId("addRow").setEnabled(false);
                 this.getView().byId("deleteRow").setEnabled(false);
@@ -116,7 +117,7 @@ sap.ui.define([
                 this.getOwnerComponent().getRouter().navTo("aImpegno");
             },
 
-            onEditImporto: function(){
+            onEditImporto: function () {
                 this.getOwnerComponent().getRouter().navTo("modificaImporto");
                 this.getView().byId("editImporto").setEnabled(false);
                 this.getView().byId("editRow").setEnabled(false);

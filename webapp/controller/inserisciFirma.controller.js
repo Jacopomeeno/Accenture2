@@ -21,8 +21,8 @@ sap.ui.define(
                 MessageBox.warning("Sei sicuro di voler modificare la NI?", {
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
-                    onClose: function(oAction) {
-                        if (oAction===sap.m.MessageBox.Action.YES) {
+                    onClose: function (oAction) {
+                        if (oAction === sap.m.MessageBox.Action.YES) {
                             MessageBox.success("Operazione eseguita con successo")
                         }
                     }

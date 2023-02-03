@@ -20,7 +20,7 @@
                         <layout:VerticalLayout class="sapUiMediumMarginEnd">
                             <HBox id="idHBox2">
                                 <VBox id="idVBox14" class="sapUiSmallMargin" width="auto">
-                                    <Label id="numNI" text="{i18n>NumeroNI}" design="Bold"/>
+                                    <Label id="numNI" text="{i18n>ProgressivoNI}" design="Bold"/>
                                     <Text id="numNI1"/>
                                 </VBox>
                                 <VBox id="idVBox15" class="sapUiSmallMargin" width="auto">

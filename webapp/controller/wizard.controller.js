@@ -80,8 +80,8 @@ sap.ui.define([
                 this.getView().byId("es_gestioneWH1").setText(es_gestione)
                 this.getView().byId("meseWH1").setText(Mese)
                 this.getView().byId("n_righeTotWH1").setText(lunghezza + " per un totale di " + importoTot)
-                if(competenza == 'C') competenza = 'Competenza'
-                if(competenza == 'R') competenza = 'Residui'
+                if (competenza == 'C') competenza = 'Competenza'
+                if (competenza == 'R') competenza = 'Residui'
                 this.getView().byId("compWH1").setText(competenza)
 
 
@@ -138,8 +138,8 @@ sap.ui.define([
                 this.getView().byId("pos_FinWH2").setText(PF)
                 this.getView().byId("SARWH2").setText(SAR)
                 this.getView().byId("desc_PGWH2").setText(Sottotipologia)
-                if(competenza == 'C') competenza = 'Competenza'
-                if(competenza == 'R') competenza = 'Residui'
+                if (competenza == 'C') competenza = 'Competenza'
+                if (competenza == 'R') competenza = 'Residui'
                 this.getView().byId("compWH2").setText(competenza)
 
 
