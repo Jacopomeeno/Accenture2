@@ -40,30 +40,47 @@ sap.ui.define([
                     "',ZidNi='" + oEvent.getParameters().arguments.campo4 +
                     "',ZRagioCompe='" + oEvent.getParameters().arguments.campo5 + "')"
                 );
-                this.viewHeader()
+                this.viewHeader(oEvent)
             },
 
-            viewHeader: function () {
-                this.getView().getModel().getProperty("/HeaderNISet('S001','2022','020','2022-020.08401378.0000000002','0000000002','0840')")
+            viewHeader: function (oEvent) {
+                // console.log(this.getView().getModel("temp").getData(
+                // "/HeaderNISet('"+ oEvent.getParameters().arguments.campo +
+                // "','"+ oEvent.getParameters().arguments.campo1 +
+                // "','"+ oEvent.getParameters().arguments.campo2 +
+                // "','"+ oEvent.getParameters().arguments.campo3 +
+                // "','"+ oEvent.getParameters().arguments.campo4 +
+                // "','"+ oEvent.getParameters().arguments.campo5 + "')"))
 
-                // var numeroNI = modelH.oData.selectedRow[0].mProperties.text
-                // //var dataReg = modelH.oData.selectedRow[1].mProperties.text
-                // var SAR = modelH.oData.selectedRow[1].mProperties.text
-                // var PF = modelH.oData.selectedRow[2].mProperties.text
-                // var oggSpesa = modelH.oData.selectedRow[3].mProperties.text
-                // var mese = modelH.oData.selectedRow[4].mProperties.text
-                // var statoNI = modelH.oData.selectedRow[5].mProperties.text
-                // var impTotNI = modelH.oData.selectedRow[6].mProperties.text
+               var header = this.getView().getModel("temp").getData().HeaderNISet
+               for (var i=0; i<header.length; i++){
+                if(header[i].Bukrs==oEvent.getParameters().arguments.campo &&
+                   header[i].Gjahr==oEvent.getParameters().arguments.campo1 && 
+                   header[i].Zamministr==oEvent.getParameters().arguments.campo2 && 
+                   header[i].ZchiaveNi==oEvent.getParameters().arguments.campo3 && 
+                   header[i].ZidNi==oEvent.getParameters().arguments.campo4 && 
+                   header[i].ZRagioCompe==oEvent.getParameters().arguments.campo5){
 
-                // this.getView().byId("numNI1").setText(numeroNI)
-                // //this.getView().byId("dataReg1").setText(dataReg)
-                // this.getView().byId("SARWH2").setText(SAR)
-                // this.getView().byId("pos_FinWH2").setText(PF)
-                // this.getView().byId("oggSpesa1").setText(oggSpesa)
-                // this.getView().byId("mese1").setText(mese)
-                // this.getView().byId("statoNI1").setText(statoNI)
-                // this.getView().byId("importoTot1").setText(impTotNI)
-                //console.log(modelH)
+                        var progressivoNI = header[i].ZchiaveNi
+                        this.getView().byId("numNI1").setText(progressivoNI)
+                        var dataRegistrazione = header[i].ZdataCreaz
+                        this.getView().byId("dataReg1").setText(dataRegistrazione)
+                        var strAmmResp = header[i].Fistl
+                        this.getView().byId("SARWH2").setText(strAmmResp)
+                        var PF = header[i].Fipex
+                        this.getView().byId("pos_FinWH2").setText(PF)
+                        var oggSpesa = header[i].ZoggSpesa
+                        this.getView().byId("oggSpesa1").setText(oggSpesa)
+                        var mese = header[i].Zmese
+                        this.getView().byId("mese1").setText(mese)
+                        var statoNI = header[i].ZcodiStatoni
+                        this.getView().byId("statoNI1").setText(statoNI)
+                        var importoTot = header[i].ZimpoTotni
+                        this.getView().byId("importoTot1").setText(importoTot)
+
+                   }
+               }
+               
             },
 
             callPositionNI: function () {
