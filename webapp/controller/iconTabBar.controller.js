@@ -40,7 +40,7 @@ sap.ui.define([
                     "',ZidNi='" + oEvent.getParameters().arguments.campo4 +
                     "',ZRagioCompe='" + oEvent.getParameters().arguments.campo5 + "')"
                 );
-                this.viewHeader(oEvent)
+                this.viewHeader(oEvent) 
             },
 
             viewHeader: function (oEvent) {
@@ -52,35 +52,47 @@ sap.ui.define([
                 // "','"+ oEvent.getParameters().arguments.campo4 +
                 // "','"+ oEvent.getParameters().arguments.campo5 + "')"))
 
-               var header = this.getView().getModel("temp").getData().HeaderNISet
-               for (var i=0; i<header.length; i++){
-                if(header[i].Bukrs==oEvent.getParameters().arguments.campo &&
-                   header[i].Gjahr==oEvent.getParameters().arguments.campo1 && 
-                   header[i].Zamministr==oEvent.getParameters().arguments.campo2 && 
-                   header[i].ZchiaveNi==oEvent.getParameters().arguments.campo3 && 
-                   header[i].ZidNi==oEvent.getParameters().arguments.campo4 && 
-                   header[i].ZRagioCompe==oEvent.getParameters().arguments.campo5){
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == oEvent.getParameters().arguments.campo &&
+                        header[i].Gjahr == oEvent.getParameters().arguments.campo1 &&
+                        header[i].Zamministr == oEvent.getParameters().arguments.campo2 &&
+                        header[i].ZchiaveNi == oEvent.getParameters().arguments.campo3 &&
+                        header[i].ZidNi == oEvent.getParameters().arguments.campo4 &&
+                        header[i].ZRagioCompe == oEvent.getParameters().arguments.campo5) {
 
                         var progressivoNI = header[i].ZchiaveNi
                         this.getView().byId("numNI1").setText(progressivoNI)
+
                         var dataRegistrazione = header[i].ZdataCreaz
-                        this.getView().byId("dataReg1").setText(dataRegistrazione)
+                        var dataNuova = new Date(dataRegistrazione),
+                            mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
+                            day = ("0" + dataNuova.getDate()).slice(-2);
+                        var nData = [dataNuova.getFullYear(), mnth, day].join("-");
+                        var nDate = nData.split("-").reverse().join(".");
+                        this.getView().byId("dataReg1").setText(nDate)
+
                         var strAmmResp = header[i].Fistl
                         this.getView().byId("SARWH2").setText(strAmmResp)
+
                         var PF = header[i].Fipex
                         this.getView().byId("pos_FinWH2").setText(PF)
+
                         var oggSpesa = header[i].ZoggSpesa
                         this.getView().byId("oggSpesa1").setText(oggSpesa)
+
                         var mese = header[i].Zmese
                         this.getView().byId("mese1").setText(mese)
+
                         var statoNI = header[i].ZcodiStatoni
                         this.getView().byId("statoNI1").setText(statoNI)
+
                         var importoTot = header[i].ZimpoTotni
                         this.getView().byId("importoTot1").setText(importoTot)
 
-                   }
-               }
-               
+                    }
+                }
+
             },
 
             callPositionNI: function () {
@@ -135,7 +147,28 @@ sap.ui.define([
             },
 
             onEditImporto: function () {
-                this.getOwnerComponent().getRouter().navTo("modificaImporto");
+                var url = location.href
+                var sUrl = url.split("/iconTabBar/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+                        this.getOwnerComponent().getRouter().navTo("modificaImporto", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                    }
+                }
                 this.getView().byId("editImporto").setEnabled(false);
                 this.getView().byId("editRow").setEnabled(false);
                 this.getView().byId("addRow").setEnabled(false);
@@ -144,7 +177,28 @@ sap.ui.define([
             },
 
             onEditRow: function () {
-                this.getOwnerComponent().getRouter().navTo("modificaDettaglio");
+                var url = location.href
+                var sUrl = url.split("/iconTabBar/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+                        this.getOwnerComponent().getRouter().navTo("modificaDettaglio", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                    }
+                }
                 this.getView().byId("editImporto").setEnabled(false);
                 this.getView().byId("editRow").setEnabled(false);
                 this.getView().byId("addRow").setEnabled(false);
