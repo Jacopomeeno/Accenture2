@@ -180,17 +180,6 @@ sap.ui.define(
                                     }
                                 });
                             }
-                            // oModel.update("/HeaderNISet('Bukrs='c123',Gjahr='2023',Zamministr='abe',ZchiaveNi='2023-abe-15-1',ZidNi='1',ZRagioCompe='15'')", editSpesa, {
-                            //     // method: "PUT",
-                            //     success: function (data) {
-                            //         //console.log("success");
-                            //         MessageBox.success("Operazione eseguita con successo")
-                            //     },
-                            //     error: function (e) {
-                            //         //console.log("error");
-                            //         MessageBox.error("Operazione non eseguita")
-                            //     }
-                            // });
                         }
                     }
                 });
