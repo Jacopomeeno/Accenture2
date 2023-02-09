@@ -71,7 +71,7 @@
                 <VBox renderType="Bare" alignItems="Center" justifyContent="Center" id="Fragments">
                     <core:Fragment fragmentName="project1.fragment.form" type="XML" />
                     <core:Fragment fragmentName="project1.fragment.tableAssImp" type="XML"/>
-                </VBox>
+                </VBox> 
             </f:content>
             <f:footer>
                 <OverflowToolbar>
