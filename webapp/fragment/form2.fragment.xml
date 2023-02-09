@@ -20,23 +20,28 @@
             columnsXL="3"
             singleContainerFullSize="false"
         >
-        <f:content>
-            <core:Title text=" "/>
-            <Label text="Beneficiario"/>
-            <Input id="inputBeneficiario" type="Text" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Lifnr' }}" enabled="true" editable="true">
-                <core:Item key="{Lifnr}" text="{Lifnr}"/>
-            </Input>
-            <Label text="Modalità di Pagamento"/>
-            <Input id="ModPagamento" type="Text" showValueHelp="true" enabled="true" editable="true"/>
+            <f:content>
+                <core:Title text=" " />
+                <Label text="Beneficiario" />
+                <Input id="inputBeneficiario" type="Text" showValueHelp="true"
+                    suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Lifnr' }}"
+                    enabled="true" editable="true">
+                    <core:Item key="{Lifnr}" text="{Lifnr}" />
+                </Input>
+                <Label text="Modalità di Pagamento" />
+                <Input id="ModPagamento" type="Text" showValueHelp="true" enabled="true"
+                    editable="true" />
                 <!-- <core:Item key="{}" text="{}"/> -->
-            <core:Title text=" "/>
-            <Label text="Nome"/>
-            <Input id="inputNome" type="Text" showValueHelp="true" enabled="true" editable="true"/>
-            <Label text="IBAN"/>
-            <Input id="inputIBAN" type="Text" showValueHelp="true" enabled="true" editable="true"/>
-            <core:Title text=" "/>
+                <core:Title text=" " />
+                <Label text="Nome" />
+                <Input id="inputNome" type="Text" showValueHelp="true" enabled="true"
+                    editable="true" />
+                <Label text="IBAN" />
+                <Input id="inputIBAN" type="Text" showValueHelp="true" enabled="true"
+                    editable="true" />
+                <core:Title text=" " />
 
-        </f:content>
+            </f:content>
         </f:SimpleForm>
         <f:SimpleForm
             id="ImputazioneContabile"
@@ -57,22 +62,26 @@
             columnsXL="3"
             singleContainerFullSize="false"
         >
-        <f:content>
-            <core:Title text=" "/>
-            <Label text="Centro di Costo"/>
-            <Input id="inputCentroCosto" type="Text" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Kostl' }}" enabled="true" editable="true">
-                <core:Item key="{Kostl}" text="{Kostl}"/>
-            </Input>
-            <Label text="Conto Co. Ge."/>
-            <Input id="inputCoGe" type="Text" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Saknr' }}" enabled="true" editable="true">
-                <core:Item key="{Saknr}" text="{Saknr}"/>
-            </Input>
-            <core:Title text=" "/>
-            <Label text="Descrizione"/>
-            <Input id="DescCentroCosto" type="Text"/>
-            <Label text="Descrizione"/>
-            <Input id="DescCoGe" type="Text"/>
-        </f:content>
+            <f:content>
+                <core:Title text=" " />
+                <Label text="Centro di Costo" />
+                <Input id="inputCentroCosto" type="Text" showValueHelp="true"
+                    suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Kostl' }}"
+                    enabled="true" editable="true">
+                    <core:Item key="{Kostl}" text="{Kostl}" />
+                </Input>
+                <Label text="Conto Co. Ge." />
+                <Input id="inputCoGe" type="Text" showValueHelp="true"
+                    suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Saknr' }}"
+                    enabled="true" editable="true">
+                    <core:Item key="{Saknr}" text="{Saknr}" />
+                </Input>
+                <core:Title text=" " />
+                <Label text="Descrizione" />
+                <Input id="DescCentroCosto" type="Text" />
+                <Label text="Descrizione" />
+                <Input id="DescCoGe" type="Text" />
+            </f:content>
         </f:SimpleForm>
         <f:SimpleForm
             id="ImportoLiquidazione"
@@ -93,12 +102,121 @@
             columnsXL="3"
             singleContainerFullSize="false"
         >
-        
-        <f:content>
-            <Label text="Importo di Liquidazione"/>
-            <Input type="Text" id="InputImpLiq"/>
 
-        </f:content>
-    </f:SimpleForm>
-        </VBox>
-        </core:FragmentDefinition>
+            <f:content>
+                <Label text="Importo di Liquidazione" />
+                <Input type="Text" id="InputImpLiq" />
+
+            </f:content>
+        </f:SimpleForm>
+
+
+        <f:SimpleForm
+        title="Dati NI"
+            id="SimpleFormChangeColumn__threeGroups234-5"
+            editable="true"
+            layout="ResponsiveGridLayout"
+            labelSpanXL="2"
+            labelSpanL="2"
+            labelSpanM="2"
+            labelSpanS="4"
+            adjustLabelSpan="false"
+            emptySpanXL="0"
+            emptySpanL="0"
+            emptySpanM="0"
+            emptySpanS="0"
+            columnsM="1"
+            columnsL="1"
+            columnsXL="1"
+            singleContainerFullSize="false"
+        >
+            <f:content>
+                <core:Title text="" />
+                <Label text="Data Protocollo" class="sapUiTinyMarginBottom">
+                    <layoutData>
+                        <l:GridData span="XL3 L2 M4 S5" />
+                    </layoutData>
+                </Label>
+
+                <DatePicker id="DP1" valueFormat="dd-mm-yyyy" displayFormat="long"
+                    class="sapUiTinyyMarginBottom">
+                    <layoutData>
+                        <l:GridData span="XL3 L2 M4 S5" />
+                    </layoutData>
+                </DatePicker>
+
+                <Label text="N. Protocollo" class="sapUiTinyMarginBottom">
+                    <layoutData>
+                        <l:GridData indent="XL3 L4 M4 S5" />
+                        <l:GridData span="XL3 L4 M4 S5" />
+                    </layoutData>
+                </Label>
+
+                <Input id="inputNProtoccollo" type="Text" editable="True">
+                    <layoutData>
+                        <l:GridData span="XL2 L1 M2 S4" />
+                    </layoutData>
+                </Input>
+
+                <Label text="Codice Gestionale" required="true" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputCodiceGest" type="Text" editable="True">
+                    <layoutData>
+                        <l:GridData span="XL3 L1 M4 S5" />
+                    </layoutData>
+                </Input>
+                <Label text="Descrizione" class="sapUiTinyMarginBottom">
+                    <layoutData>
+                        <l:GridData indent="XL3 L2 M4 S5" />
+                        <l:GridData span="XL3 L5 M4 S5" />
+                    </layoutData>
+                </Label>
+
+                <Input id="inputDescr" type="Text" editable="False">
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M2 S4" />
+                    </layoutData>
+                </Input>
+                <Label text="Località di pagamento" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputLocPagamento" type="Text" editable="True">
+                    <layoutData>
+                        <l:GridData span="XL3 L2 M4 S5" />
+                    </layoutData>
+                </Input>
+                <Label text="Causale di pagamento" required="true" class="sapUiTinyMarginBottom" />
+
+                <Input id="inputCausPagamento" type="Text" editable="True">
+                    <layoutData>
+                        <l:GridData span="XL9 L9 M4 S5" />
+                    </layoutData>
+                </Input>
+                <Label text="Data esigibilità" class="sapUiTinyMarginBottom">
+                    <layoutData>
+                        <l:GridData span="XL3 L2 M4 S5" />
+                    </layoutData>
+                </Label>
+
+                <DatePicker id="DP2" valueFormat="dd-mm-yyyy" displayFormat="long"
+                    class="sapUiTinyyMarginBottom">
+                    <layoutData>
+                        <l:GridData span="XL3 L2 M4 S5" />
+                    </layoutData>
+                </DatePicker>
+
+                <Label text="Zona di intervento" class="sapUiTinyMarginBottom">
+                    <layoutData>
+                        <l:GridData indent="XL3 L4 M4 S5" />
+                        <l:GridData span="XL3 L4 M4 S5" />
+                    </layoutData>
+                </Label>
+
+                <Input id="inputZInterv" type="Text" editable="True">
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M2 S4" />
+                    </layoutData>
+                </Input>
+            </f:content>
+        </f:SimpleForm>
+    </VBox>
+</core:FragmentDefinition>
