@@ -68,7 +68,9 @@ sap.ui.define(
                         this.getView().byId("mese1").setText(mese)
 
                         var comp = position[i].ZcompRes
-                        this.getView().byId("comp1").setText(comp)
+                        if(comp=='C') var n_comp='Competenza'
+                        if(comp='R') var n_comp='Residui'
+                        this.getView().byId("comp1").setText(n_comp)
 
                         var statoNI = header[i].ZcodiStatoni
                         this.getView().byId("statoNI1").setText(statoNI)
@@ -100,6 +102,9 @@ sap.ui.define(
 
             onUpdateImporto: function () {
                 /*update operation*/
+                var oItems = that.getView().byId("PositionNIMI").getBinding("items").oList;
+                // var oggSpesa = this.getView().byId("PositionNIMI").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
+                // var oggSpesa = this.getView().byId("PositionNIMI").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
                 var that = this
                 MessageBox.warning("Sei sicuro di voler modificare la NI?", {
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
@@ -107,11 +112,15 @@ sap.ui.define(
                     onClose: function (oAction) {
                         if (oAction === sap.m.MessageBox.Action.YES) {
                             var oModel = that.getView().getModel();
-                            var editImp = {};
-                            editImp.importoNI = that.getView().byId("importoNI").getValue();
-                            editImp.importoRes = that.getView().byId("importoRes").getValue();
+                    
+                            for(var i=0; i<oItems.length; i++){
+                                var item = oItems[i];
+                                var editImporto = {
+                                    // ZimpoAss: item.ZimpoAss,  //ZimpoAss
+                                    // ZimpoRes: item.ZimpoRes   //ZimpoRes
+                                };
 
-                            oModel.update("/PositionNISet('" + editImp.importoNI + "',)", editImp, {
+                            oModel.update("/PositionNISet('Bukrs='"+item.Bukrs+"',Gjahr='"+item.Gjahr+"',Zamministr='"+item.Zamministr+"',ZchiaveNi='"+item.ZchiaveNi+"',ZidNi='"+item.ZidNi+"',ZRagioCompe='"+item.ZRagioCompe+"',ZposNi='"+item.ZposNi+"')", editImporto, {
                                 method: "PUT",
                                 success: function (data) {
                                     //console.log("success");
@@ -122,6 +131,7 @@ sap.ui.define(
                                     MessageBox.error("Operazione non eseguita")
                                 }
                             });
+                        }
                         }
                     }
                 });

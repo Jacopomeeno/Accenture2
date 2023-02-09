@@ -1,12 +1,13 @@
 sap.ui.define([
     "./BaseController",
     'sap/ui/model/json/JSONModel',
+    "sap/m/MessageBox",
     'sap/ui/export/Spreadsheet',
     "sap/ui/core/library",
     "project1/model/DateFormatter"
 ],
 
-    function (BaseController, JSONModel, Spreadsheet, CoreLibrary, DateFormatter) {
+    function (BaseController, JSONModel, MessageBox, Spreadsheet, CoreLibrary, DateFormatter) {
         "use strict";
         var EdmType = sap.ui.export.EdmType
 
@@ -40,7 +41,7 @@ sap.ui.define([
                     "',ZidNi='" + oEvent.getParameters().arguments.campo4 +
                     "',ZRagioCompe='" + oEvent.getParameters().arguments.campo5 + "')"
                 );
-                this.viewHeader(oEvent) 
+                this.viewHeader(oEvent)
             },
 
             viewHeader: function (oEvent) {
@@ -143,7 +144,29 @@ sap.ui.define([
             },
 
             pressAssociaImpegno: function () {
-                this.getOwnerComponent().getRouter().navTo("aImpegno");
+                var url = location.href
+                var sUrl = url.split("/iconTabBar/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+                        this.getOwnerComponent().getRouter().navTo("aImpegno", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                    }
+                }
+
             },
 
             onEditImporto: function () {
@@ -219,6 +242,109 @@ sap.ui.define([
                 this.getView().byId("pressAssImpegno").setEnabled(false);
             },
 
+            onDeleteRow: function (oEvent) {
+                var that = this;
+
+                var url = location.href
+                var sUrl = url.split("/iconTabBar/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+                        MessageBox.warning("Sei sicuro di voler rettificare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                            emphasizedAction: MessageBox.Action.YES,
+                            onClose: function (oAction) {
+                                if (oAction === sap.m.MessageBox.Action.YES) {
+                                    var oModel = that.getView().getModel("temp");
+
+                                    oModel.delete("/HeaderNISet('Bukrs='" + Bukrs + "',Gjahr='" + Gjahr + "',Zamministr='" + Zamministr + "',ZchiaveNi='" + ZchiaveNi + "',ZidNi='" + ZidNi + "',ZRagioCompe='" + ZRagioCompe + "'')", {
+                                        // method: "PUT",
+                                        success: function (data) {
+                                            //console.log("success");
+                                            MessageBox.success("Operazione eseguita con successo")
+                                        },
+                                        error: function (e) {
+                                            //console.log("error");
+                                            MessageBox.error("Operazione non eseguita")
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            },
+
+            onCancelNI: function () {
+
+                var that = this
+
+                var url = location.href
+                var sUrl = url.split("/iconTabBar/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+
+                        //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oData[0].ZcodiStatoni
+                        MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                            emphasizedAction: MessageBox.Action.YES,
+                            onClose: function (oAction) {
+                                if (oAction === sap.m.MessageBox.Action.YES) {
+                                    var oModel = that.getView().getModel("temp");
+
+                                    for (var i = 0; i < 1; i++) {
+                                        var item = header[i];
+                                        var editStato = {
+                                            ZcodiStatoni: item.ZcodiStatoni
+                                        };
+
+                                        oModel.update("/HeaderNISet('Bukrs='" + item.Bukrs + "',Gjahr='" + item.Gjahr + "',Zamministr='" + item.Zamministr + "',ZchiaveNi='" + item.ZchiaveNi + "',ZidNi='" + item.ZidNi + "',ZRagioCompe='" + item.ZRagioCompe + "'')", editStato, {
+                                            // method: "PUT",
+                                            success: function (data) {
+                                                //console.log("success");
+                                                MessageBox.success("Operazione eseguita con successo")
+                                            },
+                                            error: function (e) {
+                                                //console.log("error");
+                                                MessageBox.error("Operazione non eseguita")
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            }
             // onDeleteRecord: function (oEvent) {
             //      var oSelectedItemPath = oEvent.getSource().getParent().getBindingContextPath();
             //      var oSelectedItem = this.getOwnerComponent().getModel("modelTabGestNI").getObject(oSelectedItemPath);
@@ -245,7 +371,6 @@ sap.ui.define([
 
             // },
 
+        })
 
-        });
-    }
-);
+    });
