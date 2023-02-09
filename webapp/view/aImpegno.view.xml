@@ -76,8 +76,7 @@
             <f:footer>
                 <OverflowToolbar>
                     <Button text="Indietro" type="Emphasized" press="onBackButton" />
-                    <ToolbarSpacer />
-                    <Button type="Emphasized" text="Calcola" press="onCalcNI" />
+                    <Button text="Avanti" type="Emphasized" press="onForwardButton"/>
                 </OverflowToolbar>
             </f:footer>
         </f:DynamicPage>

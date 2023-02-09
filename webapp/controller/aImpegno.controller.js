@@ -16,6 +16,10 @@ sap.ui.define([
                 window.history.go(-1);
             },
 
+            onForwardButton: function () {
+                this.getOwnerComponent().getRouter().navTo("aImpegno2");
+            },
+
             setEsercizioGestione: function () {
                 const data = new Date();
                 let anno = data.getFullYear();
