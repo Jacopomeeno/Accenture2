@@ -72,6 +72,13 @@
                     <core:Fragment fragmentName="project1.fragment.form2" type="XML" />
                 </VBox>
             </f:content>
+            <f:footer>
+                <OverflowToolbar>
+                    <Button text="Indietro" type="Emphasized" press="onBackButton" />
+                    <ToolbarSpacer/>
+                    <Button text="Salva" type="Emphasized" press="onSaveButton"/>
+                </OverflowToolbar>
+            </f:footer>
         </f:DynamicPage>
     </App>
 </mvc:View>

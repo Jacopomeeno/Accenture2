@@ -120,7 +120,7 @@ sap.ui.define(
                                     // ZimpoRes: item.ZimpoRes   //ZimpoRes
                                 };
 
-                            oModel.update("/PositionNISet('Bukrs='"+item.Bukrs+"',Gjahr='"+item.Gjahr+"',Zamministr='"+item.Zamministr+"',ZchiaveNi='"+item.ZchiaveNi+"',ZidNi='"+item.ZidNi+"',ZRagioCompe='"+item.ZRagioCompe+"',ZposNi='"+item.ZposNi+"')", editImporto, {
+                            oModel.update("/DeepZNIEntitySet('Bukrs='"+item.Bukrs+"',Gjahr='"+item.Gjahr+"',Zamministr='"+item.Zamministr+"',ZchiaveNi='"+item.ZchiaveNi+"',ZidNi='"+item.ZidNi+"',ZRagioCompe='"+item.ZRagioCompe+"',ZposNi='"+item.ZposNi+"')", editImporto, {
                                 method: "PUT",
                                 success: function (data) {
                                     //console.log("success");
