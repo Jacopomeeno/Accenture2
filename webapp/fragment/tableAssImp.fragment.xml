@@ -36,7 +36,8 @@
             <Text text="{HeaderNIAssImp>ZATTRIBUTO}"/>
         </ColumnListItem>
     </Table>
-    <FlexBox height="100px" alignItems="Start" justifyContent="End">
+    <!-- <f:footer>
+    
         <Button text="Calcola" type="Emphasized" width="80px" class="sapUiSmallMargin"/>
-    </FlexBox>
+    </f:footer> -->
 </core:FragmentDefinition>
