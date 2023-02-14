@@ -91,8 +91,8 @@
                                         <l:content>
                                             <VBox >
                                                 <Label text="Esercizio di Gestione:" required="true" />
-                                                <ComboBox id="es_gestione" width="100%" items="{path: 'temp>/HeaderNISet', sorter: { path: 'ZgjahrEng' }}">
-                                                    <core:Item key="{temp>ZgjahrEng}" text="{temp>ZgjahrEng}"/>
+                                                <ComboBox id="es_gestione" width="100%" items="{path: 'temp>/HeaderNISet', sorter: { path: 'ZzGjahrEngPos' }}">
+                                                    <core:Item key="{temp>ZzGjahrEngPos}" text="{temp>ZzGjahrEngPos}"/>
                                                 </ComboBox>
                                                 <layoutData>
                                                     <l:GridData span="L6 M6 S6" />
