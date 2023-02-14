@@ -279,17 +279,17 @@ sap.ui.define([
                             var oDataModel = self.getOwnerComponent().getModel();
 
                             var deepEntity = {
-                                ZchiaveNi: '12534', //da incrementare / uguale agli altri 2
+                                ZchiaveNi: '213445',
                                 HeaderNISet: null,
                                 PositionNISet: []
                             }
                             deepEntity.HeaderNISet = {
-                                Bukrs: 'c127',
+                                Bukrs: 'c596',
                                 Gjahr: '2023',
                                 Zamministr: 'aaa',
-                                ZchiaveNi: '12534', //da incrementare / uguale agli altri 2
-                                ZidNi: '16',
-                                ZRagioCompe: '16',
+                                ZchiaveNi: '213445',
+                                ZidNi: '20',
+                                ZRagioCompe: '20',
                                 ZcodiStatoni: "00",
                                 ZimpoTotni: N_ImportoTot,
                                 ZzGjahrEngPos: N_es_gestione,
@@ -300,13 +300,13 @@ sap.ui.define([
                             };
 
                             deepEntity.PositionNISet.push({
-                                Bukrs: 'c127',
+                                Bukrs: 'c596',
                                 Gjahr: '2023',
                                 Zamministr: 'aaa',
-                                ZchiaveNi: '12534', //da incrementare / uguale agli altri 2
-                                ZidNi: '16',
-                                ZRagioCompe: '16',
-                                ZposNi: '5', //incrementare
+                                ZchiaveNi: '213445', 
+                                ZidNi: '20',
+                                ZRagioCompe: '20',
+                                ZposNi: '20',
                                 Ztipo: N_Tipologia,
                                 Zsottotipo: N_Sottotipologia,
                                 ZcompRes: N_CR
