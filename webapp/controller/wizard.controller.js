@@ -250,7 +250,7 @@ sap.ui.define([
                 var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
                 var N_Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;  //position
                 var N_CR = this.getView().byId("competenza").mProperties.value  //position
-                var N_ImportoTot = this.getView().byId("importoTot").getValue();  //header
+                var N_ImportoTot = this.getView().byId("n_righeTotWH2").getText().split(" ")[5];  //header
                 var N_oggSpesa = this.getView().byId("oggSpesa").getValue();  //header
                 var N_esercizioPF = this.getView().byId("input_PF").getValue();  //header
                 var N_strAmmResp = this.getView().byId("strAmmResp").getValue();  //header
@@ -292,7 +292,7 @@ sap.ui.define([
                                 ZRagioCompe: '16',
                                 ZcodiStatoni: "00",
                                 ZimpoTotni: N_ImportoTot,
-                                ZgjahrEng: N_es_gestione,
+                                ZzGjahrEngPos: N_es_gestione,
                                 Zmese: N_Mese,
                                 ZoggSpesa: N_oggSpesa,
                                 Fipex: N_esercizioPF,
@@ -316,24 +316,37 @@ sap.ui.define([
                                 success: function (result) {
                                     console.log(result.Message)
                                     console.log('success');
+                                    MessageBox.success("Nota d'imputazione creata correttamente", {
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                        onClose: function (oAction) {
+                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                self.getOwnerComponent().getRouter().navTo("View1");
+                                            }
+                                        }
+                                    })
 
                                 },
                                 error: function (err) {
                                     console.log(err);
+                                    MessageBox.error("Nota d'imputazione non creata correttamente", {
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                    })
                                 },
                                 async: true,  // execute async request to not stuck the main thread
                                 urlParameters: {}  // send URL parameters if required 
                             });
 
-                            MessageBox.success("Nota d'imputazione creata correttamente", {
-                                actions: [sap.m.MessageBox.Action.OK],
-                                emphasizedAction: MessageBox.Action.OK,
-                                onClose: function (oAction) {
-                                    if (oAction === sap.m.MessageBox.Action.OK) {
-                                        self.getOwnerComponent().getRouter().navTo("View1");
-                                    }
-                                }
-                            })
+                            // MessageBox.success("Nota d'imputazione creata correttamente", {
+                            //     actions: [sap.m.MessageBox.Action.OK],
+                            //     emphasizedAction: MessageBox.Action.OK,
+                            //     onClose: function (oAction) {
+                            //         if (oAction === sap.m.MessageBox.Action.OK) {
+                            //             self.getOwnerComponent().getRouter().navTo("View1");
+                            //         }
+                            //     }
+                            // })
                         }
                     }
                 })

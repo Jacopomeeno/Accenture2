@@ -71,8 +71,8 @@ sap.ui.define(
                         this.getView().byId("mese1").setText(mese)
 
                         var comp = position[i].ZcompRes
-                        if(comp=='C') var n_comp='Competenza'
-                        if(comp='R') var n_comp='Residui'
+                        if (comp == 'C') var n_comp = 'Competenza'
+                        if (comp = 'R') var n_comp = 'Residui'
                         this.getView().byId("comp1").setText(n_comp)
 
                         var statoNI = header[i].ZcodiStatoni
@@ -163,12 +163,35 @@ sap.ui.define(
                             // var editSpesa = {
                             //     ZoggSpesa: oggSpesa
                             // };
-                            for(var i=0; i<oItems.length; i++){
+                            for (var i = 0; i < oItems.length; i++) {
                                 var item = oItems[i];
+
+                                // var editSpesa = {
+                                //     Bukrs: item.Bukrs,
+                                //     Gjahr: item.Gjahr,
+                                //     Zamministr: item.Zamministr,
+                                //     ZchiaveNi: item.ZchiaveNi,
+                                //     ZidNi: item.ZidNi,
+                                //     ZRagioCompe: item.ZRagioCompe,
+                                //     ZoggSpesa: item.ZoggSpesa
+                                // };
+                                // oModel.update("/DeepZNIEntitySet", editSpesa, {
+                                //     // method: "PUT",
+                                //     success: function (data) {
+                                //         //console.log("success");
+                                //         MessageBox.success("Operazione eseguita con successo")
+                                //     },
+                                //     error: function (e) {
+                                //         //console.log("error");
+                                //         MessageBox.error("Operazione non eseguita")
+                                //     }
+                                // });
+
                                 var editSpesa = {
                                     ZoggSpesa: item.ZoggSpesa
                                 };
-                                oModel.update("/HeaderNISet('Bukrs='"+item.Bukrs+"',Gjahr='"+item.Gjahr+"',Zamministr='"+item.Zamministr+"',ZchiaveNi='"+item.ZchiaveNi+"',ZidNi='"+item.ZidNi+"',ZRagioCompe='"+item.ZRagioCompe+"'')", editSpesa, {
+                                
+                                oModel.update("/HeaderNISet('Bukrs='" + item.Bukrs + "',Gjahr='" + item.Gjahr + "',Zamministr='" + item.Zamministr + "',ZchiaveNi='" + item.ZchiaveNi + "',ZidNi='" + item.ZidNi + "',ZRagioCompe='" + item.ZRagioCompe + "'')", editSpesa, {
                                     // method: "PUT",
                                     success: function (data) {
                                         //console.log("success");
