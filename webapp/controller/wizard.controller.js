@@ -314,8 +314,14 @@ sap.ui.define([
 
                             oDataModel.create("/DeepZNIEntitySet", deepEntity, {
                                 success: function (result) {
-                                    console.log(result.Message)
-                                    console.log('success');
+                                    if (result.Msgty == 'E') {
+                                        console.log(result.Message)
+                                        MessageBox.error("Nota d'imputazione non creata correttamente", {
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                        })
+                                    }
+                                    if (result.Msgty == 'S') {
                                     MessageBox.success("Nota d'imputazione creata correttamente", {
                                         actions: [sap.m.MessageBox.Action.OK],
                                         emphasizedAction: MessageBox.Action.OK,
@@ -325,7 +331,7 @@ sap.ui.define([
                                             }
                                         }
                                     })
-
+                                }
                                 },
                                 error: function (err) {
                                     console.log(err);
