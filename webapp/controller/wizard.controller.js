@@ -250,7 +250,7 @@ sap.ui.define([
                 var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
                 var N_Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;  //position
                 var N_CR = this.getView().byId("competenza").mProperties.value  //position
-                var N_ImportoTot = this.getView().byId("importoTot").getValue();  //header
+                var N_ImportoTot = this.getView().byId("n_righeTotWH1").getText().split(" ")[5]  //header
                 var N_oggSpesa = this.getView().byId("oggSpesa").getValue();  //header
                 var N_esercizioPF = this.getView().byId("input_PF").getValue();  //header
                 var N_strAmmResp = this.getView().byId("strAmmResp").getValue();  //header
@@ -279,20 +279,20 @@ sap.ui.define([
                             var oDataModel = self.getOwnerComponent().getModel();
 
                             var deepEntity = {
-                                ZchiaveNi: '12534', //da incrementare / uguale agli altri 2
+                                ZchiaveNi: '34252', //da incrementare / uguale agli altri 2
                                 HeaderNISet: null,
                                 PositionNISet: []
                             }
                             deepEntity.HeaderNISet = {
-                                Bukrs: 'c127',
+                                Bukrs: 'c782',
                                 Gjahr: '2023',
                                 Zamministr: 'aaa',
-                                ZchiaveNi: '12534', //da incrementare / uguale agli altri 2
-                                ZidNi: '16',
-                                ZRagioCompe: '16',
+                                ZchiaveNi: '34252', //da incrementare / uguale agli altri 2
+                                ZidNi: '34',
+                                ZRagioCompe: '34',
                                 ZcodiStatoni: "00",
                                 ZimpoTotni: N_ImportoTot,
-                                ZgjahrEng: N_es_gestione,
+                                ZzGjahrEngPos: N_es_gestione,
                                 Zmese: N_Mese,
                                 ZoggSpesa: N_oggSpesa,
                                 Fipex: N_esercizioPF,
@@ -300,13 +300,13 @@ sap.ui.define([
                             };
 
                             deepEntity.PositionNISet.push({
-                                Bukrs: 'c127',
+                                Bukrs: 'c782',
                                 Gjahr: '2023',
                                 Zamministr: 'aaa',
-                                ZchiaveNi: '12534', //da incrementare / uguale agli altri 2
-                                ZidNi: '16',
-                                ZRagioCompe: '16',
-                                ZposNi: '5', //incrementare
+                                ZchiaveNi: '34252', //da incrementare / uguale agli altri 2
+                                ZidNi: '34',
+                                ZRagioCompe: '34',
+                                ZposNi: '34', //incrementare
                                 Ztipo: N_Tipologia,
                                 Zsottotipo: N_Sottotipologia,
                                 ZcompRes: N_CR

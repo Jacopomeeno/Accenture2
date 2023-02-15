@@ -18,66 +18,81 @@
             <f:header>
                 <f:DynamicPageHeader pinnable="false">
                     <layout:HorizontalLayout allowWrapping="true">
-                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
-                        <HBox id="idHBox1">
-                            <VBox id="idVBox11" class="sapUiSmallMargin" width="auto">
-                                <Label id="ProgressivoNI" text="{i18n>ProgressivoNI}" design="Bold"/>
-                                <Text id="ProgressivoNI1"/>
-                            </VBox>
-                            <VBox id="idVBox12" class="sapUiSmallMargin" width="auto">
-                                <Label id="data" text="{i18n>Data}" design="Bold"/>
-                                <Text id="data1" wrapping="true"/>
-                            </VBox>
-                        </HBox>
-                        <HBox id="idHBox2">
-                            <VBox id="idVBox13" class="sapUiSmallMargin" width="auto">
-                                <Label id="SAR" text="{i18n>SAR}" design="Bold"/>
-                                <Text id="SAR1"/>
-                            </VBox>
-                            <VBox id="idVBox14" class="sapUiSmallMargin" width="auto">
-                                <Label id="PF" text="{i18n>PF}" design="Bold"/>
-                                <Text id="PF1"/>
-                            </VBox>
-                            <VBox id="idVBox15" class="sapUiSmallMargin" width="auto">
-                                <Label id="oggSpesaNI" text="{i18n>oggSpesa}" design="Bold"/>
-                                <Text id="oggSpesaNI1"/>
-                            </VBox>
-                        </HBox>
-                        <HBox id="idHBox3">
-                            <VBox id="idVBox16" class="sapUiSmallMargin" width="auto">
-                                <Label id="mese" text="{i18n>mese}" design="Bold"/>
-                                <Text id="mese1"/>
-                            </VBox>
-                            <VBox id="idVBox17" class="sapUiSmallMargin" width="auto">
-                                <Label id="comp" text="{i18n>comp}" design="Bold"/>
-                                <Text id="comp1"/>
-                            </VBox>
-                            <VBox id="idVBox18" class="sapUiSmallMargin" width="auto">
-                                <Label id="statoNI" text="{i18n>statoNI}" design="Bold"/>
-                                <Text id="statoNI1"/>
-                            </VBox>
-                        </HBox>
-                        <HBox id="idHBox4">
-                            <VBox id="idVBox19" class="sapUiSmallMargin" width="auto">
-                                <Label id="importoTot" text="{i18n>importoTot}" design="Bold"/>
-                                <Text id="importoTot1"/>
-                            </VBox>
-                        </HBox>
-                    </layout:VerticalLayout>
-                </layout:HorizontalLayout>
+                        <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                            <HBox id="idHBox1">
+                                <VBox id="idVBox11" class="sapUiSmallMargin" width="auto">
+                                    <Label id="ProgressivoNI" text="{i18n>ProgressivoNI}"
+                                        design="Bold" />
+                                    <Text id="ProgressivoNI1" />
+                                </VBox>
+                                <VBox id="idVBox12" class="sapUiSmallMargin" width="auto">
+                                    <Label id="data" text="{i18n>Data}" design="Bold" />
+                                    <Text id="data1" wrapping="true" />
+                                </VBox>
+                            </HBox>
+                            <HBox id="idHBox2">
+                                <VBox id="idVBox13" class="sapUiSmallMargin" width="auto">
+                                    <Label id="SAR" text="{i18n>SAR}" design="Bold" />
+                                    <Text id="SAR1" />
+                                </VBox>
+                                <VBox id="idVBox14" class="sapUiSmallMargin" width="auto">
+                                    <Label id="PF" text="{i18n>PF}" design="Bold" />
+                                    <Text id="PF1" />
+                                </VBox>
+                                <VBox id="idVBox15" class="sapUiSmallMargin" width="auto">
+                                    <Label id="oggSpesaNI" text="{i18n>oggSpesa}" design="Bold" />
+                                    <Text id="oggSpesaNI1" />
+                                </VBox>
+                            </HBox>
+                            <HBox id="idHBox3">
+                                <VBox id="idVBox16" class="sapUiSmallMargin" width="auto">
+                                    <Label id="mese" text="{i18n>mese}" design="Bold" />
+                                    <Text id="mese1" />
+                                </VBox>
+                                <VBox id="idVBox17" class="sapUiSmallMargin" width="auto">
+                                    <Label id="comp" text="{i18n>comp}" design="Bold" />
+                                    <Text id="comp1" />
+                                </VBox>
+                                <VBox id="idVBox18" class="sapUiSmallMargin" width="auto">
+                                    <Label id="statoNI" text="{i18n>statoNI}" design="Bold" />
+                                    <Text id="statoNI1" />
+                                </VBox>
+                            </HBox>
+                            <HBox id="idHBox4">
+                                <VBox id="idVBox19" class="sapUiSmallMargin" width="auto">
+                                    <Label id="importoTot" text="{i18n>importoTot}" design="Bold" />
+                                    <Text id="importoTot1" />
+                                </VBox>
+                            </HBox>
+                        </layout:VerticalLayout>
+                    </layout:HorizontalLayout>
                 </f:DynamicPageHeader>
             </f:header>
             <f:content>
                 <VBox renderType="Bare" alignItems="Center" justifyContent="Center" id="Fragments">
                     <core:Fragment fragmentName="project1.fragment.form" type="XML" />
-                    <core:Fragment fragmentName="project1.fragment.tableAssImp" type="XML"/>
-                </VBox> 
+                    <core:Fragment fragmentName="project1.fragment.tableAssImp" type="XML" />
+                    <Bar>
+                        <contentRight>
+                            <Label text="This is a long non-shrinkable label"/>
+                            <Button text="Calcola" type="Emphasized" width="80px"
+                                class="sapUiSmallMargin" />
+                        </contentRight>
+                    </Bar>
+                </VBox>
+                
+            
             </f:content>
             <f:footer>
-                <OverflowToolbar>
+                
+                <Toolbar>
+                    <Button text="Indietro" type="Emphasized" press="onBackButton" />
+                    <Button text="Avanti" type="Emphasized" press="onForwardButton" />
+                </Toolbar>
+                <!-- <OverflowToolbar>
                     <Button text="Indietro" type="Emphasized" press="onBackButton" />
                     <Button text="Avanti" type="Emphasized" press="onForwardButton"/>
-                </OverflowToolbar>
+                </OverflowToolbar> -->
             </f:footer>
         </f:DynamicPage>
     </App>
