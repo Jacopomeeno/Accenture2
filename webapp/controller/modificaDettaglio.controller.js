@@ -190,8 +190,20 @@ sap.ui.define(
                                 var editSpesa = {
                                     ZoggSpesa: item.ZoggSpesa
                                 };
+
+                                var path = oModel.createKey("/HeaderNISet", {
+                                    Bukrs:'c123',
+                                    Gjahr:'2023',
+                                    Zamministr:'abe',
+                                    ZchiaveNi:'2023-abe-15-2',
+                                    ZidNi:'02',
+                                    ZRagioCompe:'15'
+                                    });
+
+                                    var oEntry = {};
+                                    oEntry.ZoggSpesa = item.ZoggSpesa;
                                 
-                                oModel.update("/HeaderNISet('Bukrs='" + item.Bukrs + "',Gjahr='" + item.Gjahr + "',Zamministr='" + item.Zamministr + "',ZchiaveNi='" + item.ZchiaveNi + "',ZidNi='" + item.ZidNi + "',ZRagioCompe='" + item.ZRagioCompe + "'')", editSpesa, {
+                                oModel.update(path, oEntry, {
                                     // method: "PUT",
                                     success: function (data) {
                                         //console.log("success");

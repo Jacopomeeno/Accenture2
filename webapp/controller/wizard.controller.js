@@ -303,6 +303,7 @@ sap.ui.define([
                                 Bukrs: 'c596',
                                 Gjahr: '2023',
                                 Zamministr: 'aaa',
+                                ZgjahrEng: N_es_gestione,
                                 ZchiaveNi: '213445', 
                                 ZidNi: '20',
                                 ZRagioCompe: '20',
