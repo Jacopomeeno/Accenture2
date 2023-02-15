@@ -1,11 +1,13 @@
 sap.ui.define(
     [
         "./BaseController",
+        "sap/ui/model/Filter",
+        "sap/ui/model/FilterOperator",
         "sap/m/MessageBox",
         "sap/ui/core/routing/History",
         'project1/model/DateFormatter'
     ],
-    function (BaseController, MessageBox, History, DateFormatter) {
+    function (BaseController,  Filter, FilterOperator, MessageBox, History, DateFormatter) {
         "use strict";
 
         return BaseController.extend("project1.controller.modificaImporto", {
@@ -84,10 +86,55 @@ sap.ui.define(
             },
 
             onModificaNI: function () {
+                var filtroNI = []
+                var url = location.href
+                var sUrl = url.split("/modificaImporto/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                //filtroNI.push({Bukrs:Bukrs, Gjahr:Gjahr, Zamministr,Zamministr, ZchiaveNi:ZchiaveNi, ZidNi:ZidNi, ZRagioCompe:ZRagioCompe})
+                filtroNI.push(new Filter({
+                    path: "Bukrs",
+                    operator: FilterOperator.EQ,
+                    value1: Bukrs
+                }));
+                filtroNI.push(new Filter({
+                    path: "Gjahr",
+                    operator: FilterOperator.EQ,
+                    value1: Gjahr
+                }));
+                filtroNI.push(new Filter({
+                    path: "Zamministr",
+                    operator: FilterOperator.EQ,
+                    value1: Zamministr
+                }));
+                filtroNI.push(new Filter({
+                    path: "ZchiaveNi",
+                    operator: FilterOperator.EQ,
+                    value1: ZchiaveNi
+                }));
+                filtroNI.push(new Filter({
+                    path: "ZidNi",
+                    operator: FilterOperator.EQ,
+                    value1: ZidNi
+                }));
+                filtroNI.push(new Filter({
+                    path: "ZRagioCompe",
+                    operator: FilterOperator.EQ,
+                    value1: ZRagioCompe
+                }));
+
+
                 var that = this;
                 var oMdlM = new sap.ui.model.json.JSONModel();
                 this.getOwnerComponent().getModel().read("/PositionNISet", {
-                    filters: [],
+                    filters: filtroNI,
                     urlParameters: "",
                     success: function (data) {
                         oMdlM.setData(data.results);
@@ -102,6 +149,7 @@ sap.ui.define(
 
             onUpdateImporto: function () {
                 /*update operation*/
+                var that = this
                 var oItems = that.getView().byId("PositionNIMI").getBinding("items").oList;
                 // var oggSpesa = this.getView().byId("PositionNIMI").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
                 // var oggSpesa = this.getView().byId("PositionNIMI").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
@@ -115,13 +163,21 @@ sap.ui.define(
                     
                             for(var i=0; i<oItems.length; i++){
                                 var item = oItems[i];
-                                var editImporto = {
-                                    // ZimpoAss: item.ZimpoAss,  //ZimpoAss
-                                    // ZimpoRes: item.ZimpoRes   //ZimpoRes
-                                };
+                                
+                                var path = oModel.createKey("/PositionNISet", {
+                                    Bukrs:item.Bukrs,
+                                    Gjahr:item.Gjahr,
+                                    Zamministr:item.Zamministr,
+                                    ZchiaveNi:item.ZchiaveNi,
+                                    ZidNi:item.ZidNi,
+                                    ZRagioCompe:item.ZRagioComp 
+                                    });
 
-                            oModel.update("/DeepZNIEntitySet('Bukrs='"+item.Bukrs+"',Gjahr='"+item.Gjahr+"',Zamministr='"+item.Zamministr+"',ZchiaveNi='"+item.ZchiaveNi+"',ZidNi='"+item.ZidNi+"',ZRagioCompe='"+item.ZRagioCompe+"',ZposNi='"+item.ZposNi+"')", editImporto, {
-                                method: "PUT",
+                                    var oEntry = {};
+                                    oEntry.ZimpoTitolo = item.ZimpoTitolo;
+                                    
+                            oModel.update(path, oEntry, {
+                               // method: "PUT",
                                 success: function (data) {
                                     //console.log("success");
                                     MessageBox.success("Operazione eseguita con successo")

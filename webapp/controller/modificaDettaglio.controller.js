@@ -192,12 +192,12 @@ sap.ui.define(
                                 };
 
                                 var path = oModel.createKey("/HeaderNISet", {
-                                    Bukrs:'c123',
-                                    Gjahr:'2023',
-                                    Zamministr:'abe',
-                                    ZchiaveNi:'2023-abe-15-2',
-                                    ZidNi:'02',
-                                    ZRagioCompe:'15'
+                                    Bukrs:item.Bukrs,
+                                    Gjahr:item.Gjahr,
+                                    Zamministr:item.Zamministr,
+                                    ZchiaveNi:item.ZchiaveNi,
+                                    ZidNi:item.ZidNi,
+                                    ZRagioCompe:item.ZRagioCompe
                                     });
 
                                     var oEntry = {};
@@ -207,7 +207,15 @@ sap.ui.define(
                                     // method: "PUT",
                                     success: function (data) {
                                         //console.log("success");
-                                        MessageBox.success("Operazione eseguita con successo")
+                                        MessageBox.success("Operazione Eseguita con successo", {
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                            onClose: function (oAction) {
+                                                if (oAction === sap.m.MessageBox.Action.OK) {
+                                                    that.getOwnerComponent().getRouter().navTo("View1");
+                                                }
+                                            }
+                                        })
                                     },
                                     error: function (e) {
                                         //console.log("error");

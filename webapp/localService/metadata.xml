@@ -152,8 +152,14 @@
                 <Property Name="Msgty" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Message Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Message" Type="Edm.String" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="ZchiaveNi" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <NavigationProperty Name="HeaderNISet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToHeader" FromRole="FromRole_DeepEntityToHeader" ToRole="ToRole_DeepEntityToHeader"/>
                 <NavigationProperty Name="PositionNISet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToPositions" FromRole="FromRole_DeepEntityToPositions" ToRole="ToRole_DeepEntityToPositions"/>
+                <NavigationProperty Name="HeaderNISet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToHeader" FromRole="FromRole_DeepEntityToHeader" ToRole="ToRole_DeepEntityToHeader"/>
+            </EntityType>
+            <EntityType Name="ZgjahrEngNi" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ZgjahrEng"/>
+                </Key>
+                <Property Name="ZgjahrEng" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <Association Name="DeepEntityToPositions" sap:content-version="1">
                 <End Type="ZS4_NOTEIMPUTAZIONI_SRV.DeepZNIEntity" Multiplicity="1" Role="FromRole_DeepEntityToPositions"/>
@@ -187,17 +193,17 @@
                         <PropertyRef Name="Bukrs"/>
                         <PropertyRef Name="Gjahr"/>
                         <PropertyRef Name="ZRagioCompe"/>
-                        <PropertyRef Name="ZidNi"/>
-                        <PropertyRef Name="ZchiaveNi"/>
                         <PropertyRef Name="Zamministr"/>
+                        <PropertyRef Name="ZchiaveNi"/>
+                        <PropertyRef Name="ZidNi"/>
                     </Principal>
                     <Dependent Role="ToRole_HeaderNIToPositionNI">
                         <PropertyRef Name="Bukrs"/>
                         <PropertyRef Name="Gjahr"/>
                         <PropertyRef Name="ZRagioCompe"/>
-                        <PropertyRef Name="ZidNi"/>
-                        <PropertyRef Name="ZchiaveNi"/>
                         <PropertyRef Name="Zamministr"/>
+                        <PropertyRef Name="ZchiaveNi"/>
+                        <PropertyRef Name="ZidNi"/>
                     </Dependent>
                 </ReferentialConstraint>
             </Association>
@@ -206,6 +212,7 @@
                 <EntitySet Name="PositionNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.PositionNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="WFStateNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.WFStateNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="DeepZNIEntitySet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.DeepZNIEntity" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ZgjahrEngNiSet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.ZgjahrEngNi" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <AssociationSet Name="DeepEntityToPositionsSet" Association="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToPositions" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="DeepZNIEntitySet" Role="FromRole_DeepEntityToPositions"/>
                     <End EntitySet="PositionNISet" Role="ToRole_DeepEntityToPositions"/>
