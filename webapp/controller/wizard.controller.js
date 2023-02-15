@@ -38,8 +38,27 @@ sap.ui.define([
 
                 this.controlPreNI()
                 this.controlHeader()
+                this.esercizioGestione()
                 //this.onSearch()
 
+            },
+
+            esercizioGestione: function(){
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/ZgjahrEngNiSet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/ZgjahrEngNiSet', data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
             },
 
             onCallHeader: function (oEvent) {

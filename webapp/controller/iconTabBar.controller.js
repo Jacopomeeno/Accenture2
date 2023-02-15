@@ -264,14 +264,27 @@ sap.ui.define([
                         header[i].ZchiaveNi == ZchiaveNi &&
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
+
+                            var indice=i
+
                         MessageBox.warning("Sei sicuro di voler rettificare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
                                 if (oAction === sap.m.MessageBox.Action.YES) {
+
                                     var oModel = that.getView().getModel("temp");
 
-                                    oModel.delete("/HeaderNISet('Bukrs='" + Bukrs + "',Gjahr='" + Gjahr + "',Zamministr='" + Zamministr + "',ZchiaveNi='" + ZchiaveNi + "',ZidNi='" + ZidNi + "',ZRagioCompe='" + ZRagioCompe + "'')", {
+                                    var path = oModel.createKey("/HeaderNISet", {
+                                        Bukrs: header[indice].Bukrs,
+                                        Gjahr: header[indice].Gjahr,
+                                        Zamministr: header[indice].Zamministr,
+                                        ZchiaveNi: header[indice].ZchiaveNi,
+                                        ZidNi: header[indice].ZidNi,
+                                        ZRagioCompe: header[indice].ZRagioCompe
+                                    });
+
+                                    oModel.delete(path, {
                                         // method: "PUT",
                                         success: function (data) {
                                             //console.log("success");
