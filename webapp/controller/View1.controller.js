@@ -112,13 +112,10 @@ sap.ui.define([
 
             onNavToIconTB: function () {
                 var row = this.getView().byId("HeaderNI").getSelectedItem().getBindingContext("HeaderNI").getObject()
-                // var selectedRow = this.getView().byId("HeaderNI").getSelectedItem().mAggregations.cells
-                // this.getView().getModel("temp").setProperty("/", {selectedRow});
-                // var HeaderITB = new sap.ui.model.json.JSONModel();
-                // HeaderITB.setData(row);
-                // this.getView().getModel("temp").setProperty('/', HeaderITB)
-
+                if(row.ZcodiStatoni == "00")
                 this.getOwnerComponent().getRouter().navTo("iconTabBar", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if(row.ZcodiStatoni == "01")
+                this.getOwnerComponent().getRouter().navTo("inserisciInvioFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
             },
 
             navToDettagliNI: function (oEvent) {

@@ -71,7 +71,7 @@
             <f:content>
                 <VBox renderType="Bare" alignItems="Center" justifyContent="Center" id="Fragments">
                     <core:Fragment fragmentName="project1.fragment.form" type="XML" />
-                    <core:Fragment fragmentName="project1.fragment.tableAssImp" type="XML" />
+                    <core:Fragment fragmentName="project1.fragment.tableAssImp" type="XML"/>
                     <Bar>
                         <contentRight>
                             <Label text="This is a long non-shrinkable label"/>
@@ -79,9 +79,7 @@
                                 class="sapUiSmallMargin" />
                         </contentRight>
                     </Bar>
-                </VBox>
-                
-            
+                </VBox> 
             </f:content>
             <f:footer>
                 
