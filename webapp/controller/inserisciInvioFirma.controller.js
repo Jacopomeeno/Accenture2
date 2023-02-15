@@ -1,6 +1,6 @@
 sap.ui.define(
     [
-        "sap/ui/core/mvc/Controller",
+        "./BaseController",
         'sap/ui/model/json/JSONModel',
         'sap/ui/export/Spreadsheet',
         "sap/ui/core/library"
