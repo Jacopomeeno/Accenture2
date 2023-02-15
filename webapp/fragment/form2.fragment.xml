@@ -23,7 +23,7 @@
             <f:content>
                 <core:Title text=" " />
                 <Label text="Beneficiario" />
-                <Input id="inputBeneficiario" type="Text" showValueHelp="true"
+                <Input id="inputBeneficiario" type="Text" showValueHelp="true" showSuggestion="true"
                     suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Lifnr' }}"
                     enabled="true" editable="true">
                     <core:Item key="{Lifnr}" text="{Lifnr}" />
@@ -37,8 +37,11 @@
                 <Input id="inputNome" type="Text" showValueHelp="true" enabled="true"
                     editable="true" />
                 <Label text="IBAN" />
-                <Input id="inputIBAN" type="Text" showValueHelp="true" enabled="true"
-                    editable="true" />
+                <Input id="inputIBAN" type="Text" showValueHelp="true" enabled="true" showSuggestion="true"
+                suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Iban' }}"
+                    editable="true">
+                    <core:Item key="{Iban}" text="{Iban}" />
+                </Input>
                 <core:Title text=" " />
 
             </f:content>
@@ -152,15 +155,16 @@
                     </layoutData>
                 </Label>
 
-                <Input id="inputNProtoccollo" type="Text" editable="True">
+                <Input id="inputNProtoccollo" type="Text" editable="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'NProtocolloAmm' }}">
                     <layoutData>
                         <l:GridData span="XL2 L1 M2 S4" />
                     </layoutData>
+                    <core:Item key="{NProtocolloAmm}" text="{NProtocolloAmm}" />
                 </Input>
 
                 <Label text="Codice Gestionale" required="true" class="sapUiTinyMarginBottom" />
 
-                <Input id="inputCodiceGest" type="Text" editable="True">
+                <Input id="inputCodiceGest" type="Text" editable="true">
                     <layoutData>
                         <l:GridData span="XL3 L1 M4 S5" />
                     </layoutData>
@@ -172,21 +176,21 @@
                     </layoutData>
                 </Label>
 
-                <Input id="inputDescr" type="Text" editable="False">
+                <Input id="inputDescr" type="Text" editable="false">
                     <layoutData>
                         <l:GridData span="XL2 L2 M2 S4" />
                     </layoutData>
                 </Input>
                 <Label text="Località di pagamento" class="sapUiTinyMarginBottom" />
 
-                <Input id="inputLocPagamento" type="Text" editable="True">
+                <Input id="inputLocPagamento" type="Text" editable="true">
                     <layoutData>
                         <l:GridData span="XL3 L2 M4 S5" />
                     </layoutData>
                 </Input>
                 <Label text="Causale di pagamento" required="true" class="sapUiTinyMarginBottom" />
 
-                <Input id="inputCausPagamento" type="Text" editable="True">
+                <Input id="inputCausPagamento" type="Text" editable="true">
                     <layoutData>
                         <l:GridData span="XL9 L9 M4 S5" />
                     </layoutData>
@@ -211,7 +215,7 @@
                     </layoutData>
                 </Label>
 
-                <Input id="inputZInterv" type="Text" editable="True">
+                <Input id="inputZInterv" type="Text" editable="true">
                     <layoutData>
                         <l:GridData span="XL2 L2 M2 S4" />
                     </layoutData>
