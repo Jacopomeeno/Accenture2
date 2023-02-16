@@ -108,7 +108,7 @@
 
             <f:content>
                 <Label text="Importo di Liquidazione" />
-                <Input type="Text" id="InputImpLiq" />
+                <Input type="Text" id="InputImpLiq" editable="false" />
 
             </f:content>
         </f:SimpleForm>
@@ -162,12 +162,13 @@
                     <core:Item key="{NProtocolloAmm}" text="{NProtocolloAmm}" />
                 </Input>
 
-                <Label text="Codice Gestionale" required="true" class="sapUiTinyMarginBottom" />
+                <Label text="Codice Gestionale" required="true" class="sapUiTinyMarginBottom"  />
 
-                <Input id="inputCodiceGest" type="Text" editable="true">
+                <Input id="inputCodiceGest" type="Text" editable="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zcodgest' }}">
                     <layoutData>
                         <l:GridData span="XL3 L1 M4 S5" />
                     </layoutData>
+                    <core:Item key="{Zcodgest}" text="{Zcodgest}" />
                 </Input>
                 <Label text="Descrizione" class="sapUiTinyMarginBottom">
                     <layoutData>
@@ -176,24 +177,26 @@
                     </layoutData>
                 </Label>
 
-                <Input id="inputDescr" type="Text" editable="false">
+                <Input id="inputDescr" type="Text" editable="false" >
                     <layoutData>
                         <l:GridData span="XL2 L2 M2 S4" />
                     </layoutData>
                 </Input>
                 <Label text="Località di pagamento" class="sapUiTinyMarginBottom" />
 
-                <Input id="inputLocPagamento" type="Text" editable="true">
+                <Input id="inputLocPagamento" type="Text" editable="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zlocpag' }}">
                     <layoutData>
                         <l:GridData span="XL3 L2 M4 S5" />
                     </layoutData>
+                    <core:Item key="{Zlocpag}" text="{Zlocpag}" />
                 </Input>
                 <Label text="Causale di pagamento" required="true" class="sapUiTinyMarginBottom" />
 
-                <Input id="inputCausPagamento" type="Text" editable="true">
+                <Input id="inputCausPagamento" type="Text" editable="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zcauspag' }}">
                     <layoutData>
                         <l:GridData span="XL9 L9 M4 S5" />
                     </layoutData>
+                    <core:Item key="{Zcauspag}" text="{Zcauspag}" />
                 </Input>
                 <Label text="Data esigibilità" class="sapUiTinyMarginBottom">
                     <layoutData>
@@ -208,17 +211,18 @@
                     </layoutData>
                 </DatePicker>
 
-                <Label text="Zona di intervento" class="sapUiTinyMarginBottom">
+                <Label text="Zona di intervento" class="sapUiTinyMarginBottom" >
                     <layoutData>
                         <l:GridData indent="XL3 L4 M4 S5" />
                         <l:GridData span="XL3 L4 M4 S5" />
                     </layoutData>
                 </Label>
 
-                <Input id="inputZInterv" type="Text" editable="true">
+                <Input id="inputZInterv" type="Text" editable="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zzonaint' }}">
                     <layoutData>
                         <l:GridData span="XL2 L2 M2 S4" />
                     </layoutData>
+                    <core:Item key="{Zzonaint}" text="{Zzonaint}" />
                 </Input>
             </f:content>
         </f:SimpleForm>

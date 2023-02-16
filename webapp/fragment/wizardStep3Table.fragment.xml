@@ -36,7 +36,7 @@
             <Text text="{HeaderNIWstep3>Ztipo}"/>
             <Text text="{HeaderNIWstep3>Zdescrizione}" />
             <Text text="{path:'HeaderNIWstep3>ZdataPag', formatter:'.formatter.convert'}" />
-            <Input value="{HeaderNIWstep3>ZimpoAss}"/>
+            <Input value="{HeaderNIWstep3>ZimpoTitolo}"/>
             <Input value="{HeaderNIWstep3>ZimpoRes}"/>
         </ColumnListItem>
     </Table>

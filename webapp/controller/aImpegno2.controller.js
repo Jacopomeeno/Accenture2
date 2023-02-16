@@ -68,6 +68,9 @@ sap.ui.define([
 
                         var importoTot = header[i].ZimpoTotni
                         this.getView().byId("importoTot1").setText(importoTot)
+                        this.getView().byId("InputImpLiq").setValue(importoTot)
+
+                        
 
                     }
                 }
