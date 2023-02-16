@@ -296,19 +296,27 @@ sap.ui.define([
                             // };
 
                             var oDataModel = self.getOwnerComponent().getModel();
+                            var sommaImporto = 0.00
+                            var oItems = self.getView().byId("HeaderNIWstep3").getBinding("items").oList;
+                            for (var i = 0; i < oItems.length; i++) {
+                                var item = oItems[i];
+                                var importoTitolo = parseFloat(item.ZimpoTitolo)
+                                sommaImporto = importoTitolo + sommaImporto
+                            }
+                            var importoTitoloPos = sommaImporto.toString()
 
                             var deepEntity = {
-                                ZchiaveNi: '213445',
+                                ZchiaveNi: '213446',
                                 HeaderNISet: null,
                                 PositionNISet: []
                             }
                             deepEntity.HeaderNISet = {
-                                Bukrs: 'c596',
+                                Bukrs: 'c597',
                                 Gjahr: '2023',
                                 Zamministr: 'aaa',
-                                ZchiaveNi: '213445',
-                                ZidNi: '20',
-                                ZRagioCompe: '20',
+                                ZchiaveNi: '213446',
+                                ZidNi: '21',
+                                ZRagioCompe: '21',
                                 ZcodiStatoni: "00",
                                 ZimpoTotni: N_ImportoTot,
                                 ZzGjahrEngPos: N_es_gestione,
@@ -319,17 +327,18 @@ sap.ui.define([
                             };
 
                             deepEntity.PositionNISet.push({
-                                Bukrs: 'c596',
+                                Bukrs: 'c597',
                                 Gjahr: '2023',
                                 Zamministr: 'aaa',
                                 ZgjahrEng: N_es_gestione,
-                                ZchiaveNi: '213445', 
-                                ZidNi: '20',
-                                ZRagioCompe: '20',
-                                ZposNi: '20',
+                                ZchiaveNi: '213446', 
+                                ZidNi: '21',
+                                ZRagioCompe: '21',
+                                ZposNi: '21',
                                 Ztipo: N_Tipologia,
                                 Zsottotipo: N_Sottotipologia,
-                                ZcompRes: N_CR
+                                ZcompRes: N_CR,
+                                ZimpoTitolo:importoTitoloPos
                             });
 
                             oDataModel.create("/DeepZNIEntitySet", deepEntity, {
@@ -373,6 +382,7 @@ sap.ui.define([
                             //         }
                             //     }
                             // })
+                        
                         }
                     }
                 })
