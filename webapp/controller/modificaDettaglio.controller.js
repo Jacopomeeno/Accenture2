@@ -153,7 +153,8 @@ sap.ui.define(
                 /*update operation*/
                 var that = this
                 var oItems = that.getView().byId("idModificaDettaglio").getBinding("items").oList;
-                var oggSpesa = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
+                //var oggSpesa = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
+                var dataOdierna = new Date()
                 MessageBox.warning("Sei sicuro di voler modificare la NI?", {
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
@@ -187,10 +188,6 @@ sap.ui.define(
                                 //     }
                                 // });
 
-                                var editSpesa = {
-                                    ZoggSpesa: item.ZoggSpesa
-                                };
-
                                 var path = oModel.createKey("/HeaderNISet", {
                                     Bukrs:item.Bukrs,
                                     Gjahr:item.Gjahr,
@@ -202,6 +199,7 @@ sap.ui.define(
 
                                     var oEntry = {};
                                     oEntry.ZoggSpesa = item.ZoggSpesa;
+                                    oEntry.ZdataModiNi = dataOdierna
                                 
                                 oModel.update(path, oEntry, {
                                     // method: "PUT",

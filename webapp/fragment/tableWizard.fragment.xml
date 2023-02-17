@@ -10,7 +10,7 @@
     xmlns:menu="sap.m.MenuItem"
     xmlns:menBtn="sap.m.Menu"
     height="100%">
-    <Table class="sapUiSizeCompact" id="HeaderNIW" includeItemInSelection="true" items="{HeaderNIW>/}" mode="MultiSelect" visible="true">
+    <!-- <Table class="sapUiSizeCompact" id="HeaderNIW" includeItemInSelection="true" items="{HeaderNIW>/}" mode="MultiSelect" visible="true">
         <columns>
             <Column width="auto">
                 <Label text="Codice ISIN" />
@@ -38,6 +38,36 @@
             <Text text="{HeaderNIW>ZimpoTitolo}" />
             <Text text="{HeaderNIW>ZimpoAss}" />
             <Text text="{HeaderNIW>ZimpoRes}" />
+        </ColumnListItem>
+    </Table> -->
+    <Table class="sapUiSizeCompact" id="HeaderNIW" includeItemInSelection="true" items="{HeaderNIW>/items}" mode="MultiSelect" visible="true">
+        <columns>
+            <Column width="auto">
+                <Label text="Codice ISIN" />
+            </Column>
+            <Column width="25%">
+                <Label text="Sottotipologia primo livello " />
+            </Column>
+            <Column width="auto">
+                <Label text="Data Pagamento" />
+            </Column>
+            <Column width="auto">
+                <Label text="Importo Titolo" />
+            </Column>
+            <Column width="auto">
+                <Label text="Importo Associato" />
+            </Column>
+            <Column width="auto">
+                <Label text="Importo Residuo" />
+            </Column>
+        </columns>
+        <ColumnListItem>
+            <Input value="{HeaderNIW>ZCOD_ISIN}" />
+            <Input value="{HeaderNIW>ZTIPO}"/>
+            <Input value="{HeaderNIW>ZDATA_PAG}" />
+            <Input value="{HeaderNIW>ZIMPO_TITOLO}" />
+            <Input value="{HeaderNIW>ZIMPO_ASS}" />
+            <Input value="{HeaderNIW>ZIMPO_RES}" />
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

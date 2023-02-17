@@ -10,7 +10,7 @@
     xmlns:menu="sap.m.MenuItem"
     xmlns:menBtn="sap.m.Menu"
     height="100%">
-    <Table class="sapUiSizeCompact" id="HeaderNIWstep3" includeItemInSelection="true" items="{HeaderNIWstep3>/}" visible="true">
+    <!-- <Table class="sapUiSizeCompact" id="HeaderNIWstep3" includeItemInSelection="true" items="{HeaderNIWstep3>/}" visible="true">
         <columns>
             <Column width="auto">
                 <Label text="Codice ISIN" />
@@ -34,10 +34,40 @@
         <ColumnListItem>
             <Text text="{HeaderNIWstep3>ZcodIsin}" />
             <Text text="{HeaderNIWstep3>Ztipo}"/>
-            <Text text="{HeaderNIWstep3>Zdescrizione}" />
+           <Input value="{HeaderNIWstep3>ZDescrizione}"/>
             <Text text="{path:'HeaderNIWstep3>ZdataPag', formatter:'.formatter.convert'}" />
             <Input value="{HeaderNIWstep3>ZimpoTitolo}"/>
             <Input value="{HeaderNIWstep3>ZimpoRes}"/>
+        </ColumnListItem>
+    </Table> -->
+    <Table class="sapUiSizeCompact" id="HeaderNIWstep3" includeItemInSelection="true" items="{HeaderNIWstep3>/}" visible="true">
+        <columns>
+            <Column width="auto">
+                <Label text="Codice ISIN" />
+            </Column>
+            <Column width="25%">
+                <Label text="Sottotipologia primo livello " />
+            </Column>
+            <Column width="auto">
+                <Label text="Descrizione" />
+            </Column>
+            <Column width="auto">
+                <Label text="Data Pagamento" />
+            </Column>
+            <Column width="auto">
+                <Label text="Importo NI" />
+            </Column>
+            <Column width="auto">
+                <Label text="Importo Residuo" />
+            </Column>
+        </columns>
+        <ColumnListItem>
+            <Text text="{HeaderNIWstep3>ZCOD_ISIN}" />
+            <Text text="{HeaderNIWstep3>ZTIPO}"/>
+            <Input value="{HeaderNIWstep3>ZDESCRIZIONE}" />
+            <Text text="{HeaderNIWstep3>ZIMPO_TITOLO}" />
+            <Input value="{HeaderNIWstep3>ZIMPO_ASS}" />
+            <Input value="{HeaderNIWstep3>ZIMPO_RES}" />
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

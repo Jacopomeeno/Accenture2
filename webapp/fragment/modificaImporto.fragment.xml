@@ -10,13 +10,14 @@
     xmlns:menu="sap.m.MenuItem"
     xmlns:menBtn="sap.m.Menu"
     height="100%">
+    
     <Table class="sapUiSizeCompact" id="PositionNIMI" includeItemInSelection="true" items="{PositionNIMI>/}" visible="true">
         <columns>
             <Column width="auto">
                 <Label text="Codice ISIN" />
             </Column>
             <Column width="25%">
-                <Label text="Sottotipologia primo livello" />
+                <Label text="Sottotipologia primo livello " />
             </Column>
             <Column width="auto">
                 <Label text="Descrizione" />
@@ -33,11 +34,12 @@
         </columns>
         <ColumnListItem>
             <Text text="{PositionNIMI>ZcodIsin}" />
-            <Text text="{PositionNIMI>Ztipo}" />
-            <Text text="{PositionNIMI>}" />
-            <Text text="{path:'PositionNIMI>ZdataPag', formatter:'.formatter.convert'}" />
-            <Input value="{PositionNIMI>}" id="importoNI" /> <!-- ZIMPO_TITOLO -->
-            <Input value="{PositionNIMI>}" id="importoRes" />    <!-- ZIMPO_RES -->
+            <Text text="{PositionNIMI>Ztipo}"/>
+            <Text text="{PositionNIMI>Zdescrizione}" />
+            <Text text="{path: 'PositionNIMI>ZdataPag', formatter:'.formatter.convert'}" />
+            <Input value="{PositionNIMI>ZimpoTitolo}" />
+            <Input value ="{PositionNIMI>ZIMPO_RES}" />
         </ColumnListItem>
     </Table>
+
 </core:FragmentDefinition>

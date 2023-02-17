@@ -1,5 +1,7 @@
 sap.ui.define([
     "./BaseController",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
     'sap/ui/model/json/JSONModel',
     "sap/m/MessageBox",
     'sap/ui/export/Spreadsheet',
@@ -7,7 +9,7 @@ sap.ui.define([
     "project1/model/DateFormatter"
 ],
 
-    function (BaseController, JSONModel, MessageBox, Spreadsheet, CoreLibrary, DateFormatter) {
+    function (BaseController, Filter, FilterOperator, JSONModel, MessageBox, Spreadsheet, CoreLibrary, DateFormatter) {
         "use strict";
         var EdmType = sap.ui.export.EdmType
 
@@ -26,7 +28,7 @@ sap.ui.define([
                     oInitialModelState = Object.assign({}, oButton);
                 oProprietà.setData(oInitialModelState);
                 this.getView().setModel(oProprietà);
-                this.callPositionNI()
+                //this.prePosition()
                 this.getOwnerComponent().getModel("temp");
                 this.getRouter().getRoute("iconTabBar").attachPatternMatched(this._onObjectMatched, this);
 
@@ -42,16 +44,33 @@ sap.ui.define([
                     "',ZRagioCompe='" + oEvent.getParameters().arguments.campo5 + "')"
                 );
                 this.viewHeader(oEvent)
+                this.callPositionNI(oEvent)
             },
 
+            // prePosition: function(){
+            //     var that = this;
+            //     var oMdlITB = new sap.ui.model.json.JSONModel();
+            //     this.getOwnerComponent().getModel().read("/PositionNISet", {
+            //         filters: [],
+            //         urlParameters: "",
+            //         success: function (data) {
+            //             oMdlITB.setData(data.results);
+            //             that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+            //         },
+            //         error: function (error) {
+            //             var e = error;
+            //         }
+            //     });
+            // },  
+
             viewHeader: function (oEvent) {
-                // console.log(this.getView().getModel("temp").getData(
-                // "/HeaderNISet('"+ oEvent.getParameters().arguments.campo +
-                // "','"+ oEvent.getParameters().arguments.campo1 +
-                // "','"+ oEvent.getParameters().arguments.campo2 +
-                // "','"+ oEvent.getParameters().arguments.campo3 +
-                // "','"+ oEvent.getParameters().arguments.campo4 +
-                // "','"+ oEvent.getParameters().arguments.campo5 + "')"))
+                console.log(this.getView().getModel("temp").getData(
+                "/HeaderNISet('"+ oEvent.getParameters().arguments.campo +
+                "','"+ oEvent.getParameters().arguments.campo1 +
+                "','"+ oEvent.getParameters().arguments.campo2 +
+                "','"+ oEvent.getParameters().arguments.campo3 +
+                "','"+ oEvent.getParameters().arguments.campo4 +
+                "','"+ oEvent.getParameters().arguments.campo5 + "')"))
 
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 for (var i = 0; i < header.length; i++) {
@@ -96,21 +115,77 @@ sap.ui.define([
 
             },
 
-            callPositionNI: function () {
-                var that = this;
-                var oMdlITB = new sap.ui.model.json.JSONModel();
-                this.getOwnerComponent().getModel().read("/PositionNISet", {
-                    filters: [],
-                    urlParameters: "",
-                    success: function (data) {
-                        oMdlITB.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
-                    },
-                    error: function (error) {
-                        var e = error;
+            callPositionNI: function (oEvent) {
+                var filtroNI = []
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                //var position = this.getView().getModel("temp").getData().PositionNISet
+                for (var i = 0; i < header.length; i++) {
+
+                    if (header[i].Bukrs == oEvent.getParameters().arguments.campo &&
+                        header[i].Gjahr == oEvent.getParameters().arguments.campo1 &&
+                        header[i].Zamministr == oEvent.getParameters().arguments.campo2 &&
+                        header[i].ZchiaveNi == oEvent.getParameters().arguments.campo3 &&
+                        header[i].ZidNi == oEvent.getParameters().arguments.campo4 &&
+                        header[i].ZRagioCompe == oEvent.getParameters().arguments.campo5) {
+
+                        //filtroNI.push({Bukrs:Bukrs, Gjahr:Gjahr, Zamministr,Zamministr, ZchiaveNi:ZchiaveNi, ZidNi:ZidNi, ZRagioCompe:ZRagioCompe})
+                        filtroNI.push(new Filter({
+                            path: "Bukrs",
+                            operator: FilterOperator.EQ,
+                            value1: header[i].Bukrs
+                        }));
+                        filtroNI.push(new Filter({
+                            path: "Gjahr",
+                            operator: FilterOperator.EQ,
+                            value1: header[i].Gjahr
+                        }));
+                        filtroNI.push(new Filter({
+                            path: "Zamministr",
+                            operator: FilterOperator.EQ,
+                            value1: header[i].Zamministr
+                        }));
+                        filtroNI.push(new Filter({
+                            path: "ZchiaveNi",
+                            operator: FilterOperator.EQ,
+                            value1: header[i].ZchiaveNi
+                        }));
+                        filtroNI.push(new Filter({
+                            path: "ZidNi",
+                            operator: FilterOperator.EQ,
+                            value1: header[i].ZidNi
+                        }));
+                        filtroNI.push(new Filter({
+                            path: "ZRagioCompe",
+                            operator: FilterOperator.EQ,
+                            value1: header[i].ZRagioCompe
+                        }));
+                        // filtroNI.push(new Filter({
+                        //     path: "ZposNi",
+                        //     operator: FilterOperator.EQ,
+                        //     value1: ZposNi
+                        // }));
+
+
+                        var that = this;
+                        var oMdlITB = new sap.ui.model.json.JSONModel();
+                        this.getOwnerComponent().getModel().read("/PositionNISet", {
+                            filters: filtroNI,
+                            //filters: [],
+                            urlParameters: {
+                                "$expand": ""
+                            },
+                            success: function (data) {
+                                oMdlITB.setData(data.results);
+                                that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+                            },
+                            error: function (error) {
+                                var e = error;
+                            }
+                        });
+                        this.getOwnerComponent().setModel(oMdlITB, "HeaderITB");
+
                     }
-                });
-                this.getOwnerComponent().setModel(oMdlITB, "HeaderITB");
+                }
             },
 
             onSelect: function (oEvent) {
@@ -134,6 +209,7 @@ sap.ui.define([
             },
 
             onBackButton: function () {
+                this.getView().byId("HeaderITB").destroyItems()
                 this.getOwnerComponent().getRouter().navTo("View1");
                 this.getView().byId("editImporto").setEnabled(false);
                 this.getView().byId("editRow").setEnabled(false);
@@ -230,7 +306,29 @@ sap.ui.define([
             },
 
             onAddRow: function () {
-                this.getOwnerComponent().getRouter().navTo("wizard");
+                var url = location.href
+                var sUrl = url.split("/iconTabBar/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+                        this.getOwnerComponent().getRouter().navTo("wizardInserisciRiga", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                    }
+                }
+                
             },
 
             pressRettificaNI: function () {
@@ -256,48 +354,55 @@ sap.ui.define([
                 var ZidNi = aValori[4]
                 var ZRagioCompe = aValori[5]
 
-                var header = this.getView().getModel("temp").getData().HeaderNISet
-                for (var i = 0; i < header.length; i++) {
-                    if (header[i].Bukrs == Bukrs &&
-                        header[i].Gjahr == Gjahr &&
-                        header[i].Zamministr == Zamministr &&
-                        header[i].ZchiaveNi == ZchiaveNi &&
-                        header[i].ZidNi == ZidNi &&
-                        header[i].ZRagioCompe == ZRagioCompe) {
+                var position = this.getView().getModel("temp").getData().PositionNISet
+                //var rows = this.getView().byId("HeaderITB").getSelectedItems()
 
-                            var indice=i
+                for (var i = 0; i < position.length; i++) {
+                    if (position[i].Bukrs == Bukrs &&
+                        position[i].Gjahr == Gjahr &&
+                        position[i].Zamministr == Zamministr &&
+                        position[i].ZchiaveNi == ZchiaveNi &&
+                        position[i].ZidNi == ZidNi &&
+                        position[i].ZRagioCompe == ZRagioCompe) {
 
-                        MessageBox.warning("Sei sicuro di voler rettificare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                            emphasizedAction: MessageBox.Action.YES,
-                            onClose: function (oAction) {
-                                if (oAction === sap.m.MessageBox.Action.YES) {
+                        var indice = i
+                            //var ZposNi = rows[x].getBindingContext("HeaderITB").getObject().ZposNi
 
-                                    var oModel = that.getView().getModel("temp");
+                            MessageBox.warning("Sei sicuro di voler rettificare la Nota d'Imputazione n° " + position[i].ZchiaveNi + "?", {
+                                actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                                emphasizedAction: MessageBox.Action.YES,
+                                onClose: function (oAction) {
+                                    if (oAction === sap.m.MessageBox.Action.YES) {
 
-                                    var path = oModel.createKey("/HeaderNISet", {
-                                        Bukrs: header[indice].Bukrs,
-                                        Gjahr: header[indice].Gjahr,
-                                        Zamministr: header[indice].Zamministr,
-                                        ZchiaveNi: header[indice].ZchiaveNi,
-                                        ZidNi: header[indice].ZidNi,
-                                        ZRagioCompe: header[indice].ZRagioCompe
-                                    });
+                                        //var oModel = that.getView().getModel("temp");
+                                        var oModel = that.getOwnerComponent().getModel();
 
-                                    oModel.delete(path, {
-                                        // method: "PUT",
-                                        success: function (data) {
-                                            //console.log("success");
-                                            MessageBox.success("Operazione eseguita con successo")
-                                        },
-                                        error: function (e) {
-                                            //console.log("error");
-                                            MessageBox.error("Operazione non eseguita")
-                                        }
-                                    });
+                                        var path = oModel.createKey("/PositionNISet", {
+                                            Bukrs: position[indice].Bukrs,
+                                            Gjahr: position[indice].Gjahr,
+                                            Zamministr: position[indice].Zamministr,
+                                            ZchiaveNi: position[indice].ZchiaveNi,
+                                            ZidNi: position[indice].ZidNi,
+                                            ZRagioCompe: position[indice].ZRagioCompe,
+                                            ZposNi: position[indice].ZposNi,
+                                        });
+
+                                        oModel.remove(path, {
+                                            // method: "PUT",
+                                            success: function (data) {
+                                                //console.log("success");
+                                                MessageBox.success("Operazione eseguita con successo")
+                                            },
+                                            error: function (e) {
+                                                //console.log("error");
+                                                MessageBox.error("Operazione non eseguita")
+                                            }
+                                        });
+                                    }
+
                                 }
-                            }
-                        });
+                            });
+                        
                     }
                 }
             },

@@ -37,7 +37,6 @@ sap.ui.define(
             viewHeader: function (oEvent) {
 
                 var header = this.getView().getModel("temp").getData().HeaderNISet
-                var position = this.getView().getModel("temp").getData().PositionNISet
                 for (var i = 0; i < header.length; i++) {
                     if (header[i].Bukrs == oEvent.getParameters().arguments.campo &&
                         header[i].Gjahr == oEvent.getParameters().arguments.campo1 &&
@@ -69,10 +68,10 @@ sap.ui.define(
                         var mese = header[i].Zmese
                         this.getView().byId("mese1").setText(mese)
 
-                        var comp = position[i].ZcompRes
-                        if(comp=='C') var n_comp='Competenza'
-                        if(comp='R') var n_comp='Residui'
-                        this.getView().byId("comp1").setText(n_comp)
+                        // var comp = position[i].ZcompRes
+                        // if(comp=='C') var n_comp='Competenza'
+                        // if(comp='R') var n_comp='Residui'
+                        // this.getView().byId("comp1").setText(n_comp)
 
                         var statoNI = header[i].ZcodiStatoni
                         this.getView().byId("statoNI1").setText(statoNI)
@@ -120,16 +119,10 @@ sap.ui.define(
                     value1: ZchiaveNi
                 }));
                 filtroNI.push(new Filter({
-                    path: "ZidNi",
-                    operator: FilterOperator.EQ,
-                    value1: ZidNi
-                }));
-                filtroNI.push(new Filter({
                     path: "ZRagioCompe",
                     operator: FilterOperator.EQ,
                     value1: ZRagioCompe
                 }));
-
 
                 var that = this;
                 var oMdlM = new sap.ui.model.json.JSONModel();
@@ -138,7 +131,7 @@ sap.ui.define(
                     urlParameters: "",
                     success: function (data) {
                         oMdlM.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+                        that.getView().getModel("temp").setProperty('/PositionNISetFiltrata', data.results)
                     },
                     error: function (error) {
                         var e = error;
@@ -151,9 +144,10 @@ sap.ui.define(
                 /*update operation*/
                 var that = this
                 var oItems = that.getView().byId("PositionNIMI").getBinding("items").oList;
+                var dataOdierna = new Date()
                 // var oggSpesa = this.getView().byId("PositionNIMI").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
-                // var oggSpesa = this.getView().byId("PositionNIMI").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
-                var that = this
+                var position = that.getView().getModel("temp").getData().PositionNISet
+                var positionTabella = this.getView().getModel("temp").getData().PositionNISetFiltrata
                 MessageBox.warning("Sei sicuro di voler modificare la NI?", {
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
@@ -163,31 +157,36 @@ sap.ui.define(
                     
                             for(var i=0; i<oItems.length; i++){
                                 var item = oItems[i];
-                                
-                                var path = oModel.createKey("/PositionNISet", {
-                                    Bukrs:item.Bukrs,
-                                    Gjahr:item.Gjahr,
-                                    Zamministr:item.Zamministr,
-                                    ZchiaveNi:item.ZchiaveNi,
-                                    ZidNi:item.ZidNi,
-                                    ZRagioCompe:item.ZRagioComp 
-                                    });
 
-                                    var oEntry = {};
-                                    oEntry.ZimpoTitolo = item.ZimpoTitolo;
-                                    
-                            oModel.update(path, oEntry, {
+                                    var pathPS = oModel.createKey("/PositionNISet", {
+                                        Bukrs:item.Bukrs,
+                                        Gjahr:item.Gjahr,
+                                        Zamministr:item.Zamministr,
+                                        ZchiaveNi:item.ZchiaveNi,
+                                        ZidNi:item.ZidNi,
+                                        ZRagioCompe:item.ZRagioCompe,
+                                        ZposNi:item.ZposNi
+                                        });
+    
+                                        var oEntryPS = {};
+                                        oEntryPS.ZimpoTitolo = item.ZimpoTitolo;
+
+                                 if(position[i].ZimpoTitolo != positionTabella[i].ZimpoTitolo){
+
+                            oModel.update(pathPS, oEntryPS, {
                                // method: "PUT",
                                 success: function (data) {
                                     //console.log("success");
-                                    MessageBox.success("Operazione eseguita con successo")
+                                    MessageBox.success("Modifica Importo eseguito con successo")
                                 },
                                 error: function (e) {
                                     //console.log("error");
-                                    MessageBox.error("Operazione non eseguita")
+                                    MessageBox.error("Modifica Importo non eseguito")
                                 }
                             });
                         }
+                        }
+                        
                         }
                     }
                 });

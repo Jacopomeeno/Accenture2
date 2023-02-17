@@ -126,6 +126,26 @@
                 <Property Name="Zwels" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Payment Methods" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Zzonaint" Type="Edm.String" MaxLength="15" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
+            <EntityType Name="DeepPositionNI" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Bukrs"/>
+                    <PropertyRef Name="Gjahr"/>
+                    <PropertyRef Name="Zamministr"/>
+                    <PropertyRef Name="ZRagioCompe"/>
+                    <PropertyRef Name="ZidNi"/>
+                    <PropertyRef Name="ZchiaveNi"/>
+                </Key>
+                <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Gjahr" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Zamministr" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZRagioCompe" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZidNi" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZchiaveNi" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Operation" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Msgty" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Message" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="PositionNISet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepPositionNIToPositionNI" FromRole="FromRole_DeepPositionNIToPositionNI" ToRole="ToRole_DeepPositionNIToPositionNI"/>
+            </EntityType>
             <EntityType Name="WFStateNI" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="Esercizio"/>
@@ -207,9 +227,32 @@
                     </Dependent>
                 </ReferentialConstraint>
             </Association>
+            <Association Name="DeepPositionNIToPositionNI" sap:content-version="1">
+                <End Type="ZS4_NOTEIMPUTAZIONI_SRV.DeepPositionNI" Multiplicity="1" Role="FromRole_DeepPositionNIToPositionNI"/>
+                <End Type="ZS4_NOTEIMPUTAZIONI_SRV.PositionNI" Multiplicity="*" Role="ToRole_DeepPositionNIToPositionNI"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_DeepPositionNIToPositionNI">
+                        <PropertyRef Name="ZchiaveNi"/>
+                        <PropertyRef Name="ZidNi"/>
+                        <PropertyRef Name="ZRagioCompe"/>
+                        <PropertyRef Name="Zamministr"/>
+                        <PropertyRef Name="Gjahr"/>
+                        <PropertyRef Name="Bukrs"/>
+                    </Principal>
+                    <Dependent Role="ToRole_DeepPositionNIToPositionNI">
+                        <PropertyRef Name="ZchiaveNi"/>
+                        <PropertyRef Name="ZidNi"/>
+                        <PropertyRef Name="ZRagioCompe"/>
+                        <PropertyRef Name="Zamministr"/>
+                        <PropertyRef Name="Gjahr"/>
+                        <PropertyRef Name="Bukrs"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
             <EntityContainer Name="ZS4_NOTEIMPUTAZIONI_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
                 <EntitySet Name="HeaderNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.HeaderNI" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="PositionNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.PositionNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="DeepPositionNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.DeepPositionNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="WFStateNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.WFStateNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="DeepZNIEntitySet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.DeepZNIEntity" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="ZgjahrEngNiSet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.ZgjahrEngNi" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
@@ -220,6 +263,10 @@
                 <AssociationSet Name="DeepEntityToHeaderSet" Association="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="DeepZNIEntitySet" Role="FromRole_DeepEntityToHeader"/>
                     <End EntitySet="HeaderNISet" Role="ToRole_DeepEntityToHeader"/>
+                </AssociationSet>
+                <AssociationSet Name="DeepPositionNIToPositionNISet" Association="ZS4_NOTEIMPUTAZIONI_SRV.DeepPositionNIToPositionNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="DeepPositionNISet" Role="FromRole_DeepPositionNIToPositionNI"/>
+                    <End EntitySet="PositionNISet" Role="ToRole_DeepPositionNIToPositionNI"/>
                 </AssociationSet>
                 <AssociationSet Name="HeaderNIToPositionNISet" Association="ZS4_NOTEIMPUTAZIONI_SRV.HeaderNIToPositionNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="HeaderNISet" Role="FromRole_HeaderNIToPositionNI"/>

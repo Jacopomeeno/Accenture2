@@ -20,6 +20,7 @@
                 "uri": "/sap/opu/odata/sap/ZS4_NOTEIMPUTAZIONI_SRV",
                 "type": "OData",
                 "settings": {
+                    "useBatch": false,
                     "odataVersion": "2.0",
                     "annotations": [],
                     "localUri": "localService/metadata.xml"
@@ -111,6 +112,13 @@
                     "target": "Targetwizard"
                 },
                 {
+                    "name": "wizardInserisciRiga",
+                    "pattern": "wizardInserisciRiga/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "TargetwizardInserisciRiga"
+                },
+                {
                     "name": "iconTabBar",
                     "pattern": "iconTabBar/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
                     "titleTarget": "",
@@ -182,6 +190,14 @@
                     "clearControlAggregation": false,
                     "viewId": "wizard",
                     "viewName": "wizard",
+                    "viewLevel": 1
+                },
+                "TargetwizardInserisciRiga": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "wizardInserisciRiga",
+                    "viewName": "wizardInserisciRiga",
                     "viewLevel": 1
                 },
                 "TargeticonTabBar": {
