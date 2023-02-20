@@ -56,6 +56,7 @@
                 <Property Name="ZzCodIpePos" Type="Edm.String" MaxLength="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
                 <Property Name="ZzEprPos" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
                 <Property Name="ZzGjahrEngPos" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="ZzMotrilievo" Type="Edm.String" MaxLength="1000" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="ZzNumClaPos" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
                 <Property Name="ZzUfficioliv1Pos" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
                 <Property Name="ZzUfficioliv2Pos" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
@@ -232,20 +233,20 @@
                 <End Type="ZS4_NOTEIMPUTAZIONI_SRV.PositionNI" Multiplicity="*" Role="ToRole_DeepPositionNIToPositionNI"/>
                 <ReferentialConstraint>
                     <Principal Role="FromRole_DeepPositionNIToPositionNI">
-                        <PropertyRef Name="ZchiaveNi"/>
-                        <PropertyRef Name="ZidNi"/>
-                        <PropertyRef Name="ZRagioCompe"/>
-                        <PropertyRef Name="Zamministr"/>
-                        <PropertyRef Name="Gjahr"/>
                         <PropertyRef Name="Bukrs"/>
+                        <PropertyRef Name="Gjahr"/>
+                        <PropertyRef Name="Zamministr"/>
+                        <PropertyRef Name="ZRagioCompe"/>
+                        <PropertyRef Name="ZidNi"/>
+                        <PropertyRef Name="ZchiaveNi"/>
                     </Principal>
                     <Dependent Role="ToRole_DeepPositionNIToPositionNI">
-                        <PropertyRef Name="ZchiaveNi"/>
-                        <PropertyRef Name="ZidNi"/>
-                        <PropertyRef Name="ZRagioCompe"/>
-                        <PropertyRef Name="Zamministr"/>
-                        <PropertyRef Name="Gjahr"/>
                         <PropertyRef Name="Bukrs"/>
+                        <PropertyRef Name="Gjahr"/>
+                        <PropertyRef Name="Zamministr"/>
+                        <PropertyRef Name="ZRagioCompe"/>
+                        <PropertyRef Name="ZidNi"/>
+                        <PropertyRef Name="ZchiaveNi"/>
                     </Dependent>
                 </ReferentialConstraint>
             </Association>

@@ -64,13 +64,13 @@ sap.ui.define([
             // },  
 
             viewHeader: function (oEvent) {
-                console.log(this.getView().getModel("temp").getData(
-                "/HeaderNISet('"+ oEvent.getParameters().arguments.campo +
-                "','"+ oEvent.getParameters().arguments.campo1 +
-                "','"+ oEvent.getParameters().arguments.campo2 +
-                "','"+ oEvent.getParameters().arguments.campo3 +
-                "','"+ oEvent.getParameters().arguments.campo4 +
-                "','"+ oEvent.getParameters().arguments.campo5 + "')"))
+                // console.log(this.getView().getModel("temp").getData(
+                // "/HeaderNISet('"+ oEvent.getParameters().arguments.campo +
+                // "','"+ oEvent.getParameters().arguments.campo1 +
+                // "','"+ oEvent.getParameters().arguments.campo2 +
+                // "','"+ oEvent.getParameters().arguments.campo3 +
+                // "','"+ oEvent.getParameters().arguments.campo4 +
+                // "','"+ oEvent.getParameters().arguments.campo5 + "')"))
 
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 for (var i = 0; i < header.length; i++) {
@@ -328,7 +328,7 @@ sap.ui.define([
                         this.getOwnerComponent().getRouter().navTo("wizardInserisciRiga", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
                     }
                 }
-                
+
             },
 
             pressRettificaNI: function () {
@@ -342,69 +342,67 @@ sap.ui.define([
 
             onDeleteRow: function (oEvent) {
                 var that = this;
+                //var position = this.getView().getModel("temp").getData().PositionNISet
+                var selectedPosition = this.getView().byId("HeaderITB").getSelectedItems()
 
-                var url = location.href
-                var sUrl = url.split("/iconTabBar/")[1]
-                var aValori = sUrl.split(",")
+                var deepEntity = {
+                    PositionNISet: []
+                }
 
-                var Bukrs = aValori[0]
-                var Gjahr = aValori[1]
-                var Zamministr = aValori[2]
-                var ZchiaveNi = aValori[3]
-                var ZidNi = aValori[4]
-                var ZRagioCompe = aValori[5]
+                for (var i = 0; i < selectedPosition.length; i++) {
 
-                var position = this.getView().getModel("temp").getData().PositionNISet
-                //var rows = this.getView().byId("HeaderITB").getSelectedItems()
+                    var item = selectedPosition[i].getBindingContext("HeaderITB").getObject();
+                    //var indice = i
+                    var oModel = that.getOwnerComponent().getModel();
 
-                for (var i = 0; i < position.length; i++) {
-                    if (position[i].Bukrs == Bukrs &&
-                        position[i].Gjahr == Gjahr &&
-                        position[i].Zamministr == Zamministr &&
-                        position[i].ZchiaveNi == ZchiaveNi &&
-                        position[i].ZidNi == ZidNi &&
-                        position[i].ZRagioCompe == ZRagioCompe) {
+                    deepEntity.Bukrs = item.Bukrs,
+                        deepEntity.Gjahr = item.Gjahr,
+                        deepEntity.Zamministr = item.Zamministr,
+                        deepEntity.ZchiaveNi = item.ZchiaveNi,
+                        deepEntity.ZidNi = item.ZidNi,
+                        deepEntity.ZRagioCompe = item.ZRagioCompe,
+                        deepEntity.Operation = "D",
 
-                        var indice = i
-                            //var ZposNi = rows[x].getBindingContext("HeaderITB").getObject().ZposNi
+                        deepEntity.PositionNISet.push({
+                            ZposNi: item.ZposNi,
+                            Bukrs: item.Bukrs,
+                            Gjahr: item.Gjahr,
+                            Zamministr: item.Zamministr,
+                            ZchiaveNi: item.ZchiaveNi,
+                            ZidNi: item.ZidNi,
+                            ZRagioCompe: item.ZRagioCompe,
+                        })
+                }
+                MessageBox.warning("Sei sicuro di voler rettificare la Nota d'Imputazione n° " + item.ZchiaveNi + "?", {
+                    actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                    emphasizedAction: MessageBox.Action.YES,
+                    onClose: function (oAction) {
+                        if (oAction === sap.m.MessageBox.Action.YES) {
 
-                            MessageBox.warning("Sei sicuro di voler rettificare la Nota d'Imputazione n° " + position[i].ZchiaveNi + "?", {
-                                actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                                emphasizedAction: MessageBox.Action.YES,
-                                onClose: function (oAction) {
-                                    if (oAction === sap.m.MessageBox.Action.YES) {
-
-                                        //var oModel = that.getView().getModel("temp");
-                                        var oModel = that.getOwnerComponent().getModel();
-
-                                        var path = oModel.createKey("/PositionNISet", {
-                                            Bukrs: position[indice].Bukrs,
-                                            Gjahr: position[indice].Gjahr,
-                                            Zamministr: position[indice].Zamministr,
-                                            ZchiaveNi: position[indice].ZchiaveNi,
-                                            ZidNi: position[indice].ZidNi,
-                                            ZRagioCompe: position[indice].ZRagioCompe,
-                                            ZposNi: position[indice].ZposNi,
-                                        });
-
-                                        oModel.remove(path, {
-                                            // method: "PUT",
-                                            success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo")
-                                            },
-                                            error: function (e) {
-                                                //console.log("error");
-                                                MessageBox.error("Operazione non eseguita")
+                            oModel.create("/DeepPositionNISet", deepEntity, {
+                                // method: "PUT",
+                                success: function (data) {
+                                    //console.log("success");
+                                    MessageBox.success("Operazione eseguita con successo", {
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                        onClose: function (oAction) {
+                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                that.getOwnerComponent().getRouter().navTo("View1");
                                             }
-                                        });
-                                    }
+                                        }
+                                    })
 
+                                },
+                                error: function (e) {
+                                    //console.log("error");
+                                    MessageBox.error("Operazione non eseguita")
                                 }
                             });
-                        
+                        }
+
                     }
-                }
+                });
             },
 
             onCancelNI: function () {
@@ -422,6 +420,7 @@ sap.ui.define([
                 var ZidNi = aValori[4]
                 var ZRagioCompe = aValori[5]
 
+                //var oItems = that.getView().byId("").getBinding("items").oList;
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 for (var i = 0; i < header.length; i++) {
                     if (header[i].Bukrs == Bukrs &&
@@ -437,15 +436,25 @@ sap.ui.define([
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
                                 if (oAction === sap.m.MessageBox.Action.YES) {
-                                    var oModel = that.getView().getModel("temp");
+                                    var oModel = that.getOwnerComponent().getModel();
 
-                                    for (var i = 0; i < 1; i++) {
+                                    for (var i = 0; i < header.length; i++) {
                                         var item = header[i];
-                                        var editStato = {
-                                            ZcodiStatoni: item.ZcodiStatoni
-                                        };
 
-                                        oModel.update("/HeaderNISet('Bukrs='" + item.Bukrs + "',Gjahr='" + item.Gjahr + "',Zamministr='" + item.Zamministr + "',ZchiaveNi='" + item.ZchiaveNi + "',ZidNi='" + item.ZidNi + "',ZRagioCompe='" + item.ZRagioCompe + "'')", editStato, {
+                                        var path = oModel.createKey("/HeaderNISet", {
+                                            Bukrs: item.Bukrs,
+                                            Gjahr: item.Gjahr,
+                                            Zamministr: item.Zamministr,
+                                            ZchiaveNi: item.ZchiaveNi,
+                                            ZidNi: item.ZidNi,
+                                            ZRagioCompe: item.ZRagioCompe
+                                        });
+
+                                        var oEntry = {};
+                                        oEntry.ZcodiStatoni = "09";
+                                        //oEntry.ZdataModiNi = dataOdierna
+
+                                        oModel.update(path, oEntry, {
                                             // method: "PUT",
                                             success: function (data) {
                                                 //console.log("success");

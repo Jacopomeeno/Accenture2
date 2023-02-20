@@ -62,12 +62,12 @@
             </Column>
         </columns>
         <ColumnListItem>
-            <Text text="{HeaderNIWstep3>ZCOD_ISIN}" />
-            <Text text="{HeaderNIWstep3>ZTIPO}"/>
-            <Input value="{HeaderNIWstep3>ZDESCRIZIONE}" />
-            <Text text="{HeaderNIWstep3>ZIMPO_TITOLO}" />
-            <Input value="{HeaderNIWstep3>ZIMPO_ASS}" />
-            <Input value="{HeaderNIWstep3>ZIMPO_RES}" />
+            <Text text="{HeaderNIWstep3>ZcodIsin}" />
+            <Text text="{HeaderNIWstep3>Ztipo}"/>
+            <Input value="{HeaderNIWstep3>Zdescrizione}" />
+            <Text text="{path:'HeaderNIWstep3>ZdataPag', formatter:'.formatter.convert'}" />
+            <Input value="{HeaderNIWstep3>ZimpoTitolo}" />
+            <Input value="{HeaderNIWstep3>ZimpoRes}" />
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

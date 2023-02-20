@@ -133,9 +133,9 @@
                                             </VBox> -->
                                              <VBox>
                                                 <Label text="Sottotipologia di primo livello:" />
-                                                <Input value="" id="tipologia" width="100%" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'HeaderNIW>/items', sorter: { path: 'ZTIPO' }}">
+                                                <Input value="" id="tipologia" width="100%" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'HeaderNIW>/items', sorter: { path: 'Ztipo' }}">
                                                     <suggestionItems>
-                                                        <core:ListItem text="{HeaderNIW>ZTIPO}"/>
+                                                        <core:ListItem text="{HeaderNIW>Ztipo}"/>
                                                     </suggestionItems>
                                                 </Input>
                                                 <layoutData>

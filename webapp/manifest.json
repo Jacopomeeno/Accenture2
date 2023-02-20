@@ -20,7 +20,7 @@
                 "uri": "/sap/opu/odata/sap/ZS4_NOTEIMPUTAZIONI_SRV",
                 "type": "OData",
                 "settings": {
-                    "useBatch": false,
+                    "sequentializeRequests": true,
                     "odataVersion": "2.0",
                     "annotations": [],
                     "localUri": "localService/metadata.xml"

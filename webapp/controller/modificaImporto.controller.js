@@ -7,7 +7,7 @@ sap.ui.define(
         "sap/ui/core/routing/History",
         'project1/model/DateFormatter'
     ],
-    function (BaseController,  Filter, FilterOperator, MessageBox, History, DateFormatter) {
+    function (BaseController, Filter, FilterOperator, MessageBox, History, DateFormatter) {
         "use strict";
 
         return BaseController.extend("project1.controller.modificaImporto", {
@@ -144,49 +144,66 @@ sap.ui.define(
                 /*update operation*/
                 var that = this
                 var oItems = that.getView().byId("PositionNIMI").getBinding("items").oList;
-                var dataOdierna = new Date()
-                // var oggSpesa = this.getView().byId("PositionNIMI").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
-                var position = that.getView().getModel("temp").getData().PositionNISet
-                var positionTabella = this.getView().getModel("temp").getData().PositionNISetFiltrata
+
+                var deepEntity = {
+                    PositionNISet: []
+                }
+                //var dataOdierna = new Date()
                 MessageBox.warning("Sei sicuro di voler modificare la NI?", {
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
                     onClose: function (oAction) {
                         if (oAction === sap.m.MessageBox.Action.YES) {
                             var oModel = that.getView().getModel();
-                    
-                            for(var i=0; i<oItems.length; i++){
+
+                            for (var i = 0; i < oItems.length; i++) {
                                 var item = oItems[i];
 
-                                    var pathPS = oModel.createKey("/PositionNISet", {
-                                        Bukrs:item.Bukrs,
-                                        Gjahr:item.Gjahr,
-                                        Zamministr:item.Zamministr,
-                                        ZchiaveNi:item.ZchiaveNi,
-                                        ZidNi:item.ZidNi,
-                                        ZRagioCompe:item.ZRagioCompe,
-                                        ZposNi:item.ZposNi
-                                        });
-    
-                                        var oEntryPS = {};
-                                        oEntryPS.ZimpoTitolo = item.ZimpoTitolo;
+                                deepEntity.Bukrs = item.Bukrs,
+                                    deepEntity.Gjahr = item.Gjahr,
+                                    deepEntity.Zamministr = item.Zamministr,
+                                    deepEntity.ZchiaveNi = item.ZchiaveNi,
+                                    deepEntity.ZidNi = item.ZidNi,
+                                    deepEntity.ZRagioCompe = item.ZRagioCompe,
+                                    deepEntity.Operation = "U",
 
-                                 if(position[i].ZimpoTitolo != positionTabella[i].ZimpoTitolo){
+                                    deepEntity.PositionNISet.push({
+                                        ZposNi: item.ZposNi,
+                                        Bukrs: item.Bukrs,
+                                        Gjahr: item.Gjahr,
+                                        Zamministr: item.Zamministr,
+                                        ZchiaveNi: item.ZchiaveNi,
+                                        ZidNi: item.ZidNi,
+                                        ZRagioCompe: item.ZRagioCompe,
 
-                            oModel.update(pathPS, oEntryPS, {
-                               // method: "PUT",
+                                        ZimpoTitolo: item.ZimpoTitolo
+                                    })
+                            }
+                            // var oEntry = {};
+                            // oEntry.ZimpoTitolo = item.ZimpoTitolo;
+                            //oEntry.ZimpoRes = item.ZimpoRes
+
+                            oModel.create("/DeepPositionNISet", deepEntity, {
+                                // method: "PUT",
                                 success: function (data) {
                                     //console.log("success");
-                                    MessageBox.success("Modifica Importo eseguito con successo")
+                                    MessageBox.success("Modifica Importo eseguito con successo", {
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                        onClose: function (oAction) {
+                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                that.getOwnerComponent().getRouter().navTo("View1");
+                                            }
+                                        }
+                                    })
                                 },
                                 error: function (e) {
                                     //console.log("error");
                                     MessageBox.error("Modifica Importo non eseguito")
                                 }
                             });
-                        }
-                        }
-                        
+
+
                         }
                     }
                 });

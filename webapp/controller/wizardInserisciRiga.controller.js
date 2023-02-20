@@ -17,8 +17,7 @@ sap.ui.define([
                 BackButtonVisible: true,
                 NextButtonVisible: true,
                 PNIButtonVisible: false,
-                header1Visible: true,
-                header2Visible: true,
+                headerVisible: true,
                 // HeaderNIWstep3Visible: true
             };
 
@@ -69,9 +68,21 @@ sap.ui.define([
                         header[i].ZidNi == oEvent.getParameters().arguments.campo4 &&
                         header[i].ZRagioCompe == oEvent.getParameters().arguments.campo5) {
 
-                            var ZgjahrEng = position[i].ZgjahrEng
-                            this.getView().byId("es_gestione1").setValue(ZgjahrEng)
-                            
+                        var ZgjahrEng = position[0].ZgjahrEng
+                        this.getView().byId("es_gestione").setValue(ZgjahrEng)
+
+                        var Zmese = header[i].Zmese
+                        this.getView().byId("mese").setValue(Zmese)
+
+                        var ZcompRes = position[0].ZcompRes
+                        this.getView().byId("competenza").setValue(ZcompRes)
+
+                        var Zsottotipo = position[0].Zsottotipo
+                        this.getView().byId("sottotipologia").setValue(Zsottotipo)
+
+                        var Ztipo = position[0].Ztipo
+                        this.getView().byId("tipologia").setValue(Ztipo)
+
                     }
                 }
             },
@@ -113,145 +124,90 @@ sap.ui.define([
             },
 
             viewHeader1: function () {
-                var oModelHeader = new sap.ui.model.json.JSONModel();
-                var rows = this.getView().byId("HeaderNIW").getSelectedItems()
-                //console.log(rows)
-                var lunghezza = rows.length
-                //var arrayHeader=[]
-                var importoTot = 0
-                for (var i = 0; i < rows.length; i++) {
-                    var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
-                    importoTot = importoTot + campo
+                var url = location.href
+                var sUrl = url.split("/wizardInserisciRiga/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+
+                        var progressivoNI = header[i].ZchiaveNi
+                        this.getView().byId("numNI1").setText(progressivoNI)
+
+                        var dataRegistrazione = header[i].ZdataCreaz
+                        var dataNuova = new Date(dataRegistrazione),
+                            mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
+                            day = ("0" + dataNuova.getDate()).slice(-2);
+                        var nData = [dataNuova.getFullYear(), mnth, day].join("-");
+                        var nDate = nData.split("-").reverse().join(".");
+                        this.getView().byId("dataReg1").setText(nDate)
+
+                        var strAmmResp = header[i].Fistl
+                        this.getView().byId("SARWH2").setText(strAmmResp)
+
+                        var PF = header[i].Fipex
+                        this.getView().byId("pos_FinWH2").setText(PF)
+
+                        var oggSpesa = header[i].ZoggSpesa
+                        this.getView().byId("oggSpesa1").setText(oggSpesa)
+
+                        var mese = header[i].Zmese
+                        this.getView().byId("mese2").setText(mese)
+
+                        var statoNI = header[i].ZcodiStatoni
+                        this.getView().byId("statoNI1").setText(statoNI)
+
+                        var importoTot = header[i].ZimpoTotni
+                        this.getView().byId("importoTot1").setText(importoTot)
+
+                    }
                 }
-                //console.log(importoTot)
-                var es_gestione = this.getView().byId("es_gestione").getSelectedKey();
-                //console.log(es_gestione)
-                var Mese = this.getView().byId("mese").getSelectedItem().mProperties.text;
-                var competenza = this.getView().byId("competenza").getValue()
-                //console.log(Mese)
-                this.getView().byId("es_gestioneWH1").setText(es_gestione)
-                this.getView().byId("meseWH1").setText(Mese)
-                this.getView().byId("n_righeTotWH1").setText(lunghezza + " per un totale di " + importoTot)
-                if (competenza == 'C') competenza = 'Competenza'
-                if (competenza == 'R') competenza = 'Residui'
-                this.getView().byId("compWH1").setText(competenza)
-
-
-                oModelHeader.setData();
-                this.getView().setModel(oModelHeader, "h1");
-                //console.log(oModelHeader)
             },
 
             filtriStep1: function () {
                 //console.log(oMdl)
+                var url = location.href
+                var sUrl = url.split("/wizardInserisciRiga/")[1]
+                var aValori = sUrl.split(",")
 
-                var that = this;
-                var oMdl = new sap.ui.model.json.JSONModel();
-                this.getOwnerComponent().getModel().read("/HeaderNISet", {
-                    filters: [],
-                    urlParameters: "",
-                    success: function (data) {
-                        oMdl.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/HeaderNISet', data.results)
-                    },
-                    error: function (error) {
-                        //that.getView().getModel("temp").setProperty(sProperty,[]);
-                        //that.destroyBusyDialog();
-                        var e = error;
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                //var position = this.getView().getModel("temp").getData().PositionNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+
+                        var Fistl = header[i].Fistl
+                        this.getView().byId("strAmmResp").setValue(Fistl)
+
+                        var Fipex = header[i].Fipex
+                        this.getView().byId("input_PF").setValue(Fipex)
+
                     }
-                });
-            },
-
-            viewHeader2: function () {
-                //var oModelHeader = new sap.ui.model.json.JSONModel();
-                var rows = this.getView().byId("HeaderNIW").getSelectedItems()
-                var lunghezza = rows.length
-                //var arrayHeader=[]
-                var importoTot = 0
-                for (var i = 0; i < rows.length; i++) {
-                    var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
-                    importoTot = importoTot + campo
                 }
-                //console.log(importoTot)
-                var es_gestione = this.getView().byId("es_gestione").getSelectedKey();
-                //console.log(es_gestione)
-                var Mese = this.getView().byId("mese").getSelectedItem().mProperties.text;
-                var PF = this.getView().byId("input_PF").getValue();
-                var Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;
-                var SAR = this.getView().byId("strAmmResp").getValue()
-                var competenza = this.getView().byId("competenza").getValue()
-
-                //console.log(Mese)
-
-                this.getView().byId("es_gestioneWH2").setText(es_gestione)
-                this.getView().byId("meseWH2").setText(Mese)
-                this.getView().byId("n_righeTotWH2").setText(lunghezza + " per un totale di " + importoTot)
-                this.getView().byId("desc_CapWH2").setText("Nota di Imputazione")
-                this.getView().byId("pos_FinWH2").setText(PF)
-                this.getView().byId("SARWH2").setText(SAR)
-                this.getView().byId("desc_PGWH2").setText(Sottotipologia)
-                if (competenza == 'C') competenza = 'Competenza'
-                if (competenza == 'R') competenza = 'Residui'
-                this.getView().byId("compWH2").setText(competenza)
-
-
-
-
-
-                // oModelHeader.setData();
-                // this.getView().setModel(oModelHeader, "h1");
-                //console.log(oModelHeader)
-            },
-
-            filtriStep2: function () {
-                var oModelHeader = new sap.ui.model.json.JSONModel();
-                var Mese = this.getView().byId("mese").getSelectedItem().mProperties.text;
-
-                switch (Mese) {
-                    case "1":
-                        var nMese = "Gennaio"
-                        break;
-                    case "2":
-                        var nMese = "Febbraio"
-                        break;
-                    case "3":
-                        var nMese = "Marzo"
-                        break;
-                    case "4":
-                        var nMese = "Aprile"
-                        break;
-                    case "5":
-                        var nMese = "Maggio"
-                        break;
-                    case "6":
-                        var nMese = "Giugno"
-                        break;
-                    case "7":
-                        var nMese = "Luglio"
-                        break;
-                    case "8":
-                        var nMese = "Agosto"
-                        break;
-                    case "9":
-                        var nMese = "Settembre"
-                        break;
-                    case "10":
-                        var nMese = "Ottobre"
-                        break;
-                    case "11":
-                        var nMese = "Novembre"
-                        break;
-                    case "12":
-                        var nMese = "Dicembre"
-                        break;
-                    default: break;
-
-                }
-
-                this.getView().byId("oggSpesa").setValue("Pagamenti interessi BTP di " + nMese)
-
-                oModelHeader.setData();
-                //console.log(oModelHeader)
             },
 
             selectedRow: function () {
@@ -259,7 +215,8 @@ sap.ui.define([
                 // if(rows){
                 //     oProprietà.setProperty("/HeaderNIWstep3Visible", false);
                 // }
-                var array = []
+                var array = this.getView().getModel("temp").getData().PositionNISet
+                //var array = []
                 var oMdlWstep3 = new sap.ui.model.json.JSONModel();
                 for (var i = 0; i < rows.length; i++) {
                     var campo = rows[i].getBindingContext("HeaderNIW").getObject()
@@ -272,23 +229,27 @@ sap.ui.define([
 
             onSearch: function (oEvent) {
                 this.onCallHeader()
-
-                var that = this;
+                var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabRendicontazione.json");
+                this.getView().setModel(oModelP, "HeaderNIW");
+                // var that = this;
                 this.getView().byId("HeaderNIW").setVisible(true);
 
-                var that = this;
-                var oMdlW = new sap.ui.model.json.JSONModel();
-                this.getOwnerComponent().getModel().read("/PositionNISet", {
-                    success: function (data) {
-                        oMdlW.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
-                    },
-                    error: function (error) {
-                        var e = error;
-                    }
-                });
+                // var that = this;
+                // this.getView().byId("HeaderNIW").setVisible(true);
 
-                this.getOwnerComponent().setModel(oMdlW, "HeaderNIW");
+                // var that = this;
+                // var oMdlW = new sap.ui.model.json.JSONModel();
+                // this.getOwnerComponent().getModel().read("/PositionNISet", {
+                //     success: function (data) {
+                //         oMdlW.setData(data.results);
+                //         that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+                //     },
+                //     error: function (error) {
+                //         var e = error;
+                //     }
+                // });
+
+                // this.getOwnerComponent().setModel(oMdlW, "HeaderNIW");
                 //sap.ui.getCore().TableModel = oMdlW;
 
             },
@@ -297,94 +258,52 @@ sap.ui.define([
                 var self = this;
                 //var rows= this.getView().byId("HeaderNIW").getSelectedItem()
 
-                var N_es_gestione = this.getView().byId("es_gestione").getSelectedKey(); //header
-                var N_Mese = this.getView().byId("mese").getSelectedItem().mProperties.text; //header
+                //var N_es_gestione = this.getView().byId("es_gestione").mProperties.value; //header
                 var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
-                var N_Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;  //position
+                var N_Sottotipologia = this.getView().byId("sottotipologia").getValue()  //position
                 var N_CR = this.getView().byId("competenza").mProperties.value  //position
-                var N_ImportoTot = this.getView().byId("n_righeTotWH2").getText().split(" ")[5];  //header
-                var N_oggSpesa = this.getView().byId("oggSpesa").getValue();  //header
-                var N_esercizioPF = this.getView().byId("input_PF").getValue();  //header
-                var N_strAmmResp = this.getView().byId("strAmmResp").getValue();  //header
 
-                MessageBox.warning("Sei sicuro di voler preimpostare la NI?", {
+                var oDataModel = self.getOwnerComponent().getModel();
+
+                var oItems = self.getView().byId("HeaderNIWstep3").getBinding("items").oList;
+                var deepEntity = {
+                    PositionNISet: []
+                }
+
+                for (var i = 0; i < oItems.length; i++) {
+                    var item = oItems[i];
+
+                    deepEntity.PositionNISet.push({
+                        //Gjahr: N_es_gestione,
+                        ZposNi: item.ZposNi,
+                        //ZgjahrEng: N_es_gestione,
+                        Ztipo: N_Tipologia,
+                        Zsottotipo: N_Sottotipologia,
+                        ZcompRes: N_CR,
+                        ZimpoTitolo: item.ZimpoTitolo,                 //aggiornare mock
+                        Zdescrizione: item.Zdescrizione,                //aggiornare mock 
+                        ZcodIsin: item.ZcodIsin,                       //aggiornare mock
+                        ZdataPag: new Date(item.ZdataPag),
+                    });
+                }
+
+                MessageBox.warning("Sei sicuro di voler rettificare la nota d'imputazione?", {
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
                     onClose: function (oAction) {
                         if (oAction === sap.m.MessageBox.Action.YES) {
 
-                            // var newRecordHeader = {
-                            //     ZgjahrEng: N_es_gestione,
-                            //     Zmese: N_Mese,
-                            //     ZimpoTotni: N_ImportoTot,
-                            //     ZoggSpesa: N_oggSpesa,
-                            //     Fipex: N_esercizioPF,
-                            //     Fistl: N_strAmmResp
-                            // };
-
-                            // var newRecordPosition = {
-                            //     Ztipo: N_Tipologia,
-                            //     Zsottotipo: N_Sottotipologia,
-                            //     ZcompRes: N_CR
-                            // };
-
-                            var oDataModel = self.getOwnerComponent().getModel();
-                            var sommaImporto = 0.00
-                            var oItems = self.getView().byId("HeaderNIWstep3").getBinding("items").oList;
-                            for (var i = 0; i < oItems.length; i++) {
-                                var item = oItems[i];
-                                var importoTitolo = parseFloat(item.ZimpoTitolo)
-                                sommaImporto = importoTitolo + sommaImporto
-                            }
-                            var importoTitoloPos = sommaImporto.toString()
-
-                            var deepEntity = {
-                                ZchiaveNi: '213446',
-                                HeaderNISet: null,
-                                PositionNISet: []
-                            }
-                            deepEntity.HeaderNISet = {
-                                Bukrs: 'c597',
-                                Gjahr: '2023',
-                                Zamministr: 'aaa',
-                                ZchiaveNi: '213446',
-                                ZidNi: '21',
-                                ZRagioCompe: '21',
-                                ZcodiStatoni: "00",
-                                ZimpoTotni: N_ImportoTot,
-                                ZzGjahrEngPos: N_es_gestione,
-                                Zmese: N_Mese,
-                                ZoggSpesa: N_oggSpesa,
-                                Fipex: N_esercizioPF,
-                                Fistl: N_strAmmResp
-                            };
-
-                            deepEntity.PositionNISet.push({
-                                Bukrs: 'c597',
-                                Gjahr: '2023',
-                                Zamministr: 'aaa',
-                                ZgjahrEng: N_es_gestione,
-                                ZchiaveNi: '213446',
-                                ZidNi: '21',
-                                ZRagioCompe: '21',
-                                ZposNi: '21',
-                                Ztipo: N_Tipologia,
-                                Zsottotipo: N_Sottotipologia,
-                                ZcompRes: N_CR,
-                                ZimpoTitolo: importoTitoloPos
-                            });
-
                             oDataModel.create("/DeepZNIEntitySet", deepEntity, {
                                 success: function (result) {
                                     if (result.Msgty == 'E') {
                                         console.log(result.Message)
-                                        MessageBox.error("Nota d'imputazione non creata correttamente", {
+                                        MessageBox.error("Nota d'imputazione non rettificata correttamente", {
                                             actions: [sap.m.MessageBox.Action.OK],
                                             emphasizedAction: MessageBox.Action.OK,
                                         })
                                     }
                                     if (result.Msgty == 'S') {
-                                        MessageBox.success("Nota d'imputazione creata correttamente", {
+                                        MessageBox.success("Nota d'imputazione rettificata correttamente", {
                                             actions: [sap.m.MessageBox.Action.OK],
                                             emphasizedAction: MessageBox.Action.OK,
                                             onClose: function (oAction) {
@@ -397,7 +316,7 @@ sap.ui.define([
                                 },
                                 error: function (err) {
                                     console.log(err);
-                                    MessageBox.error("Nota d'imputazione non creata correttamente", {
+                                    MessageBox.error("Nota d'imputazione non rettificata correttamente", {
                                         actions: [sap.m.MessageBox.Action.OK],
                                         emphasizedAction: MessageBox.Action.OK,
                                     })
@@ -405,17 +324,6 @@ sap.ui.define([
                                 async: true,  // execute async request to not stuck the main thread
                                 urlParameters: {}  // send URL parameters if required 
                             });
-
-                            // MessageBox.success("Nota d'imputazione creata correttamente", {
-                            //     actions: [sap.m.MessageBox.Action.OK],
-                            //     emphasizedAction: MessageBox.Action.OK,
-                            //     onClose: function (oAction) {
-                            //         if (oAction === sap.m.MessageBox.Action.OK) {
-                            //             self.getOwnerComponent().getRouter().navTo("View1");
-                            //         }
-                            //     }
-                            // })
-
                         }
                     }
                 })
@@ -443,6 +351,7 @@ sap.ui.define([
                 this._oSelectedStep = oNextStep;
                 this.controlPreNI();
                 this.controlHeader()
+                //cancella item tabella
             },
 
             onNextButton: function () {
@@ -496,20 +405,15 @@ sap.ui.define([
                 var oProprietà = this.getView().getModel();
                 switch (this._iSelectedStepIndex) {
                     case 0:
-                        oProprietà.setProperty("/header1Visible", false);
-                        oProprietà.setProperty("/header2Visible", false);
+                        oProprietà.setProperty("/headerVisible", false);
                         break;
                     case 1:
-                        oProprietà.setProperty("/header1Visible", true);
-                        oProprietà.setProperty("/header2Visible", false);
+                        oProprietà.setProperty("/headerVisible", true);
                         this.viewHeader1()
                         this.filtriStep1()
                         break;
                     case 2:
-                        oProprietà.setProperty("/header1Visible", false);
-                        oProprietà.setProperty("/header2Visible", true);
-                        this.viewHeader2()
-                        this.filtriStep2()
+                        oProprietà.setProperty("/headerVisible", true);
                         this.selectedRow()
                         break;
                     default: break;

@@ -88,7 +88,7 @@ sap.ui.define([
                 var importoTot = 0
                 for (var i = 0; i < rows.length; i++) {
                     //var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
-                    var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZIMPO_TITOLO)
+                    var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
                     importoTot = importoTot + campo
                 }
                 //console.log(importoTot)
@@ -138,7 +138,7 @@ sap.ui.define([
                 var importoTot = 0
                 for (var i = 0; i < rows.length; i++) {
                     //var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
-                    var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZIMPO_TITOLO)
+                    var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
                     importoTot = importoTot + campo
                 }
                 //console.log(importoTot)
@@ -302,9 +302,9 @@ sap.ui.define([
                         Zsottotipo: N_Sottotipologia,
                         ZcompRes: N_CR,
 
-                        ZimpoTitolo: item.ZIMPO_TITOLO,                 //aggiornare mock
-                        Zdescrizione: item.ZDESCRIZIONE,                //aggiornare mock 
-                        ZcodIsin: item.ZCOD_ISIN,                       //aggiornare mock
+                        ZimpoTitolo: item.ZimpoTitolo,                 //aggiornare mock
+                        Zdescrizione: item.Zdescrizione,                //aggiornare mock 
+                        ZcodIsin: item.ZcodIsin,                       //aggiornare mock
                         ZdataPag: new Date(),
                     });
                 }

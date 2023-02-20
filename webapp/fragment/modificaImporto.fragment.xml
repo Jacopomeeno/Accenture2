@@ -38,7 +38,7 @@
             <Text text="{PositionNIMI>Zdescrizione}" />
             <Text text="{path: 'PositionNIMI>ZdataPag', formatter:'.formatter.convert'}" />
             <Input value="{PositionNIMI>ZimpoTitolo}" />
-            <Input value ="{PositionNIMI>ZIMPO_RES}" />
+            <Input value ="{PositionNIMI>ZimpoRes}" />
         </ColumnListItem>
     </Table>
 
