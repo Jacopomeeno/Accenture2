@@ -328,7 +328,11 @@ sap.ui.define([
                         this.getOwnerComponent().getRouter().navTo("wizardInserisciRiga", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
                     }
                 }
-
+                this.getView().byId("editImporto").setEnabled(false);
+                this.getView().byId("editRow").setEnabled(false);
+                this.getView().byId("addRow").setEnabled(false);
+                this.getView().byId("deleteRow").setEnabled(false);
+                this.getView().byId("pressAssImpegno").setEnabled(true);
             },
 
             pressRettificaNI: function () {
@@ -340,12 +344,14 @@ sap.ui.define([
                 this.getView().byId("pressAssImpegno").setEnabled(false);
             },
 
+
             onDeleteRow: function (oEvent) {
                 var that = this;
                 //var position = this.getView().getModel("temp").getData().PositionNISet
                 var selectedPosition = this.getView().byId("HeaderITB").getSelectedItems()
 
                 var deepEntity = {
+                    Funzionalita:"RETTIFICANIPREIMPOSTATA",
                     PositionNISet: []
                 }
 
@@ -404,7 +410,7 @@ sap.ui.define([
                     }
                 });
             },
-
+            //deepHeaderNISet
             onCancelNI: function () {
 
                 var that = this
@@ -430,6 +436,11 @@ sap.ui.define([
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
 
+                        var deepEntity = {
+                            Funzionalita: 'ANNULLAMENTOPREIMPOSTATA',
+                            HeaderNISet: null
+                        }
+
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oData[0].ZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
@@ -441,20 +452,27 @@ sap.ui.define([
                                     for (var i = 0; i < header.length; i++) {
                                         var item = header[i];
 
-                                        var path = oModel.createKey("/HeaderNISet", {
-                                            Bukrs: item.Bukrs,
-                                            Gjahr: item.Gjahr,
-                                            Zamministr: item.Zamministr,
-                                            ZchiaveNi: item.ZchiaveNi,
-                                            ZidNi: item.ZidNi,
-                                            ZRagioCompe: item.ZRagioCompe
-                                        });
+                                        deepEntity.Bukrs = item.Bukrs,
+                                            deepEntity.Gjahr = item.Gjahr,
+                                            deepEntity.Zamministr = item.Zamministr,
+                                            deepEntity.ZchiaveNi = item.ZchiaveNi,
+                                            deepEntity.ZidNi = item.ZidNi,
+                                            deepEntity.ZRagioCompe = item.ZRagioCompe,
+                                            deepEntity.Operation = "U"
 
-                                        var oEntry = {};
-                                        oEntry.ZcodiStatoni = "09";
-                                        //oEntry.ZdataModiNi = dataOdierna
+                                            deepEntity.HeaderNISet = ({
+                                                Bukrs: item.Bukrs,
+                                                Gjahr: item.Gjahr,
+                                                Zamministr: item.Zamministr,
+                                                ZchiaveNi: item.ZchiaveNi,
+                                                ZidNi: item.ZidNi,
+                                                ZRagioCompe: item.ZRagioCompe,
 
-                                        oModel.update(path, oEntry, {
+                                                ZcodiStatoni: "09"
+                                            })
+
+                                        oModel.create("/DeepHeaderNISet", deepEntity, {
+                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",
                                             success: function (data) {
                                                 //console.log("success");

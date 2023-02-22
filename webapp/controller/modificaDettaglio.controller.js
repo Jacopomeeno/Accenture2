@@ -70,10 +70,21 @@ sap.ui.define(
                         var mese = header[i].Zmese
                         this.getView().byId("mese1").setText(mese)
 
-                        var comp = position[i].ZcompRes
-                        if (comp == 'C') var n_comp = 'Competenza'
-                        if (comp = 'R') var n_comp = 'Residui'
-                        this.getView().byId("comp1").setText(n_comp)
+                        for (var x = 0; x < position.length; x++) {
+                            if (position[x].Bukrs == oEvent.getParameters().arguments.campo &&
+                                position[x].Gjahr == oEvent.getParameters().arguments.campo1 &&
+                                position[x].Zamministr == oEvent.getParameters().arguments.campo2 &&
+                                position[x].ZchiaveNi == oEvent.getParameters().arguments.campo3 &&
+                                position[x].ZidNi == oEvent.getParameters().arguments.campo4 &&
+                                position[x].ZRagioCompe == oEvent.getParameters().arguments.campo5) {
+
+                                var comp = position[x].ZcompRes
+                                if (comp == "C") var n_comp = 'Competenza'
+                                if (comp == "R") var n_comp = 'Residui'       //Position
+                                this.getView().byId("comp1").setText(n_comp)
+
+                            }
+                        }
 
                         var statoNI = header[i].ZcodiStatoni
                         this.getView().byId("statoNI1").setText(statoNI)
@@ -194,7 +205,8 @@ sap.ui.define(
                                     Zamministr:item.Zamministr,
                                     ZchiaveNi:item.ZchiaveNi,
                                     ZidNi:item.ZidNi,
-                                    ZRagioCompe:item.ZRagioCompe
+                                    ZRagioCompe:item.ZRagioCompe,
+                                    Funzionalita:"RETTIFICANIPREIMPOSTATA"
                                     });
 
                                     var oEntry = {};

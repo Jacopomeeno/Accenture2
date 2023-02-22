@@ -258,7 +258,7 @@ sap.ui.define([
                 var self = this;
                 //var rows= this.getView().byId("HeaderNIW").getSelectedItem()
 
-                //var N_es_gestione = this.getView().byId("es_gestione").mProperties.value; //header
+                var N_es_gestione = this.getView().byId("es_gestione").mProperties.value; //header
                 var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
                 var N_Sottotipologia = this.getView().byId("sottotipologia").getValue()  //position
                 var N_CR = this.getView().byId("competenza").mProperties.value  //position
@@ -266,17 +266,35 @@ sap.ui.define([
                 var oDataModel = self.getOwnerComponent().getModel();
 
                 var oItems = self.getView().byId("HeaderNIWstep3").getBinding("items").oList;
+                //var selectedRows = self.getView().byId("HeaderNIW").getSelectedItems().length
+
                 var deepEntity = {
+                    Funzionalita:"RETTIFICANIPREIMPOSTATA",
                     PositionNISet: []
                 }
+
+
+                deepEntity.Bukrs = oItems[0].Bukrs,
+                    deepEntity.Gjahr = oItems[0].Gjahr,
+                    deepEntity.Zamministr = oItems[0].Zamministr,
+                    deepEntity.ZchiaveNi = oItems[0].ZchiaveNi,      //dichiarati fuori dal ciclo e presi dal item 0 perchè sono tutte uguali
+                    deepEntity.ZidNi = oItems[0].ZidNi,
+                    deepEntity.ZRagioCompe = oItems[0].ZRagioCompe,
+                    deepEntity.Operation = "I"
 
                 for (var i = 0; i < oItems.length; i++) {
                     var item = oItems[i];
 
                     deepEntity.PositionNISet.push({
-                        //Gjahr: N_es_gestione,
-                        ZposNi: item.ZposNi,
-                        //ZgjahrEng: N_es_gestione,
+                        Bukrs: oItems[0].Bukrs,                     //campi chiave Posizione
+                        Gjahr: oItems[0].Gjahr,                     //campi chiave Posizione
+                        Zamministr: oItems[0].Zamministr,           //campi chiave Posizione
+                        ZchiaveNi: oItems[0].ZchiaveNi,             //campi chiave Posizione
+                        ZidNi: oItems[0].ZidNi,                     //campi chiave Posizione
+                        ZRagioCompe: oItems[0].ZRagioCompe,         //campi chiave Posizione
+                        ZposNi: item.ZposNi,                        //campi chiave Posizione
+
+                        ZgjahrEng: N_es_gestione,
                         Ztipo: N_Tipologia,
                         Zsottotipo: N_Sottotipologia,
                         ZcompRes: N_CR,
@@ -293,26 +311,17 @@ sap.ui.define([
                     onClose: function (oAction) {
                         if (oAction === sap.m.MessageBox.Action.YES) {
 
-                            oDataModel.create("/DeepZNIEntitySet", deepEntity, {
+                            oDataModel.create("/DeepPositionNISet", deepEntity, {
                                 success: function (result) {
-                                    if (result.Msgty == 'E') {
-                                        console.log(result.Message)
-                                        MessageBox.error("Nota d'imputazione non rettificata correttamente", {
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                        })
-                                    }
-                                    if (result.Msgty == 'S') {
-                                        MessageBox.success("Nota d'imputazione rettificata correttamente", {
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                            onClose: function (oAction) {
-                                                if (oAction === sap.m.MessageBox.Action.OK) {
-                                                    self.getOwnerComponent().getRouter().navTo("View1");
-                                                }
+                                    MessageBox.success("Nota d'imputazione rettificata correttamente", {
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                        onClose: function (oAction) {
+                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                self.getOwnerComponent().getRouter().navTo("View1");
                                             }
-                                        })
-                                    }
+                                        }
+                                    })
                                 },
                                 error: function (err) {
                                     console.log(err);

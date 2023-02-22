@@ -1,16 +1,18 @@
 sap.ui.define([
     "./BaseController",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
     "sap/ui/core/routing/History",
 
 ],
-    function (BaseController, History) {
+    function (BaseController, Filter, FilterOperator, History) {
         "use strict";
 
         return BaseController.extend("project1.controller.aImpegno", {
             onInit() {
-                this.setEsercizioGestione()
                 this.getOwnerComponent().getModel("temp");
                 this.getRouter().getRoute("aImpegno").attachPatternMatched(this._onObjectMatched, this);
+                this.setEsercizio_Amministrazione()
             },
 
             _onObjectMatched: function (oEvent) {
@@ -60,10 +62,21 @@ sap.ui.define([
                         var mese = header[i].Zmese
                         this.getView().byId("mese1").setText(mese)
 
-                        var comp = position[i].ZcompRes
-                        if (comp == 'C') var n_comp = 'Competenza'
-                        if (comp = 'R') var n_comp = 'Residui'
-                        this.getView().byId("comp1").setText(n_comp)
+                        for (var x = 0; x < position.length; x++) {
+                            if (position[x].Bukrs == oEvent.getParameters().arguments.campo &&
+                                position[x].Gjahr == oEvent.getParameters().arguments.campo1 &&
+                                position[x].Zamministr == oEvent.getParameters().arguments.campo2 &&
+                                position[x].ZchiaveNi == oEvent.getParameters().arguments.campo3 &&
+                                position[x].ZidNi == oEvent.getParameters().arguments.campo4 &&
+                                position[x].ZRagioCompe == oEvent.getParameters().arguments.campo5) {
+
+                                var comp = position[x].ZcompRes
+                                if (comp == "C") var n_comp = 'Competenza'
+                                if (comp == "R") var n_comp = 'Residui'       //Position
+                                this.getView().byId("comp1").setText(n_comp)
+
+                            }
+                        }
 
                         var statoNI = header[i].ZcodiStatoni
                         this.getView().byId("statoNI1").setText(statoNI)
@@ -77,6 +90,7 @@ sap.ui.define([
 
 
             onBackButton: function () {
+                this.getView().byId("HeaderNIAssImp").destroyItems()
                 window.history.go(-1);
             },
 
@@ -105,24 +119,102 @@ sap.ui.define([
                 }
             },
 
-            setEsercizioGestione: function () {
-                const data = new Date();
-                let anno = data.getFullYear();
-                this.getView().byId("es_gestione").setValue(anno)
+            setEsercizio_Amministrazione: function () {
+                var url = location.href
+                var sUrl = url.split("/aImpegno/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getOwnerComponent().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+                        this.getView().byId("es_gestione").setValue(header[i].Gjahr)
+                        this.getView().byId("inputAmm").setValue(header[i].Zamministr)
+                    }
+                }
             },
 
             onSearch: function (oEvent) {
                 // this.onCallHeader()
 
                 var that = this;
+                var filtriAssocia = []
                 this.getView().byId("HeaderNIAssImp").setVisible(true);
 
-                var that = this;
+                if (this.getView().byId("es_gestione").mProperties.value != "") {
+                    filtriAssocia.push(new Filter({
+                        path: "ZgjahrEng",
+                        operator: FilterOperator.EQ,
+                        value1: this.getView().byId("es_gestione").mProperties.value
+                    }));
+                }
+
+                if (this.getView().byId("inputDecreto").mProperties.value != "") {
+                    filtriAssocia.push(new Filter({
+                        path: "Zcoddecr",
+                        operator: FilterOperator.EQ,
+                        value1: this.getView().byId("inputDecreto").mProperties.value
+                    }));
+                }
+
+                if (this.getView().byId("inputAmm").mProperties.value != "") {
+                    filtriAssocia.push(new Filter({
+                        path: "Zamministr",
+                        operator: FilterOperator.EQ,
+                        value1: this.getView().byId("inputAmm").mProperties.value
+                    }));
+                }
+
+                if (this.getView().byId("inputIPE").mProperties.value != "") {
+                    filtriAssocia.push(new Filter({
+                        path: "ZCodIpe",
+                        operator: FilterOperator.EQ,
+                        value1: this.getView().byId("inputIPE").mProperties.value
+                    }));
+                }
+
+                if (this.getView().byId("inputaUff").mProperties.value != "") {
+                    filtriAssocia.push(new Filter({
+                        path: "Zufficioliv1",
+                        operator: FilterOperator.EQ,
+                        value1: this.getView().byId("inputaUff").mProperties.value
+                    }));
+                }
+
+                if (this.getView().byId("inputbUff").mProperties.value != "") {
+                    filtriAssocia.push(new Filter({
+                        path: "Zufficioliv2",
+                        operator: FilterOperator.EQ,
+                        value1: this.getView().byId("inputbUff").mProperties.value
+                    }));
+                }
+
+                if (this.getView().byId("inputClaus").mProperties.value != "") {
+                    filtriAssocia.push(new Filter({
+                        path: "ZNumCla",
+                        operator: FilterOperator.EQ,
+                        value1: this.getView().byId("inputClaus").mProperties.value
+                    }));
+                }
+
                 var oMdlAImp = new sap.ui.model.json.JSONModel();
-                this.getOwnerComponent().getModel().read("/HeaderNISet", {
+                this.getOwnerComponent().getModel().read("/PositionNISet", {
+                    filters: filtriAssocia,
+                    // urlParameters: "",
                     success: function (data) {
                         oMdlAImp.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/HeaderNISet', data.results)
+                        that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
                     },
                     error: function (error) {
                         var e = error;

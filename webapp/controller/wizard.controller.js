@@ -283,7 +283,8 @@ sap.ui.define([
                 var oItems = self.getView().byId("HeaderNIWstep3").getBinding("items").oList;
                 var deepEntity = {
                     HeaderNISet: null,
-                    PositionNISet: []
+                    PositionNISet: [],
+                    Funzionalita: "PREIMPOSTAZIONE"
                 }
 
                 for (var i = 0; i < oItems.length; i++) {
@@ -347,6 +348,9 @@ sap.ui.define([
                                         if (oAction === sap.m.MessageBox.Action.YES) {
 
                                             oDataModel.create("/DeepZNIEntitySet", deepEntity, {
+                                                // urlParameters: {
+                                                //     'funzionalita': "PREIMPOSTAZIONE"
+                                                // },
                                                 success: function (result) {
                                                     if (result.Msgty == 'E') {
                                                         console.log(result.Message)
@@ -394,6 +398,9 @@ sap.ui.define([
                             if (oAction === sap.m.MessageBox.Action.YES) {
 
                                 oDataModel.create("/DeepZNIEntitySet", deepEntity, {
+                                    // urlParameters: {
+                                    //     "funzionalita": "PREIMPOSTAZIONE"
+                                    // },
                                     success: function (result) {
                                         if (result.Msgty == 'E') {
                                             console.log(result.Message)

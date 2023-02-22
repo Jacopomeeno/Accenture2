@@ -60,7 +60,7 @@ sap.ui.define([
 
                         var comp = position[i].ZcompRes
                         if (comp == 'C') var n_comp = 'Competenza'
-                        if (comp = 'R') var n_comp = 'Residui'
+                        if (comp == 'R') var n_comp = 'Residui'
                         this.getView().byId("comp1").setText(n_comp)
 
                         var statoNI = header[i].ZcodiStatoni
