@@ -5,7 +5,7 @@
     xmlns:core="sap.ui.core"
     xmlns:u="sap.ui.unified"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m" controllerName="project1.controller.wizard">
+    xmlns="sap.m" controllerName="project1.controller.wizardInserisciRiga">
     <NavContainer id="wizardNavContainer">
         <f:DynamicPage stickySubheaderProvider="CreateProductWizard" toggleHeaderOnTitleClick="false" class="sapUiNoContentPadding" showFooter="true">
             <f:title>
@@ -18,63 +18,43 @@
             <f:header>
                 <f:DynamicPageHeader id="h1" pinnable="false">
                     <l:HorizontalLayout allowWrapping="true">
-                        <l:VerticalLayout class="sapUiMediumMarginEnd" visible="{/header1Visible}">
-                            <HBox id="idHBox1">
-                                <VBox id="idVBox11" class="sapUiSmallMargin" width="auto">
-                                    <Label id="es_gestioneW1" text="{i18n>es_gestione}" design="Bold"/>
-                                    <Text id="es_gestioneWH1"/>
-                                </VBox>
-                                <VBox id="idVBox12" class="sapUiSmallMargin" width="auto">
-                                    <Label id="meseW1" text="{i18n>mese}" design="Bold"/>
-                                    <Text id="meseWH1" wrapping="true"/>
-                                </VBox>
-                                <VBox id="idVBox13" class="sapUiSmallMargin" width="auto">
-                                    <Label id="n_righeTotW1" text="{i18n>n_righeTot}" design="Bold"/>
-                                    <Text id="n_righeTotWH1"/>
-                                </VBox>
-                                <VBox id="idVBox14" class="sapUiSmallMargin" width="auto">
-                                    <Label id="compW1" text="{i18n>comp}" design="Bold"/>
-                                    <Text id="compWH1"/>
-                                </VBox>
-                            </HBox>
-                        </l:VerticalLayout>
-                        <l:VerticalLayout class="sapUiMediumMarginEnd" visible="{/header2Visible}">
+                        <l:VerticalLayout class="sapUiMediumMarginEnd" visible="{/headerVisible}">
                             <HBox id="idHBox2">
+                                <VBox id="idVBox14" class="sapUiSmallMargin" width="auto">
+                                    <Label id="numNI" text="{i18n>ProgressivoNI}" design="Bold"/>
+                                    <Text id="numNI1"/>
+                                </VBox>
                                 <VBox id="idVBox15" class="sapUiSmallMargin" width="auto">
-                                    <Label id="es_gestioneW2" text="{i18n>es_gestione}" design="Bold"/>
-                                    <Text id="es_gestioneWH2"/>
-                                </VBox>
-                                <VBox id="idVBox16" class="sapUiSmallMargin" width="auto">
-                                    <Label id="meseW2" text="{i18n>mese}" design="Bold"/>
-                                    <Text id="meseWH2" wrapping="true"/>
-                                </VBox>
-                                <VBox id="idVBox22" class="sapUiSmallMargin" width="auto">
-                                    <Label id="compW2" text="{i18n>comp}" design="Bold"/>
-                                    <Text id="compWH2"/>
+                                    <Label id="dataReg" text="{i18n>Data}" design="Bold"/>
+                                    <Text id="dataReg1" wrapping="true"/>
                                 </VBox>
                             </HBox>
                             <HBox id="idHBox3">
                                 <VBox id="idVBox17" class="sapUiSmallMargin" width="auto">
-                                    <Label id="n_righeTotW2" text="{i18n>n_righeTot}" design="Bold"/>
-                                    <Text id="n_righeTotWH2"/>
-                                </VBox>
-                                <VBox id="idVBox18" class="sapUiSmallMargin" width="auto">
                                     <Label id="SARW2" text="{i18n>SAR}" design="Bold"/>
                                     <Text id="SARWH2"/>
                                 </VBox>
-                                <VBox id="idVBox19" class="sapUiSmallMargin" width="auto">
+                                <VBox id="idVBox18" class="sapUiSmallMargin" width="auto">
                                     <Label id="pos_FinW2" text="{i18n>PF}" design="Bold"/>
                                     <Text id="pos_FinWH2"/>
+                                </VBox>
+                                <VBox id="idVBox19" class="sapUiSmallMargin" width="auto">
+                                    <Label id="oggSpesa" text="{i18n>oggSpesa}" design="Bold"/>
+                                    <Text id="oggSpesa1"/>
                                 </VBox>
                             </HBox>
                             <HBox id="idHBox4">
                                 <VBox id="idVBox20" class="sapUiSmallMargin" width="auto">
-                                    <Label id="desc_CapW2" text="{i18n>desc_Cap}" design="Bold"/>
-                                    <Text id="desc_CapWH2"/>
+                                    <Label id="mese1" text="{i18n>Mese}" design="Bold"/>
+                                    <Text id="mese2"/>
                                 </VBox>
                                 <VBox id="idVBox21" class="sapUiSmallMargin" width="auto">
-                                    <Label id="desc_PGW2" text="{i18n>desc_PG}" design="Bold"/>
-                                    <Text id="desc_PGWH2"/>
+                                    <Label id="statoNI" text="{i18n>statoNI}" design="Bold"/>
+                                    <Text id="statoNI1"/>
+                                </VBox>
+                                <VBox id="idVBox22" class="sapUiSmallMargin" width="auto">
+                                    <Label id="importoTot" text="{i18n>importoTot}" design="Bold"/>
+                                    <Text id="importoTot1"/>
                                 </VBox>
                             </HBox>
                         </l:VerticalLayout>
@@ -91,8 +71,8 @@
                                         <l:content>
                                             <VBox >
                                                 <Label text="Esercizio di Gestione:" required="true" />
-                                                <ComboBox id="es_gestione" width="100%" items="{path: 'temp>/ZgjahrEngNiSet', sorter: { path: 'ZgjahrEng' }}">
-                                                    <core:Item key="{temp>ZgjahrEng}" text="{temp>ZgjahrEng}"/>
+                                                <ComboBox id="es_gestione" width="100%" items="{path: 'temp>/ZgjahrEngNiSet', sorter: { path: 'ZgjahrEng' }}" editable="false">
+                                                    <core:Item id="es_gestione1" key="{temp>ZgjahrEng}" text="{temp>ZgjahrEng}"/>
                                                 </ComboBox>
                                                 <layoutData>
                                                     <l:GridData span="L6 M6 S6" />
@@ -100,7 +80,7 @@
                                             </VBox>
                                             <VBox>
                                                 <Label text="Mese:" required="true" />
-                                                <ComboBox id="mese" width="50%">
+                                                <ComboBox id="mese" width="50%" editable="false">
                                                     <core:Item text=""/>
                                                     <core:Item text="1"/>
                                                     <core:Item text="2"/>
@@ -120,22 +100,11 @@
                                                     <l:GridData span="L6 M6 S6" />
                                                 </layoutData>
                                             </VBox>
-                                            <!-- <VBox>
+                                            <VBox>
                                                 <Label text="Sottotipologia di primo livello:" />
                                                 <Input value="" id="tipologia" width="100%" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/PositionNISet', sorter: { path: 'Ztipo' }}">
                                                     <suggestionItems>
                                                         <core:ListItem text="{temp>Ztipo}"/>
-                                                    </suggestionItems>
-                                                </Input>
-                                                <layoutData>
-                                                    <l:GridData span="L3 M3 S3" />
-                                                </layoutData>
-                                            </VBox> -->
-                                             <VBox>
-                                                <Label text="Sottotipologia di primo livello:" />
-                                                <Input value="" id="tipologia" width="100%" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'HeaderNIW>/items', sorter: { path: 'Ztipo' }}">
-                                                    <suggestionItems>
-                                                        <core:ListItem text="{HeaderNIW>Ztipo}"/>
                                                     </suggestionItems>
                                                 </Input>
                                                 <layoutData>
@@ -184,7 +153,7 @@
                                             <l:content>
                                                 <VBox>
                                                     <Label text="Struttura Amministrativa Responsabile:" required="true"/>
-                                                    <Input id="strAmmResp" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'Fistl' }}" >
+                                                    <Input id="strAmmResp" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'Fistl' }}" editable="false">
                                                         <suggestionItems>
                                                             <core:ListItem text="{temp>Fistl}" />
                                                         </suggestionItems>
@@ -195,7 +164,7 @@
                                                 </VBox>
                                                 <VBox>
                                                     <Label text="Posizione Finanziaria:" required="true" />
-                                                    <Input id="input_PF" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'Fipex' }}">
+                                                    <Input id="input_PF" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'Fipex' }}" editable="false">
                                                         <suggestionItems>
                                                             <core:ListItem text="{temp>Fipex}"/>
                                                         </suggestionItems>
@@ -230,25 +199,6 @@
                         </form:SimpleForm>
                     </WizardStep>
                     <WizardStep id="DatiNIStep" validated="true" activate="optionalStepActivation" title="Dati NI">
-                        <form:SimpleForm editable="true">
-                            <Panel height="100%">
-                                <content>
-                                    <l:Grid>
-                                        <l:content>
-                                            <VBox>
-                                                <Label text="Oggetto della spesa:" required="true" />
-                                                <Input value="" id="oggSpesa" showValueHelp="false" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'ZoggSpesa' }}">
-                                                    <core:Item key="{temp>ZoggSpesa}"/>
-                                                </Input>
-                                                <layoutData>
-                                                    <l:GridData span="L3 M3 S3" />
-                                                </layoutData>
-                                            </VBox>
-                                        </l:content>
-                                    </l:Grid>
-                                </content>
-                            </Panel>
-                        </form:SimpleForm>
                         <core:Fragment fragmentName="project1.fragment.wizardStep3Table" type="XML" />
                     </WizardStep>
                 </Wizard>
@@ -258,7 +208,7 @@
                     <Button text="Indietro" type="Emphasized" visible="{/BackButtonVisible}" press="onBackButton" />
                     <Button text="Avanti" type="Emphasized" visible="{/NextButtonVisible}" press="onNextButton" />
                     <ToolbarSpacer />
-                    <Button type="Emphasized" text="Preimposta NI" visible="{/PNIButtonVisible}" press="onPreimpNI" id="PreimpostaNI" />
+                    <Button type="Emphasized" text="Salva" visible="{/PNIButtonVisible}" press="onPreimpNI" id="PreimpostaNI" />
                 </OverflowToolbar>
             </f:footer>
         </f:DynamicPage>

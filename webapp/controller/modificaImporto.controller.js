@@ -7,7 +7,7 @@ sap.ui.define(
         "sap/ui/core/routing/History",
         'project1/model/DateFormatter'
     ],
-    function (BaseController,  Filter, FilterOperator, MessageBox, History, DateFormatter) {
+    function (BaseController, Filter, FilterOperator, MessageBox, History, DateFormatter) {
         "use strict";
 
         return BaseController.extend("project1.controller.modificaImporto", {
@@ -19,6 +19,7 @@ sap.ui.define(
             },
 
             onBackButton: function () {
+                this.getView().byId("PositionNIMI").destroyItems()
                 window.history.go(-1);
             },
 
@@ -69,10 +70,21 @@ sap.ui.define(
                         var mese = header[i].Zmese
                         this.getView().byId("mese1").setText(mese)
 
-                        var comp = position[i].ZcompRes
-                        if(comp=='C') var n_comp='Competenza'
-                        if(comp='R') var n_comp='Residui'
-                        this.getView().byId("comp1").setText(n_comp)
+                        for (var x = 0; x < position.length; x++) {
+                            if (position[x].Bukrs == oEvent.getParameters().arguments.campo &&
+                                position[x].Gjahr == oEvent.getParameters().arguments.campo1 &&
+                                position[x].Zamministr == oEvent.getParameters().arguments.campo2 &&
+                                position[x].ZchiaveNi == oEvent.getParameters().arguments.campo3 &&
+                                position[x].ZidNi == oEvent.getParameters().arguments.campo4 &&
+                                position[x].ZRagioCompe == oEvent.getParameters().arguments.campo5) {
+
+                                var comp = position[x].ZcompRes
+                                if (comp == "C") var n_comp = 'Competenza'
+                                if (comp == "R") var n_comp = 'Residui'       //Position
+                                this.getView().byId("comp1").setText(n_comp)
+
+                            }
+                        }
 
                         var statoNI = header[i].ZcodiStatoni
                         this.getView().byId("statoNI1").setText(statoNI)
@@ -120,16 +132,10 @@ sap.ui.define(
                     value1: ZchiaveNi
                 }));
                 filtroNI.push(new Filter({
-                    path: "ZidNi",
-                    operator: FilterOperator.EQ,
-                    value1: ZidNi
-                }));
-                filtroNI.push(new Filter({
                     path: "ZRagioCompe",
                     operator: FilterOperator.EQ,
                     value1: ZRagioCompe
                 }));
-
 
                 var that = this;
                 var oMdlM = new sap.ui.model.json.JSONModel();
@@ -138,7 +144,7 @@ sap.ui.define(
                     urlParameters: "",
                     success: function (data) {
                         oMdlM.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+                        that.getView().getModel("temp").setProperty('/PositionNISetFiltrata', data.results)
                     },
                     error: function (error) {
                         var e = error;
@@ -151,43 +157,67 @@ sap.ui.define(
                 /*update operation*/
                 var that = this
                 var oItems = that.getView().byId("PositionNIMI").getBinding("items").oList;
-                // var oggSpesa = this.getView().byId("PositionNIMI").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
-                // var oggSpesa = this.getView().byId("PositionNIMI").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
-                var that = this
+
+                var deepEntity = {
+                    Funzionalita:"RETTIFICANIPREIMPOSTATA",
+                    PositionNISet: []
+                }
+                //var dataOdierna = new Date()
                 MessageBox.warning("Sei sicuro di voler modificare la NI?", {
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
                     onClose: function (oAction) {
                         if (oAction === sap.m.MessageBox.Action.YES) {
                             var oModel = that.getView().getModel();
-                    
-                            for(var i=0; i<oItems.length; i++){
-                                var item = oItems[i];
-                                
-                                var path = oModel.createKey("/PositionNISet", {
-                                    Bukrs:item.Bukrs,
-                                    Gjahr:item.Gjahr,
-                                    Zamministr:item.Zamministr,
-                                    ZchiaveNi:item.ZchiaveNi,
-                                    ZidNi:item.ZidNi,
-                                    ZRagioCompe:item.ZRagioComp 
-                                    });
 
-                                    var oEntry = {};
-                                    oEntry.ZimpoTitolo = item.ZimpoTitolo;
-                                    
-                            oModel.update(path, oEntry, {
-                               // method: "PUT",
+                            for (var i = 0; i < oItems.length; i++) {
+                                var item = oItems[i];
+
+                                deepEntity.Bukrs = item.Bukrs,
+                                    deepEntity.Gjahr = item.Gjahr,
+                                    deepEntity.Zamministr = item.Zamministr,
+                                    deepEntity.ZchiaveNi = item.ZchiaveNi,
+                                    deepEntity.ZidNi = item.ZidNi,
+                                    deepEntity.ZRagioCompe = item.ZRagioCompe,
+                                    deepEntity.Operation = "U",
+
+                                    deepEntity.PositionNISet.push({
+                                        ZposNi: item.ZposNi,
+                                        Bukrs: item.Bukrs,
+                                        Gjahr: item.Gjahr,
+                                        Zamministr: item.Zamministr,
+                                        ZchiaveNi: item.ZchiaveNi,
+                                        ZidNi: item.ZidNi,
+                                        ZRagioCompe: item.ZRagioCompe,
+
+                                        ZimpoTitolo: item.ZimpoTitolo
+                                    })
+                            }
+                            // var oEntry = {};
+                            // oEntry.ZimpoTitolo = item.ZimpoTitolo;
+                            //oEntry.ZimpoRes = item.ZimpoRes
+
+                            oModel.create("/DeepPositionNISet", deepEntity, {
+                                // method: "PUT",
                                 success: function (data) {
                                     //console.log("success");
-                                    MessageBox.success("Operazione eseguita con successo")
+                                    MessageBox.success("Modifica Importo eseguito con successo", {
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                        onClose: function (oAction) {
+                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                that.getOwnerComponent().getRouter().navTo("View1");
+                                            }
+                                        }
+                                    })
                                 },
                                 error: function (e) {
                                     //console.log("error");
-                                    MessageBox.error("Operazione non eseguita")
+                                    MessageBox.error("Modifica Importo non eseguito")
                                 }
                             });
-                        }
+
+
                         }
                     }
                 });
