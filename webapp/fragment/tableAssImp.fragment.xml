@@ -29,7 +29,7 @@
             </Column>
         </columns>
         <ColumnListItem type="Active">
-            <Text text="{HeaderNIAssImp>Epr}" />
+            <Text text="{HeaderNIAssImp>Zepr}" />
             <Text text="{HeaderNIAssImp>Zgeber}" />
             <Text text="{HeaderNIAssImp>ZCodCla}" />
             <Text text="{HeaderNIAssImp>ZDISPON}" />

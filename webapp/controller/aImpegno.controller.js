@@ -154,7 +154,7 @@ sap.ui.define([
 
                 if (this.getView().byId("es_gestione").mProperties.value != "") {
                     filtriAssocia.push(new Filter({
-                        path: "ZgjahrEng",
+                        path: "Gjahr",
                         operator: FilterOperator.EQ,
                         value1: this.getView().byId("es_gestione").mProperties.value
                     }));
@@ -209,12 +209,12 @@ sap.ui.define([
                 }
 
                 var oMdlAImp = new sap.ui.model.json.JSONModel();
-                this.getOwnerComponent().getModel().read("/PositionNISet", {
+                this.getOwnerComponent().getModel().read("/ZfmimpegniIpeSet", {
                     filters: filtriAssocia,
                     // urlParameters: "",
                     success: function (data) {
                         oMdlAImp.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+                        that.getView().getModel("temp").setProperty('/ZfmimpegniIpeSet', data.results)
                     },
                     error: function (error) {
                         var e = error;

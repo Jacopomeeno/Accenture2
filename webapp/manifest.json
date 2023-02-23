@@ -160,6 +160,13 @@
                     "target": "TargetaImpegno2"
                 },
                 {
+                    "name": "salvaImpegno",
+                    "pattern": "salvaImpegno/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "TargetasalvaImpegno"
+                },
+                {
                     "name": "modificaDettaglio",
                     "pattern": "modificaDettaglio/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
                     "titleTarget": "",
@@ -253,6 +260,14 @@
                     "clearControlAggregation": false,
                     "viewId": "aImpegno",
                     "viewName": "aImpegno",
+                    "viewLevel": 1
+                },
+                "TargetasalvaImpegno": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "salvaImpegno",
+                    "viewName": "salvaImpegno",
                     "viewLevel": 1
                 },
                 "TargetaImpegno2": {

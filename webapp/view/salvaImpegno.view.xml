@@ -8,7 +8,7 @@
     xmlns:f="sap.f"
     xmlns:core="sap.ui.core"
     xmlns:menu="sap.m.MenuItem"
-    xmlns:menBtn="sap.m.Menu" height="100%" controllerName="project1.controller.iconTabBar">
+    xmlns:menBtn="sap.m.Menu" height="100%" controllerName="project1.controller.salvaImpegno">
     <f:DynamicPage id="dynamicPageId" showFooter="true">
         <f:header>
             <f:DynamicPageHeader pinnable="false">
@@ -71,7 +71,7 @@
             <IconTabBar id="idIconTabBar" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
                     <IconTabFilter icon="sap-icon://detail-view" text="Dettagli NI" key="dettagliNI">
-                        <core:Fragment fragmentName="project1.fragment.dettagliNI" type="XML" />
+                        <core:Fragment fragmentName="project1.fragment.salvaImpegno" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
                         <core:Fragment fragmentName="project1.fragment.workflow" type="XML"/>
@@ -87,7 +87,7 @@
                 <Button text="Indietro" type="Emphasized" press="onBackButton" />
                 <ToolbarSpacer />
                 <Button type="Emphasized" text="Annulla NI" press="onCancelNI" id="AnnullaNI" />
-                <Button type="Emphasized" text="Completa NI" press="onCompleteNI" id="CompletaNI" enabled="false" />
+                <Button type="Emphasized" text="Completa NI" press="onCompleteNI" id="CompletaNI" />
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

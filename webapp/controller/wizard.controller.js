@@ -366,6 +366,7 @@ sap.ui.define([
                                                             onClose: function (oAction) {
                                                                 if (oAction === sap.m.MessageBox.Action.OK) {
                                                                     self.getOwnerComponent().getRouter().navTo("View1");
+                                                                    location.reload();
                                                                 }
                                                             }
                                                         })
@@ -416,6 +417,7 @@ sap.ui.define([
                                                 onClose: function (oAction) {
                                                     if (oAction === sap.m.MessageBox.Action.OK) {
                                                         self.getOwnerComponent().getRouter().navTo("View1");
+                                                        location.reload();
                                                     }
                                                 }
                                             })

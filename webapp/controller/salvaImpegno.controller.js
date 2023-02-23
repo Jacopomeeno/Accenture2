@@ -6,10 +6,12 @@ sap.ui.define([
     "sap/m/MessageBox",
     'sap/ui/export/Spreadsheet',
     "sap/ui/core/library",
-    "project1/model/DateFormatter"
+    "project1/model/DateFormatter",
+    "sap/ui/core/routing/History",
+
 ],
 
-    function (BaseController, Filter, FilterOperator, JSONModel, MessageBox, Spreadsheet, CoreLibrary, DateFormatter) {
+    function (BaseController, Filter, FilterOperator, JSONModel, MessageBox, Spreadsheet, CoreLibrary, DateFormatter, History) {
         "use strict";
         var EdmType = sap.ui.export.EdmType
 
@@ -21,7 +23,7 @@ sap.ui.define([
                 TableVisible: false
             };
 
-        return BaseController.extend("project1.controller.iconTabBar", {
+        return BaseController.extend("project1.controller.salvaImpegno", {
             formatter: DateFormatter,
             onInit() {
                 var oProprietà = new JSONModel(),
@@ -30,7 +32,7 @@ sap.ui.define([
                 this.getView().setModel(oProprietà);
                 this.getOwnerComponent().getModel("temp");
                 //this.prePosition()
-                this.getRouter().getRoute("iconTabBar").attachPatternMatched(this._onObjectMatched, this);
+                this.getRouter().getRoute("salvaImpegno").attachPatternMatched(this._onObjectMatched, this);
 
             },
 
@@ -66,7 +68,7 @@ sap.ui.define([
 
                 var that = this
                 var url = location.href
-                var sUrl = url.split("/iconTabBar/")[1]
+                var sUrl = url.split("/salvaImpegno/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -232,8 +234,9 @@ sap.ui.define([
             },
 
             onBackButton: function () {
-                this.getView().byId("HeaderITB").destroyItems()
-                this.getOwnerComponent().getRouter().navTo("View1");
+                //this.getView().byId("HeaderITB").destroyItems()
+                //this.getOwnerComponent().getRouter().navTo("View1");
+                window.history.go(-1);
                 this.getView().byId("editImporto").setEnabled(false);
                 this.getView().byId("editRow").setEnabled(false);
                 this.getView().byId("addRow").setEnabled(false);
