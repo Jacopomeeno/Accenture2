@@ -183,7 +183,7 @@
                                         <l:Grid>
                                             <l:content>
                                                 <VBox>
-                                                    <Label text="Struttura Amministrativa Responsabile:" required="true"/>
+                                                    <Label text="Struttura Amministrativa Responsabile:"/>
                                                     <Input id="strAmmResp" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'Fistl' }}" >
                                                         <suggestionItems>
                                                             <core:ListItem text="{temp>Fistl}" />
@@ -194,7 +194,7 @@
                                                     </layoutData>
                                                 </VBox>
                                                 <VBox>
-                                                    <Label text="Posizione Finanziaria:" required="true" />
+                                                    <Label text="Posizione Finanziaria:" />
                                                     <Input id="input_PF" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'Fipex' }}">
                                                         <suggestionItems>
                                                             <core:ListItem text="{temp>Fipex}"/>

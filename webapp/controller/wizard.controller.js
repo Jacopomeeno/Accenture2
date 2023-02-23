@@ -277,6 +277,15 @@ sap.ui.define([
                 var N_esercizioPF = this.getView().byId("input_PF").getValue();  //header
                 var N_strAmmResp = this.getView().byId("strAmmResp").getValue();  //header
 
+                
+                if(N_oggSpesa == ""){
+                    MessageBox.error("Oggetto della spesa non inserito!", {
+                        actions: [sap.m.MessageBox.Action.OK],
+                        emphasizedAction: MessageBox.Action.OK,
+                    })
+                }
+                else{
+
                 var oDataModel = self.getOwnerComponent().getModel();
                 //var sommaImporto = 0.00
 
@@ -433,10 +442,12 @@ sap.ui.define([
                                     async: true,  // execute async request to not stuck the main thread
                                     urlParameters: {}  // send URL parameters if required 
                                 });
+                            
                             }
                         }
                     })
                 }
+            }
             },
             onBackButton: function () {
                 this._oWizard = this.byId("CreateProductWizard");
@@ -467,6 +478,27 @@ sap.ui.define([
                 // this.onCommunicationPress()
                 // var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabGestNI.json");
                 // this.getView().setModel(oModelP, "HeaderNIW");
+                var es_gestione=this.getView().byId("es_gestione").getSelectedKey()
+                var mese=this.getView().byId("mese").getSelectedItem()
+                if(es_gestione == "" && mese == null){
+                    MessageBox.error("Esercizio di Gestione e Mese non inseriti!", {
+                        actions: [sap.m.MessageBox.Action.OK],
+                        emphasizedAction: MessageBox.Action.OK,
+                    })
+                }
+                else if(es_gestione == ""){
+                    MessageBox.error("Esercizio di Gestione non inserito!", {
+                        actions: [sap.m.MessageBox.Action.OK],
+                        emphasizedAction: MessageBox.Action.OK,
+                    })
+                }
+                else if(mese == null){
+                    MessageBox.error("Mese non inserito!", {
+                        actions: [sap.m.MessageBox.Action.OK],
+                        emphasizedAction: MessageBox.Action.OK,
+                    })
+                }
+                else{
                 this._oWizard = this.byId("CreateProductWizard");
                 this._oSelectedStep = this._oWizard.getSteps()[this._iSelectedStepIndex];
                 this._iSelectedStepIndex = this._oWizard.getSteps().indexOf(this._oSelectedStep);
@@ -483,7 +515,7 @@ sap.ui.define([
 
                 this.controlPreNI()
                 this.controlHeader()
-
+            }
             },
 
 
