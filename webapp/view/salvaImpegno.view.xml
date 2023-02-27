@@ -51,13 +51,50 @@
                                 <Label id="statoNI" text="{i18n>statoNI}" design="Bold"/>
                                 <Text id="statoNI1"/>
                             </VBox>
-                        </HBox>
-                        <HBox id="idHBox5">
                             <VBox id="idVBox23" class="sapUiSmallMargin" width="auto">
                                 <Label id="importoTot" text="{i18n>importoTot}" design="Bold"/>
                                 <Text id="importoTot1"/>
                             </VBox>
                         </HBox>
+                        <HBox id="idHBox5">
+                            <VBox id="idVBox24" class="sapUiSmallMargin" width="auto">
+                                <Label id="Lifnr" text="{i18n>Lifnr}" design="Bold"/>
+                                <Text id="Lifnr1"/>
+                            </VBox>
+                            <VBox id="idVBox25" class="sapUiSmallMargin" width="auto">
+                                <Label id="Nome" text="{i18n>Nome}" design="Bold"/>
+                                <Text id="Nome1"/>
+                            </VBox>
+                            <VBox id="idVBox26" class="sapUiSmallMargin" width="auto">
+                                <Label id="Zwels" text="{i18n>Zwels}" design="Bold"/>
+                                <Text id="Zwels1"/>
+                            </VBox>
+                        </HBox>
+                        <HBox id="idHBox6">
+                            <VBox id="idVBox27" class="sapUiSmallMargin" width="auto">
+                                <Label id="CentroCosto" text="Centro di Costo" design="Bold"/>
+                                <Text id="CentroCosto1"/>
+                            </VBox>
+                            <VBox id="idVBox28" class="sapUiSmallMargin" width="auto">
+                                <Label id="ConCoGe" text="Conto Co.Ge." design="Bold"/>
+                                <Text id="ConCoGe1"/>
+                            </VBox>
+                            <VBox id="idVBox29" class="sapUiSmallMargin" width="auto">
+                                <Label id="ImpLiq" text="Importo Liquidazione" design="Bold"/>
+                                <Text id="ImpLiq1"/>
+                            </VBox>
+                        </HBox>
+                        <HBox>
+                            <VBox id="idVBox31" class="sapUiSmallMargin" width="auto">
+                                <Label id="CodiceGes" text="{i18n>Zcodgest}" design="Bold"/>
+                                <Text id="CodiceGes1"/>
+                            </VBox>
+                            <VBox id="idVBox30" class="sapUiSmallMargin" width="auto">
+                                <Label id="CausalePagamento" text="{i18n>Zcauspag}" design="Bold"/>
+                                <Text id="CausalePagamento1"/>
+                            </VBox>
+                        </HBox>
+
                     </layout:VerticalLayout>
                 </layout:HorizontalLayout>
                 <OverflowToolbar>
