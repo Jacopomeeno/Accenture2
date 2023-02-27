@@ -40,7 +40,7 @@
             <Text text="{HeaderNIW>ZimpoRes}" />
         </ColumnListItem>
     </Table> -->
-    <Table class="sapUiSizeCompact" id="HeaderNIW" includeItemInSelection="true" items="{HeaderNIW>/items}" mode="MultiSelect" visible="true">
+    <Table class="sapUiSizeCompact" id="HeaderSalva" includeItemInSelection="true" items="{HeaderSalva>/}" mode="MultiSelect" visible="true">
         <columns>
             <Column width="auto">
                 <Label text="Codice ISIN" />
@@ -65,13 +65,13 @@
             </Column>
         </columns>
         <ColumnListItem>
-            <Text text="{HeaderNIW>ZcodIsin}" />
-            <Text text="{HeaderNIW>Ztipo}"/>
-            <Text text="{HeaderNIW>ZdataPag}" />
-            <Text text="{HeaderNIW>ZimpoTitolo}" />
-            <Text text="{HeaderNIW>ZimpoAss}" />
-            <Text text="{HeaderNIW>ZimpoRes}" />
-            <Text text="{HeaderNIW>ZGiusRag}" />
+            <Text text="{HeaderSalva>ZcodIsin}" />
+            <Text text="{HeaderSalva>Ztipo}"/>
+            <Text text="{path: 'HeaderSalva>ZdataPag', formatter:'.formatter.convert'}" />
+            <Text text="{HeaderSalva>ZimpoTitolo}" />
+            <Text text="{HeaderSalva>ZimpoAss}" />
+            <Text text="{HeaderSalva>ZimpoRes}" />
+            <Input value="{HeaderSalva>ZCodCla}" />
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

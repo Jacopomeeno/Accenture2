@@ -5,6 +5,7 @@
     xmlns:core="sap.ui.core"
     xmlns:u="sap.ui.unified"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
     xmlns="sap.m" controllerName="project1.controller.wizard">
     <NavContainer id="wizardNavContainer">
         <f:DynamicPage stickySubheaderProvider="CreateProductWizard" toggleHeaderOnTitleClick="false" class="sapUiNoContentPadding" showFooter="true">
@@ -133,7 +134,7 @@
                                             </VBox> -->
                                              <VBox>
                                                 <Label text="Sottotipologia di primo livello:" />
-                                                <Input value="" id="tipologia" width="100%" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'HeaderNIW>/items', sorter: { path: 'Ztipo' }}">
+                                                <Input value="" id="tipologia" width="100%" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'HeaderNIW>/items', sorter: { path: 'Ztipo' }}"  valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="tipologia" app:filterTableField="tipologia">
                                                     <suggestionItems>
                                                         <core:ListItem text="{HeaderNIW>Ztipo}"/>
                                                     </suggestionItems>

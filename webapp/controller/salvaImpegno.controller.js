@@ -206,7 +206,7 @@ sap.ui.define([
                                 var e = error;
                             }
                         });
-                        this.getOwnerComponent().setModel(oMdlITB, "HeaderITB");
+                        this.getOwnerComponent().setModel(oMdlITB, "HeaderSalva");
 
                     }
                 }

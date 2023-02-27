@@ -48,6 +48,58 @@ sap.ui.define([
 			return this.getOwnerComponent().getModel("i18n").getResourceBundle();
 		},
 
+		openDialog: function (dialogPath) {
+            if (!this.__dialog) {
+                this.__dialog = sap.ui.xmlfragment(dialogPath, this);
+                this.getView().addDependent(this.__dialog);
+            }
+            return this.__dialog;
+        },
+        closeDialog: function() {
+            if (this.__dialog) {
+                if( this.__dialog.close ) {
+                    this.__dialog.close();
+                }
+                this.__dialog.destroy();
+                this.__dialog = null;
+            }
+        },
+
+		handleValueHelp: function(oEvent){
+            var oSource = oEvent.getSource(),
+                oValue= oSource.getValue(),
+				oSelectedItem = oEvent.getParameter("selectedItem"),
+            	sField = oEvent.getSource().data("filterTableField"),
+                sName = oSource.data("FieldName");
+				
+            var oDialog = this.openDialog("project1.fragment.Help."+sField).open();
+        },
+
+        _handleValueHelpTipologiaClose : function (evt) {
+            var that = this,
+            oSelectedItem = evt.getParameter("selectedItem"),
+            sField = evt.getSource().data("filterTableField"),
+            Input = this.getView().byId(sField);
+            if (oSelectedItem) {            
+                var sValueTitle = oSelectedItem.getTitle();
+                Input.setValue(sValueTitle);
+                //this.getOtherData(sValueTitle);
+            }
+            this.closeDialog();
+        },
+
+		_handleValueHelpClose : function (evt) {
+            var that = this,
+            oSelectedItem = evt.getParameter("selectedItem"),
+            sField = evt.getSource().data("filterTableField"),
+            Input = this.getView().byId(sField);
+            if (oSelectedItem) {            
+                var sValueTitle = oSelectedItem.getTitle();
+                Input.setValue(sValueTitle);
+            }
+            this.closeDialog();
+        },
+
 		/**
 		 * Event handler when the share by E-Mail button has been clicked
 		 * @public

@@ -30,10 +30,10 @@
         </columns>
         <ColumnListItem type="Active">
             <Text text="{HeaderNIAssImp>Zepr}" />
-            <Text text="{HeaderNIAssImp>Zgeber}" />
+            <Text text="{HeaderNIAssImp>Geber}" />
             <Text text="{HeaderNIAssImp>ZCodCla}" />
-            <Text text="{HeaderNIAssImp>ZDISPON}" />
-            <Text text="{HeaderNIAssImp>ZATTRIBUTO}"/>
+            <Input value="{HeaderNIAssImp>ZDISPON}" />
+            <Input value="{HeaderNIAssImp>ZATTRIBUTO}" id="Zattributo"/>
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

@@ -74,8 +74,8 @@
                     <core:Fragment fragmentName="project1.fragment.tableAssImp" type="XML"/>
                     <Bar>
                         <contentRight>
-                            <Label text="This is a long non-shrinkable label"/>
-                            <Button text="Calcola" type="Emphasized" width="80px"
+                            <Label text="0.00" id="importoAttributo"/>
+                            <Button text="Calcola" type="Emphasized" width="80px" press="onCalcolaPress"
                                 class="sapUiSmallMargin" />
                         </contentRight>
                     </Bar>

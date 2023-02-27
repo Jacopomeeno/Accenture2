@@ -7,6 +7,7 @@ sap.ui.define([
         "use strict";
         return BaseController.extend("project1.controller.aImpegno2", {
             onInit() {
+                this.onCallImpegni()
                 this.getOwnerComponent().getModel("temp");
                 this.getRouter().getRoute("aImpegno2").attachPatternMatched(this._onObjectMatched, this);
             },
@@ -20,13 +21,31 @@ sap.ui.define([
                     "',ZidNi='" + oEvent.getParameters().arguments.campo4 +
                     "',ZRagioCompe='" + oEvent.getParameters().arguments.campo5 + "')"
                 );
-                this.viewHeader(oEvent)
+                this.viewFiltri(oEvent)
             },
 
-            viewHeader: function (oEvent) {
+            onCallImpegni: function(){
+                var that = this
+                var oMdlAImp = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/ZfmimpegniIpeSet", {
+                    //filters: filtriAssocia,
+                    filters:[],
+                    // urlParameters: "",
+                    success: function (data) {
+                        oMdlAImp.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/ZfmimpegniIpeSet', data.results)
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
+            },
+
+            viewFiltri: function (oEvent) {
 
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 var position = this.getView().getModel("temp").getData().PositionNISet
+                console.log(this.getView().getModel("temp").getData())
                 for (var i = 0; i < header.length; i++) {
                     if (header[i].Bukrs == oEvent.getParameters().arguments.campo &&
                         header[i].Gjahr == oEvent.getParameters().arguments.campo1 &&
@@ -58,10 +77,21 @@ sap.ui.define([
                         var mese = header[i].Zmese
                         this.getView().byId("mese1").setText(mese)
 
-                        var comp = position[i].ZcompRes
-                        if (comp == 'C') var n_comp = 'Competenza'
-                        if (comp == 'R') var n_comp = 'Residui'
-                        this.getView().byId("comp1").setText(n_comp)
+                        for (var x = 0; x < position.length; x++) {
+                            if (position[x].Bukrs == oEvent.getParameters().arguments.campo &&
+                                position[x].Gjahr == oEvent.getParameters().arguments.campo1 &&
+                                position[x].Zamministr == oEvent.getParameters().arguments.campo2 &&
+                                position[x].ZchiaveNi == oEvent.getParameters().arguments.campo3 &&
+                                position[x].ZidNi == oEvent.getParameters().arguments.campo4 &&
+                                position[x].ZRagioCompe == oEvent.getParameters().arguments.campo5) {
+
+                                var comp = position[x].ZcompRes
+                                if (comp == "C") var n_comp = 'Competenza'
+                                if (comp == "R") var n_comp = 'Residui'       //Position
+                                this.getView().byId("comp1").setText(n_comp)
+
+                            }
+                        }
 
                         var statoNI = header[i].ZcodiStatoni
                         this.getView().byId("statoNI1").setText(statoNI)

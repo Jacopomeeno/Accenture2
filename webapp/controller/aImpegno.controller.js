@@ -1,11 +1,12 @@
 sap.ui.define([
     "./BaseController",
     "sap/ui/model/Filter",
+    "sap/m/MessageBox",
     "sap/ui/model/FilterOperator",
     "sap/ui/core/routing/History",
 
 ],
-    function (BaseController, Filter, FilterOperator, History) {
+    function (BaseController, Filter, MessageBox, FilterOperator, History) {
         "use strict";
 
         return BaseController.extend("project1.controller.aImpegno", {
@@ -83,6 +84,9 @@ sap.ui.define([
 
                         var importoTot = header[i].ZimpoTotni
                         this.getView().byId("importoTot1").setText(importoTot)
+
+                        //var impoTot = this.getView().byId("importoTot1").getText()
+                        this.getView().byId("importoAttributo").setText(importoTot)
 
                     }
                 }
@@ -210,11 +214,17 @@ sap.ui.define([
 
                 var oMdlAImp = new sap.ui.model.json.JSONModel();
                 this.getOwnerComponent().getModel().read("/ZfmimpegniIpeSet", {
-                    filters: filtriAssocia,
+                    //filters: filtriAssocia,
+                    filters: [],
                     // urlParameters: "",
                     success: function (data) {
                         oMdlAImp.setData(data.results);
                         that.getView().getModel("temp").setProperty('/ZfmimpegniIpeSet', data.results)
+                        var impoTot = that.getView().byId("importoTot1").mProperties.text
+                        //var lunghezzaTab = that.getView().getModel("temp").ZfmimpegniIpeSet
+                        for (var i = 0; i < data.results.length; i++) {
+                            that.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue(impoTot)
+                        }
                     },
                     error: function (error) {
                         var e = error;
@@ -223,10 +233,28 @@ sap.ui.define([
 
                 this.getOwnerComponent().setModel(oMdlAImp, "HeaderNIAssImp");
                 //sap.ui.getCore().TableModel = oMdlW;
+            },
 
+            onCalcolaPress: function () {
+                //var somma=0.00
+                var rows = this.getView().byId("HeaderNIAssImp").getItems()
+                for (var i = 0; i < rows.length; i++) {
+                    if (this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].mProperties.value != "") {
+                        var Zdisp = parseFloat(this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[3].mProperties.value)
+                        var impoAttributo = parseFloat(this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].mProperties.value)
+                        //somma = somma + impoAttributo
+                        if(impoAttributo <= Zdisp){
+                            this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue(impoAttributo)
+                            break;
+                        }
+                        else if(impoAttributo > Zdisp){
+                            this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue(Zdisp)
+                            continue;
+                        }
+                    }
+                }
             }
+
         });
     },
-
-
 );
