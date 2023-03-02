@@ -24,6 +24,9 @@ sap.ui.define([
                 // call the base component's init function
                 UIComponent.prototype.init.apply(this, arguments);
 
+                var sRootPath = jQuery.sap.getModulePath("project1");
+                jQuery.getScript(sRootPath + "/utils/underscore-min.js");
+                
                 // enable routing
                 this.getRouter().initialize();
 

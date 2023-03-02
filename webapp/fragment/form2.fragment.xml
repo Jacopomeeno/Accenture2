@@ -1,4 +1,8 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:l="sap.ui.layout" 
+    xmlns:f="sap.ui.layout.form"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" 
     xmlns:core="sap.ui.core">
     <VBox class="sapUiSmallMargin">
         <f:SimpleForm
@@ -23,27 +27,20 @@
             <f:content>
                 <core:Title text=" " />
                 <Label text="Beneficiario" required="true" />
-                <Input id="inputBeneficiario" type="Text" showValueHelp="true" showSuggestion="true"
-                    suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Lifnr' }}"
-                    enabled="true" editable="true">
+                <Input id="inputBeneficiario" type="Text" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Lifnr' }}" enabled="true" editable="true">
                     <core:Item key="{Lifnr}" text="{Lifnr}" />
                 </Input>
-                <Label text="Modalità di Pagamento" required="true"/>
-                <Input id="ModPagamento" type="Text" showValueHelp="true" enabled="true"
-                    editable="true" />
+                <Label text="Modalità di Pagamento" required="true" />
+                <ComboBox id="ModPagamento" enabled="true" editable="true" />
                 <!-- <core:Item key="{}" text="{}"/> -->
                 <core:Title text=" " />
                 <Label text="Nome" />
-                <Input id="inputNome" type="Text" showValueHelp="true" enabled="true"
-                    editable="true" />
+                <Input id="inputNome" type="Text" enabled="true" editable="true" />
                 <Label text="IBAN" required="true" />
-                <Input id="inputIBAN" type="Text" showValueHelp="true" enabled="true" showSuggestion="true"
-                suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Iban' }}"
-                    editable="true">
+                <Input id="inputIBAN" type="Text" showValueHelp="true" enabled="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Iban' }}" editable="true">
                     <core:Item key="{Iban}" text="{Iban}" />
                 </Input>
                 <core:Title text=" " />
-
             </f:content>
         </f:SimpleForm>
         <f:SimpleForm
@@ -67,16 +64,12 @@
         >
             <f:content>
                 <core:Title text=" " />
-                <Label text="Centro di Costo" required="true"/>
-                <Input id="inputCentroCosto" type="Text" showValueHelp="true"
-                    suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Kostl' }}"
-                    enabled="true" editable="true">
+                <Label text="Centro di Costo" required="true" />
+                <Input id="inputCentroCosto" type="Text" showValueHelp="true" suggestionItems="{path: '/LtextIcSet', sorter: { path: 'Kostl' }}" enabled="true" editable="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCentroCosto" app:filterTableField="inputCentroCosto">
                     <core:Item key="{Kostl}" text="{Kostl}" />
                 </Input>
                 <Label text="Conto Co. Ge." required="true" />
-                <Input id="inputCoGe" type="Text" showValueHelp="true"
-                    suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Saknr' }}"
-                    enabled="true" editable="true">
+                <Input id="inputCoGe" type="Text" showValueHelp="true" suggestionItems="{path: '/Txt50IcSet', sorter: { path: 'Saknr' }}" enabled="true" editable="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCoGe" app:filterTableField="inputCoGe">
                     <core:Item key="{Saknr}" text="{Saknr}" />
                 </Input>
                 <core:Title text=" " />
@@ -105,17 +98,14 @@
             columnsXL="3"
             singleContainerFullSize="false"
         >
-
             <f:content>
-                <Label text="Importo di Liquidazione" required="true"/>
+                <Label text="Importo di Liquidazione" required="true" />
                 <Input type="Text" id="InputImpLiq" editable="false" />
-
             </f:content>
         </f:SimpleForm>
 
-
         <f:SimpleForm
-        title="Dati NI"
+            title="Dati NI"
             id="SimpleFormChangeColumn__threeGroups234-5"
             editable="true"
             layout="ResponsiveGridLayout"
@@ -141,8 +131,7 @@
                     </layoutData>
                 </Label>
 
-                <DatePicker id="DP1" valueFormat="dd-mm-yyyy" displayFormat="long"
-                    class="sapUiTinyyMarginBottom">
+                <DatePicker id="DP1" valueFormat="dd-mm-yyyy" displayFormat="long" class="sapUiTinyyMarginBottom">
                     <layoutData>
                         <l:GridData span="XL3 L2 M4 S5" />
                     </layoutData>
@@ -162,9 +151,9 @@
                     <core:Item key="{NProtocolloAmm}" text="{NProtocolloAmm}" />
                 </Input>
 
-                <Label text="Codice Gestionale" required="true" class="sapUiTinyMarginBottom"  />
+                <Label text="Codice Gestionale" required="true" class="sapUiTinyMarginBottom" />
 
-                <Input id="inputCodiceGest" type="Text" editable="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zcodgest' }}">
+                <Input id="inputCodiceGest" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zcodgest' }}">
                     <layoutData>
                         <l:GridData span="XL3 L1 M4 S5" />
                     </layoutData>
@@ -177,14 +166,14 @@
                     </layoutData>
                 </Label>
 
-                <Input id="inputDescr" type="Text" editable="false" >
+                <Input id="inputDescr" type="Text" editable="false">
                     <layoutData>
                         <l:GridData span="XL2 L2 M2 S4" />
                     </layoutData>
                 </Input>
                 <Label text="Località di pagamento" class="sapUiTinyMarginBottom" />
 
-                <Input id="inputLocPagamento" type="Text" editable="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zlocpag' }}">
+                <Input id="inputLocPagamento" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zlocpag' }}">
                     <layoutData>
                         <l:GridData span="XL3 L2 M4 S5" />
                     </layoutData>
@@ -198,27 +187,27 @@
                     </layoutData>
                     <core:Item key="{Zcauspag}" text="{Zcauspag}" />
                 </Input>
+                
                 <Label text="Data esigibilità" class="sapUiTinyMarginBottom">
                     <layoutData>
                         <l:GridData span="XL3 L2 M4 S5" />
                     </layoutData>
                 </Label>
 
-                <DatePicker id="DP2" valueFormat="dd-mm-yyyy" displayFormat="long"
-                    class="sapUiTinyyMarginBottom">
+                <DatePicker id="DP2" valueFormat="dd-mm-yyyy" displayFormat="long" class="sapUiTinyyMarginBottom">
                     <layoutData>
                         <l:GridData span="XL3 L2 M4 S5" />
                     </layoutData>
                 </DatePicker>
 
-                <Label text="Zona di intervento" class="sapUiTinyMarginBottom" >
+                <Label text="Zona di intervento" class="sapUiTinyMarginBottom">
                     <layoutData>
                         <l:GridData indent="XL3 L4 M4 S5" />
                         <l:GridData span="XL3 L4 M4 S5" />
                     </layoutData>
                 </Label>
 
-                <Input id="inputZInterv" type="Text" editable="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zzonaint' }}">
+                <Input id="inputZInterv" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zzonaint' }}">
                     <layoutData>
                         <l:GridData span="XL2 L2 M2 S4" />
                     </layoutData>

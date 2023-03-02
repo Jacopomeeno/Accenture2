@@ -1,14 +1,18 @@
 sap.ui.define([
     "./BaseController",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
     "sap/ui/core/routing/History",
 
 ],
-    function (BaseController, History) {
+    function (BaseController, Filter, FilterOperator, History) {
         "use strict";
         return BaseController.extend("project1.controller.aImpegno2", {
             onInit() {
                 this.onCallImpegni()
                 this.getOwnerComponent().getModel("temp");
+                this.onCallLtextIc()
+                this.onCallTxt50Ic()
                 this.getRouter().getRoute("aImpegno2").attachPatternMatched(this._onObjectMatched, this);
             },
 
@@ -24,12 +28,12 @@ sap.ui.define([
                 this.viewFiltri(oEvent)
             },
 
-            onCallImpegni: function(){
+            onCallImpegni: function () {
                 var that = this
                 var oMdlAImp = new sap.ui.model.json.JSONModel();
                 this.getOwnerComponent().getModel().read("/ZfmimpegniIpeSet", {
                     //filters: filtriAssocia,
-                    filters:[],
+                    filters: [],
                     // urlParameters: "",
                     success: function (data) {
                         oMdlAImp.setData(data.results);
@@ -41,10 +45,94 @@ sap.ui.define([
                 });
             },
 
+
+            onCallLtextIc: function () {
+                var filtriLtextIc = []
+                var position = this.getOwnerComponent().getModel("temp").getData().PositionNISet
+                var Kokrs = position[0].Bukrs
+                var Kostl = "A04017ZZZZ"
+
+                filtriLtextIc.push(new Filter({
+                    path: "Kokrs",
+                    operator: FilterOperator.EQ,
+                    value1: Kokrs
+                }));
+                filtriLtextIc.push(new Filter({
+                    path: "Kostl",
+                    operator: FilterOperator.EQ,
+                    value1: Kostl
+                }));
+    
+                var that = this
+                var oMdlText = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/LtextIcSet", {
+                    filters: filtriLtextIc,
+                    //filters: [],
+                    // urlParameters: "",
+                    success: function (data) {
+                        oMdlText.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/LtextIcSet', data.results)
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
+            },
+
+            
+            onCallTxt50Ic: function () {
+                var filtriTxt50Ic = []
+                var that = this
+                var oMdlText = new sap.ui.model.json.JSONModel();
+                //var Saknr = ""
+                
+                // filtriTxt50Ic.push(new Filter({
+                //     path: "Ktopl",
+                //     operator: FilterOperator.EQ,
+                //     value1: Kokrs
+                // }));
+                // filtriTxt50Ic.push(new Filter({
+                //     path: "Txt50",
+                //     operator: FilterOperator.EQ,
+                //     value1: Kostl
+                // }));
+
+                // filtriTxt50Ic.push(new Filter({
+                //     path: "Saknr",
+                //     operator: FilterOperator.EQ,
+                //     value1: Saknr
+                // }));
+
+                this.getOwnerComponent().getModel().read("/Txt50IcSet", {
+                    filters: filtriTxt50Ic,
+                    //filters: [],
+                    // urlParameters: "",
+                    success: function (data) {
+                        oMdlText.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/Txt50IcSet', data.results)
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
+            },
+
+            getOtherData: function (value) {
+                //var oModel= this.getView().getModel("comboBox"),
+                var oTempModel = this.getView().getModel("temp"),
+                KOSTL = _.findWhere(oTempModel.getProperty("/LtextIcSet"), {Kostl: value})
+                //SAKNR = _.findWhere(oTempModel.getProperty("/Txt50IcSet"), {Saknr: value});
+                //centroCosto = _.findWhere(oTempModel.getProperty("/LtextIcSet"), {id: rowSelected.Kostl});
+                this.getView().byId("DescCentroCosto").setValue(KOSTL.Ltext);
+                //this.getView().byId("DescCoGe").setValue(SAKNR.Txt50);
+                  },
+
             viewFiltri: function (oEvent) {
 
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 var position = this.getView().getModel("temp").getData().PositionNISet
+                //var LtextIcSet = this.getView().getModel("temp").getData().LtextIcSet
+                var impegni = this.getView().getModel("temp").getData().ImpegniSelezionati
                 console.log(this.getView().getModel("temp").getData())
                 for (var i = 0; i < header.length; i++) {
                     if (header[i].Bukrs == oEvent.getParameters().arguments.campo &&
@@ -98,10 +186,13 @@ sap.ui.define([
 
                         var importoTot = header[i].ZimpoTotni
                         this.getView().byId("importoTot1").setText(importoTot)
+
                         this.getView().byId("InputImpLiq").setValue(importoTot)
 
-                        
-
+                        for(var m=0; m<impegni.length; m++){
+                            var beneficiario = impegni[m].Lifnr
+                            this.getView().byId("inputBeneficiario").setValue(beneficiario)
+                        }
                     }
                 }
             },
@@ -111,7 +202,7 @@ sap.ui.define([
                 window.history.go(-1);
             },
 
-            onSaveButton: function(){
+            onSaveButton: function () {
                 var url = location.href
                 var sUrl = url.split("/aImpegno2/")[1]
                 var aValori = sUrl.split(",")
@@ -131,10 +222,10 @@ sap.ui.define([
                         header[i].ZchiaveNi == ZchiaveNi &&
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
-                            this.getOwnerComponent().getRouter().navTo("salvaImpegno", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                        this.getOwnerComponent().getRouter().navTo("salvaImpegno", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
                     }
                 }
-                
+
             }
         })
     }

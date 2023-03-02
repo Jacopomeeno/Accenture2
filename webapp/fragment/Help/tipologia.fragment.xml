@@ -8,7 +8,7 @@
             path: 'HeaderNIW>/items'
         }"
         search="_handleValueHelpSearch"
-        confirm="_handleValueHelpTipologiaClose"
+        confirm="_handleValueHelpSetValueClose"
         cancel="_handleValueHelpClose"
         app:filterTableField="tipologia"
         >        

@@ -17,9 +17,6 @@ sap.ui.define([
 
         var ValueState = CoreLibrary.ValueState,
             oButton = {
-                EditEnable: false,
-                AddEnable: false,
-                DeleteEnable: false,
                 TableVisible: false
             };
 
@@ -81,6 +78,7 @@ sap.ui.define([
                 //var that = this
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 //var position = this.getView().getModel("temp").getData().PositionNISet
+                var impegni = this.getView().getModel("temp").getData().ImpegniSelezionati
                 for (var i = 0; i < header.length; i++) {
                     if (header[i].Bukrs == Bukrs &&
                         header[i].Gjahr == Gjahr &&
@@ -125,6 +123,11 @@ sap.ui.define([
                                 if (comp == "R") var n_comp = 'Residui'       //Position
                                 this.getView().byId("comp1").setText(n_comp)
 
+                                // var Zcodgest = data[x].Zcodgest
+                                // this.getView().byId("CodiceGes1").setText(Zcodgest)
+
+                                // var Zcauspag = data[x].Zcauspag
+                                // this.getView().byId("CausalePagamento1").setText(Zcauspag)
                             }
                         }
 
@@ -134,12 +137,55 @@ sap.ui.define([
                         var importoTot = header[i].ZimpoTotni
                         this.getView().byId("importoTot1").setText(importoTot)
 
+                        for (var o = 0; o < impegni.length; o++) {
+                            var beneficiario = impegni[o].Lifnr
+                            this.getView().byId("Lifnr1").setText(beneficiario)
+                            var Zattribuito = impegni[o].Zattribuito
+                            this.getView().byId("ImpLiq1").setText(Zattribuito)
+
+                        }
+
                     }
                 }
 
             },
 
+            controlloAttributo: function () {
+                var position = this.getView().getModel("temp").getData().PositionNISet
+                var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
+                for (var y = 0; y < ImpegniSelezionati.length; y++) {
+                    for (var x = 0; x < position.length; x++) {
+                        if (parseFloat(ImpegniSelezionati[y].Zattribuito) > parseFloat(position[x].ZimpoTitolo)) {
+                            var DELTAATTRIBUITO = "" + parseFloat(ImpegniSelezionati[y].Zattribuito) - parseFloat(position[x].ZimpoTitolo) + ""
+                            //this.getView().getModel("temp").setProperty('/PositionNISet', DELTAATTRIBUITO)
+                            var DELTAIMPO_TITOLO = 0
+                            //this.getView().getModel("temp").setProperty('/PositionNISet', DELTAIMPO_TITOLO)
+                            var ZCodCla = ImpegniSelezionati[y].ZCodCla
+                            this.getView().getModel("temp").setProperty('/PositionNISet', ZCodCla)
+                            ImpegniSelezionati[y].Zattribuito = parseFloat(DELTAATTRIBUITO)
+                        }
+                        else if (parseFloat(ImpegniSelezionati[y].Zattribuito) == parseFloat(position[x].ZimpoTitolo)) {
+                            position[x].ZimpoTitolo = parseFloat(ImpegniSelezionati[y].Zattribuito)
+                            var DELTAIMPO_TITOLO = parseFloat(position[x].ZimpoTitolo) - parseFloat(ImpegniSelezionati[y].Zattribuito)
+                            var ZCodCla = ImpegniSelezionati[y].ZCodCla
+                            ImpegniSelezionati[y].Zattribuito = 0
+                            break;
+                        }
+                        else if (parseFloat(ImpegniSelezionati[y].Zattribuito) < parseFloat(position[x].ZimpoTitolo)) {
+                            position[x].ZimpoTitolo = parseFloat(ImpegniSelezionati[y].Zattribuito)
+                            var DELTAIMPO_TITOLO = parseFloat(position[x].ZimpoTitolo) - parseFloat(ImpegniSelezionati[y].Zattribuito)
+                            var ZCodCla = ImpegniSelezionati[y].ZCodCla
+                            if (DELTAIMPO_TITOLO > 0) {
+                                console.log("creazione")
+                            }
+                            //ImpegniSelezionati[y].Zattribuito = 0     
+                        }
+                    }
+                }
+            },
+
             callPositionNI: function (oEvent) {
+                this.controlloAttributo()
                 var filtroNI = []
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 //var position = this.getView().getModel("temp").getData().PositionNISet
@@ -234,210 +280,9 @@ sap.ui.define([
             },
 
             onBackButton: function () {
-                //this.getView().byId("HeaderITB").destroyItems()
-                //this.getOwnerComponent().getRouter().navTo("View1");
                 window.history.go(-1);
-                this.getView().byId("editImporto").setEnabled(false);
-                this.getView().byId("editRow").setEnabled(false);
-                this.getView().byId("addRow").setEnabled(false);
-                this.getView().byId("deleteRow").setEnabled(false);
-                this.getView().byId("pressAssImpegno").setEnabled(true);
-
             },
 
-            pressAssociaImpegno: function () {
-                var url = location.href
-                var sUrl = url.split("/iconTabBar/")[1]
-                var aValori = sUrl.split(",")
-
-                var Bukrs = aValori[0]
-                var Gjahr = aValori[1]
-                var Zamministr = aValori[2]
-                var ZchiaveNi = aValori[3]
-                var ZidNi = aValori[4]
-                var ZRagioCompe = aValori[5]
-
-                var header = this.getView().getModel("temp").getData().HeaderNISet
-                for (var i = 0; i < header.length; i++) {
-                    if (header[i].Bukrs == Bukrs &&
-                        header[i].Gjahr == Gjahr &&
-                        header[i].Zamministr == Zamministr &&
-                        header[i].ZchiaveNi == ZchiaveNi &&
-                        header[i].ZidNi == ZidNi &&
-                        header[i].ZRagioCompe == ZRagioCompe) {
-                        this.getOwnerComponent().getRouter().navTo("aImpegno", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
-                    }
-                }
-
-            },
-
-            onEditImporto: function () {
-                var url = location.href
-                var sUrl = url.split("/iconTabBar/")[1]
-                var aValori = sUrl.split(",")
-
-                var Bukrs = aValori[0]
-                var Gjahr = aValori[1]
-                var Zamministr = aValori[2]
-                var ZchiaveNi = aValori[3]
-                var ZidNi = aValori[4]
-                var ZRagioCompe = aValori[5]
-
-                var header = this.getView().getModel("temp").getData().HeaderNISet
-                for (var i = 0; i < header.length; i++) {
-                    if (header[i].Bukrs == Bukrs &&
-                        header[i].Gjahr == Gjahr &&
-                        header[i].Zamministr == Zamministr &&
-                        header[i].ZchiaveNi == ZchiaveNi &&
-                        header[i].ZidNi == ZidNi &&
-                        header[i].ZRagioCompe == ZRagioCompe) {
-                        this.getOwnerComponent().getRouter().navTo("modificaImporto", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
-                    }
-                }
-                this.getView().byId("editImporto").setEnabled(false);
-                this.getView().byId("editRow").setEnabled(false);
-                this.getView().byId("addRow").setEnabled(false);
-                this.getView().byId("deleteRow").setEnabled(false);
-                this.getView().byId("pressAssImpegno").setEnabled(true);
-            },
-
-            onEditRow: function () {
-                var url = location.href
-                var sUrl = url.split("/iconTabBar/")[1]
-                var aValori = sUrl.split(",")
-
-                var Bukrs = aValori[0]
-                var Gjahr = aValori[1]
-                var Zamministr = aValori[2]
-                var ZchiaveNi = aValori[3]
-                var ZidNi = aValori[4]
-                var ZRagioCompe = aValori[5]
-
-                var header = this.getView().getModel("temp").getData().HeaderNISet
-                for (var i = 0; i < header.length; i++) {
-                    if (header[i].Bukrs == Bukrs &&
-                        header[i].Gjahr == Gjahr &&
-                        header[i].Zamministr == Zamministr &&
-                        header[i].ZchiaveNi == ZchiaveNi &&
-                        header[i].ZidNi == ZidNi &&
-                        header[i].ZRagioCompe == ZRagioCompe) {
-                        this.getOwnerComponent().getRouter().navTo("modificaDettaglio", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
-                    }
-                }
-                this.getView().byId("editImporto").setEnabled(false);
-                this.getView().byId("editRow").setEnabled(false);
-                this.getView().byId("addRow").setEnabled(false);
-                this.getView().byId("deleteRow").setEnabled(false);
-                this.getView().byId("pressAssImpegno").setEnabled(true);
-            },
-
-            onAddRow: function () {
-                var url = location.href
-                var sUrl = url.split("/iconTabBar/")[1]
-                var aValori = sUrl.split(",")
-
-                var Bukrs = aValori[0]
-                var Gjahr = aValori[1]
-                var Zamministr = aValori[2]
-                var ZchiaveNi = aValori[3]
-                var ZidNi = aValori[4]
-                var ZRagioCompe = aValori[5]
-
-                var header = this.getView().getModel("temp").getData().HeaderNISet
-                for (var i = 0; i < header.length; i++) {
-                    if (header[i].Bukrs == Bukrs &&
-                        header[i].Gjahr == Gjahr &&
-                        header[i].Zamministr == Zamministr &&
-                        header[i].ZchiaveNi == ZchiaveNi &&
-                        header[i].ZidNi == ZidNi &&
-                        header[i].ZRagioCompe == ZRagioCompe) {
-                        this.getOwnerComponent().getRouter().navTo("wizardInserisciRiga", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
-                    }
-                }
-                this.getView().byId("editImporto").setEnabled(false);
-                this.getView().byId("editRow").setEnabled(false);
-                this.getView().byId("addRow").setEnabled(false);
-                this.getView().byId("deleteRow").setEnabled(false);
-                this.getView().byId("pressAssImpegno").setEnabled(true);
-            },
-
-            pressRettificaNI: function () {
-                //var oProprietà = this.getView().getModel();
-                this.getView().byId("editImporto").setEnabled(true);
-                this.getView().byId("editRow").setEnabled(true);
-                this.getView().byId("addRow").setEnabled(true);
-                this.getView().byId("deleteRow").setEnabled(true);
-                this.getView().byId("pressAssImpegno").setEnabled(false);
-            },
-
-
-            onDeleteRow: function (oEvent) {
-                var that = this;
-                //var position = this.getView().getModel("temp").getData().PositionNISet
-                var selectedPosition = this.getView().byId("HeaderITB").getSelectedItems()
-
-                var deepEntity = {
-                    Funzionalita: "RETTIFICANIPREIMPOSTATA",
-                    PositionNISet: []
-                }
-
-                for (var i = 0; i < selectedPosition.length; i++) {
-
-                    var item = selectedPosition[i].getBindingContext("HeaderITB").getObject();
-                    //var indice = i
-                    var oModel = that.getOwnerComponent().getModel();
-
-                    deepEntity.Bukrs = item.Bukrs,
-                        deepEntity.Gjahr = item.Gjahr,
-                        deepEntity.Zamministr = item.Zamministr,
-                        deepEntity.ZchiaveNi = item.ZchiaveNi,
-                        deepEntity.ZidNi = item.ZidNi,
-                        deepEntity.ZRagioCompe = item.ZRagioCompe,
-                        deepEntity.Operation = "D",
-
-                        deepEntity.PositionNISet.push({
-                            ZposNi: item.ZposNi,
-                            Bukrs: item.Bukrs,
-                            Gjahr: item.Gjahr,
-                            Zamministr: item.Zamministr,
-                            ZchiaveNi: item.ZchiaveNi,
-                            ZidNi: item.ZidNi,
-                            ZRagioCompe: item.ZRagioCompe,
-                        })
-                }
-                MessageBox.warning("Sei sicuro di voler rettificare la Nota d'Imputazione n° " + item.ZchiaveNi + "?", {
-                    actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                    emphasizedAction: MessageBox.Action.YES,
-                    onClose: function (oAction) {
-                        if (oAction === sap.m.MessageBox.Action.YES) {
-
-                            oModel.create("/DeepPositionNISet", deepEntity, {
-                                // method: "PUT",
-                                success: function (data) {
-                                    //console.log("success");
-                                    MessageBox.success("Operazione eseguita con successo", {
-                                        actions: [sap.m.MessageBox.Action.OK],
-                                        emphasizedAction: MessageBox.Action.OK,
-                                        onClose: function (oAction) {
-                                            if (oAction === sap.m.MessageBox.Action.OK) {
-                                                that.getOwnerComponent().getRouter().navTo("View1")
-                                                location.reload();
-                                            }
-                                        }
-                                    })
-
-                                },
-                                error: function (e) {
-                                    //console.log("error");
-                                    MessageBox.error("Operazione non eseguita")
-                                }
-                            });
-                        }
-
-                    }
-                });
-            },
-            //deepHeaderNISet
             onCancelNI: function () {
 
                 var that = this
@@ -480,14 +325,14 @@ sap.ui.define([
                                         var item = header[i];
                                         var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
                                         var Zamministr = scompostaZamministr.split(".")[0]
-                                        
+
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                         // deepEntity.Bukrs = item.Zamministr, //Passato Da BE
                                         // deepEntity.Gjahr = that.getView().byId("numNI1").mProperties.text.split("-")[0],
                                         // deepEntity.Zamministr = item.Zamministr, //Passato Da BE
                                         // deepEntity.ZidNi = item.ZidNi, //Incrementato da BE
                                         // deepEntity.ZRagioCompe = item.ZRagioCompe, //Passato Da BE
-                                            
+
 
                                         deepEntity.HeaderNISet = {
                                             Bukrs: Bukrs, //Passato Da BE
@@ -496,7 +341,7 @@ sap.ui.define([
                                             ZidNi: ZidNi, //Incrementato da BE
                                             ZRagioCompe: ZRagioCompe, //Passato Da BE
                                             //ZcodiStatoni: "00",
-                                            ZchiaveNi : ZchiaveNi,
+                                            ZchiaveNi: ZchiaveNi,
                                             ZimpoTotni: that.getView().byId("importoTot1").mProperties.text,
                                             ZzGjahrEngPos: that.getView().byId("numNI1").mProperties.text.split("-")[0],
                                             Zmese: that.getView().byId("mese1").mProperties.text,
@@ -505,79 +350,26 @@ sap.ui.define([
                                             Fistl: that.getView().byId("pos_FinWH2").mProperties.text,
                                         };
                                     }
-                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
-                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                            // method: "PUT",
-                                            success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo")
-                                                that.getOwnerComponent().getRouter().navTo("View1")
-                                                location.reload();
-                                            },
-                                            error: function (e) {
-                                                //console.log("error");
-                                                MessageBox.error("Operazione non eseguita")
-                                            }
-                                        });
-                                        // var path = oModel.createKey("/HeaderNISet", {
-                                        //     Bukrs:Bukrs,
-                                        //     Gjahr:Gjahr,
-                                        //     Zamministr:Zamministr,
-                                        //     ZchiaveNi:ZchiaveNi,
-                                        //     ZidNi:ZidNi,
-                                        //     ZRagioCompe:ZRagioCompe,
-                                        //     Funzionalita:"ANNULLAMENTOPREIMPOSTATA"
-                                        //     });
-
-                                        //     var oEntry = {};
-                                        //     oEntry.ZcodiStatoni = "09";
-                                        // }
-                                        // oModel.update(path, oEntry, {
-                                        //     //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                        //     // method: "PUT",
-                                        //     success: function (data) {
-                                        //         //console.log("success");
-                                        //         MessageBox.success("Operazione eseguita con successo")
-                                        //         that.getOwnerComponent().getRouter().navTo("View1")
-                                        //         location.reload();
-                                        //     },
-                                        //     error: function (e) {
-                                        //         //console.log("error");
-                                        //         MessageBox.error("Operazione non eseguita")
-                                        //     }
-                                        // });      
-                                    }
+                                    oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                        //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                        // method: "PUT",
+                                        success: function (data) {
+                                            //console.log("success");
+                                            MessageBox.success("Operazione eseguita con successo")
+                                            that.getOwnerComponent().getRouter().navTo("View1")
+                                            location.reload();
+                                        },
+                                        error: function (e) {
+                                            //console.log("error");
+                                            MessageBox.error("Operazione non eseguita")
+                                        }
+                                    });
                                 }
-                            });
+                            }
+                        });
                     }
                 }
             }
-            // onDeleteRecord: function (oEvent) {
-            //      var oSelectedItemPath = oEvent.getSource().getParent().getBindingContextPath();
-            //      var oSelectedItem = this.getOwnerComponent().getModel("modelTabGestNI").getObject(oSelectedItemPath);
-            //     //console.log(oSelectedItem);
-            //     var sKey = oSelectedItem.ID; // campo che identifica il record
-            //     var sType = "DELETE";
-            //     var sUrl = "/odata/v4/EmployeeService/Request(ID=" + sKey + ")"; //url dell'odata service
-            //     var that = this;
-            //     var aData = jQuery.ajax({
-            //         type: sType,
-            //         contentType: "application/json",
-            //          url: sUrl,
-            //          dataType: "json",
-            //          async: false,
-            //         success: function (data, textStatus, jqXHR) {
-            //             MessageBox.success("Record deleted correctly");
-            //             that.getHRdb();
-            //         },
-            //         error: function (error) {
-            //             MessageBox.error("Record NO deleted correctly");
-            //             var e = error;
-            //         }
-            //     });
-
-            // },
-
         })
 
     });

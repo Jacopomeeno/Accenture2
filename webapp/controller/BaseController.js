@@ -75,7 +75,7 @@ sap.ui.define([
             var oDialog = this.openDialog("project1.fragment.Help."+sField).open();
         },
 
-        _handleValueHelpTipologiaClose : function (evt) {
+        _handleValueHelpSetValueClose : function (evt) {
             var that = this,
             oSelectedItem = evt.getParameter("selectedItem"),
             sField = evt.getSource().data("filterTableField"),
@@ -83,7 +83,7 @@ sap.ui.define([
             if (oSelectedItem) {            
                 var sValueTitle = oSelectedItem.getTitle();
                 Input.setValue(sValueTitle);
-                //this.getOtherData(sValueTitle);
+                this.getOtherData(sValueTitle);
             }
             this.closeDialog();
         },

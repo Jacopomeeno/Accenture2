@@ -132,9 +132,9 @@
                                                     <l:GridData span="L3 M3 S3" />
                                                 </layoutData>
                                             </VBox> -->
-                                             <VBox>
+                                            <VBox>
                                                 <Label text="Sottotipologia di primo livello:" />
-                                                <Input value="" id="tipologia" width="100%" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'HeaderNIW>/items', sorter: { path: 'Ztipo' }}"  valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="tipologia" app:filterTableField="tipologia">
+                                                <Input value="" id="tipologia" width="100%" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'HeaderNIW>/items', sorter: { path: 'Ztipo' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="tipologia" app:filterTableField="tipologia">
                                                     <suggestionItems>
                                                         <core:ListItem text="{HeaderNIW>Ztipo}"/>
                                                     </suggestionItems>
@@ -185,7 +185,7 @@
                                             <l:content>
                                                 <VBox>
                                                     <Label text="Struttura Amministrativa Responsabile:"/>
-                                                    <Input id="strAmmResp" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'Fistl' }}" >
+                                                    <Input id="strAmmResp" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'Fistl' }}">
                                                         <suggestionItems>
                                                             <core:ListItem text="{temp>Fistl}" />
                                                         </suggestionItems>

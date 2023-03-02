@@ -39,7 +39,7 @@ sap.ui.define([
 							"tiles": [{
 								"tileType": "sap.ushell.ui.tile.StaticTile",
 								"properties": {
-									"title": "App Title",
+									"title": "Gestione Note di Imputazione",
 									"targetURL": "#project1-display"
 								}
 							}]
@@ -54,8 +54,8 @@ sap.ui.define([
 							"project1-display": {
 								"semanticObject": "project1",
 								"action": "display",
-								"description": "A Fiori application.",
-								"title": "App Title",
+								"description": "Ciao.",
+								"title": "Gestione Note di Imputazione",
 								"signature": {
 									"parameters": {}
 								},

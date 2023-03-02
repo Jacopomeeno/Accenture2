@@ -99,8 +99,8 @@
                 </layout:HorizontalLayout>
                 <OverflowToolbar>
                     <ToolbarSpacer />
-                    <Button text="Associa Impegno" type="Emphasized" press="pressAssociaImpegno" enabled="true" id="pressAssImpegno"/>
-                    <Button text="Rettifica NI" type="Emphasized" press="pressRettificaNI" />
+                    <Button text="Associa Impegno" type="Emphasized" press="pressAssociaImpegno" enabled="false" id="pressAssImpegno"/>
+                    <Button text="Rettifica NI" type="Emphasized" press="pressRettificaNI" enabled="false"/>
                 </OverflowToolbar>
             </f:DynamicPageHeader>
         </f:header>

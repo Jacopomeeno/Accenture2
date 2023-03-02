@@ -99,6 +99,7 @@ sap.ui.define([
             },
 
             onForwardButton: function () {
+                var array = []
                 var url = location.href
                 var sUrl = url.split("/aImpegno/")[1]
                 var aValori = sUrl.split(",")
@@ -118,7 +119,16 @@ sap.ui.define([
                         header[i].ZchiaveNi == ZchiaveNi &&
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
-                        this.getOwnerComponent().getRouter().navTo("aImpegno2", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                        var rows = this.getView().byId("HeaderNIAssImp").getSelectedItems()
+                        for (var m = 0; m < rows.length; m++) {
+                            var campo = rows[m].getBindingContext("HeaderNIAssImp").getObject()
+                            array.push(campo)
+                        }
+                        if (array) {
+                            this.getView().getModel("temp").setProperty("/ImpegniSelezionati", array)
+                            this.getOwnerComponent().getRouter().navTo("aImpegno2", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                        }
+
                     }
                 }
             },
@@ -243,11 +253,11 @@ sap.ui.define([
                         var Zdisp = parseFloat(this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[3].mProperties.value)
                         var impoAttributo = parseFloat(this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].mProperties.value)
                         //somma = somma + impoAttributo
-                        if(impoAttributo <= Zdisp){
+                        if (impoAttributo <= Zdisp) {
                             this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue(impoAttributo)
                             break;
                         }
-                        else if(impoAttributo > Zdisp){
+                        else if (impoAttributo > Zdisp) {
                             this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue(Zdisp)
                             continue;
                         }
