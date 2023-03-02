@@ -5,7 +5,7 @@
         growingThreshold="9999"
         class="sapUiPopupWithPadding"
         items="{
-            path: '/ZchiaveNi'
+            path: '/HeaderNISet'
         }"
         search="_handleValueHelpSearch"
         confirm="_handleValueHelpNumeroNIClose"

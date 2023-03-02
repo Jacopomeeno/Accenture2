@@ -36,7 +36,7 @@
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem groupName="Gruppo1" id="amministrazioneEG" visibleInFilterBar="true" name="amministrazioneEG" label="{i18n>amministrazioneEG}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="amministrazioneEG1" showValueHelp="false" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zamministr' }}">
+                                    <Input showSuggestion="true" id="amministrazioneEG1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zamministr' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="amministrazioneEG1" app:filterTableField="amministrazioneEG1">
                                       <core:Item key="{Zamministr}" text="{Zamministr}"/>
                                     </Input>
                                 </fb:control>
