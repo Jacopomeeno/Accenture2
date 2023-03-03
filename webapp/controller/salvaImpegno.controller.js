@@ -79,6 +79,7 @@ sap.ui.define([
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 //var position = this.getView().getModel("temp").getData().PositionNISet
                 var impegni = this.getView().getModel("temp").getData().ImpegniSelezionati
+                var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
                 for (var i = 0; i < header.length; i++) {
                     if (header[i].Bukrs == Bukrs &&
                         header[i].Gjahr == Gjahr &&
@@ -140,10 +141,20 @@ sap.ui.define([
                         for (var o = 0; o < impegni.length; o++) {
                             var beneficiario = impegni[o].Lifnr
                             this.getView().byId("Lifnr1").setText(beneficiario)
-                            var Zattribuito = impegni[o].Zattribuito
-                            this.getView().byId("ImpLiq1").setText(Zattribuito)
-
+                            //var Zattribuito = impegni[o].Zattribuito
+                            this.getView().byId("ImpLiq1").setText(importoTot)
                         }
+
+                        var centroCosto = valoriNuovi[1]
+                        this.getView().byId("CentroCosto1").setText(centroCosto)
+                        var centroCOGE = valoriNuovi[2]
+                        this.getView().byId("ConCoGe1").setText(centroCOGE)
+                        var codiceGestionale = valoriNuovi[3]
+                        this.getView().byId("CodiceGes1").setText(codiceGestionale)
+                        var causalePagamento = valoriNuovi[4]
+                        this.getView().byId("CausalePagamento1").setText(causalePagamento)
+
+
 
                     }
                 }
@@ -155,23 +166,26 @@ sap.ui.define([
                 var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
                 for (var y = 0; y < ImpegniSelezionati.length; y++) {
                     for (var x = 0; x < position.length; x++) {
+
                         if (parseFloat(ImpegniSelezionati[y].Zattribuito) > parseFloat(position[x].ZimpoTitolo)) {
+
                             var DELTAATTRIBUITO = "" + parseFloat(ImpegniSelezionati[y].Zattribuito) - parseFloat(position[x].ZimpoTitolo) + ""
-                            //this.getView().getModel("temp").setProperty('/PositionNISet', DELTAATTRIBUITO)
                             var DELTAIMPO_TITOLO = 0
-                            //this.getView().getModel("temp").setProperty('/PositionNISet', DELTAIMPO_TITOLO)
                             var ZCodCla = ImpegniSelezionati[y].ZCodCla
-                            this.getView().getModel("temp").setProperty('/PositionNISet', ZCodCla)
-                            ImpegniSelezionati[y].Zattribuito = parseFloat(DELTAATTRIBUITO)
+                            ImpegniSelezionati[y].Zattribuito = DELTAATTRIBUITO
                         }
+
                         else if (parseFloat(ImpegniSelezionati[y].Zattribuito) == parseFloat(position[x].ZimpoTitolo)) {
+
                             position[x].ZimpoTitolo = parseFloat(ImpegniSelezionati[y].Zattribuito)
                             var DELTAIMPO_TITOLO = parseFloat(position[x].ZimpoTitolo) - parseFloat(ImpegniSelezionati[y].Zattribuito)
                             var ZCodCla = ImpegniSelezionati[y].ZCodCla
-                            ImpegniSelezionati[y].Zattribuito = 0
+                            ImpegniSelezionati[y+1].Zattribuito = 0
                             break;
                         }
+
                         else if (parseFloat(ImpegniSelezionati[y].Zattribuito) < parseFloat(position[x].ZimpoTitolo)) {
+
                             position[x].ZimpoTitolo = parseFloat(ImpegniSelezionati[y].Zattribuito)
                             var DELTAIMPO_TITOLO = parseFloat(position[x].ZimpoTitolo) - parseFloat(ImpegniSelezionati[y].Zattribuito)
                             var ZCodCla = ImpegniSelezionati[y].ZCodCla

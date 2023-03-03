@@ -153,7 +153,7 @@
 
                 <Label text="Codice Gestionale" required="true" class="sapUiTinyMarginBottom" />
 
-                <Input id="inputCodiceGest" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zcodgest' }}">
+                <Input id="inputCodiceGest" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/PositionNISet', sorter: { path: 'Zcodgest' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCodiceGest" app:filterTableField="inputCodiceGest">
                     <layoutData>
                         <l:GridData span="XL3 L1 M4 S5" />
                     </layoutData>
