@@ -26,18 +26,18 @@
             <Column width="auto">
                 <Label text="Codice ISIN" />
             </Column>
-            <Column width="25%">
+            <Column width="auto">
                 <Label text="Sottotipologia primo livello " />
+            </Column>
+            <Column width="auto">
+                <Label text="Descrizione" />
             </Column>
             <Column width="auto">
                 <Label text="Data Pagamento" />
             </Column>
             <Column width="auto">
                 <Label text="Importo Titolo" />
-            </Column>
-            <Column width="auto">
-                <Label text="Importo Associato" />
-            </Column>
+            </Column> 
             <Column width="auto">
                 <Label text="Importo Residuo" />
             </Column>
@@ -48,9 +48,9 @@
         <ColumnListItem>
             <Text text="{HeaderSalva>ZcodIsin}" />
             <Text text="{HeaderSalva>Ztipo}"/>
+            <Text text="{HeaderSalva>Zdescrizione}" />
             <Text text="{path: 'HeaderSalva>ZdataPag', formatter:'.formatter.convert'}" />
             <Text text="{HeaderSalva>ZimpoTitolo}" />
-            <Text text="{HeaderSalva>ZimpoAss}" />
             <Text text="{HeaderSalva>ZimpoRes}" />
             <Input value="{HeaderSalva>ZCodCla}" />
         </ColumnListItem>

@@ -88,6 +88,19 @@ sap.ui.define([
             this.closeDialog();
         },
 
+		_handleValueHelpValueClose : function (evt) {
+            var that = this,
+            oSelectedItem = evt.getParameter("selectedItem"),
+            sField = evt.getSource().data("filterTableField"),
+            Input = this.getView().byId(sField);
+            if (oSelectedItem) {            
+                var sValueTitle = oSelectedItem.getTitle();
+                Input.setValue(sValueTitle);
+                //this.getOtherData(sValueTitle);
+            }
+            this.closeDialog();
+        },
+
 		_handleValueHelpClose : function (evt) {
             var that = this,
             oSelectedItem = evt.getParameter("selectedItem"),

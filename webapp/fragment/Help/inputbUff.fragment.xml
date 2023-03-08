@@ -8,7 +8,7 @@
             path: '/ZfmimpegniIpeSet'
         }"
         search="_handleValueHelpSearch"
-        confirm="_handleValueHelpSetValueClose"
+        confirm="_handleValueHelpValueClose"
         cancel="_handleValueHelpClose"
         app:filterTableField="inputbUff"
         >        

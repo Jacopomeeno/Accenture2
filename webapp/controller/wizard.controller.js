@@ -39,6 +39,8 @@ sap.ui.define([
                 this.controlPreNI()
                 this.controlHeader()
                 this.esercizioGestione()
+                this.strutturaAmministrativa()
+                this.posizioneFinanziaria()
                 //this.onSearch()
 
             },
@@ -52,6 +54,42 @@ sap.ui.define([
                     success: function (data) {
                         oMdl.setData(data.results);
                         that.getView().getModel("temp").setProperty('/ZgjahrEngNiSet', data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
+            strutturaAmministrativa: function () {
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/FistlNiSet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/FistlNiSet', data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
+            posizioneFinanziaria: function () {
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/FipexNiSet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/FipexNiSet', data.results)
                     },
                     error: function (error) {
                         //that.getView().getModel("temp").setProperty(sProperty,[]);

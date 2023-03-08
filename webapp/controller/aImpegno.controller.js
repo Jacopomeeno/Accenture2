@@ -14,6 +14,7 @@ sap.ui.define([
                 this.getOwnerComponent().getModel("temp");
                 this.getRouter().getRoute("aImpegno").attachPatternMatched(this._onObjectMatched, this);
                 this.setEsercizio_Amministrazione()
+                //this.onCallZdispon()
             },
 
             _onObjectMatched: function (oEvent) {
@@ -91,7 +92,6 @@ sap.ui.define([
                     }
                 }
             },
-
 
             onBackButton: function () {
                 this.getView().byId("HeaderNIAssImp").destroyItems()
@@ -235,14 +235,22 @@ sap.ui.define([
                         for (var i = 0; i < data.results.length; i++) {
                             that.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue(impoTot)
                         }
+                        that.onCallZdispon(data.results)
                     },
                     error: function (error) {
                         var e = error;
                     }
                 });
-
                 this.getOwnerComponent().setModel(oMdlAImp, "HeaderNIAssImp");
+                //this.setDisponibilità()
                 //sap.ui.getCore().TableModel = oMdlW;
+            },
+
+            setDisponibilità: function (Zdisp) {
+                //var Zdisp = this.getView().getModel("temp").getData().ZdisponSet
+                for (var q = 0; q < Zdisp.length; q++) {
+                    this.getView().byId("HeaderNIAssImp").getItems()[q].mAggregations.cells[3].setValue(Zdisp[q])
+                }
             },
 
             onCalcolaPress: function () {
@@ -263,7 +271,86 @@ sap.ui.define([
                         }
                     }
                 }
-            }
+            },
+
+            onCallZdispon: function (dataResults) {
+
+                const risultati = []
+                var that = this
+                var filtriDispon = []
+                var oModel = this.getOwnerComponent().getModel();
+
+                for (var d = 0; d < dataResults.length; d++) {
+                    if (dataResults[d].Belnr != undefined && dataResults[d].Blpos != undefined || dataResults[d].Belnr != "" && dataResults[d].Blpos != "") {
+
+                        var chiavi = oModel.createKey("/ZdisponSet", {
+                            Belnr: dataResults[d].Belnr,
+                            Blpos: dataResults[d].Blpos,
+                            
+                        });
+
+                        //var oMdlDisp = new sap.ui.model.json.JSONModel();
+                        this.getOwnerComponent().getModel().read(chiavi, {
+                            filters: [],
+                            //filters: [],
+                            // urlParameters: "",
+                            success: function (data) {
+                                risultati.push(data.Wtfree)
+                                if (risultati.length == dataResults.length) {
+                                    //oMdlDisp.setData(risultati);
+                                    //that.getView().getModel("temp").setProperty('/Zdispon', risultati)
+                                    that.setDisponibilità(risultati)
+                                }
+                            },
+                            error: function (error) {
+                                var e = error;
+                            }
+                        });
+                    }
+                }
+            },
+
+            // onCallZdispon: function (dataResults) {
+
+            //     const risultati = []
+            //     var that = this
+            //     var filtriDispon = []
+
+            //     for (var d = 0; d < dataResults.length; d++) {
+            //         if (dataResults[d].ZCodIpe != undefined && dataResults[d].ZNumCla != undefined) {
+
+            //             filtriDispon.push(new Filter({
+            //                 path: "ZCodIpe",
+            //                 operator: FilterOperator.EQ,
+            //                 value1: dataResults[d].ZCodIpe
+            //             }));
+            //             filtriDispon.push(new Filter({
+            //                 path: "ZNumCla",
+            //                 operator: FilterOperator.EQ,
+            //                 value1: dataResults[d].ZNumCla
+            //             }));
+
+            //             //var oMdlDisp = new sap.ui.model.json.JSONModel();
+            //             this.getOwnerComponent().getModel().read("/ZdisponSet", {
+            //                 filters: filtriDispon,
+            //                 //filters: [],
+            //                 // urlParameters: "",
+            //                 success: function (data) {
+            //                     risultati.push(data.results[0].Wtfree)
+            //                     if (risultati.length == dataResults.length) {
+            //                         //oMdlDisp.setData(risultati);
+            //                         //that.getView().getModel("temp").setProperty('/ZdisponSet', risultati)
+            //                         that.setDisponibilità(risultati)
+            //                     }
+            //                 },
+            //                 error: function (error) {
+            //                     var e = error;
+            //                 }
+            //             });
+            //         }
+            //     }
+            // },
+
 
         });
     },

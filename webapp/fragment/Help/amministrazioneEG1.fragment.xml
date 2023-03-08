@@ -8,7 +8,7 @@
             path: '/HeaderNISet'
         }"
         search="_handleValueHelpSearch"
-        confirm="_handleValueHelpNumeroNIClose"
+        confirm="_handleValueHelpValueClose"
         cancel="_handleValueHelpClose"
         app:filterTableField="amministrazioneEG1"
         >        

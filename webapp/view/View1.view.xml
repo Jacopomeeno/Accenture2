@@ -29,7 +29,7 @@
                         <fb:filterGroupItems>
 							<fb:FilterGroupItem groupName="Gruppo1" name="idState" label="{i18n>es_gestione}" tooltip="suggestion" visibleInFilterBar="true" mandatory="true">
                                 <fb:control>
-                                    <ComboBox id="es_gestione" items="{path: '/HeaderNISet', sorter: { path: 'ZgjahrEng' }}">
+                                    <ComboBox id="es_gestione" items="{path: '/ZgjahrEngNiSet', sorter: { path: 'ZgjahrEng' }}">
                                         <core:Item key="{ZgjahrEng}" text="{ZgjahrEng}"/>
                                     </ComboBox>
                                 </fb:control>
@@ -43,21 +43,21 @@
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="ragioneria" visibleInFilterBar="true" name="ragioneria" groupName="Gruppo1" label="{i18n>ragioneria}" >
                                 <fb:control>
-                                    <Input showSuggestion="true" id="ragioneria1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZRagioCompe' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputRag" app:filterTableField="inputRag">
+                                    <Input showSuggestion="true" id="ragioneria1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZRagioCompe' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="ragioneria1" app:filterTableField="ragioneria1">
                                       <core:Item key="{ZRagioCompe}" text="{ZRagioCompe}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="NumNIDa" visibleInFilterBar="true" name="NumNIDa" groupName="Gruppo1" label="{i18n>NumNIDa}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="NumNIDa1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZidNi' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputNumNI" app:filterTableField="inputNumNI">
+                                    <Input showSuggestion="true" id="NumNIDa1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZidNi' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="NumNIDa1" app:filterTableField="NumNIDa1">
                                       <core:Item key="{ZidNi}" text="{ZidNi}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="NumNIA" visibleInFilterBar="true" name="NumNIA" groupName="Gruppo1" label="{i18n>NumNIA}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="NumNIA1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZidNi' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputNumNI" app:filterTableField="inputNumNI">
+                                    <Input showSuggestion="true" id="NumNIA1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZidNi' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="NumNIA1" app:filterTableField="NumNIA1">
                                       <core:Item key="{ZidNi}" text="{ZidNi}"/>
                                     </Input>
                                 </fb:control>
@@ -97,49 +97,49 @@
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="amministrazioneED" visibleInFilterBar="true" name="amministrazioneED" groupName="Gruppo2" label="{i18n>amministrazioneED}">
                                 <fb:control>
-                                    <Input id="amministrazioneED1" showValueHelp="false" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'AmministrDecreto' }}">
+                                    <Input id="amministrazioneED1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'AmministrDecreto' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="amministrazioneED1" app:filterTableField="amministrazioneED1">
                                       <core:Item key="{AmministrDecreto}" text="{AmministrDecreto}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="uff1Livello" visibleInFilterBar="true" name="uff1Livello" groupName="Gruppo2" label="{i18n>uff1Livello}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="uff1Livello1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zufficioliv1' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputUff1" app:filterTableField="inputUff1">
+                                    <Input showSuggestion="true" id="uff1Livello1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zufficioliv1' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="uff1Livello1" app:filterTableField="uff1Livello1">
                                       <core:Item key="{Zufficioliv1}" text="{Zufficioliv1}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="uff2Livello" visibleInFilterBar="true" name="uff2Livello" groupName="Gruppo2" label="{i18n>uff2Livello}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="uff2Livello2" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zufficioliv2' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputUff2" app:filterTableField="inputUff2">
+                                    <Input showSuggestion="true" id="uff2Livello2" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zufficioliv2' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="uff2Livello" app:filterTableField="uff2Livello">
                                       <core:Item key="{Zufficioliv2}" text="{Zufficioliv2}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="numDecreto" visibleInFilterBar="true" name="numDecreto" groupName="Gruppo2" label="{i18n>numDecreto}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="numDecreto1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zcoddecr' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputNumDecr" app:filterTableField="inputNumDecr">
+                                    <Input showSuggestion="true" id="numDecreto1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zcoddecr' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="numDecreto1" app:filterTableField="numDecreto1">
                                       <core:Item key="{Zcoddecr}" text="{Zcoddecr}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="numIPE" visibleInFilterBar="true" name="numIPE" groupName="Gruppo2" label="{i18n>numIPE}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="numIPE1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZCodIpe' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputIPE" app:filterTableField="inputIPE">
+                                    <Input showSuggestion="true" id="numIPE1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZCodIpe' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="numIPE1" app:filterTableField="numIPE1">
                                       <core:Item key="{ZCodIpe}" text="{ZCodIpe}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="numClausolaDa" visibleInFilterBar="true" name="numClausolaDa" groupName="Gruppo2" label="{i18n>numClausolaDa}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="numClausolaDa1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZNumCla' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputClaus" app:filterTableField="inputClaus">
+                                    <Input showSuggestion="true" id="numClausolaDa1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZNumCla' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="numClausolaDa1" app:filterTableField="numClausolaDa1">
                                       <core:Item key="{ZNumCla}" text="{ZNumCla}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="numClausolaA" visibleInFilterBar="true" name="numClausolaA" groupName="Gruppo2" label="{i18n>numClausolaA}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="numClausolaA1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZNumCla' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputClaus" app:filterTableField="inputClaus">
+                                    <Input showSuggestion="true" id="numClausolaA1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZNumCla' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="numClausolaA1" app:filterTableField="numClausolaA1">
                                       <core:Item key="{ZNumCla}" text="{ZNumCla}"/>
                                     </Input>
                                 </fb:control>
@@ -203,7 +203,7 @@
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="struttura_amm" visibleInFilterBar="true" name="struttura_amm" groupName="Gruppo5" label="{i18n>struttura_amm}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="struttura_amm1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Fistl' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputSA" app:filterTableField="inputSA">
+                                    <Input showSuggestion="true" id="struttura_amm1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Fistl' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="struttura_amm1" app:filterTableField="struttura_amm1">
                                       <core:Item key="{Fistl}" text="{Fistl}"/>
                                     </Input>
                                 </fb:control>
@@ -224,7 +224,7 @@
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="EPR" visibleInFilterBar="true" name="EPR" groupName="Gruppo5" label="{i18n>EPR}">
                                 <fb:control>
-                                    <Input id="EPR1" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'NProtocolloRag' }}">
+                                    <Input id="EPR1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'NProtocolloRag' }}">
                                         <core:Item key="{Epr}" text="{Epr}"/>
                                     </Input>
                                 </fb:control>

@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">   
 <SelectDialog
-        title="Seleziona Numero Nota"
+        title="Seleziona Struttura Amministrativa"
         growing="true"
         growingThreshold="9999"
         class="sapUiPopupWithPadding"
@@ -8,15 +8,15 @@
             path: '/HeaderNISet'
         }"
         search="_handleValueHelpSearch"
-        confirm="_handleValueHelpNumeroNIClose"
+        confirm="_handleValueHelpValueClose"
         cancel="_handleValueHelpClose"
-        app:filterTableField="inputNumNI"
+        app:filterTableField="inputSA"
         >        
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{ZchiaveNi}"
-            app:key="{ZchiaveNi}"
+            title="{Fistl}"
+            app:key="{Fistl}"
              />    
 </SelectDialog>
              

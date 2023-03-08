@@ -8,9 +8,9 @@
             path: '/ZfmimpegniIpeSet'
         }"
         search="_handleValueHelpSearch"
-        confirm="_handleValueHelpSetValueClose"
+        confirm="_handleValueHelpValueClose"
         cancel="_handleValueHelpClose"
-        app:filterTableField="inputClaus"
+        app:filterTableField="numClausolaA1"
         >        
         <StandardListItem
             iconDensityAware="false"

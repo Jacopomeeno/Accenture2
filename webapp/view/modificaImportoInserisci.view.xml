@@ -11,7 +11,7 @@
     xmlns:menu="sap.m.MenuItem"
     xmlns:menBtn="sap.m.Menu"
     height="100%"
-    controllerName="project1.controller.inserisciInvioFirma"
+    controllerName="project1.controller.modificaImporto"
 >
     <f:DynamicPage id="dynamicPageId" showFooter="true">
         <f:header>
@@ -101,19 +101,13 @@
 
                     </layout:VerticalLayout>
                 </layout:HorizontalLayout>
-
-                <OverflowToolbar>
-                    <ToolbarSpacer />
-                    <Button text="Rettifica NI" type="Emphasized" press="pressRettificaNI" />
-                    <Button text="Inserisci dati per Invio della firma" type="Emphasized" press="pressFirma" enabled="true" id="pressFirma" icon="sap-icon://edit"/>
-                </OverflowToolbar>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <IconTabBar id="inserisciInvioFirma" class="sapUiResponsiveContentPadding" select="onSelect">
+            <IconTabBar id="idIconTabBar" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
-                    <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
-                        <core:Fragment fragmentName="project1.fragment.inserisciFirma" type="XML" />
+                    <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">
+                        <core:Fragment fragmentName="project1.fragment.modificaImporto" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
                     </IconTabFilter>
@@ -121,14 +115,12 @@
                     </IconTabFilter>
                 </items>
             </IconTabBar>
-            
         </f:content>
         <f:footer>
             <OverflowToolbar>
                 <Button text="Indietro" type="Emphasized" press="onBackButton" />
                 <ToolbarSpacer />
-                <Button type="Emphasized" text="Annulla NI" press="onCancelNI" id="AnnullaNI2" />
-                <Button type="Emphasized" text="Invia alla Firma" press="onCompleteNI" id="InviaNI" />
+                <Button type="Emphasized" text="Salva" press="onUpdateImporto" icon="sap-icon://save" />
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

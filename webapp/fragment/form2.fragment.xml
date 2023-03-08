@@ -1,29 +1,10 @@
-<core:FragmentDefinition 
-    xmlns="sap.m" 
-    xmlns:l="sap.ui.layout" 
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
     xmlns:f="sap.ui.layout.form"
-    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" 
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
     xmlns:core="sap.ui.core">
     <VBox class="sapUiSmallMargin">
-        <f:SimpleForm
-            id="BeneficiarioNI"
-            title="Beneficiario Nota di Imputazione"
-            editable="true"
-            layout="ResponsiveGridLayout"
-            labelSpanXL="6"
-            labelSpanL="6"
-            labelSpanM="6"
-            labelSpanS="12"
-            adjustLabelSpan="false"
-            emptySpanXL="0"
-            emptySpanL="0"
-            emptySpanM="0"
-            emptySpanS="0"
-            columnsM="2"
-            columnsL="3"
-            columnsXL="3"
-            singleContainerFullSize="false"
-        >
+        <f:SimpleForm id="BeneficiarioNI" title="Beneficiario Nota di Imputazione" editable="true" layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false">
             <f:content>
                 <core:Title text=" " />
                 <Label text="Beneficiario" required="true" />
@@ -31,37 +12,21 @@
                     <core:Item key="{Lifnr}" text="{Lifnr}" />
                 </Input>
                 <Label text="Modalità di Pagamento" required="true" />
-                <ComboBox id="ModPagamento" enabled="true" editable="true" />
+                <ComboBox id="ModPagamento" enabled="true" editable="true" items="{path: 'temp>/ZdescwelsBniSet', sorter: { path: 'temp>Zdescwels' }}">
+                    <core:Item key="{temp>Zdescwels}" text="{temp>Zdescwels}"/>
+                </ComboBox>
                 <!-- <core:Item key="{}" text="{}"/> -->
                 <core:Title text=" " />
                 <Label text="Nome" />
                 <Input id="inputNome" type="Text" enabled="true" editable="true" />
                 <Label text="IBAN" required="true" />
-                <Input id="inputIBAN" type="Text" showValueHelp="true" enabled="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Iban' }}" editable="true">
+                <Input id="inputIBAN" type="Text" showValueHelp="true" enabled="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Iban' }}" editable="true" value="IT60X0542811101000000123456">
                     <core:Item key="{Iban}" text="{Iban}" />
                 </Input>
                 <core:Title text=" " />
             </f:content>
         </f:SimpleForm>
-        <f:SimpleForm
-            id="ImputazioneContabile"
-            title="Imputazione Contabile"
-            editable="true"
-            layout="ResponsiveGridLayout"
-            labelSpanXL="6"
-            labelSpanL="6"
-            labelSpanM="6"
-            labelSpanS="12"
-            adjustLabelSpan="false"
-            emptySpanXL="0"
-            emptySpanL="0"
-            emptySpanM="0"
-            emptySpanS="0"
-            columnsM="2"
-            columnsL="3"
-            columnsXL="3"
-            singleContainerFullSize="false"
-        >
+        <f:SimpleForm id="ImputazioneContabile" title="Imputazione Contabile" editable="true" layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false">
             <f:content>
                 <core:Title text=" " />
                 <Label text="Centro di Costo" required="true" />
@@ -79,50 +44,14 @@
                 <Input id="DescCoGe" type="Text" />
             </f:content>
         </f:SimpleForm>
-        <f:SimpleForm
-            id="ImportoLiquidazione"
-            title="Importo Liquidazione"
-            editable="true"
-            layout="ResponsiveGridLayout"
-            labelSpanXL="6"
-            labelSpanL="6"
-            labelSpanM="6"
-            labelSpanS="12"
-            adjustLabelSpan="false"
-            emptySpanXL="0"
-            emptySpanL="0"
-            emptySpanM="0"
-            emptySpanS="0"
-            columnsM="2"
-            columnsL="3"
-            columnsXL="3"
-            singleContainerFullSize="false"
-        >
+        <f:SimpleForm id="ImportoLiquidazione" title="Importo Liquidazione" editable="true" layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false">
             <f:content>
                 <Label text="Importo di Liquidazione" required="true" />
                 <Input type="Text" id="InputImpLiq" editable="false" />
             </f:content>
         </f:SimpleForm>
 
-        <f:SimpleForm
-            title="Dati NI"
-            id="SimpleFormChangeColumn__threeGroups234-5"
-            editable="true"
-            layout="ResponsiveGridLayout"
-            labelSpanXL="2"
-            labelSpanL="2"
-            labelSpanM="2"
-            labelSpanS="4"
-            adjustLabelSpan="false"
-            emptySpanXL="0"
-            emptySpanL="0"
-            emptySpanM="0"
-            emptySpanS="0"
-            columnsM="1"
-            columnsL="1"
-            columnsXL="1"
-            singleContainerFullSize="false"
-        >
+        <f:SimpleForm title="Dati NI" id="SimpleFormChangeColumn__threeGroups234-5" editable="true" layout="ResponsiveGridLayout" labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="4" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsM="1" columnsL="1" columnsXL="1" singleContainerFullSize="false">
             <f:content>
                 <core:Title text="" />
                 <Label text="Data Protocollo" class="sapUiTinyMarginBottom">
@@ -187,7 +116,7 @@
                     </layoutData>
                     <core:Item key="{Zcauspag}" text="{Zcauspag}" />
                 </Input>
-                
+
                 <Label text="Data esigibilità" class="sapUiTinyMarginBottom">
                     <layoutData>
                         <l:GridData span="XL3 L2 M4 S5" />

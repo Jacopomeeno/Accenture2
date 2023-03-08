@@ -96,6 +96,29 @@ sap.ui.define([
                 });
             },
 
+            onCallModalità: function () {
+                var filtriModalità = []
+                var that = this
+                var oMdlMod = new sap.ui.model.json.JSONModel();
+                var Lifnr = this.getView().byId("inputBeneficiario").getValue()
+
+                filtriModalità.push(new Filter({
+                    path: "Lifnr",
+                    operator: FilterOperator.EQ,
+                    value1: Lifnr
+                }));
+
+                this.getOwnerComponent().getModel().read("/ZdescwelsBniSet", {
+                    filters: filtriModalità,
+                    success: function (data) {
+                        oMdlMod.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/ZdescwelsBniSet', data.results)
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
+            },
 
             onCallTxt50Ic: function () {
                 var filtriTxt50Ic = []
@@ -127,9 +150,9 @@ sap.ui.define([
                 //var codiceGestionale = this.getView().byId("inputCodiceGest").getValue()
                 var oTempModel = this.getView().getModel("temp")
                 
-                var KOSTL = _.findWhere(oTempModel.getProperty("/LtextIcSet"), { Kostl: value })
+                var KOSTL = _.findWhere(oTempModel.getProperty("/ZhfKostlSet"), { Kostl: value })
                 if (KOSTL != undefined) {
-                    var centroCosto = _.findWhere(oTempModel.getProperty("/LtextIcSet"), { id: KOSTL.Kostl });
+                    var centroCosto = _.findWhere(oTempModel.getProperty("/ZhfKostlSet"), { id: KOSTL.Kostl });
                     this.getView().byId("DescCentroCosto").setValue(KOSTL.Ltext);
                     //valoriNuovi.push(KOSTL.Kostl)
                 }
@@ -210,6 +233,7 @@ sap.ui.define([
                             var beneficiario = impegni[m].Lifnr
                             this.getView().byId("inputBeneficiario").setValue(beneficiario)
                         }
+                        this.onCallModalità()
                     }
                 }
             },
@@ -224,14 +248,30 @@ sap.ui.define([
                 var valoriNuovi = []
                 valoriNuovi.push(beneficiario)
                 if (beneficiario && this.getView().byId("DescCentroCosto").getValue() && this.getView().byId("DescCoGe").getValue() && this.getView().byId("inputCodiceGest").getValue()) {
+                    
                     var centroCosto = this.getView().byId("inputCentroCosto").getValue()
                     valoriNuovi.push(centroCosto)
+
+                    var DescCentroCosto = this.getView().byId("DescCentroCosto").getValue()
+                    valoriNuovi.push(DescCentroCosto)
+
                     var contoCOGE = this.getView().byId("inputCoGe").getValue()
                     valoriNuovi.push(contoCOGE)
+
+                    var DescCoGe = this.getView().byId("DescCoGe").getValue()
+                    valoriNuovi.push(DescCoGe)
+
                     var codiceGestionale = this.getView().byId("inputCodiceGest").getValue()
                     valoriNuovi.push(codiceGestionale)
+
                     var causalePagamento = this.getView().byId("inputCausPagamento").getValue()
                     valoriNuovi.push(causalePagamento)
+
+                    var modalitàPagamento = this.getView().byId("ModPagamento").getValue()
+                    valoriNuovi.push(modalitàPagamento)
+
+                    var Iban = this.getView().byId("inputIBAN").getValue()
+                    valoriNuovi.push(Iban)
 
                     this.getView().getModel("temp").setProperty('/ValoriNuovi', valoriNuovi)
                     //console.log("eh")

@@ -34,8 +34,8 @@
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{Kostl}"
-            app:key="{Kostl}"
+            title="{temp>Kostl}"
+            app:key="{temp>Kostl}"
              />    
 </SelectDialog>
              

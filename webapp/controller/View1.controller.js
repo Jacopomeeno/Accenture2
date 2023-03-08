@@ -19,6 +19,7 @@ sap.ui.define([
 
             onInit: function () {
                 //console.log("onInit View1 controller")
+                this.esercizioGestione()
             },
 
             onWarning2MessageBoxPress: function () {
@@ -32,6 +33,24 @@ sap.ui.define([
                         )
                     }
                 })
+            },
+
+            esercizioGestione: function () {
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/ZgjahrEngNiSet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/ZgjahrEngNiSet', data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
             },
 
             createColumnConfig: function () {

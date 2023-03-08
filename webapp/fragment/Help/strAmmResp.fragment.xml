@@ -1,22 +1,22 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">   
 <SelectDialog
-        title="Seleziona Ragioneria"
+        title="Seleziona Tipologia"
         growing="true"
         growingThreshold="9999"
         class="sapUiPopupWithPadding"
         items="{
-            path: '/HeaderNISet'
+            path: 'temp>/FistlNiSet'
         }"
         search="_handleValueHelpSearch"
-        confirm="_handleValueHelpRagioneriaClose"
+        confirm="_handleValueHelpValueClose"
         cancel="_handleValueHelpClose"
-        app:filterTableField="inputRag"
+        app:filterTableField="strAmmResp"
         >        
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{ZRagioCompe}"
-            app:key="{ZRagioCompe}"
+            title="{temp>Fictr}"
+            app:key="{temp>Fictr}"
              />    
 </SelectDialog>
              

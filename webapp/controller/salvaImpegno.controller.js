@@ -147,12 +147,14 @@ sap.ui.define([
 
                         var centroCosto = valoriNuovi[1]
                         this.getView().byId("CentroCosto1").setText(centroCosto)
-                        var centroCOGE = valoriNuovi[2]
+                        var centroCOGE = valoriNuovi[3]
                         this.getView().byId("ConCoGe1").setText(centroCOGE)
-                        var codiceGestionale = valoriNuovi[3]
+                        var codiceGestionale = valoriNuovi[5]
                         this.getView().byId("CodiceGes1").setText(codiceGestionale)
-                        var causalePagamento = valoriNuovi[4]
+                        var causalePagamento = valoriNuovi[6]
                         this.getView().byId("CausalePagamento1").setText(causalePagamento)
+                        var modalitàPagamento = valoriNuovi[7]
+                        this.getView().byId("Zwels1").setText(modalitàPagamento)
 
 
 
@@ -162,44 +164,52 @@ sap.ui.define([
             },
 
             controlloAttributo: function () {
+                var x = 0
+                var y = 0
                 var position = this.getView().getModel("temp").getData().PositionNISet
                 var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
-                for (var y = 0; y < ImpegniSelezionati.length; y++) {
-                    for (var x = 0; x < position.length; x++) {
+                for (y; y < ImpegniSelezionati.length; y++) {
+                    if (parseFloat(ImpegniSelezionati[y].Zattribuito) > 0) {
+                        for (x; x < position.length; x++) {
 
-                        if (parseFloat(ImpegniSelezionati[y].Zattribuito) > parseFloat(position[x].ZimpoTitolo)) {
+                            if (parseFloat(ImpegniSelezionati[y].Zattribuito) > parseFloat(position[x].ZimpoTitolo)) {
 
-                            var DELTAATTRIBUITO = "" + parseFloat(ImpegniSelezionati[y].Zattribuito) - parseFloat(position[x].ZimpoTitolo) + ""
-                            var DELTAIMPO_TITOLO = 0
-                            var ZCodCla = ImpegniSelezionati[y].ZCodCla
-                            ImpegniSelezionati[y].Zattribuito = DELTAATTRIBUITO
-                        }
-
-                        else if (parseFloat(ImpegniSelezionati[y].Zattribuito) == parseFloat(position[x].ZimpoTitolo)) {
-
-                            position[x].ZimpoTitolo = parseFloat(ImpegniSelezionati[y].Zattribuito)
-                            var DELTAIMPO_TITOLO = parseFloat(position[x].ZimpoTitolo) - parseFloat(ImpegniSelezionati[y].Zattribuito)
-                            var ZCodCla = ImpegniSelezionati[y].ZCodCla
-                            ImpegniSelezionati[y+1].Zattribuito = 0
-                            break;
-                        }
-
-                        else if (parseFloat(ImpegniSelezionati[y].Zattribuito) < parseFloat(position[x].ZimpoTitolo)) {
-
-                            position[x].ZimpoTitolo = parseFloat(ImpegniSelezionati[y].Zattribuito)
-                            var DELTAIMPO_TITOLO = parseFloat(position[x].ZimpoTitolo) - parseFloat(ImpegniSelezionati[y].Zattribuito)
-                            var ZCodCla = ImpegniSelezionati[y].ZCodCla
-                            if (DELTAIMPO_TITOLO > 0) {
-                                console.log("creazione")
+                                //this.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[3].setValue(position[x].ZimpoTitolo)
+                                var DELTAATTRIBUITO = "" + parseFloat(ImpegniSelezionati[y].Zattribuito) - parseFloat(position[x].ZimpoTitolo) + ""
+                                var DELTAIMPO_TITOLO = 0
+                                var ZCodCla = ImpegniSelezionati[y].ZCodCla
+                                //this.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[6].setValue(ZCodCla)
+                                ImpegniSelezionati[y].Zattribuito = DELTAATTRIBUITO
                             }
-                            //ImpegniSelezionati[y].Zattribuito = 0     
+
+                            else if (parseFloat(ImpegniSelezionati[y].Zattribuito) == parseFloat(position[x].ZimpoTitolo)) {
+
+                                //this.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[3].setValue(ImpegniSelezionati[y].Zattribuito)
+                                var DELTAIMPO_TITOLO = parseFloat(position[x].ZimpoTitolo) - parseFloat(ImpegniSelezionati[y].Zattribuito)
+                                var ZCodCla = ImpegniSelezionati[y].ZCodCla
+                                //that.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[6].setValue(ZCodCla)
+                                ImpegniSelezionati[y + 1].Zattribuito = "0"
+                                x++
+                                break;
+                            }
+
+                            else if (parseFloat(ImpegniSelezionati[y].Zattribuito) < parseFloat(position[x].ZimpoTitolo)) {
+
+                                //this.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[3].setValue(ImpegniSelezionati[y].Zattribuito)
+                                var DELTAIMPO_TITOLO = parseFloat(position[x].ZimpoTitolo) - parseFloat(ImpegniSelezionati[y].Zattribuito)
+                                var ZCodCla = ImpegniSelezionati[y].ZCodCla
+                                //that.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[6].setValue(ZCodCla)
+                                if (DELTAIMPO_TITOLO > 0) {
+                                    console.log("creazione")
+                                }
+                                //ImpegniSelezionati[y].Zattribuito = 0     
+                            }
                         }
                     }
                 }
             },
 
             callPositionNI: function (oEvent) {
-                this.controlloAttributo()
                 var filtroNI = []
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 //var position = this.getView().getModel("temp").getData().PositionNISet
@@ -270,7 +280,7 @@ sap.ui.define([
 
                     }
                 }
-
+                this.controlloAttributo()
             },
 
             onSelect: function (oEvent) {
@@ -295,6 +305,150 @@ sap.ui.define([
 
             onBackButton: function () {
                 window.history.go(-1);
+            },
+
+            onCompleteNI: function () {
+                var self = this;
+                //var rows= this.getView().byId("HeaderNIW").getSelectedItem()
+                var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
+                var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
+
+                var Zcauspag = this.getView().byId("CausalePagamento1").getText()
+                //nome
+                //Zzonaint
+                //Zdataesig
+                //Zlocpag
+                //Zdescrcg
+                //numProto
+                //dataPro
+                var Zcodgest = this.getView().byId("CodiceGes1").getText()
+                var Saknr = this.getView().byId("ConCoGe1").getText()
+                var Kostl = this.getView().byId("CentroCosto1").getText()
+                var Zwels = this.getView().byId("Zwels1").getText()
+                var Iban = valoriNuovi[6]
+                var Lifnr = this.getView().byId("Lifnr1").getText()
+                var DescCentroCosto = valoriNuovi[2]
+                var DescCoGe = valoriNuovi[4]
+
+
+                var oDataModel = self.getOwnerComponent().getModel();
+                //var sommaImporto = 0.00
+
+                var oItems = self.getView().byId("HeaderSalva").getBinding("items").oList;
+                var deepEntity = {
+                    HeaderNISet: null,
+                    PositionNISet: [],
+                    Funzionalita: "COMPLETAMENTO"
+                }
+                var z = 0
+
+                for (var i = 0; i < oItems.length; i++) {
+                    var item = oItems[i];
+
+                    for (z; z < ImpegniSelezionati.length; z++) {
+                        var Zcdr = ImpegniSelezionati[z].Fistl[4] + ImpegniSelezionati[z].Fistl[5] + ImpegniSelezionati[z].Fistl[6] + ImpegniSelezionati[z].Fistl[7]  //impegni
+                        var Zufficioliv1 = ImpegniSelezionati[z].Zufficioliv1 //impegni
+                        var Zufficioliv2 = ImpegniSelezionati[z].Zufficioliv2   //impegni
+                        var Ktext = ImpegniSelezionati[z].Ktext
+                        var Blpos = ImpegniSelezionati[z].Blpos
+                        //CONTROLLI CREAZIONE NUOVA POSIZIONE CON IMPEGNO UGUALE O DIVERSO
+                        if (z == 0) {   //Controllo iniziale
+                            var Zgeber = ImpegniSelezionati[z].Geber
+                            var Zepr = ImpegniSelezionati[z].Zepr
+                            z++
+                            break;
+                        }
+                        if (oItems[i].ZCodCla == oItems[i - 1].ZCodCla) { //se viene creata una nuova posizione con impegno uguale al precedente si vanno a prendere i valori del precedente impegno
+                            var Zgeber = ImpegniSelezionati[z - 1].Geber
+                            var Zepr = ImpegniSelezionati[z - 1].Zepr
+                            z++
+                            break;
+                        }
+                        if (oItems[i].ZCodCla == oItems[i - 1].ZCodCla) { //se non viene creata, prende i nuovi valori
+                            var Zgeber = ImpegniSelezionati[z].Geber
+                            var Zepr = ImpegniSelezionati[z].Zepr
+                            z++
+                            break;
+                        }
+                        //Zbelnr //campo vuoto
+
+                    }
+
+                    deepEntity.PositionNISet.push({
+                        ZchiaveNi: item.ZchiaveNi,
+                        Zcauspag: Zcauspag,
+                        Zcodgest: Zcodgest,
+                        Saknr: Saknr,
+                        Kostl: Kostl,
+                        Zwels: Zwels,
+                        Iban: Iban,
+                        Lifnr: Lifnr,
+                        DescCentroCosto: DescCentroCosto,
+                        DescCoGe: DescCoGe,
+                        Zcdr: Zcdr,
+                        Zufficioliv1: Zufficioliv1,
+                        Zufficioliv2: Zufficioliv2,
+                        Zgeber: Zgeber,
+                        Zepr: Zepr,
+                        Blpos: Blpos,
+                        Zcoddecr: item.ZCodCla.split("-", 5),
+                        ZCodGius: item.ZCodCla.split("-", 5),
+                        ZCodIpe: item.ZCodCla.split("-")[5],
+                        ZNumCla: item.ZCodCla.split("-")[6],
+                        ZCodCla: item.ZCodCla,
+                        Ktext: Ktext,
+                        ZgjahrEng: item.ZCodCla.split("-")[0]
+                    });
+                }
+
+                deepEntity.HeaderNISet = {
+                    ZchiaveNi: item.ZchiaveNi
+                };
+
+                MessageBox.warning("Sei sicuro di voler completare la NI?", {
+                    actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                    emphasizedAction: MessageBox.Action.YES,
+                    onClose: function (oAction) {
+                        if (oAction === sap.m.MessageBox.Action.YES) {
+
+                            oDataModel.create("/DeepZNIEntitySet", deepEntity, {
+                                // urlParameters: {
+                                //     'funzionalita': "PREIMPOSTAZIONE"
+                                // },
+                                success: function (result) {
+                                    if (result.Msgty == 'E') {
+                                        console.log(result.Message)
+                                        MessageBox.error("Nota d'imputazione non completata correttamente", {
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                        })
+                                    }
+                                    if (result.Msgty == 'S') {
+                                        MessageBox.success("Nota d'imputazione completata correttamente", {
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                            onClose: function (oAction) {
+                                                if (oAction === sap.m.MessageBox.Action.OK) {
+                                                    self.getOwnerComponent().getRouter().navTo("View1");
+                                                    location.reload();
+                                                }
+                                            }
+                                        })
+                                    }
+                                },
+                                error: function (err) {
+                                    console.log(err);
+                                    MessageBox.error("Nota d'imputazione non completata correttamente", {
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                    })
+                                },
+                                async: true,  // execute async request to not stuck the main thread
+                                urlParameters: {}  // send URL parameters if required 
+                            });
+                        }
+                    }
+                })
             },
 
             onCancelNI: function () {

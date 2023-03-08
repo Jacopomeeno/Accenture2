@@ -8,9 +8,9 @@
             path: '/HeaderNISet'
         }"
         search="_handleValueHelpSearch"
-        confirm="_handleValueHelpUfficio2Close"
+        confirm="_handleValueHelpValueClose"
         cancel="_handleValueHelpClose"
-        app:filterTableField="inputUff2"
+        app:filterTableField="uff2Livello"
         >        
         <StandardListItem
             iconDensityAware="false"
