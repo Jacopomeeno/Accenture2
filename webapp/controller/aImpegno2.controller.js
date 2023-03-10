@@ -163,6 +163,13 @@ sap.ui.define([
                     //valoriNuovi.push(SAKNR.Saknr)
                 }
 
+                var codiceGestionale = _.findWhere(oTempModel.getProperty("/PositionNISet"), { Zcodgest: value })
+                if (codiceGestionale != undefined) {
+                    var Zcodgest = _.findWhere(oTempModel.getProperty("/PositionNISet"), { id: codiceGestionale.Zcodgest });
+                    this.getView().byId("DescrizioneCodiceGest").setValue(codiceGestionale.Zdescrcg);
+                    //valoriNuovi.push(SAKNR.Saknr)
+                }
+
                 //oMdlVN.setData(valoriNuovi)
 
             },

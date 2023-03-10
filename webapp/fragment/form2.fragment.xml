@@ -88,7 +88,7 @@
                     </layoutData>
                     <core:Item key="{Zcodgest}" text="{Zcodgest}" />
                 </Input>
-                <Label text="Descrizione" class="sapUiTinyMarginBottom">
+                <Label text="DescrizioneCodiceGest" class="sapUiTinyMarginBottom">
                     <layoutData>
                         <l:GridData indent="XL3 L2 M4 S5" />
                         <l:GridData span="XL3 L5 M4 S5" />
@@ -102,7 +102,7 @@
                 </Input>
                 <Label text="Località di pagamento" class="sapUiTinyMarginBottom" />
 
-                <Input id="inputLocPagamento" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zlocpag' }}">
+                <Input id="inputLocPagamento" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/PositionNISet', sorter: { path: 'Zlocpag' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputLocPagamento" app:filterTableField="inputLocPagamento">
                     <layoutData>
                         <l:GridData span="XL3 L2 M4 S5" />
                     </layoutData>
@@ -136,7 +136,7 @@
                     </layoutData>
                 </Label>
 
-                <Input id="inputZInterv" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zzonaint' }}">
+                <Input id="inputZInterv" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zzonaint' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputZInterv" app:filterTableField="inputZInterv">
                     <layoutData>
                         <l:GridData span="XL2 L2 M2 S4" />
                     </layoutData>

@@ -210,7 +210,7 @@
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="PF" visibleInFilterBar="true" name="PF" groupName="Gruppo5" label="{i18n>PF}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="PF1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Fipex' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputPosFin" app:filterTableField="inputPosFin">
+                                    <Input showSuggestion="true" id="inputPosFin" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Fipex' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputPosFin" app:filterTableField="inputPosFin">
                                       <core:Item key="{Fipex}" text="{Fipex}"/>
                                     </Input>
                                 </fb:control>
@@ -224,7 +224,7 @@
                             </fb:FilterGroupItem>
 							<fb:FilterGroupItem id="EPR" visibleInFilterBar="true" name="EPR" groupName="Gruppo5" label="{i18n>EPR}">
                                 <fb:control>
-                                    <Input id="EPR1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'NProtocolloRag' }}">
+                                    <Input id="EPR1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Epr' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="EPR1" app:filterTableField="EPR1">
                                         <core:Item key="{Epr}" text="{Epr}"/>
                                     </Input>
                                 </fb:control>

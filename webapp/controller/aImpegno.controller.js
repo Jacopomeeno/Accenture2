@@ -165,6 +165,19 @@ sap.ui.define([
                 var that = this;
                 var filtriAssocia = []
                 this.getView().byId("HeaderNIAssImp").setVisible(true);
+                // var oModel = this.getOwnerComponent().getModel();
+
+                // var path = oModel.createKey("/ZfmimpegniIpeSet", {
+                //     Gjahr: this.getView().byId("es_gestione").mProperties.value,
+                //     Zcoddecr: this.getView().byId("inputDecreto").mProperties.value,
+                //     Zammin: this.getView().byId("inputAmm").mProperties.value,
+                //     ZCodIpe: this.getView().byId("inputIPE").mProperties.value,
+                //     Zufficioliv1: this.getView().byId("inputaUff").mProperties.value,
+                //     Zufficioliv2: this.getView().byId("inputbUff").mProperties.value,
+                //     ZNumCla: this.getView().byId("inputClaus").mProperties.value
+                // });
+
+                //FILTRI COMMENTATI IN ATTESA DI VALORI CORRETTI
 
                 if (this.getView().byId("es_gestione").mProperties.value != "") {
                     filtriAssocia.push(new Filter({
@@ -184,7 +197,7 @@ sap.ui.define([
 
                 if (this.getView().byId("inputAmm").mProperties.value != "") {
                     filtriAssocia.push(new Filter({
-                        path: "Zamministr",
+                        path: "Zammin",
                         operator: FilterOperator.EQ,
                         value1: this.getView().byId("inputAmm").mProperties.value
                     }));
@@ -255,18 +268,18 @@ sap.ui.define([
 
             onCalcolaPress: function () {
                 //var somma=0.00
-                var rows = this.getView().byId("HeaderNIAssImp").getItems()
+                var rows = this.getView().byId("HeaderNIAssImp").getSelectedItems()
                 for (var i = 0; i < rows.length; i++) {
-                    if (this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].mProperties.value != "") {
-                        var Zdisp = parseFloat(this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[3].mProperties.value)
-                        var impoAttributo = parseFloat(this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].mProperties.value)
+                    if (this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value != "") {
+                        var Zdisp = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[3].mProperties.value)
+                        var impoAttributo = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value)
                         //somma = somma + impoAttributo
                         if (impoAttributo <= Zdisp) {
-                            this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue(impoAttributo)
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(impoAttributo)
                             break;
                         }
                         else if (impoAttributo > Zdisp) {
-                            this.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue(Zdisp)
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(Zdisp)
                             continue;
                         }
                     }
@@ -286,7 +299,7 @@ sap.ui.define([
                         var chiavi = oModel.createKey("/ZdisponSet", {
                             Belnr: dataResults[d].Belnr,
                             Blpos: dataResults[d].Blpos,
-                            
+
                         });
 
                         //var oMdlDisp = new sap.ui.model.json.JSONModel();

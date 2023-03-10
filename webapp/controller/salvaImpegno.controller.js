@@ -42,7 +42,7 @@ sap.ui.define([
                     "',ZidNi='" + oEvent.getParameters().arguments.campo4 +
                     "',ZRagioCompe='" + oEvent.getParameters().arguments.campo5 + "')"
                 );
-                this.callPositionNI(oEvent)
+                this.collegaClausole(oEvent)
             },
 
             // prePosition: function(){
@@ -163,50 +163,73 @@ sap.ui.define([
 
             },
 
-            controlloAttributo: function () {
-                var x = 0
-                var y = 0
+            collegaClausole: function (oEvent) {
+                var self = this
+
                 var position = this.getView().getModel("temp").getData().PositionNISet
+                var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
                 var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
-                for (y; y < ImpegniSelezionati.length; y++) {
-                    if (parseFloat(ImpegniSelezionati[y].Zattribuito) > 0) {
-                        for (x; x < position.length; x++) {
 
-                            if (parseFloat(ImpegniSelezionati[y].Zattribuito) > parseFloat(position[x].ZimpoTitolo)) {
+                var Iban = valoriNuovi[8]
+                var Lifnr = valoriNuovi[0]
+                var Zwels = valoriNuovi[7]
+                var Kostl = valoriNuovi[1]
+                var Ltext = valoriNuovi[2]
+                var Saknr = valoriNuovi[3]
+                var Txt50 = valoriNuovi[4]
+                var Zcodgest = valoriNuovi[5]
+                var Zcauspag = valoriNuovi[6]
+                
 
-                                //this.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[3].setValue(position[x].ZimpoTitolo)
-                                var DELTAATTRIBUITO = "" + parseFloat(ImpegniSelezionati[y].Zattribuito) - parseFloat(position[x].ZimpoTitolo) + ""
-                                var DELTAIMPO_TITOLO = 0
-                                var ZCodCla = ImpegniSelezionati[y].ZCodCla
-                                //this.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[6].setValue(ZCodCla)
-                                ImpegniSelezionati[y].Zattribuito = DELTAATTRIBUITO
-                            }
-
-                            else if (parseFloat(ImpegniSelezionati[y].Zattribuito) == parseFloat(position[x].ZimpoTitolo)) {
-
-                                //this.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[3].setValue(ImpegniSelezionati[y].Zattribuito)
-                                var DELTAIMPO_TITOLO = parseFloat(position[x].ZimpoTitolo) - parseFloat(ImpegniSelezionati[y].Zattribuito)
-                                var ZCodCla = ImpegniSelezionati[y].ZCodCla
-                                //that.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[6].setValue(ZCodCla)
-                                ImpegniSelezionati[y + 1].Zattribuito = "0"
-                                x++
-                                break;
-                            }
-
-                            else if (parseFloat(ImpegniSelezionati[y].Zattribuito) < parseFloat(position[x].ZimpoTitolo)) {
-
-                                //this.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[3].setValue(ImpegniSelezionati[y].Zattribuito)
-                                var DELTAIMPO_TITOLO = parseFloat(position[x].ZimpoTitolo) - parseFloat(ImpegniSelezionati[y].Zattribuito)
-                                var ZCodCla = ImpegniSelezionati[y].ZCodCla
-                                //that.getView().byId("HeaderSalva").getItems()[y].mAggregations.cells[6].setValue(ZCodCla)
-                                if (DELTAIMPO_TITOLO > 0) {
-                                    console.log("creazione")
-                                }
-                                //ImpegniSelezionati[y].Zattribuito = 0     
-                            }
-                        }
-                    }
+                var deepEntity = {
+                    PositionNISet: [],
+                    ZfmimpegniIpeSet: [],
+                    Funzionalita: 'COLLEGA_CLAUSOLE'
                 }
+
+                for (var i = 0; i < position.length; i++) {
+
+                    position[i].Iban = Iban
+                    position[i].Lifnr = Lifnr
+                    position[i].Zwels = Zwels
+                    position[i].Kostl = Kostl
+                    position[i].Ltext = Ltext
+                    position[i].Saknr = Saknr
+                    position[i].Txt50 = Txt50
+                    position[i].Zcodgest = Zcodgest
+                    position[i].Zcauspag = Zcauspag
+
+                    deepEntity.PositionNISet.push(position[i]);
+                }
+
+                for (var l = 0; l < ImpegniSelezionati.length; l++) {
+                    //var item = oItems[i];
+
+                    ImpegniSelezionati[l].Attribuito = ImpegniSelezionati[l].Zattribuito
+
+                    deepEntity.ZfmimpegniIpeSet.push(ImpegniSelezionati[l]);
+                }
+                var oDataModel = self.getOwnerComponent().getModel();
+                oDataModel.create("/DeepPositionNI", deepEntity, {
+                    // urlParameters: {
+                    //     'funzionalita': "PREIMPOSTAZIONE"
+                    // },
+                    success: function (result) {
+                        if (result.Msgty == 'E') {
+                            console.log(result.Message)
+                            this.callPositionNI(oEvent)
+                        }
+                        if (result.Msgty == 'S') {
+                            console.log(result.Message)
+                            this.callPositionNI(oEvent)
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    },
+                    async: true,  // execute async request to not stuck the main thread
+                    urlParameters: {}  // send URL parameters if required 
+                });
             },
 
             callPositionNI: function (oEvent) {
@@ -280,7 +303,7 @@ sap.ui.define([
 
                     }
                 }
-                this.controlloAttributo()
+                this.collegaClausole()
             },
 
             onSelect: function (oEvent) {
