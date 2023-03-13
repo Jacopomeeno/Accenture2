@@ -32,8 +32,8 @@
             <Text text="{HeaderNIAssImp>Zepr}" />
             <Text text="{HeaderNIAssImp>Geber}" />
             <Text text="{HeaderNIAssImp>ZCodCla}" />
-            <Input value="{HeaderNIAssImp>Zdisp}" />
-            <Input value="{HeaderNIAssImp>Zattribuito}" id="Zattributo"/>
+            <Text text="" />
+            <Input value="{HeaderNIAssImp>Attribuito}" id="Zattributo"/>
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

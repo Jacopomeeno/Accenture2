@@ -148,6 +148,7 @@
                 <Property Name="Msgty" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Message" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <NavigationProperty Name="PositionNISet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepPositionNIToPositionNI" FromRole="FromRole_DeepPositionNIToPositionNI" ToRole="ToRole_DeepPositionNIToPositionNI"/>
+                <NavigationProperty Name="ZfmimpegniIpeSet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepPositionNIToZfmimpegniIpe" FromRole="FromRole_DeepPositionNIToZfmimpegniIpe" ToRole="ToRole_DeepPositionNIToZfmimpegniIpe"/>
             </EntityType>
             <EntityType Name="LtextIc" sap:content-version="1">
                 <Key>
@@ -173,6 +174,7 @@
                     <PropertyRef Name="ZNumCla"/>
                     <PropertyRef Name="ZCodCla"/>
                 </Key>
+                <Property Name="Attribuito" Type="Edm.Decimal" Precision="24" Scale="3" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Company Code" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
                 <Property Name="Fikrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="FM Area" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
                 <Property Name="Gjahr" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Fiscal Year" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
@@ -470,6 +472,10 @@
                     </Dependent>
                 </ReferentialConstraint>
             </Association>
+            <Association Name="DeepPositionNIToZfmimpegniIpe" sap:content-version="1">
+                <End Type="ZS4_NOTEIMPUTAZIONI_SRV.DeepPositionNI" Multiplicity="1" Role="FromRole_DeepPositionNIToZfmimpegniIpe"/>
+                <End Type="ZS4_NOTEIMPUTAZIONI_SRV.ZfmimpegniIpe" Multiplicity="*" Role="ToRole_DeepPositionNIToZfmimpegniIpe"/>
+            </Association>
             <EntityContainer Name="ZS4_NOTEIMPUTAZIONI_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
                 <EntitySet Name="HeaderNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.HeaderNI" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="PositionNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.PositionNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
@@ -494,6 +500,10 @@
                 <AssociationSet Name="DeepEntityToPositionsSet" Association="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToPositions" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="DeepZNIEntitySet" Role="FromRole_DeepEntityToPositions"/>
                     <End EntitySet="PositionNISet" Role="ToRole_DeepEntityToPositions"/>
+                </AssociationSet>
+                <AssociationSet Name="DeepPositionNIToZfmimpegniIpe_AssocSet" Association="ZS4_NOTEIMPUTAZIONI_SRV.DeepPositionNIToZfmimpegniIpe" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="DeepPositionNISet" Role="FromRole_DeepPositionNIToZfmimpegniIpe"/>
+                    <End EntitySet="ZfmimpegniIpeSet" Role="ToRole_DeepPositionNIToZfmimpegniIpe"/>
                 </AssociationSet>
                 <AssociationSet Name="DeepEntityToHeaderSet" Association="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="DeepZNIEntitySet" Role="FromRole_DeepEntityToHeader"/>

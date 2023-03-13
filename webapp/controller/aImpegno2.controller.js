@@ -180,7 +180,7 @@ sap.ui.define([
                 var position = this.getView().getModel("temp").getData().PositionNISet
                 //var LtextIcSet = this.getView().getModel("temp").getData().LtextIcSet
                 var impegni = this.getView().getModel("temp").getData().ImpegniSelezionati
-                console.log(this.getView().getModel("temp").getData())
+                //console.log(this.getView().getModel("temp").getData())
                 for (var i = 0; i < header.length; i++) {
                     if (header[i].Bukrs == oEvent.getParameters().arguments.campo &&
                         header[i].Gjahr == oEvent.getParameters().arguments.campo1 &&

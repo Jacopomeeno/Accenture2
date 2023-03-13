@@ -52,7 +52,7 @@
             <Text text="{path: 'HeaderSalva>ZdataPag', formatter:'.formatter.convert'}" />
             <Text text="{HeaderSalva>ZimpoTitolo}" />
             <Text text="{HeaderSalva>ZimpoRes}" />
-            <Input value="{HeaderSalva>ZCodCla}" />
+            <Text text="{HeaderSalva>ZCodCla}" wrapping="true" />
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

@@ -12,8 +12,8 @@
                     <core:Item key="{Lifnr}" text="{Lifnr}" />
                 </Input>
                 <Label text="Modalità di Pagamento" required="true" />
-                <ComboBox id="ModPagamento" enabled="true" editable="true" items="{path: 'temp>/ZdescwelsBniSet', sorter: { path: 'temp>Zdescwels' }}">
-                    <core:Item key="{temp>Zdescwels}" text="{temp>Zdescwels}"/>
+                <ComboBox id="ModPagamento" enabled="true" editable="true" items="{path: 'temp>/ZdescwelsBniSet', sorter: { path: 'temp>Zwels' }}">
+                    <core:Item key="{temp>Zwels}" text="{temp>Zwels}"/>
                 </ComboBox>
                 <!-- <core:Item key="{}" text="{}"/> -->
                 <core:Title text=" " />

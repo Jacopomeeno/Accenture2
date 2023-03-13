@@ -179,7 +179,7 @@ sap.ui.define([
                 var Txt50 = valoriNuovi[4]
                 var Zcodgest = valoriNuovi[5]
                 var Zcauspag = valoriNuovi[6]
-                
+
 
                 var deepEntity = {
                     PositionNISet: [],
@@ -193,9 +193,9 @@ sap.ui.define([
                     position[i].Lifnr = Lifnr
                     position[i].Zwels = Zwels
                     position[i].Kostl = Kostl
-                    position[i].Ltext = Ltext
+                    //position[i].Ltext = Ltext
                     position[i].Saknr = Saknr
-                    position[i].Txt50 = Txt50
+                    //position[i].Txt50 = Txt50
                     position[i].Zcodgest = Zcodgest
                     position[i].Zcauspag = Zcauspag
 
@@ -205,24 +205,27 @@ sap.ui.define([
                 for (var l = 0; l < ImpegniSelezionati.length; l++) {
                     //var item = oItems[i];
 
-                    ImpegniSelezionati[l].Attribuito = ImpegniSelezionati[l].Zattribuito
-
+                    //ImpegniSelezionati[l].Attribuito = parseFloat(ImpegniSelezionati[l].Attribuito)
+                    //ImpegniSelezionati[l].Attribuito = 1.00
                     deepEntity.ZfmimpegniIpeSet.push(ImpegniSelezionati[l]);
                 }
                 var oDataModel = self.getOwnerComponent().getModel();
-                oDataModel.create("/DeepPositionNI", deepEntity, {
+                oDataModel.create("/DeepPositionNISet", deepEntity, {
                     // urlParameters: {
                     //     'funzionalita': "PREIMPOSTAZIONE"
                     // },
                     success: function (result) {
-                        if (result.Msgty == 'E') {
-                            console.log(result.Message)
-                            this.callPositionNI(oEvent)
-                        }
-                        if (result.Msgty == 'S') {
-                            console.log(result.Message)
-                            this.callPositionNI(oEvent)
-                        }
+                        // if (result.Msgty == 'E') {
+                        //    console.log(result.Message)
+                        self.getView().getModel("temp").setProperty('/PositionNISet', result.PositionNISet.results)
+                        self.viewHeader(result.PositionNISet.results)
+                        var oMdlITB = new sap.ui.model.json.JSONModel();
+                        oMdlITB.setData(result.PositionNISet.results);
+                        self.getOwnerComponent().setModel(oMdlITB, "HeaderSalva");
+                        //}
+                        //if (result.Msgty == 'S') {
+                        //    console.log(result.Message)
+                        // }
                     },
                     error: function (err) {
                         console.log(err);
@@ -230,101 +233,112 @@ sap.ui.define([
                     async: true,  // execute async request to not stuck the main thread
                     urlParameters: {}  // send URL parameters if required 
                 });
+                
             },
 
-            callPositionNI: function (oEvent) {
-                var filtroNI = []
-                var header = this.getView().getModel("temp").getData().HeaderNISet
-                //var position = this.getView().getModel("temp").getData().PositionNISet
-                for (var i = 0; i < header.length; i++) {
+            // callPositionNI: function () {
+            //     var filtroNI = []
 
-                    if (header[i].Bukrs == oEvent.getParameters().arguments.campo &&
-                        header[i].Gjahr == oEvent.getParameters().arguments.campo1 &&
-                        header[i].Zamministr == oEvent.getParameters().arguments.campo2 &&
-                        header[i].ZchiaveNi == oEvent.getParameters().arguments.campo3 &&
-                        header[i].ZidNi == oEvent.getParameters().arguments.campo4 &&
-                        header[i].ZRagioCompe == oEvent.getParameters().arguments.campo5) {
+            //     var url = location.href
+            //     var sUrl = url.split("/salvaImpegno/")[1]
+            //     var aValori = sUrl.split(",")
 
-                        //filtroNI.push({Bukrs:Bukrs, Gjahr:Gjahr, Zamministr,Zamministr, ZchiaveNi:ZchiaveNi, ZidNi:ZidNi, ZRagioCompe:ZRagioCompe})
-                        filtroNI.push(new Filter({
-                            path: "Bukrs",
-                            operator: FilterOperator.EQ,
-                            value1: header[i].Bukrs
-                        }));
-                        filtroNI.push(new Filter({
-                            path: "Gjahr",
-                            operator: FilterOperator.EQ,
-                            value1: header[i].Gjahr
-                        }));
-                        filtroNI.push(new Filter({
-                            path: "Zamministr",
-                            operator: FilterOperator.EQ,
-                            value1: header[i].Zamministr
-                        }));
-                        filtroNI.push(new Filter({
-                            path: "ZchiaveNi",
-                            operator: FilterOperator.EQ,
-                            value1: header[i].ZchiaveNi
-                        }));
-                        filtroNI.push(new Filter({
-                            path: "ZidNi",
-                            operator: FilterOperator.EQ,
-                            value1: header[i].ZidNi
-                        }));
-                        filtroNI.push(new Filter({
-                            path: "ZRagioCompe",
-                            operator: FilterOperator.EQ,
-                            value1: header[i].ZRagioCompe
-                        }));
-                        // filtroNI.push(new Filter({
-                        //     path: "ZposNi",
-                        //     operator: FilterOperator.EQ,
-                        //     value1: ZposNi
-                        // }));
+            //     var Bukrs = aValori[0]
+            //     var Gjahr = aValori[1]
+            //     var Zamministr = aValori[2]
+            //     var ZchiaveNi = aValori[3]
+            //     var ZidNi = aValori[4]
+            //     var ZRagioCompe = aValori[5]
 
+            //     //var oItems = that.getView().byId("").getBinding("items").oList;
+            //     var header = this.getView().getModel("temp").getData().HeaderNISet
+            //     for (var i = 0; i < header.length; i++) {
+            //         if (header[i].Bukrs == Bukrs &&
+            //             header[i].Gjahr == Gjahr &&
+            //             header[i].Zamministr == Zamministr &&
+            //             header[i].ZchiaveNi == ZchiaveNi &&
+            //             header[i].ZidNi == ZidNi &&
+            //             header[i].ZRagioCompe == ZRagioCompe) {
 
-                        var that = this;
-                        var oMdlITB = new sap.ui.model.json.JSONModel();
-                        this.getOwnerComponent().getModel().read("/PositionNISet", {
-                            filters: filtroNI,
-                            //filters: [],
-                            urlParameters: "",
-
-                            success: function (data) {
-                                oMdlITB.setData(data.results);
-                                that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
-                                that.viewHeader(data.results)
-                            },
-                            error: function (error) {
-                                var e = error;
-                            }
-                        });
-                        this.getOwnerComponent().setModel(oMdlITB, "HeaderSalva");
-
-                    }
-                }
-                this.collegaClausole()
-            },
-
-            onSelect: function (oEvent) {
-                var key = oEvent.getParameters().key;
-                if (key === "dettagliNI") {
-                    //this.callPositionNI()
-                    this.getView().byId("idIconTabBar").destroyContent()
+            //             //filtroNI.push({Bukrs:Bukrs, Gjahr:Gjahr, Zamministr,Zamministr, ZchiaveNi:ZchiaveNi, ZidNi:ZidNi, ZRagioCompe:ZRagioCompe})
+            //             filtroNI.push(new Filter({
+            //                 path: "Bukrs",
+            //                 operator: FilterOperator.EQ,
+            //                 value1: header[i].Bukrs
+            //             }));
+            //             filtroNI.push(new Filter({
+            //                 path: "Gjahr",
+            //                 operator: FilterOperator.EQ,
+            //                 value1: header[i].Gjahr
+            //             }));
+            //             filtroNI.push(new Filter({
+            //                 path: "Zamministr",
+            //                 operator: FilterOperator.EQ,
+            //                 value1: header[i].Zamministr
+            //             }));
+            //             filtroNI.push(new Filter({
+            //                 path: "ZchiaveNi",
+            //                 operator: FilterOperator.EQ,
+            //                 value1: header[i].ZchiaveNi
+            //             }));
+            //             filtroNI.push(new Filter({
+            //                 path: "ZidNi",
+            //                 operator: FilterOperator.EQ,
+            //                 value1: header[i].ZidNi
+            //             }));
+            //             filtroNI.push(new Filter({
+            //                 path: "ZRagioCompe",
+            //                 operator: FilterOperator.EQ,
+            //                 value1: header[i].ZRagioCompe
+            //             }));
+            //             // filtroNI.push(new Filter({
+            //             //     path: "ZposNi",
+            //             //     operator: FilterOperator.EQ,
+            //             //     value1: ZposNi
+            //             // }));
 
 
-                }
+            //             var that = this;
+            //             var oMdlITB = new sap.ui.model.json.JSONModel();
+            //             this.getOwnerComponent().getModel().read("/PositionNISet", {
+            //                 filters: filtroNI,
+            //                 //filters: [],
+            //                 urlParameters: "",
 
-                else if (key === "Workflow") {
-                    this.getView().byId("idIconTabBar").destroyContent()
+            //                 success: function (data) {
+            //                     oMdlITB.setData(data.results);
+            //                     //that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+            //                     that.viewHeader(data.results)
+            //                 },
+            //                 error: function (error) {
+            //                     var e = error;
+            //                 }
+            //             });
+            //             this.getOwnerComponent().setModel(oMdlITB, "HeaderSalva");
 
-                }
-                else if (key === "Fascicolo") {
+            //         }
+            //     }
+            // },
 
-                }
+            // onSelect: function (oEvent) {
+            //     var key = oEvent.getParameters().key;
+            //     if (key === "dettagliNI") {
+            //         //this.callPositionNI()
+            //         this.getView().byId("idIconTabBar").destroyContent()
 
 
-            },
+            //     }
+
+            //     else if (key === "Workflow") {
+            //         this.getView().byId("idIconTabBar").destroyContent()
+
+            //     }
+            //     else if (key === "Fascicolo") {
+
+            //     }
+
+
+            // },
 
             onBackButton: function () {
                 window.history.go(-1);

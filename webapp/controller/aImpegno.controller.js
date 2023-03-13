@@ -246,7 +246,7 @@ sap.ui.define([
                         var impoTot = that.getView().byId("importoTot1").mProperties.text
                         //var lunghezzaTab = that.getView().getModel("temp").ZfmimpegniIpeSet
                         for (var i = 0; i < data.results.length; i++) {
-                            that.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue(impoTot)
+                            that.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue("0.00")
                         }
                         that.onCallZdispon(data.results)
                     },
@@ -262,24 +262,27 @@ sap.ui.define([
             setDisponibilità: function (Zdisp) {
                 //var Zdisp = this.getView().getModel("temp").getData().ZdisponSet
                 for (var q = 0; q < Zdisp.length; q++) {
-                    this.getView().byId("HeaderNIAssImp").getItems()[q].mAggregations.cells[3].setValue(Zdisp[q])
+                    this.getView().byId("HeaderNIAssImp").getItems()[q].mAggregations.cells[3].setText(Zdisp[q])
                 }
             },
 
             onCalcolaPress: function () {
                 //var somma=0.00
                 var rows = this.getView().byId("HeaderNIAssImp").getSelectedItems()
+                var impoTot = this.getView().byId("importoTot1").mProperties.text
+                var deltaImportoTot = impoTot
                 for (var i = 0; i < rows.length; i++) {
                     if (this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value != "") {
-                        var Zdisp = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[3].mProperties.value)
-                        var impoAttributo = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value)
+                        var Zdisp = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[3].mProperties.text)
+                        //var impoAttributo = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value)
                         //somma = somma + impoAttributo
                         if (impoAttributo <= Zdisp) {
                             this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(impoAttributo)
                             break;
                         }
                         else if (impoAttributo > Zdisp) {
-                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(Zdisp)
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setText(Zdisp)
+                            deltaImportoTot = deltaImportoTot - Zdisp
                             continue;
                         }
                     }
