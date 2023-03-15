@@ -15,7 +15,7 @@
             <OverflowToolbar>
                 <content>
                     <ToolbarSpacer />
-                    <Button type="Emphasized" text="Modifica Dettagli NI" enabled="false" press="onEditRow" id="editRow" />
+                    <Button type="Emphasized" text="Modifica Dettaglio NI" enabled="false" press="onEditRow" id="editRow" />
                 </content>
             </OverflowToolbar>
         </headerToolbar>
@@ -50,7 +50,7 @@
             <Text text="{HeaderInserisci>ZcodIsin}" />
             <Text text="{HeaderInserisci>Ztipo}" />
             <Text text="{HeaderInserisci>Zdescrizione}" />
-            <Text text="{HeaderInserisci>ZdataPag}" />
+            <Text text="{path: 'HeaderInserisci>ZdataPag', formatter:'.formatter.convert'}" />
             <Text text="{HeaderInserisci>ZimpoTitolo}" />
             <Text text="{HeaderInserisci>ZimpoRes}" />
             <Text text="{HeaderInserisci>ZCodCla}"/>
