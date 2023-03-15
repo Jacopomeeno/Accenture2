@@ -125,15 +125,8 @@
                     "target": "TargeticonTabBar"
                 },
                 {
-                    "name": "iconTabBar2",
-                    "pattern": "iconTabBar2",
-                    "titleTarget": "",
-                    "greedy": false,
-                    "target": "TargeticonTabBar2"
-                },
-                {
                     "name": "inserisciFirma",
-                    "pattern": "inserisciFirma",
+                    "pattern": "inserisciFirma/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
                     "titleTarget": "",
                     "greedy": false,
                     "target": "TargetinserisciFirma"
@@ -181,11 +174,11 @@
                     "target": "TargetmodificaImporto"
                 },
                 {
-                    "name": "modificaImportoInserisci",
+                    "name": "modificaDettaglioInserisci",
                     "pattern": "modificaImporto/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
                     "titleTarget": "",
                     "greedy": false,
-                    "target": "TargetmodificaImportoInserisci"
+                    "target": "TargetmodificaDettaglioInserisci"
                 }
             ],
             "targets": {
@@ -261,12 +254,12 @@
                     "viewName": "modificaImporto",
                     "viewLevel": 1
                 },
-                "TargetmodificaImportoInserisci": {
+                "TargetmodificaDettaglioInserisci": {
                     "viewType": "XML",
                     "transition": "slide",
                     "clearControlAggregation": false,
-                    "viewId": "modificaImportoInserisci",
-                    "viewName": "modificaImportoInserisci",
+                    "viewId": "modificaDettaglioInserisci",
+                    "viewName": "modificaDettaglioInserisci",
                     "viewLevel": 1
                 },
                 "TargetaImpegno": {

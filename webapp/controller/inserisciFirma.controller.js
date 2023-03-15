@@ -13,7 +13,7 @@ sap.ui.define(
             },
 
             onBackButton: function () {
-                this.getOwnerComponent().getRouter().navTo("iconTabBar2");
+                window.history.go(-1);
             },
 
             onConfirm: function () {
