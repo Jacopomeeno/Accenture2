@@ -240,7 +240,6 @@ sap.ui.define(
                        
                     }
                 }
-                this.HeaderInserisci()
             },
 
             onSelect: function (oEvent) {
@@ -268,7 +267,7 @@ sap.ui.define(
             
             onEditRow: function () {
                 var url = location.href
-                var sUrl = url.split("/inserisciInvioFirma/")
+                var sUrl = url.split("/inserisciInvioFirma/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]

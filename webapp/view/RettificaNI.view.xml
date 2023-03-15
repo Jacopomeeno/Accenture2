@@ -11,95 +11,117 @@
     xmlns:menu="sap.m.MenuItem"
     xmlns:menBtn="sap.m.Menu"
     height="100%"
-    controllerName="project1.controller.modificaDettaglioInserisci"
+    controllerName="project1.controller.RettificaNI"
 >
-
- <App id="RettNI">
-    <f:DynamicPage showFooter="true">
+    <f:DynamicPage id="dynamicPageId" showFooter="true">
         <f:header>
             <f:DynamicPageHeader pinnable="false">
                 <layout:HorizontalLayout allowWrapping="true">
                     <layout:VerticalLayout class="sapUiMediumMarginEnd">
-                        <HBox id="idHBox1">
-                            <VBox id="idVBox11" class="sapUiSmallMargin" width="auto">
-                                <Label id="ProgressivoNI" text="{i18n>ProgressivoNI}"
-                                    design="Bold" />
-                                <Text id="ProgressivoNI1" />
-                            </VBox>
-                            <VBox id="idVBox12" class="sapUiSmallMargin" width="auto">
-                                <Label id="data" text="{i18n>Data}" design="Bold" />
-                                <Text id="data1" wrapping="true" />
-                            </VBox>
-                        </HBox>
                         <HBox id="idHBox2">
-                            <VBox id="idVBox13" class="sapUiSmallMargin" width="auto">
-                                <Label id="SAR" text="{i18n>SAR}" design="Bold" />
-                                <Text id="SAR1" />
-                            </VBox>
                             <VBox id="idVBox14" class="sapUiSmallMargin" width="auto">
-                                <Label id="PF" text="{i18n>PF}" design="Bold" />
-                                <Text id="PF1" />
+                                <Label id="numNI" text="{i18n>ProgressivoNI}" design="Bold"/>
+                                <Text id="numNI1"/>
                             </VBox>
                             <VBox id="idVBox15" class="sapUiSmallMargin" width="auto">
-                                <Label id="oggSpesaNI" text="{i18n>oggSpesa}" design="Bold" />
-                                <Text id="oggSpesaNI1" />
+                                <Label id="dataReg" text="{i18n>Data}" design="Bold"/>
+                                <Text id="dataReg1" wrapping="true"/>
                             </VBox>
                         </HBox>
                         <HBox id="idHBox3">
-                            <VBox id="idVBox16" class="sapUiSmallMargin" width="auto">
-                                <Label id="mese" text="{i18n>mese}" design="Bold" />
-                                <Text id="mese1" />
-                            </VBox>
                             <VBox id="idVBox17" class="sapUiSmallMargin" width="auto">
-                                <Label id="comp" text="{i18n>comp}" design="Bold" />
-                                <Text id="comp1" />
+                                <Label id="SARW2" text="{i18n>SAR}" design="Bold"/>
+                                <Text id="SARWH2"/>
                             </VBox>
                             <VBox id="idVBox18" class="sapUiSmallMargin" width="auto">
-                                <Label id="statoNI" text="{i18n>statoNI}" design="Bold" />
-                                <Text id="statoNI1" />
+                                <Label id="pos_FinW2" text="{i18n>PF}" design="Bold"/>
+                                <Text id="pos_FinWH2"/>
+                            </VBox>
+                            <VBox id="idVBox19" class="sapUiSmallMargin" width="auto">
+                                <Label id="oggSpesa" text="{i18n>oggSpesa}" design="Bold"/>
+                                <Text id="oggSpesa1"/>
                             </VBox>
                         </HBox>
                         <HBox id="idHBox4">
-                            <VBox id="idVBox19" class="sapUiSmallMargin" width="auto">
-                                <Label id="importoTot" text="{i18n>importoTot}" design="Bold" />
-                                <Text id="importoTot1" />
+                            <VBox id="idVBox20" class="sapUiSmallMargin" width="auto">
+                                <Label id="mese" text="{i18n>Mese}" design="Bold"/>
+                                <Text id="mese1"/>
+                            </VBox>
+                            <VBox id="idVBox22" class="sapUiSmallMargin" width="auto">
+                                <Label id="comp" text="{i18n>comp}" design="Bold"/>
+                                <Text id="comp1"/>
+                            </VBox>
+                            <VBox id="idVBox21" class="sapUiSmallMargin" width="auto">
+                                <Label id="statoNI" text="{i18n>statoNI}" design="Bold"/>
+                                <Text id="statoNI1"/>
+                            </VBox>
+                            <VBox id="idVBox23" class="sapUiSmallMargin" width="auto">
+                                <Label id="importoTot" text="{i18n>importoTot}" design="Bold"/>
+                                <Text id="importoTot1"/>
                             </VBox>
                         </HBox>
+                        <HBox id="idHBox5">
+                            <VBox id="idVBox24" class="sapUiSmallMargin" width="auto">
+                                <Label id="Lifnr" text="{i18n>Lifnr}" design="Bold"/>
+                                <Text id="Lifnr1"/>
+                            </VBox>
+                            <VBox id="idVBox25" class="sapUiSmallMargin" width="auto">
+                                <Label id="Nome" text="{i18n>Nome}" design="Bold"/>
+                                <Text id="Nome1"/>
+                            </VBox>
+                            <VBox id="idVBox26" class="sapUiSmallMargin" width="auto">
+                                <Label id="Zwels" text="{i18n>Zwels}" design="Bold"/>
+                                <Text id="Zwels1"/>
+                            </VBox>
+                        </HBox>
+                        <HBox id="idHBox6">
+                            <VBox id="idVBox27" class="sapUiSmallMargin" width="auto">
+                                <Label id="CentroCosto" text="Centro di Costo" design="Bold"/>
+                                <Text id="CentroCosto1"/>
+                            </VBox>
+                            <VBox id="idVBox28" class="sapUiSmallMargin" width="auto">
+                                <Label id="ConCoGe" text="Conto Co.Ge." design="Bold"/>
+                                <Text id="ConCoGe1"/>
+                            </VBox>
+                            <VBox id="idVBox29" class="sapUiSmallMargin" width="auto">
+                                <Label id="ImpLiq" text="Importo Liquidazione" design="Bold"/>
+                                <Text id="ImpLiq1"/>
+                            </VBox>
+                        </HBox>
+                        <HBox>
+                            <VBox id="idVBox31" class="sapUiSmallMargin" width="auto">
+                                <Label id="CodiceGes" text="{i18n>Zcodgest}" design="Bold"/>
+                                <Text id="CodiceGes1"/>
+                            </VBox>
+                            <VBox id="idVBox30" class="sapUiSmallMargin" width="auto">
+                                <Label id="CausalePagamento" text="{i18n>Zcauspag}" design="Bold"/>
+                                <Text id="CausalePagamento1"/>
+                            </VBox>
+                        </HBox>
+
                     </layout:VerticalLayout>
                 </layout:HorizontalLayout>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <Table id="idModificaDettaglio" inset="false" showSeparators="Inner" items="{HeaderNIM>/}">
-                <headerToolbar>
-                    <OverflowToolbar>
-                        <content>
-                            <Title text="Dettagli NI" />
-                        </content>
-                    </OverflowToolbar>
-                </headerToolbar>
-                <columns>
-                    <Column demandPopin="true" hAlign="Center">
-                        <Label text="Struttura Amministrativa Responsabile" />
-                    </Column>
-                    <Column demandPopin="true" hAlign="Center">
-                        <Label text="Posizione Finanziaria" />
-                    </Column>
-                    <Column demandPopin="true" hAlign="Center">
-                        <Label text="Oggetto della spesa" />
-                    </Column>
-                    <Column demandPopin="true" hAlign="Center">
-                        <Label text="Mese" />
-                    </Column>
-                </columns>
-                <ColumnListItem>
-                    <Text text="{HeaderNIM>Fistl}" />
-                    <Text text="{HeaderNIM>Fipex}" />
-                    <Input value="{HeaderNIM>ZoggSpesa}" id="oggSpesa"/>
-                    <Text text="{path: 'HeaderNIM>Zmese', formatter:'.formatter.getMonthName'}" />
-                </ColumnListItem>
-            </Table>
+            <IconTabBar id="idIconTabBar" class="sapUiResponsiveContentPadding" select="onSelect">
+                <items>
+                    <IconTabFilter icon="sap-icon://detail-view" text="Dettagli NI" key="dettagliNI">
+                        <core:Fragment fragmentName="project1.fragment.rettificaNI" type="XML" />
+                    </IconTabFilter>
+                    <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
+                    </IconTabFilter>
+                    <IconTabFilter icon="sap-icon://documents" text="Fascicolo" key="Fascicolo">
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
         </f:content>
-        </f:DynamicPage>
- </App>
+        <f:footer>
+            <OverflowToolbar>
+                <Button text="Indietro" type="Emphasized" press="onBackButton" />
+                <ToolbarSpacer />
+                <Button type="Emphasized" text="Salva" press="onSaveDati" icon="sap-icon://save" />
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
 </mvc:View>
