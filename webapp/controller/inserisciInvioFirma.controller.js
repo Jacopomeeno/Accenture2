@@ -271,7 +271,7 @@ sap.ui.define(
 
             onEditRow: function () {
                 var url = location.href
-                var sUrl = url.split("/inserisciInvioFirma/")[1]
+                var sUrl = url.split("/inserisciInvioFirma/")
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -289,7 +289,7 @@ sap.ui.define(
                         header[i].ZchiaveNi == ZchiaveNi &&
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
-                        this.getOwnerComponent().getRouter().navTo("modificaImportoInserisci", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                        this.getOwnerComponent().getRouter().navTo("RettificaNI", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
                     }
                 }
             },
