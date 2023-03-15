@@ -7,11 +7,12 @@ sap.ui.define(
         'sap/ui/export/Spreadsheet',
         "sap/ui/core/library",
         "project1/model/DateFormatter",
+        "sap/m/MessageBox",
     ],
     /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
-    function (BaseController, Filter, FilterOperator, JSONModel, Spreadsheet, CoreLibrary, DateFormatter) {
+    function (BaseController, Filter, FilterOperator, JSONModel, Spreadsheet, CoreLibrary, DateFormatter, MessageBox) {
         "use strict";
         var EdmType = sap.ui.export.EdmType
 
@@ -45,10 +46,6 @@ sap.ui.define(
                 );
                 this.callPositionNI()
                 //this.viewHeader(oEvent)
-            },
-
-            HeaderInserisci: function(){
-                
             },
 
             callPositionNI: function () {
@@ -266,9 +263,9 @@ sap.ui.define(
             },
 
             onBackButton: function () {
-                this.getOwnerComponent().getRouter().navTo("View1");
+                window.history.go(-1);
             },
-
+            
             onEditRow: function () {
                 var url = location.href
                 var sUrl = url.split("/inserisciInvioFirma/")
@@ -326,6 +323,119 @@ sap.ui.define(
                 this.getView().byId("editRow").setEnabled(true);
             },
 
+            onCancelNI: function(){
+                var that = this
+
+                var url = location.href
+                var sUrl = url.split("/inserisciInvioFirma/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                //var oItems = that.getView().byId("").getBinding("items").oList;
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+
+                        var deepEntity = {
+                            HeaderNISet: null,
+                            Funzionalita: 'ANNULLAMENTOPROVVISORIA',
+                        }
+
+                        //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
+                        MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                            emphasizedAction: MessageBox.Action.YES,
+                            onClose: function (oAction) {
+                                if (oAction === sap.m.MessageBox.Action.YES) {
+                                    var oModel = that.getOwnerComponent().getModel();
+
+                                    for (var i = 0; i < header.length; i++) {
+                                        var item = header[i];
+                                        var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
+                                        var Zamministr = scompostaZamministr.split(".")[0]
+                                        
+                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                        // deepEntity.Bukrs = item.Zamministr, //Passato Da BE
+                                        // deepEntity.Gjahr = that.getView().byId("numNI1").mProperties.text.split("-")[0],
+                                        // deepEntity.Zamministr = item.Zamministr, //Passato Da BE
+                                        // deepEntity.ZidNi = item.ZidNi, //Incrementato da BE
+                                        // deepEntity.ZRagioCompe = item.ZRagioCompe, //Passato Da BE
+                                            
+
+                                        deepEntity.HeaderNISet = {
+                                            Bukrs: Bukrs, //Passato Da BE
+                                            Gjahr: Gjahr,
+                                            Zamministr: Zamministr, //Passato Da BE
+                                            ZidNi: ZidNi, //Incrementato da BE
+                                            ZRagioCompe: ZRagioCompe, //Passato Da BE
+                                            //ZcodiStatoni: "00",
+                                            ZchiaveNi : ZchiaveNi,
+                                            ZimpoTotni: that.getView().byId("importoTot1").mProperties.text,
+                                            ZzGjahrEngPos: that.getView().byId("numNI1").mProperties.text.split("-")[0],
+                                            Zmese: that.getView().byId("mese1").mProperties.text,
+                                            ZoggSpesa: that.getView().byId("oggSpesa1").mProperties.text,
+                                            Fipex: that.getView().byId("SARWH2").mProperties.text,
+                                            Fistl: that.getView().byId("pos_FinWH2").mProperties.text,
+                                        };
+                                    }
+                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                            // method: "PUT",
+                                            success: function (data) {
+                                                //console.log("success");
+                                                MessageBox.success("Operazione eseguita con successo")
+                                                that.getOwnerComponent().getRouter().navTo("View1")
+                                                location.reload();
+                                            },
+                                            error: function (e) {
+                                                //console.log("error");
+                                                MessageBox.error("Operazione non eseguita")
+                                            }
+                                        });
+                                        // var path = oModel.createKey("/HeaderNISet", {
+                                        //     Bukrs:Bukrs,
+                                        //     Gjahr:Gjahr,
+                                        //     Zamministr:Zamministr,
+                                        //     ZchiaveNi:ZchiaveNi,
+                                        //     ZidNi:ZidNi,
+                                        //     ZRagioCompe:ZRagioCompe,
+                                        //     Funzionalita:"ANNULLAMENTOPREIMPOSTATA"
+                                        //     });
+
+                                        //     var oEntry = {};
+                                        //     oEntry.ZcodiStatoni = "09";
+                                        // }
+                                        // oModel.update(path, oEntry, {
+                                        //     //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                        //     // method: "PUT",
+                                        //     success: function (data) {
+                                        //         //console.log("success");
+                                        //         MessageBox.success("Operazione eseguita con successo")
+                                        //         that.getOwnerComponent().getRouter().navTo("View1")
+                                        //         location.reload();
+                                        //     },
+                                        //     error: function (e) {
+                                        //         //console.log("error");
+                                        //         MessageBox.error("Operazione non eseguita")
+                                        //     }
+                                        // });      
+                                    }
+                                }
+                            });
+                    }
+                }
+            }
 
         });
     }
