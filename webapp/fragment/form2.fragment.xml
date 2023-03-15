@@ -12,8 +12,8 @@
                     <core:Item key="{Lifnr}" text="{Lifnr}" />
                 </Input>
                 <Label text="Modalità di Pagamento" required="true" />
-                <ComboBox id="ModPagamento" enabled="true" editable="true" items="{path: 'temp>/ZdescwelsBniSet', sorter: { path: 'temp>Zwels' }}">
-                    <core:Item key="{temp>Zwels}" text="{temp>Zwels}"/>
+                <ComboBox id="ModPagamento" enabled="true" editable="true" items="{path: 'temp>/ZdescwelsBniSet', sorter: { path: 'temp>Zdescwels' }}">
+                    <core:Item key="{temp>Zdescwels}" text="{temp>Zdescwels}"/>
                 </ComboBox>
                 <!-- <core:Item key="{}" text="{}"/> -->
                 <core:Title text=" " />
@@ -30,11 +30,11 @@
             <f:content>
                 <core:Title text=" " />
                 <Label text="Centro di Costo" required="true" />
-                <Input id="inputCentroCosto" type="Text" showValueHelp="true" suggestionItems="{path: '/LtextIcSet', sorter: { path: 'Kostl' }}" enabled="true" editable="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCentroCosto" app:filterTableField="inputCentroCosto">
+                <Input id="inputCentroCosto" type="Text" showValueHelp="true" suggestionItems="{path: '/LtextIcSet', sorter: { path: 'Kostl' }}" enabled="true" editable="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCentroCosto" app:filterTableField="inputCentroCosto" value="D010069910">
                     <core:Item key="{Kostl}" text="{Kostl}" />
                 </Input>
                 <Label text="Conto Co. Ge." required="true" />
-                <Input id="inputCoGe" type="Text" showValueHelp="true" suggestionItems="{path: '/Txt50IcSet', sorter: { path: 'Saknr' }}" enabled="true" editable="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCoGe" app:filterTableField="inputCoGe">
+                <Input id="inputCoGe" type="Text" showValueHelp="true" suggestionItems="{path: '/Txt50IcSet', sorter: { path: 'Saknr' }}" enabled="true" editable="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCoGe" app:filterTableField="inputCoGe" value="4011010101">
                     <core:Item key="{Saknr}" text="{Saknr}" />
                 </Input>
                 <core:Title text=" " />
@@ -82,7 +82,7 @@
 
                 <Label text="Codice Gestionale" required="true" class="sapUiTinyMarginBottom" />
 
-                <Input id="inputCodiceGest" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/PositionNISet', sorter: { path: 'Zcodgest' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCodiceGest" app:filterTableField="inputCodiceGest">
+                <Input id="inputCodiceGest" type="Text" editable="true" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/PositionNISet', sorter: { path: 'Zcodgest' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCodiceGest" app:filterTableField="inputCodiceGest" value="001">
                     <layoutData>
                         <l:GridData span="XL3 L1 M4 S5" />
                     </layoutData>

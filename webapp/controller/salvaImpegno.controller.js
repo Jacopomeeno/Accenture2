@@ -169,10 +169,15 @@ sap.ui.define([
                 var position = this.getView().getModel("temp").getData().PositionNISet
                 var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
                 var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
+                var ZdescwelsBniSet = this.getView().getModel("temp").getData().ZdescwelsBniSet
 
+
+                
                 var Iban = valoriNuovi[8]
                 var Lifnr = valoriNuovi[0]
-                var Zwels = valoriNuovi[7]
+                if (valoriNuovi[7] == ZdescwelsBniSet[0].Zdescwels){
+                var Zwels = ZdescwelsBniSet[0].Zwels
+                }
                 var Kostl = valoriNuovi[1]
                 var Ltext = valoriNuovi[2]
                 var Saknr = valoriNuovi[3]
@@ -233,7 +238,7 @@ sap.ui.define([
                     async: true,  // execute async request to not stuck the main thread
                     urlParameters: {}  // send URL parameters if required 
                 });
-                
+
             },
 
             // callPositionNI: function () {
@@ -346,146 +351,93 @@ sap.ui.define([
 
             onCompleteNI: function () {
                 var self = this;
-                //var rows= this.getView().byId("HeaderNIW").getSelectedItem()
-                var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
-                var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
-
-                var Zcauspag = this.getView().byId("CausalePagamento1").getText()
-                //nome
-                //Zzonaint
-                //Zdataesig
-                //Zlocpag
-                //Zdescrcg
-                //numProto
-                //dataPro
-                var Zcodgest = this.getView().byId("CodiceGes1").getText()
-                var Saknr = this.getView().byId("ConCoGe1").getText()
-                var Kostl = this.getView().byId("CentroCosto1").getText()
-                var Zwels = this.getView().byId("Zwels1").getText()
-                var Iban = valoriNuovi[6]
-                var Lifnr = this.getView().byId("Lifnr1").getText()
-                var DescCentroCosto = valoriNuovi[2]
-                var DescCoGe = valoriNuovi[4]
-
-
                 var oDataModel = self.getOwnerComponent().getModel();
-                //var sommaImporto = 0.00
-
                 var oItems = self.getView().byId("HeaderSalva").getBinding("items").oList;
-                var deepEntity = {
-                    HeaderNISet: null,
-                    PositionNISet: [],
-                    Funzionalita: "COMPLETAMENTO"
-                }
-                var z = 0
 
-                for (var i = 0; i < oItems.length; i++) {
-                    var item = oItems[i];
+                var url = location.href
+                var sUrl = url.split("/salvaImpegno/")[1]
+                var aValori = sUrl.split(",")
 
-                    for (z; z < ImpegniSelezionati.length; z++) {
-                        var Zcdr = ImpegniSelezionati[z].Fistl[4] + ImpegniSelezionati[z].Fistl[5] + ImpegniSelezionati[z].Fistl[6] + ImpegniSelezionati[z].Fistl[7]  //impegni
-                        var Zufficioliv1 = ImpegniSelezionati[z].Zufficioliv1 //impegni
-                        var Zufficioliv2 = ImpegniSelezionati[z].Zufficioliv2   //impegni
-                        var Ktext = ImpegniSelezionati[z].Ktext
-                        var Blpos = ImpegniSelezionati[z].Blpos
-                        //CONTROLLI CREAZIONE NUOVA POSIZIONE CON IMPEGNO UGUALE O DIVERSO
-                        if (z == 0) {   //Controllo iniziale
-                            var Zgeber = ImpegniSelezionati[z].Geber
-                            var Zepr = ImpegniSelezionati[z].Zepr
-                            z++
-                            break;
-                        }
-                        if (oItems[i].ZCodCla == oItems[i - 1].ZCodCla) { //se viene creata una nuova posizione con impegno uguale al precedente si vanno a prendere i valori del precedente impegno
-                            var Zgeber = ImpegniSelezionati[z - 1].Geber
-                            var Zepr = ImpegniSelezionati[z - 1].Zepr
-                            z++
-                            break;
-                        }
-                        if (oItems[i].ZCodCla == oItems[i - 1].ZCodCla) { //se non viene creata, prende i nuovi valori
-                            var Zgeber = ImpegniSelezionati[z].Geber
-                            var Zepr = ImpegniSelezionati[z].Zepr
-                            z++
-                            break;
-                        }
-                        //Zbelnr //campo vuoto
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
 
+                //var oItems = that.getView().byId("").getBinding("items").oList;
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+
+                        var deepEntity = {
+                            HeaderNISet: null,
+                            PositionNISet: [],
+                            Funzionalita: "COMPLETAMENTO",
+                            ZchiaveNi: header[i].ZchiaveNi
+                        }
+                        var z = 0
+
+                        for (var x = 0; x < oItems.length; x++) {
+                            var item = oItems[x];
+                            //item.Zwels = "12"
+                            //item.Zcodgest = "001"
+                            deepEntity.PositionNISet.push(item);
+                        }
+
+                        deepEntity.HeaderNISet = header[i];
                     }
-
-                    deepEntity.PositionNISet.push({
-                        ZchiaveNi: item.ZchiaveNi,
-                        Zcauspag: Zcauspag,
-                        Zcodgest: Zcodgest,
-                        Saknr: Saknr,
-                        Kostl: Kostl,
-                        Zwels: Zwels,
-                        Iban: Iban,
-                        Lifnr: Lifnr,
-                        DescCentroCosto: DescCentroCosto,
-                        DescCoGe: DescCoGe,
-                        Zcdr: Zcdr,
-                        Zufficioliv1: Zufficioliv1,
-                        Zufficioliv2: Zufficioliv2,
-                        Zgeber: Zgeber,
-                        Zepr: Zepr,
-                        Blpos: Blpos,
-                        Zcoddecr: item.ZCodCla.split("-", 5),
-                        ZCodGius: item.ZCodCla.split("-", 5),
-                        ZCodIpe: item.ZCodCla.split("-")[5],
-                        ZNumCla: item.ZCodCla.split("-")[6],
-                        ZCodCla: item.ZCodCla,
-                        Ktext: Ktext,
-                        ZgjahrEng: item.ZCodCla.split("-")[0]
-                    });
                 }
+                        MessageBox.warning("Sei sicuro di voler completare la NI?", {
+                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                            emphasizedAction: MessageBox.Action.YES,
+                            onClose: function (oAction) {
+                                if (oAction === sap.m.MessageBox.Action.YES) {
 
-                deepEntity.HeaderNISet = {
-                    ZchiaveNi: item.ZchiaveNi
-                };
-
-                MessageBox.warning("Sei sicuro di voler completare la NI?", {
-                    actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                    emphasizedAction: MessageBox.Action.YES,
-                    onClose: function (oAction) {
-                        if (oAction === sap.m.MessageBox.Action.YES) {
-
-                            oDataModel.create("/DeepZNIEntitySet", deepEntity, {
-                                // urlParameters: {
-                                //     'funzionalita': "PREIMPOSTAZIONE"
-                                // },
-                                success: function (result) {
-                                    if (result.Msgty == 'E') {
-                                        console.log(result.Message)
-                                        MessageBox.error("Nota d'imputazione non completata correttamente", {
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                        })
-                                    }
-                                    if (result.Msgty == 'S') {
-                                        MessageBox.success("Nota d'imputazione completata correttamente", {
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                            onClose: function (oAction) {
-                                                if (oAction === sap.m.MessageBox.Action.OK) {
-                                                    self.getOwnerComponent().getRouter().navTo("View1");
-                                                    location.reload();
-                                                }
+                                    oDataModel.create("/DeepZNIEntitySet", deepEntity, {
+                                        // urlParameters: {
+                                        //     'funzionalita': "PREIMPOSTAZIONE"
+                                        // },
+                                        success: function (result) {
+                                            if (result.Msgty == 'E') {
+                                                console.log(result.Message)
+                                                MessageBox.error("Nota d'imputazione non completata correttamente", {
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                })
                                             }
-                                        })
-                                    }
-                                },
-                                error: function (err) {
-                                    console.log(err);
-                                    MessageBox.error("Nota d'imputazione non completata correttamente", {
-                                        actions: [sap.m.MessageBox.Action.OK],
-                                        emphasizedAction: MessageBox.Action.OK,
-                                    })
-                                },
-                                async: true,  // execute async request to not stuck the main thread
-                                urlParameters: {}  // send URL parameters if required 
-                            });
-                        }
-                    }
-                })
+                                            if (result.Msgty == 'S') {
+                                                MessageBox.success("Nota d'imputazione completata correttamente", {
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                    onClose: function (oAction) {
+                                                        if (oAction === sap.m.MessageBox.Action.OK) {
+                                                            self.getOwnerComponent().getRouter().navTo("View1");
+                                                            location.reload();
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        },
+                                        error: function (err) {
+                                            console.log(err);
+                                            MessageBox.error("Nota d'imputazione non completata correttamente", {
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                            })
+                                        },
+                                        async: true,  // execute async request to not stuck the main thread
+                                        urlParameters: {}  // send URL parameters if required 
+                                    });
+                                }
+                            }
+                        })
+                    
             },
 
             onCancelNI: function () {

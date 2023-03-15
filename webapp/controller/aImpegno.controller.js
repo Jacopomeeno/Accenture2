@@ -161,10 +161,28 @@ sap.ui.define([
 
             onSearch: function (oEvent) {
                 // this.onCallHeader()
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                var url = location.href
+                var sUrl = url.split("/aImpegno/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
 
                 var that = this;
                 var filtriAssocia = []
                 this.getView().byId("HeaderNIAssImp").setVisible(true);
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
                 // var oModel = this.getOwnerComponent().getModel();
 
                 // var path = oModel.createKey("/ZfmimpegniIpeSet", {
@@ -234,11 +252,33 @@ sap.ui.define([
                         value1: this.getView().byId("inputClaus").mProperties.value
                     }));
                 }
+                if (header[i].Fipex != "") {
+                    filtriAssocia.push(new Filter({
+                        path: "Fipex",
+                        operator: FilterOperator.EQ,
+                        value1: header[i].Fipex 
+                    }));
+                }
+                if (header[i].Fistl  != "") {
+                    filtriAssocia.push(new Filter({
+                        path: "Fistl",
+                        operator: FilterOperator.EQ,
+                        value1: header[i].Fistl
+                    }));
+                }
+                if (header[i].Bukrs  != "") {
+                    filtriAssocia.push(new Filter({
+                        path: "Bukrs",
+                        operator: FilterOperator.EQ,
+                        value1: header[i].Bukrs
+                    }));
+                }
+                
 
                 var oMdlAImp = new sap.ui.model.json.JSONModel();
                 this.getOwnerComponent().getModel().read("/ZfmimpegniIpeSet", {
-                    //filters: filtriAssocia,
-                    filters: [],
+                    filters: filtriAssocia,
+                    //filters: [],
                     // urlParameters: "",
                     success: function (data) {
                         oMdlAImp.setData(data.results);
@@ -257,6 +297,8 @@ sap.ui.define([
                 this.getOwnerComponent().setModel(oMdlAImp, "HeaderNIAssImp");
                 //this.setDisponibilità()
                 //sap.ui.getCore().TableModel = oMdlW;
+                        }
+                    }
             },
 
             setDisponibilità: function (Zdisp) {
