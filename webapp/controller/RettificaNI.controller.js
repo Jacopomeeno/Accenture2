@@ -325,7 +325,7 @@ sap.ui.define(
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler rettificare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            
+                            title:"Rettifica Provvisoria",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -343,6 +343,7 @@ sap.ui.define(
                                             success: function (data) {
                                                 //console.log("success");
                                                 MessageBox.success("Modifica eseguita con successo", {
+                                                    title:"Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {
@@ -356,7 +357,11 @@ sap.ui.define(
                                             },
                                             error: function (e) {
                                                 //console.log("error");
-                                                MessageBox.error("Modifica non eseguita")
+                                                MessageBox.error("Modifica non eseguita", {
+                                                    title:"Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                })
                                             }
                                         });
                                         

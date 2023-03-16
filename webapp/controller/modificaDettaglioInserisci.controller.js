@@ -167,6 +167,7 @@ sap.ui.define(
                 //var oggSpesa = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
                 var dataOdierna = new Date()
                 MessageBox.warning("Sei sicuro di voler modificare la NI?", {
+                    title:"Salvataggio Modifiche NI",
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
                     onClose: function (oAction) {
@@ -218,6 +219,7 @@ sap.ui.define(
                                     success: function (data) {
                                         //console.log("success");
                                         MessageBox.success("Operazione Eseguita con successo", {
+                                            title:"Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],
                                             emphasizedAction: MessageBox.Action.OK,
                                             onClose: function (oAction) {

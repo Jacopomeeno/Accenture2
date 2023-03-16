@@ -235,14 +235,14 @@ sap.ui.define(
                         this.getView().byId("statoNI1").setText(statoNI)
 
                         var importoTot = header[i].ZimpoTotni
-                        this.getView().byId("importoTot1").setText(importoTot) 
+                        this.getView().byId("importoTot1").setText(importoTot)
                         this.getView().byId("ImpLiq1").setText(importoTot)
 
                         var codUff = header[i].ZuffcontFirm
                         var dirigente = header[i].ZdirncRich
-                        this.getView().byId("CodiceUff1").setText(codUff) 
+                        this.getView().byId("CodiceUff1").setText(codUff)
                         this.getView().byId("dirigente1").setText(dirigente)
-                       
+
                     }
                 }
             },
@@ -269,8 +269,8 @@ sap.ui.define(
             onBackButton: function () {
                 window.history.go(-1);
             },
-            
-            onRevocaNI: function(){
+
+            onRevocaNI: function () {
                 var that = this
 
                 var url = location.href
@@ -303,7 +303,7 @@ sap.ui.define(
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler revocare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            
+                            title:"Revoca Invio Firma",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -314,42 +314,47 @@ sap.ui.define(
                                         // var item = header[i];
                                         // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
                                         // var Zamministr = scompostaZamministr.split(".")[0]
-                                        
+
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                            
+
 
                                         deepEntity.HeaderNISet = header[indice];
                                     }
-                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
-                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                            // method: "PUT",
-                                            success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo", {
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                    onClose: function (oAction) {
-                                                        if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            that.getOwnerComponent().getRouter().navTo("View1");
-                                                            location.reload();
-                                                        }
+                                    oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                        //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                        // method: "PUT",
+                                        success: function (data) {
+                                            //console.log("success");
+                                            MessageBox.success("Operazione eseguita con successo", {
+                                                title:"Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                                onClose: function (oAction) {
+                                                    if (oAction === sap.m.MessageBox.Action.OK) {
+                                                        that.getOwnerComponent().getRouter().navTo("View1");
+                                                        location.reload();
                                                     }
-                                                })
-                                            },
-                                            error: function (e) {
-                                                //console.log("error");
-                                                MessageBox.error("Operazione non eseguita")
-                                            }
-                                        });
-                                    
-                                    }
+                                                }
+                                            })
+                                        },
+                                        error: function (e) {
+                                            //console.log("error");
+                                            MessageBox.error("Operazione non eseguita", {
+                                                title:"Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                            })
+                                        }
+                                    });
+
                                 }
-                            });
+                            }
+                        });
                     }
                 }
             },
 
-            onFirmaNI: function(){
+            onFirmaNI: function () {
                 var that = this
 
                 var url = location.href
@@ -365,7 +370,15 @@ sap.ui.define(
 
                 //var oItems = that.getView().byId("").getBinding("items").oList;
                 var header = this.getView().getModel("temp").getData().HeaderNISet
-                var firmaSet = this.getView().getModel("temp").getData().firmaSet
+                //var firmaSet = this.getView().getModel("temp").getData().firmaSet
+                var oItems = that.getView().byId("revocaFirma").getBinding("items").oList
+
+                var deepEntity = {
+                    HeaderNISet: null,
+                    PositionNISet: [],
+                    Funzionalita: 'FIRMA',
+                }
+
                 for (var i = 0; i < header.length; i++) {
                     if (header[i].Bukrs == Bukrs &&
                         header[i].Gjahr == Gjahr &&
@@ -376,56 +389,43 @@ sap.ui.define(
 
                         var indice = i
 
-                        var deepEntity = {
-                            HeaderNISet: null,
-                            Funzionalita: 'FIRMA',
+                        for (var x = 0; x < oItems.length; x++) {
+                            deepEntity.PositionNISet.push(oItems[x]);
                         }
+
+                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                        deepEntity.HeaderNISet = header[indice];
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler inviare la firma della Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            
+
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
                                 if (oAction === sap.m.MessageBox.Action.YES) {
                                     var oModel = that.getOwnerComponent().getModel();
+                                    oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                        //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                        // method: "PUT",
+                                        success: function (data) {
+                                            //console.log("success");
+                                            MessageBox.success("Invio eseguito con successo")
+                                            that.getOwnerComponent().getRouter().navTo("View1")
+                                            location.reload();
+                                        },
+                                        error: function (e) {
+                                            //console.log("error");
+                                            MessageBox.error("Invio non eseguito")
+                                        }
+                                    });
 
-                                    for (var i = 0; i < header.length; i++) {
-                                        // var item = header[i];
-                                        // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-                                        // var Zamministr = scompostaZamministr.split(".")[0]
-                                        
-                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                
-                                        
-                                        deepEntity.HeaderNISet = header[indice];
-                                        // deepEntity.HeaderNISet.ZuffcontFirm = firmaSet[0]
-                                        // deepEntity.HeaderNISet.ZdirncRich = firmaSet[1]
-                                        // deepEntity.HeaderNISet.ZdataProtAmm = new Date(firmaSet[2])
-                                        // deepEntity.HeaderNISet.NProtocolloAmm = firmaSet[3]
-                                    }
-                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
-                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                            // method: "PUT",
-                                            success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Invio eseguito con successo")
-                                                that.getOwnerComponent().getRouter().navTo("View1")
-                                                location.reload();
-                                            },
-                                            error: function (e) {
-                                                //console.log("error");
-                                                MessageBox.error("Invio non eseguito")
-                                            }
-                                        });
-                                    
-                                    }
                                 }
-                            });
+                            }
+
+                        });
                     }
                 }
             }
-
         });
     }
 );

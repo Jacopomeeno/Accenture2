@@ -200,6 +200,13 @@
                     "titleTarget": "",
                     "greedy": false,
                     "target": "TargetrevocaFirma"
+                },
+                {
+                    "name": "richiamaNI",
+                    "pattern": "richiamaNI/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "TargetrichiamaNI"
                 }
             ],
             "targets": {
@@ -329,6 +336,14 @@
                     "clearControlAggregation": false,
                     "viewId": "revocaFirma",
                     "viewName": "revocaFirma",
+                    "viewLevel": 1
+                },
+                "TargetrichiamaNI": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "richiamaNI",
+                    "viewName": "richiamaNI",
                     "viewLevel": 1
                 }
             }
