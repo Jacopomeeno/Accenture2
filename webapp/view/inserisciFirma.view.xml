@@ -133,8 +133,7 @@
                                 </VBox>
                                 <VBox>
                                     <Label text="N. Protocollo" />
-                                    <Input value="" width="100%" showValueHelp="false">
-                                        <core:Item key=""/>
+                                    <Input id="numProtocollo" width="100%" showValueHelp="false" value="">  
                                     </Input>
                                     <layoutData>
                                         <l:GridData span="L6 M6 S6" />

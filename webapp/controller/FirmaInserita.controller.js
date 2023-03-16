@@ -430,6 +430,8 @@ sap.ui.define(
                                         deepEntity.HeaderNISet = header[indice];
                                         deepEntity.HeaderNISet.ZuffcontFirm = firmaSet[0]
                                         deepEntity.HeaderNISet.ZdirncRich = firmaSet[1]
+                                        deepEntity.HeaderNISet.ZdataProtAmm = new Date(firmaSet[2])
+                                        deepEntity.HeaderNISet.NProtocolloAmm = firmaSet[3]
                                     }
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
