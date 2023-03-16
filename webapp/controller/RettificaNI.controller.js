@@ -294,85 +294,80 @@ sap.ui.define(
             },
 
             onSaveDati: function () {
-                /*update operation*/
                 var that = this
-                var oItems = that.getView().byId("idRettificaNI").getBinding("items").oList;
-                //var oggSpesa = this.getView().byId("idRettificaNI").mBindingInfos.items.binding.oModel.oData[0].ZoggSpesa
-                var dataOdierna = new Date()
-                MessageBox.warning("Sei sicuro di voler modificare la NI?", {
-                    actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                    emphasizedAction: MessageBox.Action.YES,
-                    onClose: function (oAction) {
-                        if (oAction === sap.m.MessageBox.Action.YES) {
-                            var oModel = that.getView().getModel();
-                            // var editSpesa = {
-                            //     ZoggSpesa: oggSpesa
-                            // };
-                            for (var i = 0; i < oItems.length; i++) {
-                                var item = oItems[i];
+                var url = location.href
+                var sUrl = url.split("/RettificaNI/")[1]
+                var aValori = sUrl.split(",")
 
-                                // var editSpesa = {
-                                //     Bukrs: item.Bukrs,
-                                //     Gjahr: item.Gjahr,
-                                //     Zamministr: item.Zamministr,
-                                //     ZchiaveNi: item.ZchiaveNi,
-                                //     ZidNi: item.ZidNi,
-                                //     ZRagioCompe: item.ZRagioCompe,
-                                //     ZoggSpesa: item.ZoggSpesa
-                                // };
-                                // oModel.update("/DeepZNIEntitySet", editSpesa, {
-                                //     // method: "PUT",
-                                //     success: function (data) {
-                                //         //console.log("success");
-                                //         MessageBox.success("Operazione eseguita con successo")
-                                //     },
-                                //     error: function (e) {
-                                //         //console.log("error");
-                                //         MessageBox.error("Operazione non eseguita")
-                                //     }
-                                // });
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
 
-                                var path = oModel.createKey("/HeaderNISet", {
-                                    Bukrs:item.Bukrs,
-                                    Gjahr:item.Gjahr,
-                                    Zamministr:item.Zamministr,
-                                    ZchiaveNi:item.ZchiaveNi,
-                                    ZidNi:item.ZidNi,
-                                    ZRagioCompe:item.ZRagioCompe,
-                                    Funzionalita:"RETTIFICANIPREIMPOSTATA"
-                                    });
+                //var oItems = that.getView().byId("").getBinding("items").oList;
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
 
-                                    var oEntry = {};
-                                    oEntry.ZoggSpesa = item.ZoggSpesa;
-                                    oEntry.ZdataModiNi = dataOdierna
-                                
-                                oModel.update(path, oEntry, {
-                                    // method: "PUT",
-                                    success: function (data) {
-                                        //console.log("success");
-                                        MessageBox.success("Operazione Eseguita con successo", {
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                            onClose: function (oAction) {
-                                                if (oAction === sap.m.MessageBox.Action.OK) {
-                                                    that.getOwnerComponent().getRouter().navTo("View1");
-                                                    location.reload();
-                                                }
-                                            }
-                                        })
-                                    },
-                                    error: function (e) {
-                                        //console.log("error");
-                                        MessageBox.error("Operazione non eseguita")
-                                    }
-                                });
-                            }
+                        var indice = i
+
+                        var deepEntity = {
+                            HeaderNISet: null,
+                            Funzionalita: 'RETTIFICAPROVVISORIA',
                         }
+
+                        //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
+                        MessageBox.warning("Sei sicuro di voler rettificare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                            
+                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                            emphasizedAction: MessageBox.Action.YES,
+                            onClose: function (oAction) {
+                                if (oAction === sap.m.MessageBox.Action.YES) {
+                                    var oModel = that.getOwnerComponent().getModel();
+
+                                    for (var i = 0; i < header.length; i++) {
+                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                        deepEntity.HeaderNISet = header[indice];
+                                    }
+                                        deepEntity.HeaderNISet.ZoggSpesa = that.getView().byId("idRettificaNI").mAggregations.items[0].mAggregations.cells[2].mProperties.value
+                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                            // method: "PUT",
+                                            success: function (data) {
+                                                //console.log("success");
+                                                MessageBox.success("Modifica eseguita con successo", {
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                    onClose: function (oAction) {
+                                                        if (oAction === sap.m.MessageBox.Action.OK) {
+                                                            that.getOwnerComponent().getRouter().navTo("View1")
+                                                            location.reload();
+                                                        }
+                                                    }
+                                                })
+                                               
+                                            },
+                                            error: function (e) {
+                                                //console.log("error");
+                                                MessageBox.error("Modifica non eseguita")
+                                            }
+                                        });
+                                        
+                                    }
+                                }
+                            });
                     }
-                });
-            },
+                }
 
+        }
+    });
 
-        });
     }
 );

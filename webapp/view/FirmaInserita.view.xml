@@ -1,20 +1,23 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc"
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:fb="sap.ui.comp.filterbar"
     xmlns:u="sap.ui.unified"
     xmlns:html="http://www.w3.org/1999/xhtml"
-    xmlns:l="sap.ui.layout"
+    xmlns:layout="sap.ui.layout"
     xmlns:form="sap.ui.layout.form"
     xmlns:f="sap.f"
     xmlns:core="sap.ui.core"
     xmlns:menu="sap.m.MenuItem"
-    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
-    xmlns:menBtn="sap.m.Menu" height="100%" controllerName="project1.controller.inserisciFirma">
+    xmlns:menBtn="sap.m.Menu"
+    height="100%"
+    controllerName="project1.controller.FirmaInserita"
+>
     <f:DynamicPage id="dynamicPageId" showFooter="true">
         <f:header>
             <f:DynamicPageHeader pinnable="false">
-                <l:HorizontalLayout allowWrapping="true">
-                    <l:VerticalLayout class="sapUiMediumMarginEnd">
+                <layout:HorizontalLayout allowWrapping="true">
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
                         <HBox id="idHBox2">
                             <VBox id="idVBox14" class="sapUiSmallMargin" width="auto">
                                 <Label id="numNI" text="{i18n>ProgressivoNI}" design="Bold"/>
@@ -95,64 +98,46 @@
                                 <Text id="CausalePagamento1"/>
                             </VBox>
                         </HBox>
+                        <HBox>
+                            <VBox id="idVBox33" class="sapUiSmallMargin" width="auto">
+                                <Label id="CodiceUff" text="{i18n>CodiceUff}" design="Bold"/>
+                                <Text id="CodiceUff1"/>
+                            </VBox>
+                            <VBox id="idVBox34" class="sapUiSmallMargin" width="auto">
+                                <Label id="dirigente" text="{i18n>dirigente}" design="Bold"/>
+                                <Text id="dirigente1"/>
+                            </VBox>
+                        </HBox>
+                    </layout:VerticalLayout>
+                </layout:HorizontalLayout>
 
-                    </l:VerticalLayout>
-                </l:HorizontalLayout>
+                <OverflowToolbar>
+                    <ToolbarSpacer />
+                    <Button text="Rettifica NI" type="Emphasized" press="pressRettificaNI" />
+                    <Button text="Inserisci dati per Invio della firma" type="Emphasized" press="pressFirma" enabled="false" id="pressFirma" icon="sap-icon://edit"/>
+                </OverflowToolbar>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <form:SimpleForm editable="true"  title="Inserimento dati per invio della firma">
-                <Panel height="100%">
-                    <content>
-                        <l:Grid>
-                            <l:content>
-                                <VBox >
-                                    <Label text="Codice Ufficio:" required="true"/>
-                                    <Input width="100%" showValueHelp="true" id="codUfficio" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="codUfficio" app:filterTableField="codUfficio" value="020.0021">
-                                        <core:Item key=""/>
-                                    </Input>
-                                    <layoutData>
-                                        <l:GridData span="L6 M6 S6" />
-                                    </layoutData>
-                                </VBox>
-                                <VBox>
-                                    <Label text="Dirigente/Direttore Finanziario:" required="true" />
-                                    <Input id="dirigente" width="100%" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="dirigente" app:filterTableField="dirigente" value="TEST10_CO">
-                                        <core:Item key=""/>
-                                    </Input>
-                                    <layoutData>
-                                        <l:GridData span="L6 M6 S6" />
-                                    </layoutData>
-                                </VBox>
-                                <VBox>
-                                    <Label text="Data Protocollo" />
-                                    <DatePicker id="DataPro" displayFormat="dd/MM/yyyy" />
-                                    <layoutData>
-                                        <l:GridData span="L6 M6 S6" />
-                                    </layoutData>
-                                </VBox>
-                                <VBox>
-                                    <Label text="N. Protocollo" />
-                                    <Input value="" width="100%" showValueHelp="false">
-                                        <core:Item key=""/>
-                                    </Input>
-                                    <layoutData>
-                                        <l:GridData span="L6 M6 S6" />
-                                    </layoutData>
-                                </VBox>
-                            </l:content>
-                        </l:Grid>
-                    </content>
-                </Panel>
-            </form:SimpleForm>
-            <!-- <core:Title text="Inserimento dati per invio della firma" />
-             -->
+            <IconTabBar id="inserisciInvioFirma" class="sapUiResponsiveContentPadding" select="onSelect">
+                <items>
+                    <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
+                        <core:Fragment fragmentName="project1.fragment.FirmaInserita" type="XML" />
+                    </IconTabFilter>
+                    <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
+                    </IconTabFilter>
+                    <IconTabFilter icon="sap-icon://documents" text="Fascicolo" key="Fascicolo">
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+            
         </f:content>
         <f:footer>
             <OverflowToolbar>
                 <Button text="Indietro" type="Emphasized" press="onBackButton" />
                 <ToolbarSpacer />
-                <Button type="Emphasized" text="Conferma" press="onConfirm" />
+                <Button type="Emphasized" text="Annulla NI" press="onCancelNI" id="AnnullaNI2" />
+                <Button type="Emphasized" text="Invia alla Firma" press="onInvioNI" id="InviaNI" />
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

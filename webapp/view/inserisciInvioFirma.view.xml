@@ -113,7 +113,7 @@
             <IconTabBar id="inserisciInvioFirma" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
                     <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
-                        <core:Fragment fragmentName="project1.fragment.inserisciFirma" type="XML" />
+                        <core:Fragment fragmentName="project1.fragment.inserisciInvioFirma" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
                     </IconTabFilter>
@@ -128,7 +128,7 @@
                 <Button text="Indietro" type="Emphasized" press="onBackButton" />
                 <ToolbarSpacer />
                 <Button type="Emphasized" text="Annulla NI" press="onCancelNI" id="AnnullaNI2" />
-                <Button type="Emphasized" text="Invia alla Firma" press="onCompleteNI" id="InviaNI" />
+                <Button type="Emphasized" text="Invia alla Firma" press="onCompleteNI" id="InviaNI" enabled="false" />
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

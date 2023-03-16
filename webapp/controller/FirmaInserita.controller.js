@@ -23,7 +23,7 @@ sap.ui.define(
                 DeleteEnable: false,
             };
 
-        return BaseController.extend("project1.controller.inserisciInvioFirma", {
+        return BaseController.extend("project1.controller.FirmaInserita", {
             formatter: DateFormatter,
             onInit() {
                 var oProprietà = new JSONModel(),
@@ -31,7 +31,7 @@ sap.ui.define(
                 oProprietà.setData(oInitialModelState);
                 this.getView().setModel(oProprietà);
                 this.getOwnerComponent().getModel("temp");
-                this.getRouter().getRoute("inserisciInvioFirma").attachPatternMatched(this._onObjectMatched, this);
+                this.getRouter().getRoute("FirmaInserita").attachPatternMatched(this._onObjectMatched, this);
 
             },
 
@@ -51,7 +51,7 @@ sap.ui.define(
             callPositionNI: function () {
 
                 var url = location.href
-                var sUrl = url.split("/inserisciInvioFirma/")[1]
+                var sUrl = url.split("/FirmaInserita/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -127,7 +127,7 @@ sap.ui.define(
                                 var e = error;
                             }
                         });
-                        this.getOwnerComponent().setModel(oMdlITB, "HeaderInserisci");
+                        this.getOwnerComponent().setModel(oMdlITB, "FirmaInserita");
 
                     }
                 }
@@ -143,7 +143,7 @@ sap.ui.define(
                 // "','"+ oEvent.getParameters().arguments.campo4 +
                 // "','"+ oEvent.getParameters().arguments.campo5 + "')"))
                 var url = location.href
-                var sUrl = url.split("/inserisciInvioFirma/")[1]
+                var sUrl = url.split("/FirmaInserita/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -155,6 +155,7 @@ sap.ui.define(
 
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 var position = position
+                var firmaSet = this.getView().getModel("temp").getData().firmaSet
                 //var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
                 //var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
 
@@ -237,6 +238,10 @@ sap.ui.define(
                         this.getView().byId("importoTot1").setText(importoTot) 
                         this.getView().byId("ImpLiq1").setText(importoTot)
 
+                        var codUff = firmaSet[0]
+                        var dirigente = firmaSet[1]
+                        this.getView().byId("CodiceUff1").setText(codUff) 
+                        this.getView().byId("dirigente1").setText(dirigente)
                        
                     }
                 }
@@ -267,7 +272,7 @@ sap.ui.define(
             
             onEditRow: function () {
                 var url = location.href
-                var sUrl = url.split("/inserisciInvioFirma/")[1]
+                var sUrl = url.split("/FirmaInserita/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -290,33 +295,7 @@ sap.ui.define(
                 }
             },
 
-            pressFirma: function () {
-
-                var url = location.href
-                var sUrl = url.split("/inserisciInvioFirma/")[1]
-                var aValori = sUrl.split(",")
-
-                var Bukrs = aValori[0]
-                var Gjahr = aValori[1]
-                var Zamministr = aValori[2]
-                var ZchiaveNi = aValori[3]
-                var ZidNi = aValori[4]
-                var ZRagioCompe = aValori[5]
-
-                var header = this.getView().getModel("temp").getData().HeaderNISet
-                for (var i = 0; i < header.length; i++) {
-                    if (header[i].Bukrs == Bukrs &&
-                        header[i].Gjahr == Gjahr &&
-                        header[i].Zamministr == Zamministr &&
-                        header[i].ZchiaveNi == ZchiaveNi &&
-                        header[i].ZidNi == ZidNi &&
-                        header[i].ZRagioCompe == ZRagioCompe) {
-                        this.getOwnerComponent().getRouter().navTo("inserisciFirma", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
-                    }
-                }
-            },
-
-
+        
             pressRettificaNI: function () {
                 //var oProprietà = this.getView().getModel();
                 this.getView().byId("editRow").setEnabled(true);
@@ -326,7 +305,7 @@ sap.ui.define(
                 var that = this
 
                 var url = location.href
-                var sUrl = url.split("/inserisciInvioFirma/")[1]
+                var sUrl = url.split("/FirmaInserita/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -391,33 +370,82 @@ sap.ui.define(
                                                 MessageBox.error("Operazione non eseguita")
                                             }
                                         });
-                                        // var path = oModel.createKey("/HeaderNISet", {
-                                        //     Bukrs:Bukrs,
-                                        //     Gjahr:Gjahr,
-                                        //     Zamministr:Zamministr,
-                                        //     ZchiaveNi:ZchiaveNi,
-                                        //     ZidNi:ZidNi,
-                                        //     ZRagioCompe:ZRagioCompe,
-                                        //     Funzionalita:"ANNULLAMENTOPREIMPOSTATA"
-                                        //     });
+                                    
+                                    }
+                                }
+                            });
+                    }
+                }
+            },
 
-                                        //     var oEntry = {};
-                                        //     oEntry.ZcodiStatoni = "09";
-                                        // }
-                                        // oModel.update(path, oEntry, {
-                                        //     //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                        //     // method: "PUT",
-                                        //     success: function (data) {
-                                        //         //console.log("success");
-                                        //         MessageBox.success("Operazione eseguita con successo")
-                                        //         that.getOwnerComponent().getRouter().navTo("View1")
-                                        //         location.reload();
-                                        //     },
-                                        //     error: function (e) {
-                                        //         //console.log("error");
-                                        //         MessageBox.error("Operazione non eseguita")
-                                        //     }
-                                        // });      
+            onInvioNI: function(){
+                var that = this
+
+                var url = location.href
+                var sUrl = url.split("/FirmaInserita/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                //var oItems = that.getView().byId("").getBinding("items").oList;
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                var firmaSet = this.getView().getModel("temp").getData().firmaSet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+
+                        var indice = i
+
+                        var deepEntity = {
+                            HeaderNISet: null,
+                            Funzionalita: 'INVIOFIRMA',
+                        }
+
+                        //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
+                        MessageBox.warning("Sei sicuro di voler inviare la firma della Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                            
+                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                            emphasizedAction: MessageBox.Action.YES,
+                            onClose: function (oAction) {
+                                if (oAction === sap.m.MessageBox.Action.YES) {
+                                    var oModel = that.getOwnerComponent().getModel();
+
+                                    for (var i = 0; i < header.length; i++) {
+                                        // var item = header[i];
+                                        // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
+                                        // var Zamministr = scompostaZamministr.split(".")[0]
+                                        
+                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                
+                                        
+                                        deepEntity.HeaderNISet = header[indice];
+                                        deepEntity.HeaderNISet.ZuffcontFirm = firmaSet[0]
+                                        deepEntity.HeaderNISet.ZdirncRich = firmaSet[1]
+                                    }
+                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                            // method: "PUT",
+                                            success: function (data) {
+                                                //console.log("success");
+                                                MessageBox.success("Invio eseguito con successo")
+                                                that.getOwnerComponent().getRouter().navTo("View1")
+                                                location.reload();
+                                            },
+                                            error: function (e) {
+                                                //console.log("error");
+                                                MessageBox.error("Invio non eseguito")
+                                            }
+                                        });
+                                    
                                     }
                                 }
                             });
