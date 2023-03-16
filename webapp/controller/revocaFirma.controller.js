@@ -378,7 +378,7 @@ sap.ui.define(
 
                         var deepEntity = {
                             HeaderNISet: null,
-                            Funzionalita: 'INVIOFIRMA',
+                            Funzionalita: 'FIRMA',
                         }
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
