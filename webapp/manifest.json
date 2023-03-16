@@ -200,7 +200,7 @@
                     "titleTarget": "",
                     "greedy": false,
                     "target": "TargetrevocaFirma"
-                },
+                }
             ],
             "targets": {
                 "Targetview1": {

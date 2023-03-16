@@ -361,7 +361,7 @@ sap.ui.define(
                                             // method: "PUT",
                                             success: function (data) {
                                                 //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo"{
+                                                MessageBox.success("Operazione eseguita con successo", {
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {
