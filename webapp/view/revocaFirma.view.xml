@@ -11,7 +11,7 @@
     xmlns:menu="sap.m.MenuItem"
     xmlns:menBtn="sap.m.Menu"
     height="100%"
-    controllerName="project1.controller.FirmaInserita"
+    controllerName="project1.controller.revocaFirma"
 >
     <f:DynamicPage id="dynamicPageId" showFooter="true">
         <f:header>

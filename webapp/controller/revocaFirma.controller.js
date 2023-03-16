@@ -155,7 +155,7 @@ sap.ui.define(
 
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 var position = position
-                var firmaSet = this.getView().getModel("temp").getData().firmaSet
+                //var firmaSet = this.getView().getModel("temp").getData().firmaSet
                 //var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
                 //var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
 
@@ -238,8 +238,8 @@ sap.ui.define(
                         this.getView().byId("importoTot1").setText(importoTot) 
                         this.getView().byId("ImpLiq1").setText(importoTot)
 
-                        var codUff = firmaSet[0]
-                        var dirigente = firmaSet[1]
+                        var codUff = header[i].ZuffcontFirm
+                        var dirigente = header[i].ZdirncRich
                         this.getView().byId("CodiceUff1").setText(codUff) 
                         this.getView().byId("dirigente1").setText(dirigente)
                        
@@ -330,7 +330,7 @@ sap.ui.define(
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {
                                                         if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            self.getOwnerComponent().getRouter().navTo("View1");
+                                                            that.getOwnerComponent().getRouter().navTo("View1");
                                                             location.reload();
                                                         }
                                                     }
@@ -399,10 +399,10 @@ sap.ui.define(
                                 
                                         
                                         deepEntity.HeaderNISet = header[indice];
-                                        deepEntity.HeaderNISet.ZuffcontFirm = firmaSet[0]
-                                        deepEntity.HeaderNISet.ZdirncRich = firmaSet[1]
-                                        deepEntity.HeaderNISet.ZdataProtAmm = new Date(firmaSet[2])
-                                        deepEntity.HeaderNISet.NProtocolloAmm = firmaSet[3]
+                                        // deepEntity.HeaderNISet.ZuffcontFirm = firmaSet[0]
+                                        // deepEntity.HeaderNISet.ZdirncRich = firmaSet[1]
+                                        // deepEntity.HeaderNISet.ZdataProtAmm = new Date(firmaSet[2])
+                                        // deepEntity.HeaderNISet.NProtocolloAmm = firmaSet[3]
                                     }
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
