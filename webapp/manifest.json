@@ -193,7 +193,14 @@
                     "titleTarget": "",
                     "greedy": false,
                     "target": "TargetFirmaInserita"
-                }
+                },
+                {
+                    "name": "revocaFirma",
+                    "pattern": "revocaFirma/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "TargetrevocaFirma"
+                },
             ],
             "targets": {
                 "Targetview1": {
@@ -314,6 +321,14 @@
                     "clearControlAggregation": false,
                     "viewId": "FirmaInserita",
                     "viewName": "FirmaInserita",
+                    "viewLevel": 1
+                },
+                "TargetrevocaFirma": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "revocaFirma",
+                    "viewName": "revocaFirma",
                     "viewLevel": 1
                 }
             }
