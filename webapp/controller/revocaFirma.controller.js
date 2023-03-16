@@ -127,7 +127,7 @@ sap.ui.define(
                                 var e = error;
                             }
                         });
-                        this.getOwnerComponent().setModel(oMdlITB, "FirmaInserita");
+                        this.getOwnerComponent().setModel(oMdlITB, "revocaFirma");
 
                     }
                 }

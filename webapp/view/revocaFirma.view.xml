@@ -111,18 +111,13 @@
                     </layout:VerticalLayout>
                 </layout:HorizontalLayout>
 
-                <OverflowToolbar>
-                    <ToolbarSpacer />
-                    <Button text="Rettifica NI" type="Emphasized" press="pressRettificaNI" />
-                    <Button text="Inserisci dati per Invio della firma" type="Emphasized" press="pressFirma" enabled="false" id="pressFirma" icon="sap-icon://edit"/>
-                </OverflowToolbar>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
             <IconTabBar id="inserisciInvioFirma" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
                     <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
-                        <core:Fragment fragmentName="project1.fragment.FirmaInserita" type="XML" />
+                        <core:Fragment fragmentName="project1.fragment.revocaFirma" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
                     </IconTabFilter>
