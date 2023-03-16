@@ -361,9 +361,16 @@ sap.ui.define(
                                             // method: "PUT",
                                             success: function (data) {
                                                 //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo")
-                                                that.getOwnerComponent().getRouter().navTo("View1")
-                                                location.reload();
+                                                MessageBox.success("Operazione eseguita con successo"{
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                    onClose: function (oAction) {
+                                                        if (oAction === sap.m.MessageBox.Action.OK) {
+                                                            self.getOwnerComponent().getRouter().navTo("View1");
+                                                            location.reload();
+                                                        }
+                                                    }
+                                                })
                                             },
                                             error: function (e) {
                                                 //console.log("error");
