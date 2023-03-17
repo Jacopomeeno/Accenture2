@@ -503,7 +503,7 @@ sap.ui.define(
                 if (!this.oSubmitDialog) {
                     this.oSubmitDialog = new Dialog({
                         type: DialogType.Message,
-                        title: "Confirm",
+                        title: "Motivazione Richiamo",
                         content: [
                             new TextArea("submissionNote", {
                                 width: "100%",
@@ -516,7 +516,7 @@ sap.ui.define(
                         ],
                         beginButton: new Button({
                             type: ButtonType.Emphasized,
-                            text: "Submit",
+                            text: "Ok",
                             enabled: false,
                             press: function () {
                                 var that = this
@@ -574,7 +574,7 @@ sap.ui.define(
                             }.bind(this)
                         }),
                         endButton: new Button({
-                            text: "Cancel",
+                            text: "Annulla",
                             press: function () {
                                 this.oSubmitDialog.close();
                             }.bind(this)
