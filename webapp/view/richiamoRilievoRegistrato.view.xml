@@ -107,17 +107,38 @@
                                 <Label id="dirigente" text="{i18n>dirigente}" design="Bold"/>
                                 <Text id="dirigente1"/>
                             </VBox>
+                            <VBox id="idVBox35" class="sapUiSmallMargin" width="auto">
+                                <Label id="dataRilievo" text="{i18n>dataRilievo}" design="Bold"/>
+                                <Text id="dataRilievo1"/>
+                            </VBox>
+                            <VBox id="idVBox36" class="sapUiSmallMargin" width="auto">
+                                <Label id="motivazione" text="{i18n>motivazione}" design="Bold"/>
+                                <Text id="motivazione1"/>
+                            </VBox>
+                        </HBox>
+                        <HBox>
+                            <VBox id="idVBox37" class="sapUiSmallMargin" width="auto">
+                                <Label id="nome" text="{i18n>nome}" design="Bold"/>
+                                <Text id="nome1"/>
+                            </VBox>
+                            <VBox id="idVBox38" class="sapUiSmallMargin" width="auto">
+                                <Label id="cognome" text="{i18n>cognome}" design="Bold"/>
+                                <Text id="cognome1"/>
+                            </VBox>
                         </HBox>
                     </layout:VerticalLayout>
                 </layout:HorizontalLayout>
-
+            <OverflowToolbar>
+                    <ToolbarSpacer />
+                    <Button text="Rettifica Rilievo NI" type="Emphasized" press="pressRettificaRilievo" />
+                </OverflowToolbar>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
             <IconTabBar id="inserisciInvioFirma" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
                     <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
-                        <core:Fragment fragmentName="project1.fragment.richiamaNI" type="XML" />
+                        <core:Fragment fragmentName="project1.fragment.richiamoRilievoRegistrato" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
                     </IconTabFilter>

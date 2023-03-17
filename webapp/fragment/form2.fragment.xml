@@ -39,9 +39,9 @@
                 </Input>
                 <core:Title text=" " />
                 <Label text="Descrizione" />
-                <Input id="DescCentroCosto" type="Text" />
+                <Input id="DescCentroCosto" type="Text" value="test"/>
                 <Label text="Descrizione" />
-                <Input id="DescCoGe" type="Text" />
+                <Input id="DescCoGe" type="Text" value="test"/>
             </f:content>
         </f:SimpleForm>
         <f:SimpleForm id="ImportoLiquidazione" title="Importo Liquidazione" editable="true" layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false">
