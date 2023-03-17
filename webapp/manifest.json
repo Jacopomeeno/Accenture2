@@ -221,6 +221,13 @@
                     "titleTarget": "",
                     "greedy": false,
                     "target": "TargetregistrazioneRilievo"
+                },
+                {
+                    "name": "richiamoNIRGS",
+                    "pattern": "richiamoNIRGS/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "TargetrichiamoNIRGS"
                 }
             ],
             "targets": {
@@ -374,6 +381,14 @@
                     "clearControlAggregation": false,
                     "viewId": "registrazioneRilievo",
                     "viewName": "registrazioneRilievo",
+                    "viewLevel": 1
+                },
+                "TargetrichiamoNIRGS": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "richiamoNIRGS",
+                    "viewName": "richiamoNIRGS",
                     "viewLevel": 1
                 }
             }
