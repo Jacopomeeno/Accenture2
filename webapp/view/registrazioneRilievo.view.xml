@@ -11,7 +11,7 @@
     xmlns:menu="sap.m.MenuItem"
     xmlns:menBtn="sap.m.Menu"
     height="100%"
-    controllerName="project1.controller.revocaFirma"
+    controllerName="project1.controller.registrazioneRilievo"
 >
     <f:DynamicPage id="dynamicPageId" showFooter="true">
         <f:header>
@@ -124,36 +124,33 @@
                             <layout:content>
                                 <VBox >
                                     <Label text="Nome:" required="true"/>
-                                    <Input width="100%">
+                                    <Input width="100%" value="Franco">
                                         <core:Item key=""/>
                                     </Input>
                                     <Label text="N. Protocollo RGS"/>
-                                    <Input/>
-                                    <layoutData>
-                                        <layout:GridData span="L4 M4 S4" />
-                                    </layoutData>
+                                    <Input width="100%">
+                                        <core:Item key=""/>
+                                    </Input>
                                 </VBox>
                                 <VBox>
                                     <Label text="Cognome:" required="true" />
-                                    <Input id="cognome" width="100%">
+                                    <Input id="cognome" width="100%" value="Moro">
                                         <core:Item key=""/>
                                     </Input>
-                                    <layoutData>
-                                        <layout:GridData span="L4 M4 S4" />
-                                    </layoutData>
                                     <Label text="Data Protocollo RGS:" />
-                                    <Input/>
+                                    <DatePicker width="100%" displayFormat="dd/MM/yyyy">
+                                    </DatePicker>
                                 </VBox>
                                 <VBox>
                                     <Label text="Data Rilievo:" required="true" />
-                                    <Input/>
-                                    <layoutData>
-                                        <layout:GridData span="L4 M4 S4" />
-                                    </layoutData>
+                                    <DatePicker width="100%" displayFormat="dd/MM/yyyy" value="30/04/23">
+                                    </DatePicker>
                                 </VBox>
                                 <VBox>
                                     <Label text="Motivazione Rilievo:" required="true" />
-                                    <Input />
+                                    <Input  width="100%">
+                                        <core:Item key=""/>
+                                    </Input>
                                     <layoutData>
                                         <layout:GridData span="L12 M12 S12" />
                                     </layoutData>

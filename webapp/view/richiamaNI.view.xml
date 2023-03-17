@@ -132,9 +132,9 @@
                 <Button text="Indietro" type="Emphasized" press="onBackButton" />
                 <ToolbarSpacer />
                 <Button type="Emphasized" text="Richiama NI" press="onRichiamaNI" id="richiama" />
-                <Button type="Emphasized" text="Revoca Conferma NI" press="onRevocaConfermaNI" id="revocaConferma" />
+                <!-- <Button type="Emphasized" text="Revoca Conferma NI" press="onRevocaConfermaNI" id="revocaConferma" /> -->
                 <Button type="Emphasized" text="Registra Rilievo NI" press="onRegistraRilievo" id="RegistraRilievoNI" />
-                <Button type="Emphasized" text="Valida NI" press="onValidaNI" id="ValidaNI" />
+                <Button type="Emphasized" text="Valida NI" press="onConfermaNI" id="Conferma" />
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>
