@@ -284,6 +284,31 @@ sap.ui.define(
                 window.history.go(-1);
             },
 
+            onRegistraRilievo: function () {
+                var url = location.href
+                var sUrl = url.split("/richiamaNI/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+                        this.getOwnerComponent().getRouter().navTo("registrazioneRilievo", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                    }
+                }
+            },
+
             onValidaNI: function () {
                 var that = this
 
@@ -317,7 +342,7 @@ sap.ui.define(
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler validare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            title:"Validazione",
+                            title: "Validazione",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -340,7 +365,7 @@ sap.ui.define(
                                         success: function (data) {
                                             //console.log("success");
                                             MessageBox.success("Operazione eseguita con successo", {
-                                                title:"Esito Operazione",
+                                                title: "Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
                                                 onClose: function (oAction) {
@@ -354,7 +379,7 @@ sap.ui.define(
                                         error: function (e) {
                                             //console.log("error");
                                             MessageBox.error("Operazione non eseguita", {
-                                                title:"Esito Operazione",
+                                                title: "Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
                                             })
@@ -401,7 +426,7 @@ sap.ui.define(
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler revocare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            title:"Revoca Conferma",
+                            title: "Revoca Conferma",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -424,7 +449,7 @@ sap.ui.define(
                                         success: function (data) {
                                             //console.log("success");
                                             MessageBox.success("Operazione eseguita con successo", {
-                                                title:"Esito Operazione",
+                                                title: "Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
                                                 onClose: function (oAction) {
@@ -438,7 +463,7 @@ sap.ui.define(
                                         error: function (e) {
                                             //console.log("error");
                                             MessageBox.error("Operazione non eseguita", {
-                                                title:"Esito Operazione",
+                                                title: "Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
                                             })
