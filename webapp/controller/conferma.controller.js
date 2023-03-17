@@ -36,7 +36,7 @@ sap.ui.define(
         var ButtonType = mobileLibrary.ButtonType;
         var DialogType = mobileLibrary.DialogType;
 
-        return BaseController.extend("project1.controller.richiamaNI", {
+        return BaseController.extend("project1.controller.conferma", {
             formatter: DateFormatter,
             onInit() {
 
@@ -45,7 +45,7 @@ sap.ui.define(
                 oProprietà.setData(oInitialModelState);
                 this.getView().setModel(oProprietà);
                 this.getOwnerComponent().getModel("temp");
-                this.getRouter().getRoute("richiamaNI").attachPatternMatched(this._onObjectMatched, this);
+                this.getRouter().getRoute("conferma").attachPatternMatched(this._onObjectMatched, this);
 
             },
 
@@ -65,7 +65,7 @@ sap.ui.define(
             callPositionNI: function () {
 
                 var url = location.href
-                var sUrl = url.split("/richiamaNI/")[1]
+                var sUrl = url.split("/conferma/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -141,7 +141,7 @@ sap.ui.define(
                                 var e = error;
                             }
                         });
-                        this.getOwnerComponent().setModel(oMdlITB, "richiamaNI");
+                        this.getOwnerComponent().setModel(oMdlITB, "conferma");
 
                     }
                 }
@@ -157,7 +157,7 @@ sap.ui.define(
                 // "','"+ oEvent.getParameters().arguments.campo4 +
                 // "','"+ oEvent.getParameters().arguments.campo5 + "')"))
                 var url = location.href
-                var sUrl = url.split("/richiamaNI/")[1]
+                var sUrl = url.split("/conferma/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -286,7 +286,7 @@ sap.ui.define(
 
             onRegistraRilievo: function () {
                 var url = location.href
-                var sUrl = url.split("/richiamaNI/")[1]
+                var sUrl = url.split("/conferma/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -313,7 +313,7 @@ sap.ui.define(
                 var that = this
 
                 var url = location.href
-                var sUrl = url.split("/richiamaNI/")[1]
+                var sUrl = url.split("/conferma/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -393,96 +393,96 @@ sap.ui.define(
                 }
             },
 
-            // onRevocaConfermaNI: function () {
-            //     var that = this
-
-            //     var url = location.href
-            //     var sUrl = url.split("/richiamaNI/")[1]
-            //     var aValori = sUrl.split(",")
-
-            //     var Bukrs = aValori[0]
-            //     var Gjahr = aValori[1]
-            //     var Zamministr = aValori[2]
-            //     var ZchiaveNi = aValori[3]
-            //     var ZidNi = aValori[4]
-            //     var ZRagioCompe = aValori[5]
-
-            //     //var oItems = that.getView().byId("").getBinding("items").oList;
-            //     var header = this.getView().getModel("temp").getData().HeaderNISet
-            //     for (var i = 0; i < header.length; i++) {
-            //         if (header[i].Bukrs == Bukrs &&
-            //             header[i].Gjahr == Gjahr &&
-            //             header[i].Zamministr == Zamministr &&
-            //             header[i].ZchiaveNi == ZchiaveNi &&
-            //             header[i].ZidNi == ZidNi &&
-            //             header[i].ZRagioCompe == ZRagioCompe) {
-
-            //             var indice = i
-
-            //             var deepEntity = {
-            //                 HeaderNISet: null,
-            //                 Funzionalita: 'REVOCACONFERMA',
-            //             }
-
-            //             //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
-            //             MessageBox.warning("Sei sicuro di voler revocare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-            //                 title: "Revoca Conferma",
-            //                 actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-            //                 emphasizedAction: MessageBox.Action.YES,
-            //                 onClose: function (oAction) {
-            //                     if (oAction === sap.m.MessageBox.Action.YES) {
-            //                         var oModel = that.getOwnerComponent().getModel();
-
-            //                         for (var i = 0; i < header.length; i++) {
-            //                             // var item = header[i];
-            //                             // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-            //                             // var Zamministr = scompostaZamministr.split(".")[0]
-
-            //                             deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-
-
-            //                             deepEntity.HeaderNISet = header[indice];
-            //                         }
-            //                         oModel.create("/DeepZNIEntitySet", deepEntity, {
-            //                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-            //                             // method: "PUT",
-            //                             success: function (data) {
-            //                                 //console.log("success");
-            //                                 MessageBox.success("Operazione eseguita con successo", {
-            //                                     title: "Esito Operazione",
-            //                                     actions: [sap.m.MessageBox.Action.OK],
-            //                                     emphasizedAction: MessageBox.Action.OK,
-            //                                     onClose: function (oAction) {
-            //                                         if (oAction === sap.m.MessageBox.Action.OK) {
-            //                                             that.getOwnerComponent().getRouter().navTo("View1");
-            //                                             location.reload();
-            //                                         }
-            //                                     }
-            //                                 })
-            //                             },
-            //                             error: function (e) {
-            //                                 //console.log("error");
-            //                                 MessageBox.error("Operazione non eseguita", {
-            //                                     title: "Esito Operazione",
-            //                                     actions: [sap.m.MessageBox.Action.OK],
-            //                                     emphasizedAction: MessageBox.Action.OK,
-            //                                 })
-            //                             }
-            //                         });
-
-            //                     }
-            //                 }
-            //             });
-            //         }
-            //     }
-            // },
-
-
-            onRichiamaNI: function () {
+            onRevocaConfermaNI: function () {
                 var that = this
 
                 var url = location.href
-                var sUrl = url.split("/richiamaNI/")[1]
+                var sUrl = url.split("/conferma/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                //var oItems = that.getView().byId("").getBinding("items").oList;
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+
+                        var indice = i
+
+                        var deepEntity = {
+                            HeaderNISet: null,
+                            Funzionalita: 'REVOCACONFERMA',
+                        }
+
+                        //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
+                        MessageBox.warning("Sei sicuro di voler revocare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                            title: "Revoca Conferma",
+                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                            emphasizedAction: MessageBox.Action.YES,
+                            onClose: function (oAction) {
+                                if (oAction === sap.m.MessageBox.Action.YES) {
+                                    var oModel = that.getOwnerComponent().getModel();
+
+                                    for (var i = 0; i < header.length; i++) {
+                                        // var item = header[i];
+                                        // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
+                                        // var Zamministr = scompostaZamministr.split(".")[0]
+
+                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+
+
+                                        deepEntity.HeaderNISet = header[indice];
+                                    }
+                                    oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                        //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                        // method: "PUT",
+                                        success: function (data) {
+                                            //console.log("success");
+                                            MessageBox.success("Operazione eseguita con successo", {
+                                                title: "Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                                onClose: function (oAction) {
+                                                    if (oAction === sap.m.MessageBox.Action.OK) {
+                                                        that.getOwnerComponent().getRouter().navTo("View1");
+                                                        location.reload();
+                                                    }
+                                                }
+                                            })
+                                        },
+                                        error: function (e) {
+                                            //console.log("error");
+                                            MessageBox.error("Operazione non eseguita", {
+                                                title: "Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                            })
+                                        }
+                                    });
+
+                                }
+                            }
+                        });
+                    }
+                }
+            },
+
+
+            onValida: function () {
+                var that = this
+
+                var url = location.href
+                var sUrl = url.split("/conferma/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
