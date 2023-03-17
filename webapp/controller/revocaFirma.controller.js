@@ -388,10 +388,15 @@ sap.ui.define(
                         header[i].ZRagioCompe == ZRagioCompe) {
 
                         var indice = i
+                        //var prova = new Date
 
                         for (var x = 0; x < oItems.length; x++) {
                             deepEntity.PositionNISet.push(oItems[x]);
                         }
+
+                        //for (var x = 0; x < oItems.length; x++) {
+                            // deepEntity.PositionNISet.push(oItems[x]);
+                        //}
 
                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                         deepEntity.HeaderNISet = header[indice];
@@ -407,11 +412,28 @@ sap.ui.define(
                                     oModel.create("/DeepZNIEntitySet", deepEntity, {
                                         //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                         // method: "PUT",
-                                        success: function (data) {
-                                            //console.log("success");
-                                            MessageBox.success("Invio eseguito con successo")
-                                            that.getOwnerComponent().getRouter().navTo("View1")
-                                            location.reload();
+                                        success: function (result) {
+                                            if (result.Msgty == 'E') {
+                                                console.log(result.Message)
+                                                MessageBox.error("Invio non eseguito correttamente", {
+                                                    title:"Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                })
+                                            }
+                                            if (result.Msgty == 'S') {
+                                                MessageBox.success("Invio eseguito correttamente", {
+                                                    title:"Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                    onClose: function (oAction) {
+                                                        if (oAction === sap.m.MessageBox.Action.OK) {
+                                                            that.getOwnerComponent().getRouter().navTo("View1");
+                                                            location.reload();
+                                                        }
+                                                    }
+                                                })
+                                            }
                                         },
                                         error: function (e) {
                                             //console.log("error");

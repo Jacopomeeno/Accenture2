@@ -207,6 +207,13 @@
                     "titleTarget": "",
                     "greedy": false,
                     "target": "TargetrichiamaNI"
+                },
+                {
+                    "name": "passaggioStato",
+                    "pattern": "passaggioStato/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "TargetpassaggioStato"
                 }
             ],
             "targets": {
@@ -344,6 +351,14 @@
                     "clearControlAggregation": false,
                     "viewId": "richiamaNI",
                     "viewName": "richiamaNI",
+                    "viewLevel": 1
+                },
+                "TargetpassaggioStato": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "passaggioStato",
+                    "viewName": "passaggioStato",
                     "viewLevel": 1
                 }
             }

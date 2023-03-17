@@ -340,20 +340,28 @@ sap.ui.define(
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",
-                                            success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Modifica eseguita con successo", {
-                                                    title:"Esito Operazione",
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                    onClose: function (oAction) {
-                                                        if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            that.getOwnerComponent().getRouter().navTo("View1")
-                                                            location.reload();
+                                            success: function (result) {
+                                                if (result.Msgty == 'E') {
+                                                    console.log(result.Message)
+                                                    MessageBox.error("Modifica non eseguita correttamente", {
+                                                        title:"Esito Operazione",
+                                                        actions: [sap.m.MessageBox.Action.OK],
+                                                        emphasizedAction: MessageBox.Action.OK,
+                                                    })
+                                                }
+                                                if (result.Msgty == 'S') {
+                                                    MessageBox.success("Modifica eseguita correttamente", {
+                                                        title:"Esito Operazione",
+                                                        actions: [sap.m.MessageBox.Action.OK],
+                                                        emphasizedAction: MessageBox.Action.OK,
+                                                        onClose: function (oAction) {
+                                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                                that.getOwnerComponent().getRouter().navTo("View1");
+                                                                location.reload();
+                                                            }
                                                         }
-                                                    }
-                                                })
-                                               
+                                                    })
+                                                }
                                             },
                                             error: function (e) {
                                                 //console.log("error");
