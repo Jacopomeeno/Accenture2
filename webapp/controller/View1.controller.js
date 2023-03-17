@@ -131,13 +131,16 @@ sap.ui.define([
 
             onNavToIconTB: function () {
                 var row = this.getView().byId("HeaderNI").getSelectedItem().getBindingContext("HeaderNI").getObject()
-                if (row.ZcodiStatoni == "00")
-                    this.getOwnerComponent().getRouter().navTo("iconTabBar", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "01")
-                    this.getOwnerComponent().getRouter().navTo("inserisciInvioFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "02")
-                    this.getOwnerComponent().getRouter().navTo("revocaFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "03") this.getOwnerComponent().getRouter().navTo("richiamaNI", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if(row.ZcodiStatoni == "00")
+                this.getOwnerComponent().getRouter().navTo("iconTabBar", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if(row.ZcodiStatoni == "01")
+                this.getOwnerComponent().getRouter().navTo("inserisciInvioFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if(row.ZcodiStatoni == "02")
+                this.getOwnerComponent().getRouter().navTo("revocaFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                // if(row.ZcodiStatoni == "03")
+                // this.getOwnerComponent().getRouter().navTo("passaggioStato", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if(row.ZcodiStatoni == "03")
+                this.getOwnerComponent().getRouter().navTo("richiamaNI", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
             },
 
             navToDettagliNI: function (oEvent) {

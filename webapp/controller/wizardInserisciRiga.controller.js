@@ -306,6 +306,7 @@ sap.ui.define([
                 }
 
                 MessageBox.warning("Sei sicuro di voler rettificare la nota d'imputazione?", {
+                    title:"Inserire Posizione",
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
                     onClose: function (oAction) {
@@ -313,16 +314,27 @@ sap.ui.define([
 
                             oDataModel.create("/DeepPositionNISet", deepEntity, {
                                 success: function (result) {
-                                    MessageBox.success("Nota d'imputazione rettificata correttamente", {
-                                        actions: [sap.m.MessageBox.Action.OK],
-                                        emphasizedAction: MessageBox.Action.OK,
-                                        onClose: function (oAction) {
-                                            if (oAction === sap.m.MessageBox.Action.OK) {
-                                                self.getOwnerComponent().getRouter().navTo("View1");
-                                                location.reload();
+                                    if (result.Msgty == 'E') {
+                                        console.log(result.Message)
+                                        MessageBox.error("Nota d'imputazione non rettificata correttamente", {
+                                            title:"Esito Operazione",
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                        })
+                                    }
+                                    if (result.Msgty == 'S') {
+                                        MessageBox.success("Nota d'imputazione rettificata correttamente", {
+                                            title:"Esito Operazione",
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                            onClose: function (oAction) {
+                                                if (oAction === sap.m.MessageBox.Action.OK) {
+                                                    self.getOwnerComponent().getRouter().navTo("View1");
+                                                    location.reload();
+                                                }
                                             }
-                                        }
-                                    })
+                                        })
+                                    }
                                 },
                                 error: function (err) {
                                     console.log(err);

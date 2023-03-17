@@ -3,24 +3,36 @@ sap.ui.define(
         "./BaseController",
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
+        'sap/ui/model/json/JSONModel',
+        'sap/ui/export/Spreadsheet',
+        "sap/ui/core/library",
+        "project1/model/DateFormatter",
         "sap/m/MessageBox",
-        "sap/ui/core/routing/History",
-        'project1/model/DateFormatter'
     ],
-    function (BaseController, Filter, FilterOperator, MessageBox, History, DateFormatter) {
+    /**
+   * @param {typeof sap.ui.core.mvc.Controller} Controller
+   */
+    function (BaseController, Filter, FilterOperator, JSONModel, Spreadsheet, CoreLibrary, DateFormatter, MessageBox) {
         "use strict";
+        var EdmType = sap.ui.export.EdmType
 
-        return BaseController.extend("project1.controller.RettificaNI", {
+        var ValueState = CoreLibrary.ValueState,
+            oData = {
+                EditEnable: false,
+                AddEnable: false,
+                DeleteEnable: false,
+            };
+
+        return BaseController.extend("project1.controller.passaggioStato", {
             formatter: DateFormatter,
             onInit() {
-                this.onModificaNI()
+                var oProprietà = new JSONModel(),
+                    oInitialModelState = Object.assign({}, oData);
+                oProprietà.setData(oInitialModelState);
+                this.getView().setModel(oProprietà);
                 this.getOwnerComponent().getModel("temp");
-                this.getRouter().getRoute("RettificaNI").attachPatternMatched(this._onObjectMatched, this);
-            },
+                this.getRouter().getRoute("passaggioStato").attachPatternMatched(this._onObjectMatched, this);
 
-            onBackButton: function () {
-                this.getView().byId("idRettificaNI").destroyItems()
-                window.history.go(-1);
             },
 
             _onObjectMatched: function (oEvent) {
@@ -33,12 +45,13 @@ sap.ui.define(
                     "',ZRagioCompe='" + oEvent.getParameters().arguments.campo5 + "')"
                 );
                 this.callPositionNI()
+                //this.viewHeader(oEvent)
             },
 
             callPositionNI: function () {
 
                 var url = location.href
-                var sUrl = url.split("/RettificaNI/")[1]
+                var sUrl = url.split("/passaggioStato/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -114,14 +127,14 @@ sap.ui.define(
                                 var e = error;
                             }
                         });
-                        this.getOwnerComponent().setModel(oMdlITB, "HeaderInserisci");
+                        this.getOwnerComponent().setModel(oMdlITB, "passaggioStato");
 
                     }
                 }
 
             },
-            viewHeader: function (position) {
 
+            viewHeader: function (position) {
                 // console.log(this.getView().getModel("temp").getData(
                 // "/HeaderNISet('"+ oEvent.getParameters().arguments.campo +
                 // "','"+ oEvent.getParameters().arguments.campo1 +
@@ -130,7 +143,7 @@ sap.ui.define(
                 // "','"+ oEvent.getParameters().arguments.campo4 +
                 // "','"+ oEvent.getParameters().arguments.campo5 + "')"))
                 var url = location.href
-                var sUrl = url.split("/RettificaNI/")[1]
+                var sUrl = url.split("/passaggioStato/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -142,6 +155,7 @@ sap.ui.define(
 
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 var position = position
+                //var firmaSet = this.getView().getModel("temp").getData().firmaSet
                 //var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
                 //var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
 
@@ -221,82 +235,27 @@ sap.ui.define(
                         this.getView().byId("statoNI1").setText(statoNI)
 
                         var importoTot = header[i].ZimpoTotni
-                        this.getView().byId("importoTot1").setText(importoTot) 
+                        this.getView().byId("importoTot1").setText(importoTot)
                         this.getView().byId("ImpLiq1").setText(importoTot)
 
-                       
+                        var codUff = header[i].ZuffcontFirm
+                        var dirigente = header[i].ZdirncRich
+                        this.getView().byId("CodiceUff1").setText(codUff)
+                        this.getView().byId("dirigente1").setText(dirigente)
+
                     }
                 }
-                this.onModificaNI()
             },
 
-
-            onModificaNI: function () {
-
-                var filtroNI = []
-                var url = location.href
-                var sUrl = url.split("/RettificaNI/")[1]
-                var aValori = sUrl.split(",")
-
-                var Bukrs = aValori[0]
-                var Gjahr = aValori[1]
-                var Zamministr = aValori[2]
-                var ZchiaveNi = aValori[3]
-                var ZidNi = aValori[4]
-                var ZRagioCompe = aValori[5]
-
-                //filtroNI.push({Bukrs:Bukrs, Gjahr:Gjahr, Zamministr,Zamministr, ZchiaveNi:ZchiaveNi, ZidNi:ZidNi, ZRagioCompe:ZRagioCompe})
-                filtroNI.push(new Filter({
-                    path: "Bukrs",
-                    operator: FilterOperator.EQ,
-                    value1: Bukrs
-                }));
-                filtroNI.push(new Filter({
-                    path: "Gjahr",
-                    operator: FilterOperator.EQ,
-                    value1: Gjahr
-                }));
-                filtroNI.push(new Filter({
-                    path: "Zamministr",
-                    operator: FilterOperator.EQ,
-                    value1: Zamministr
-                }));
-                filtroNI.push(new Filter({
-                    path: "ZchiaveNi",
-                    operator: FilterOperator.EQ,
-                    value1: ZchiaveNi
-                }));
-                filtroNI.push(new Filter({
-                    path: "ZidNi",
-                    operator: FilterOperator.EQ,
-                    value1: ZidNi
-                }));
-                filtroNI.push(new Filter({
-                    path: "ZRagioCompe",
-                    operator: FilterOperator.EQ,
-                    value1: ZRagioCompe
-                }));
-
-                var that = this;
-                var oMdlM = new sap.ui.model.json.JSONModel();
-                this.getOwnerComponent().getModel().read("/HeaderNISet", {
-                    filters: filtroNI,
-                    urlParameters: "",
-                    success: function (data) {
-                        oMdlM.setData(data.results);
-                        //that.getView().getModel("temp").setProperty('/HeaderNISet', data.results)
-                    },
-                    error: function (error) {
-                        var e = error;
-                    }
-                });
-                this.getOwnerComponent().setModel(oMdlM, "HeaderNIM");
+            onBackButton: function () {
+                window.history.go(-1);
             },
 
-            onSaveDati: function () {
+            onChangeStato: function () {
                 var that = this
+
                 var url = location.href
-                var sUrl = url.split("/RettificaNI/")[1]
+                var sUrl = url.split("/passaggioStato/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -320,12 +279,12 @@ sap.ui.define(
 
                         var deepEntity = {
                             HeaderNISet: null,
-                            Funzionalita: 'RETTIFICAPROVVISORIA',
+                            Funzionalita: 'REVOCAINVIOFIRMA',
                         }
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
-                        MessageBox.warning("Sei sicuro di voler rettificare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            title:"Rettifica Provvisoria",
+                        MessageBox.warning("Sei sicuro di voler revocare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                            title:"Revoca Invio Firma",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -333,54 +292,48 @@ sap.ui.define(
                                     var oModel = that.getOwnerComponent().getModel();
 
                                     for (var i = 0; i < header.length; i++) {
+                                        // var item = header[i];
+                                        // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
+                                        // var Zamministr = scompostaZamministr.split(".")[0]
+
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+
+
                                         deepEntity.HeaderNISet = header[indice];
                                     }
-                                        deepEntity.HeaderNISet.ZoggSpesa = that.getView().byId("idRettificaNI").mAggregations.items[0].mAggregations.cells[2].mProperties.value
-                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
-                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                            // method: "PUT",
-                                            success: function (result) {
-                                                if (result.Msgty == 'E') {
-                                                    console.log(result.Message)
-                                                    MessageBox.error("Modifica non eseguita correttamente", {
-                                                        title:"Esito Operazione",
-                                                        actions: [sap.m.MessageBox.Action.OK],
-                                                        emphasizedAction: MessageBox.Action.OK,
-                                                    })
+                                    oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                        //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                        // method: "PUT",
+                                        success: function (data) {
+                                            //console.log("success");
+                                            MessageBox.success("Operazione eseguita con successo", {
+                                                title:"Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                                onClose: function (oAction) {
+                                                    if (oAction === sap.m.MessageBox.Action.OK) {
+                                                        that.getOwnerComponent().getRouter().navTo("View1");
+                                                        location.reload();
+                                                    }
                                                 }
-                                                if (result.Msgty == 'S') {
-                                                    MessageBox.success("Modifica eseguita correttamente", {
-                                                        title:"Esito Operazione",
-                                                        actions: [sap.m.MessageBox.Action.OK],
-                                                        emphasizedAction: MessageBox.Action.OK,
-                                                        onClose: function (oAction) {
-                                                            if (oAction === sap.m.MessageBox.Action.OK) {
-                                                                that.getOwnerComponent().getRouter().navTo("View1");
-                                                                location.reload();
-                                                            }
-                                                        }
-                                                    })
-                                                }
-                                            },
-                                            error: function (e) {
-                                                //console.log("error");
-                                                MessageBox.error("Modifica non eseguita", {
-                                                    title:"Esito Operazione",
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                })
-                                            }
-                                        });
-                                        
-                                    }
+                                            })
+                                        },
+                                        error: function (e) {
+                                            //console.log("error");
+                                            MessageBox.error("Operazione non eseguita", {
+                                                title:"Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                            })
+                                        }
+                                    });
+
                                 }
-                            });
+                            }
+                        });
                     }
                 }
-
-        }
-    });
-
+            },
+        });
     }
 );

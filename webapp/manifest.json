@@ -202,11 +202,18 @@
                     "target": "TargetrevocaFirma"
                 },
                 {
-                    "name": "registrazioneRilievo",
-                    "pattern": "registrazioneRilievo/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "name": "richiamaNI",
+                    "pattern": "richiamaNI/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
                     "titleTarget": "",
                     "greedy": false,
-                    "target": "TargetregistrazioneRilievo"
+                    "target": "TargetrichiamaNI"
+                },
+                {
+                    "name": "passaggioStato",
+                    "pattern": "passaggioStato/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "TargetpassaggioStato"
                 }
             ],
             "targets": {
@@ -338,12 +345,20 @@
                     "viewName": "revocaFirma",
                     "viewLevel": 1
                 },
-                "TargetregistrazioneRilievo": {
+                "TargetrichiamaNI": {
                     "viewType": "XML",
                     "transition": "slide",
                     "clearControlAggregation": false,
-                    "viewId": "registrazioneRilievo",
-                    "viewName": "registrazioneRilievo",
+                    "viewId": "richiamaNI",
+                    "viewName": "richiamaNI",
+                    "viewLevel": 1
+                },
+                "TargetpassaggioStato": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "passaggioStato",
+                    "viewName": "passaggioStato",
                     "viewLevel": 1
                 }
             }

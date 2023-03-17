@@ -394,6 +394,7 @@ sap.ui.define([
                     }
                 }
                         MessageBox.warning("Sei sicuro di voler completare la NI?", {
+                            title:"Completamento NI",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -407,12 +408,14 @@ sap.ui.define([
                                             if (result.Msgty == 'E') {
                                                 console.log(result.Message)
                                                 MessageBox.error("Nota d'imputazione non completata correttamente", {
+                                                    title:"Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                 })
                                             }
                                             if (result.Msgty == 'S') {
                                                 MessageBox.success("Nota d'imputazione completata correttamente", {
+                                                    title:"Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {
@@ -427,6 +430,7 @@ sap.ui.define([
                                         error: function (err) {
                                             console.log(err);
                                             MessageBox.error("Nota d'imputazione non completata correttamente", {
+                                                title:"Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
                                             })
@@ -472,6 +476,7 @@ sap.ui.define([
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                            title:"Annullamento Preimpostata",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -512,13 +517,25 @@ sap.ui.define([
                                         // method: "PUT",
                                         success: function (data) {
                                             //console.log("success");
-                                            MessageBox.success("Operazione eseguita con successo")
-                                            that.getOwnerComponent().getRouter().navTo("View1")
-                                            location.reload();
+                                            MessageBox.success("Operazione eseguita con successo", {
+                                                title:"Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                                onClose: function (oAction) {
+                                                    if (oAction === sap.m.MessageBox.Action.OK) {
+                                                        that.getOwnerComponent().getRouter().navTo("View1");
+                                                        location.reload();
+                                                    }
+                                                }
+                                            })
                                         },
                                         error: function (e) {
                                             //console.log("error");
-                                            MessageBox.error("Operazione non eseguita")
+                                            MessageBox.error("Operazione non eseguita", {
+                                                title:"Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                            })
                                         }
                                     });
                                 }

@@ -235,14 +235,14 @@ sap.ui.define(
                         this.getView().byId("statoNI1").setText(statoNI)
 
                         var importoTot = header[i].ZimpoTotni
-                        this.getView().byId("importoTot1").setText(importoTot) 
+                        this.getView().byId("importoTot1").setText(importoTot)
                         this.getView().byId("ImpLiq1").setText(importoTot)
 
                         var codUff = firmaSet[0]
                         var dirigente = firmaSet[1]
-                        this.getView().byId("CodiceUff1").setText(codUff) 
+                        this.getView().byId("CodiceUff1").setText(codUff)
                         this.getView().byId("dirigente1").setText(dirigente)
-                       
+
                     }
                 }
             },
@@ -269,7 +269,7 @@ sap.ui.define(
             onBackButton: function () {
                 window.history.go(-1);
             },
-            
+
             onEditRow: function () {
                 var url = location.href
                 var sUrl = url.split("/FirmaInserita/")[1]
@@ -295,13 +295,13 @@ sap.ui.define(
                 }
             },
 
-        
+
             pressRettificaNI: function () {
                 //var oProprietà = this.getView().getModel();
                 this.getView().byId("editRow").setEnabled(true);
             },
 
-            onCancelNI: function(){
+            onCancelNI: function () {
                 var that = this
 
                 var url = location.href
@@ -334,7 +334,7 @@ sap.ui.define(
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            
+                            title:"Annullamento NI",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -345,47 +345,61 @@ sap.ui.define(
                                         // var item = header[i];
                                         // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
                                         // var Zamministr = scompostaZamministr.split(".")[0]
-                                        
+
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                         // deepEntity.Bukrs = item.Zamministr, //Passato Da BE
                                         // deepEntity.Gjahr = that.getView().byId("numNI1").mProperties.text.split("-")[0],
                                         // deepEntity.Zamministr = item.Zamministr, //Passato Da BE
                                         // deepEntity.ZidNi = item.ZidNi, //Incrementato da BE
                                         // deepEntity.ZRagioCompe = item.ZRagioCompe, //Passato Da BE
-                                            
+
 
                                         deepEntity.HeaderNISet = header[indice];
                                     }
-                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
-                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                            // method: "PUT",
-                                            success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo", {
+                                    oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                        //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                        // method: "PUT",
+                                        success: function (result) {
+                                            if (result.Msgty == 'E') {
+                                                console.log(result.Message)
+                                                MessageBox.error("Operazione non eseguita correttamente", {
+                                                    title:"Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                })
+                                            }
+                                            if (result.Msgty == 'S') {
+                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                    title:"Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {
                                                         if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            self.getOwnerComponent().getRouter().navTo("View1");
+                                                            that.getOwnerComponent().getRouter().navTo("View1");
                                                             location.reload();
                                                         }
                                                     }
                                                 })
-                                            },
-                                            error: function (e) {
-                                                //console.log("error");
-                                                MessageBox.error("Operazione non eseguita")
                                             }
-                                        });
-                                    
-                                    }
+                                        },
+                                        error: function (e) {
+                                            //console.log("error");
+                                            MessageBox.error("Operazione non eseguita", {
+                                                title:"Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                            })
+                                        }
+                                    });
+
                                 }
-                            });
+                            }
+                        });
                     }
                 }
             },
 
-            onInvioNI: function(){
+            onInvioNI: function () {
                 var that = this
 
                 var url = location.href
@@ -419,7 +433,7 @@ sap.ui.define(
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler inviare la firma della Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            
+                            title:"Invio alla firma Nota di Imputazione",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -430,34 +444,55 @@ sap.ui.define(
                                         // var item = header[i];
                                         // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
                                         // var Zamministr = scompostaZamministr.split(".")[0]
-                                        
+
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                
-                                        
+
+
                                         deepEntity.HeaderNISet = header[indice];
                                         deepEntity.HeaderNISet.ZuffcontFirm = firmaSet[0]
                                         deepEntity.HeaderNISet.ZdirncRich = firmaSet[1]
                                         deepEntity.HeaderNISet.ZdataProtAmm = new Date(firmaSet[2])
                                         deepEntity.HeaderNISet.NProtocolloAmm = firmaSet[3]
                                     }
-                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
-                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                            // method: "PUT",
-                                            success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Invio eseguito con successo")
-                                                that.getOwnerComponent().getRouter().navTo("View1")
-                                                location.reload();
-                                            },
-                                            error: function (e) {
-                                                //console.log("error");
-                                                MessageBox.error("Invio non eseguito")
+                                    oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                        //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                        // method: "PUT",
+                                        success: function (result) {
+                                            if (result.Msgty == 'E') {
+                                                console.log(result.Message)
+                                                MessageBox.error("Operazione non eseguita correttamente", {
+                                                    title:"Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                })
                                             }
-                                        });
-                                    
-                                    }
+                                            if (result.Msgty == 'S') {
+                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                    title:"Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                    onClose: function (oAction) {
+                                                        if (oAction === sap.m.MessageBox.Action.OK) {
+                                                            that.getOwnerComponent().getRouter().navTo("View1");
+                                                            location.reload();
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        },
+                                        error: function (e) {
+                                            //console.log("error");
+                                            MessageBox.error("Invio non eseguito", {
+                                                title:"Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                            })
+                                        }
+                                    });
+
                                 }
-                            });
+                            }
+                        });
                     }
                 }
             }

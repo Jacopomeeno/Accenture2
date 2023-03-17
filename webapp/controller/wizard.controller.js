@@ -383,12 +383,14 @@ sap.ui.define([
                 if (parseFloat(deepEntity.HeaderNISet.ZimpoTotni) != sommaImporto) {
 
                     MessageBox.warning("L’importo relativo ai seguenti codici ISIN è stato coperto parzialmente dalla Nota di Imputazione. Si intende procedere con l’operazione?", {
+                        title:"Copertura Importo",
                         actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                         emphasizedAction: MessageBox.Action.YES,
                         onClose: function (oAction) {
                             if (oAction === sap.m.MessageBox.Action.YES) {
 
                                 MessageBox.warning("Sei sicuro di voler preimpostare la NI?", {
+                                    title:"Preimpostazione NI",
                                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                                     emphasizedAction: MessageBox.Action.YES,
                                     onClose: function (oAction) {
@@ -402,12 +404,14 @@ sap.ui.define([
                                                     if (result.Msgty == 'E') {
                                                         console.log(result.Message)
                                                         MessageBox.error("Nota d'imputazione non creata correttamente", {
+                                                            title:"Esito Operazione",
                                                             actions: [sap.m.MessageBox.Action.OK],
                                                             emphasizedAction: MessageBox.Action.OK,
                                                         })
                                                     }
                                                     if (result.Msgty == 'S') {
                                                         MessageBox.success("Nota d'imputazione creata correttamente", {
+                                                            title:"Esito Operazione",
                                                             actions: [sap.m.MessageBox.Action.OK],
                                                             emphasizedAction: MessageBox.Action.OK,
                                                             onClose: function (oAction) {
@@ -422,6 +426,7 @@ sap.ui.define([
                                                 error: function (err) {
                                                     console.log(err);
                                                     MessageBox.error("Nota d'imputazione non creata correttamente", {
+                                                        title:"Esito Operazione",
                                                         actions: [sap.m.MessageBox.Action.OK],
                                                         emphasizedAction: MessageBox.Action.OK,
                                                     })

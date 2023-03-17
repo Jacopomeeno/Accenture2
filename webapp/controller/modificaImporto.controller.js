@@ -164,6 +164,7 @@ sap.ui.define(
                 }
                 //var dataOdierna = new Date()
                 MessageBox.warning("Sei sicuro di voler modificare la NI?", {
+                    title:"Salvataggio Modifiche NI",
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
                     onClose: function (oAction) {
@@ -199,22 +200,36 @@ sap.ui.define(
 
                             oModel.create("/DeepPositionNISet", deepEntity, {
                                 // method: "PUT",
-                                success: function (data) {
-                                    //console.log("success");
-                                    MessageBox.success("Modifica Importo eseguito con successo", {
-                                        actions: [sap.m.MessageBox.Action.OK],
-                                        emphasizedAction: MessageBox.Action.OK,
-                                        onClose: function (oAction) {
-                                            if (oAction === sap.m.MessageBox.Action.OK) {
-                                                that.getOwnerComponent().getRouter().navTo("View1");
-                                                location.reload();
+                                success: function (result) {
+                                    if (result.Msgty == 'E') {
+                                        console.log(result.Message)
+                                        MessageBox.error("Modifica importo non eseguita correttamente", {
+                                            title:"Esito Operazione",
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                        })
+                                    }
+                                    if (result.Msgty == 'S') {
+                                        MessageBox.success("Modifica importo eseguita correttamente", {
+                                            title:"Esito Operazione",
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                            onClose: function (oAction) {
+                                                if (oAction === sap.m.MessageBox.Action.OK) {
+                                                    that.getOwnerComponent().getRouter().navTo("View1");
+                                                    location.reload();
+                                                }
                                             }
-                                        }
-                                    })
+                                        })
+                                    }
                                 },
                                 error: function (e) {
                                     //console.log("error");
-                                    MessageBox.error("Modifica Importo non eseguito")
+                                    MessageBox.error("Modifica Importo non eseguito", {
+                                        title:"Esito Operazione",
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                    })
                                 }
                             });
 
