@@ -309,7 +309,7 @@ sap.ui.define(
                 }
             },
 
-            onConfermaNI: function () {
+            onValidaNI: function () {
                 var that = this
 
                 var url = location.href
@@ -337,12 +337,12 @@ sap.ui.define(
 
                         var deepEntity = {
                             HeaderNISet: null,
-                            Funzionalita: 'CONFERMA',
+                            Funzionalita: 'VALIDAZIONE',
                         }
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
-                        MessageBox.warning("Sei sicuro di voler confermare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            title: "Conferma",
+                        MessageBox.warning("Sei sicuro di voler validare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                            title: "Validazione",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -478,7 +478,7 @@ sap.ui.define(
             },
 
 
-            onValida: function () {
+            onRichiamaNI: function () {
                 var that = this
 
                 var url = location.href
@@ -506,7 +506,7 @@ sap.ui.define(
 
                         var deepEntity = {
                             HeaderNISet: null,
-                            Funzionalita: 'RICHIAMOVERIFICA',
+                            Funzionalita: 'RICHIAMOCONFERMATA',
                         }
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
@@ -558,7 +558,7 @@ sap.ui.define(
 
                                         var deepEntity = {
                                             HeaderNISet: null,
-                                            Funzionalita: 'RICHIAMOVERIFICA',
+                                            Funzionalita: 'RICHIAMOCONFERMATA',
                                         }
                                         var oModel = that.getOwnerComponent().getModel();
 
