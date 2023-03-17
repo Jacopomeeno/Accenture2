@@ -1,0 +1,63 @@
+<core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:u="sap.ui.unified"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:menu="sap.m.MenuItem"
+    xmlns:menBtn="sap.m.Menu"
+    height="100%">
+    <Table class="sapUiSizeCompact" id="FirmaInserita" includeItemInSelection="true" items="{FirmaInserita>/}" visible="true">
+        <VBox class="sapUiSmallMargin">
+            <form:SimpleForm id="SimpleFormChange354"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                title="Address"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1"
+                singleContainerFullSize="false"
+                >
+                <form:content>
+                    <Label text="Nome" />
+                    <Input id="Nome" editable="false">
+                        <core:Item key="{}" text="{}"/>
+                    </Input>
+                    <Label text="Cognome" />
+                    <Input editable="false" editable="false">
+                        <core:Item key="{}" text="{}"/>
+                    </Input>
+                    <Label text="Data Rilievo" />
+                    <Input value="{ZdatRilievo}">
+                        <core:Item key="{ZdatRilievo}" text="{ZdatRilievo}"/>
+                    </Input>
+                    <Label text="N. Protocollo RGS" />
+                    <Input value="{NProtocolloRag}">
+                        <core:Item key="{NProtocolloRag}" text="{NProtocolloRag}"/>
+                    </Input>
+                    <Label text="Data Protocollo RGS" />
+                    <Input value="{ZdataProtRag}">
+                        <core:Item key="{ZdataProtRag}" text="{ZdataProtRag}"/>
+                    </Input>
+                    <Label text="Motivazione Rilievo"/>
+                    <Input value="{ZzMotrilievo}">
+                        <core:Item key="{ZzMotrilievo}" text="{ZzMotrilievo}"/>
+                    </Input>
+
+                </form:content>
+            </form:SimpleForm>
+        </VBox>
+    </Table>
+</core:FragmentDefinition>
