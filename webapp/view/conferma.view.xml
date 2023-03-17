@@ -11,7 +11,7 @@
     xmlns:menu="sap.m.MenuItem"
     xmlns:menBtn="sap.m.Menu"
     height="100%"
-    controllerName="project1.controller.richiamaNI"
+    controllerName="project1.controller.conferma"
 >
     <f:DynamicPage id="dynamicPageId" showFooter="true">
         <f:header>
@@ -117,7 +117,7 @@
             <IconTabBar id="inserisciInvioFirma" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
                     <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
-                        <core:Fragment fragmentName="project1.fragment.richiamaNI" type="XML" />
+                        <core:Fragment fragmentName="project1.fragment.conferma" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
                     </IconTabFilter>
@@ -132,9 +132,9 @@
                 <Button text="Indietro" type="Emphasized" press="onBackButton" />
                 <ToolbarSpacer />
                 <Button type="Emphasized" text="Richiama NI" press="onRichiamaNI" id="richiama" />
-                <!-- <Button type="Emphasized" text="Revoca Conferma NI" press="onRevocaConfermaNI" id="revocaConferma" /> -->
+                <Button type="Emphasized" text="Revoca Conferma NI" press="onRevocaConfermaNI" id="revocaConferma" />
                 <Button type="Emphasized" text="Registra Rilievo NI" press="onRegistraRilievo" id="RegistraRilievoNI" />
-                <Button type="Emphasized" text="Conferma NI" press="onConfermaNI" id="Conferma" />
+                <Button type="Emphasized" text="Valida NI" press="onValidaNI" id="Valida" />
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

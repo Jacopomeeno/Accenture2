@@ -221,6 +221,13 @@
                     "titleTarget": "",
                     "greedy": false,
                     "target": "TargetregistrazioneRilievo"
+                },
+                {
+                    "name": "conferma",
+                    "pattern": "conferma/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "Targetconferma"
                 }
             ],
             "targets": {
@@ -374,6 +381,14 @@
                     "clearControlAggregation": false,
                     "viewId": "registrazioneRilievo",
                     "viewName": "registrazioneRilievo",
+                    "viewLevel": 1
+                },
+                "Targetconferma": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "conferma",
+                    "viewName": "conferma",
                     "viewLevel": 1
                 }
             }
