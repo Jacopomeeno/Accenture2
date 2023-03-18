@@ -62,8 +62,68 @@ sap.ui.define(
                 //this.viewHeader(oEvent)
             },
 
-            callPositionNI: function () {
+            userInfo: function () {
+                var that = this
+                var oModel = this.getOwnerComponent().getModel();
 
+                var chiavi = oModel.createKey("/UserInfoSet", {
+                    Bname: "",
+                });
+
+                //var oMdlDisp = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read(chiavi, {
+                    success: function (data) {
+                        that.getView().getModel("temp").setProperty('/UserInfo', data)
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
+            },
+
+            callRilievi: function () {
+                var that = this
+                var oModel = this.getOwnerComponent().getModel();
+
+                var url = location.href
+                var sUrl = url.split("/richiamoRilievoRegistrato/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                //var oItems = that.getView().byId("").getBinding("items").oList;
+                //var header = this.getView().getModel("temp").getData().HeaderNISet
+
+                var chiavi = oModel.createKey("/RilievoNiSet", {
+                    Bukrs: Bukrs,
+                    Gjahr: Gjahr,
+                    Zamministr: Zamministr,
+                    ZchiaveNi: ZchiaveNi,
+                    ZidNi: ZidNi,
+                    ZRagioCompe: ZRagioCompe,
+                    ZidRilievo: ""
+                });
+
+                //var oMdlDisp = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read(chiavi, {
+                    success: function (data) {
+                        that.getView().getModel("temp").setProperty('/Rilievi', data)
+
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
+            },
+
+            callPositionNI: function () {
+                this.userInfo()
+                this.callRilievi()
                 var url = location.href
                 var sUrl = url.split("/richiamoRilievoRegistrato/")[1]
                 var aValori = sUrl.split(",")
@@ -148,30 +208,30 @@ sap.ui.define(
 
             },
 
-            pressRettificaRilievo: function(){
-                    var url = location.href
-                    var sUrl = url.split("/richiamoRilievoRegistrato/")[1]
-                    var aValori = sUrl.split(",")
-    
-                    var Bukrs = aValori[0]
-                    var Gjahr = aValori[1]
-                    var Zamministr = aValori[2]
-                    var ZchiaveNi = aValori[3]
-                    var ZidNi = aValori[4]
-                    var ZRagioCompe = aValori[5]
-    
-                    var header = this.getView().getModel("temp").getData().HeaderNISet
-                    for (var i = 0; i < header.length; i++) {
-                        if (header[i].Bukrs == Bukrs &&
-                            header[i].Gjahr == Gjahr &&
-                            header[i].Zamministr == Zamministr &&
-                            header[i].ZchiaveNi == ZchiaveNi &&
-                            header[i].ZidNi == ZidNi &&
-                            header[i].ZRagioCompe == ZRagioCompe) {
-                            this.getOwnerComponent().getRouter().navTo("registrazioneRilievo", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
-                        }
-            }
-        },
+            pressRettificaRilievo: function () {
+                var url = location.href
+                var sUrl = url.split("/richiamoRilievoRegistrato/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+                        this.getOwnerComponent().getRouter().navTo("registrazioneRilievo", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                    }
+                }
+            },
 
             viewHeader: function (position) {
                 // console.log(this.getView().getModel("temp").getData(
@@ -194,7 +254,8 @@ sap.ui.define(
 
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 var position = position
-                var nomeRegistrazione = this.getView().getModel("temp").getData().nomeRegistrazione
+                var nomeRegistrazione = this.getView().getModel("temp").getData().UserInfo
+                var rilievi = this.getView().getModel("temp").getData().Rilievi
                 //var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
                 //var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
 
@@ -282,20 +343,21 @@ sap.ui.define(
                         this.getView().byId("CodiceUff1").setText(codUff)
                         this.getView().byId("dirigente1").setText(dirigente)
 
-                        var dataRilievo = header[i].ZdatRilievo
-                            mnth = ("0" + (dataRilievo.getMonth() + 1)).slice(-2),
+                        var dataRilievo = rilievi.ZdatRilievo
+                        mnth = ("0" + (dataRilievo.getMonth() + 1)).slice(-2),
                             day = ("0" + dataRilievo.getDate()).slice(-2);
-                            var nData= [dataRilievo.getFullYear(), mnth, day].join("-");
-                            var nDate = nData.split("-").reverse().join(".");
-                        this.getView().byId("motivazione1").setText(nDate)
+                        var nData = [dataRilievo.getFullYear(), mnth, day].join("-");
+                        var nDate = nData.split("-").reverse().join(".");
+                        this.getView().byId("dataRilievo1").setText(nDate)
 
-                        var motivizioneRilievo = header[i].ZzMotrilievo
+                        var motivizioneRilievo = rilievi.Zmotrilievo
                         this.getView().byId("motivazione1").setText(motivizioneRilievo)
 
-                        var nome = nomeRegistrazione[0]
+                        var nome = nomeRegistrazione.NameFirst
                         this.getView().byId("nome1").setText(nome)
-                        var cognome = nomeRegistrazione[1]
+                        var cognome = nomeRegistrazione.NameLast
                         this.getView().byId("cognome1").setText(cognome)
+
                     }
                 }
             },
@@ -321,6 +383,89 @@ sap.ui.define(
 
             onBackButton: function () {
                 window.history.go(-1);
+            },
+
+            onValidaRilievo: function () {
+                var that = this
+            
+                var url = location.href
+                var sUrl = url.split("/richiamoRilievoRegistrato/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                //var oItems = that.getView().byId("").getBinding("items").oList;
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                var rilievi = this.getView().getModel("temp").getData().Rilievi
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+
+                        var indice = i
+                    
+                            var deepEntity = {
+                                HeaderNISet: null,
+                                RilievoNiSet: null,
+                                Funzionalita: 'VALIDAZIONERILIEVO',
+                            }
+
+                            //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
+                            MessageBox.warning("Sei sicuro di voler validare il rilievo della Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                                title: "Validazione Rilievo",
+                                actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                                emphasizedAction: MessageBox.Action.YES,
+                                onClose: function (oAction) {
+                                    if (oAction === sap.m.MessageBox.Action.YES) {
+                                        var oModel = that.getOwnerComponent().getModel();
+
+                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                        //deepEntity.ZchiaveNi = header[indice]
+
+                                        deepEntity.HeaderNISet = header[indice];
+                                       
+                                        deepEntity.RilievoNiSet = rilievi
+
+                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                            // method: "PUT",
+                                            success: function (data) {
+                                                //console.log("success");
+                                                MessageBox.success("Operazione eseguita con successo", {
+                                                    title: "Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                    onClose: function (oAction) {
+                                                        if (oAction === sap.m.MessageBox.Action.OK) {
+                                                            that.getOwnerComponent().getRouter().navTo("View1");
+                                                            location.reload();
+                                                        }
+                                                    }
+                                                })
+                                            },
+                                            error: function (e) {
+                                                //console.log("error");
+                                                MessageBox.error("Operazione non eseguita", {
+                                                    title: "Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                })
+                                            }
+                                        });
+
+                                    }
+                                }
+                            });
+                        }
+                    }
             },
 
             onRevocaValidazione: function () {
@@ -435,6 +580,7 @@ sap.ui.define(
 
                         var deepEntity = {
                             HeaderNISet: null,
+                            RilievoNiSet: null,
                             Funzionalita: 'CANCELLAZIONERILIEVO',
                         }
 
@@ -456,6 +602,10 @@ sap.ui.define(
 
 
                                         deepEntity.HeaderNISet = header[indice];
+
+                                        var rilievi = that.getView().getModel("temp").getData().Rilievi
+
+                                        deepEntity.RilievoNiSet = rilievi
                                     }
                                     oModel.create("/DeepZNIEntitySet", deepEntity, {
                                         //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
