@@ -15,7 +15,7 @@
             <OverflowToolbar>
                 <content>
                     <ToolbarSpacer />
-                    <Button icon="sap-icon://search" id="DettagliNI" press="navToDettagliNI" type="Emphasized" text="Dettagli NI" enabled="false"/>
+                    <Button icon="sap-icon://search" id="DettagliNI" press="navToDettagliNI" type="Emphasized" text="Dettaglio NI" enabled="false"/>
                     <Button icon="sap-icon://excel-attachment" id="Esporta" press="onExport" type="Emphasized" text="Esporta" enabled="false" />
                 </content>
             </OverflowToolbar>

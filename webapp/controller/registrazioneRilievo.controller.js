@@ -382,7 +382,11 @@ sap.ui.define(
                                         deepEntity.HeaderNISet = header[indice];
                                         //deepEntity.RilievoNiSet.ZdatRilievo = that.getView().byId("dataRilievo").mProperties.dateValue
                                         deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
-                                        deepEntity.HeaderNISet.ZdataProtRag = new Date(that.getView().byId("dataProtocolloRGS").getValue())
+                                        var dataNuova = new Date(that.getView().byId("dataProtocolloRGS").getValue()),
+                                            mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
+                                            day = ("0" + dataNuova.getDate()).slice(-2);
+                                        var nData = [dataNuova.getFullYear(), mnth, day].join("-");
+                                        deepEntity.HeaderNISet.ZdataProtRag = new Date(nData)
                                         //deepEntity.RilievoNiSet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()
 
                                         deepEntity.RilievoNiSet = {
@@ -450,7 +454,11 @@ sap.ui.define(
                                         deepEntity.HeaderNISet = header[indice];
                                         //deepEntity.RilievoNiSet.ZdatRilievo = that.getView().byId("dataRilievo").mProperties.dateValue
                                         deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
-                                        deepEntity.HeaderNISet.ZdataProtRag = new Date(that.getView().byId("dataProtocolloRGS").getValue())
+                                        var dataNuova = new Date(that.getView().byId("dataProtocolloRGS").getValue()),
+                                            mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
+                                            day = ("0" + dataNuova.getDate()).slice(-2);
+                                        var nData = [dataNuova.getFullYear(), mnth, day].join("-");
+                                        deepEntity.HeaderNISet.ZdataProtRag = new Date(nData)
                                         //deepEntity.RilievoNiSet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()ù
 
                                         deepEntity.RilievoNiSet = {
@@ -515,21 +523,21 @@ sap.ui.define(
 
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                         //deepEntity.ZchiaveNi = header[indice]
-                                         
+
 
                                         deepEntity.HeaderNISet = header[indice];
-                                           
+
                                         // deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
                                         // deepEntity.HeaderNISet.ZdataProtRag = new Date(that.getView().byId("dataProtocolloRGS").getValue())
-                                        
+
 
                                         var rilievi = that.getView().getModel("temp").getData().Rilievi
 
                                         deepEntity.RilievoNiSet = rilievi
-                                        
+
                                         //deepEntity.RilievoNiSet.ZdatRilievo = new Date(that.getView().byId("dataRilievo").getValue())
                                         deepEntity.RilievoNiSet.Zmotrilievo = that.getView().byId("motivizioneRilievo").getValue()
-                                        
+
 
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
