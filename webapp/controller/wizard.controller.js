@@ -279,7 +279,7 @@ sap.ui.define([
 
             onSearch: function (oEvent) {
                 this.onCallHeader()
-                var oModelP = new sap.ui.model.json.JSONModel("../model/tabRendicontazione.json");
+                var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabRendicontazione.json");
                 this.getView().setModel(oModelP, "HeaderNIW");
                 // var that = this;
                 this.getView().byId("HeaderNIW").setVisible(true);
