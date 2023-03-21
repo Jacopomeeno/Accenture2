@@ -1,0 +1,19 @@
+{
+  "deployer": {
+    "type": "Gateway",
+    "options": {
+      "conn": {
+        "server": "http://10.38.125.80:8000",
+        "client": "100"
+      },
+      "ui5": {
+        "language": "EN",
+        "package": "Z_S4_ACN_COSP_FIORI",
+        "bspcontainer": "ZNoteImp_e043",
+        "bspcontainer_text": "Gestione Note d'Imputazione",
+        "calc_appindex": true,
+        "transportno": "S2SK915311"
+      }
+    }
+  }
+}
