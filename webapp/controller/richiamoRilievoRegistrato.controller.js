@@ -722,6 +722,7 @@ sap.ui.define(
 
                                         var deepEntity = {
                                             HeaderNISet: null,
+                                            RilievoNiSet: null,
                                             Funzionalita: 'RICHIAMORILIEVOREGISTRATO',
                                         }
                                         var oModel = that.getOwnerComponent().getModel();
@@ -733,7 +734,7 @@ sap.ui.define(
 
                                             deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                             deepEntity.HeaderNISet = header[indice];
-                                            deepEntity.HeaderNISet.ZzMotrilievo = Core.byId("submissionNote").getValue();
+                                            deepEntity.HeaderNISet.Zmotrichiamo = Core.byId("submissionNote").getValue();
                                         }
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},

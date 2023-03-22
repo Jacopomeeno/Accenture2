@@ -84,7 +84,7 @@
             </f:header>
             <f:content>
                 <Wizard id="CreateProductWizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="false" navigationChange="handleNavigationChange" renderMode="Page" width="auto">
-                    <WizardStep id="SelezioneTitoliStep" visible="{/SelezioneTitoliStep}" title="Selezione Titoli" validated="true">
+                    <WizardStep id="SelezioneTitoliStep" title="Selezione Titoli" validated="true">
                         <form:SimpleForm editable="true">
                             <Panel height="100%">
                                 <content>
@@ -176,7 +176,7 @@
                         </OverflowToolbar>
                         <core:Fragment fragmentName="project1.fragment.tableWizard" type="XML" />
                     </WizardStep>
-                    <WizardStep id="APFStep" visible="{/APFStep}" validated="true" title="Associazione Posizione Finanziaria" activate="additionalInfoValidation">
+                    <WizardStep id="APFStep" validated="true" title="Associazione Posizione Finanziaria" activate="additionalInfoValidation">
                         <form:SimpleForm editable="true">
                             <form:content>
                                 <Panel height="100%">
@@ -230,7 +230,7 @@
                             </form:content>
                         </form:SimpleForm>
                     </WizardStep>
-                    <WizardStep id="DatiNIStep" visible="{/DatiNIStep}" validated="true" activate="optionalStepActivation" title="Dati NI">
+                    <WizardStep id="DatiNIStep" validated="true" activate="optionalStepActivation" title="Dati NI">
                         <form:SimpleForm editable="true">
                             <Panel height="100%">
                                 <content>
