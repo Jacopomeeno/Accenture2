@@ -201,15 +201,6 @@ sap.ui.define(
                             oModel.create("/DeepPositionNISet", deepEntity, {
                                 // method: "PUT",
                                 success: function (result) {
-                                    if (result.Msgty == 'E') {
-                                        console.log(result.Message)
-                                        MessageBox.error("Modifica importo non eseguita correttamente", {
-                                            title:"Esito Operazione",
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                        })
-                                    }
-                                    if (result.Msgty == 'S') {
                                         MessageBox.success("Modifica importo eseguita correttamente", {
                                             title:"Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],
@@ -221,7 +212,6 @@ sap.ui.define(
                                                 }
                                             }
                                         })
-                                    }
                                 },
                                 error: function (e) {
                                     //console.log("error");

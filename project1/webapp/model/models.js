@@ -26,6 +26,12 @@ sap.ui.define([
                 
             };
             return new JSONModel(oModel);
-        }
+        },
+
+        createcomboJSONModel: function () {
+            var sRootPath = jQuery.sap.getModulePath("project1"); 
+            var oModel = new JSONModel(sRootPath + "/mockdata/tabRendicontazione.json"); 
+            return oModel; 
+           },
     };
 });

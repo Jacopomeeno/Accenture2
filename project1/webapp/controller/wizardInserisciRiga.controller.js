@@ -229,7 +229,8 @@ sap.ui.define([
 
             onSearch: function (oEvent) {
                 this.onCallHeader()
-                var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabRendicontazione.json");
+                var oModelP = this.getView().getModel("tabRendicontazione")
+                //var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabRendicontazione.json");
                 this.getView().setModel(oModelP, "HeaderNIW");
                 // var that = this;
                 this.getView().byId("HeaderNIW").setVisible(true);
@@ -314,15 +315,6 @@ sap.ui.define([
 
                             oDataModel.create("/DeepPositionNISet", deepEntity, {
                                 success: function (result) {
-                                    if (result.Msgty == 'E') {
-                                        console.log(result.Message)
-                                        MessageBox.error("Nota d'imputazione non rettificata correttamente", {
-                                            title:"Esito Operazione",
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                        })
-                                    }
-                                    if (result.Msgty == 'S') {
                                         MessageBox.success("Nota d'imputazione rettificata correttamente", {
                                             title:"Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],
@@ -334,7 +326,6 @@ sap.ui.define([
                                                 }
                                             }
                                         })
-                                    }
                                 },
                                 error: function (err) {
                                     console.log(err);

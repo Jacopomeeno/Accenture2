@@ -243,13 +243,8 @@ sap.ui.define(
                         this.getView().byId("CodiceUff1").setText(codUff)
                         this.getView().byId("dirigente1").setText(dirigente)
 
-                        if(header[i].ZcodiStatoni == "07"){
-                            var numProtocolloRGS = header[i].NProtocolloRag
-                            this.getView().byId("numProtocolloRGS").setValue(numProtocolloRGS)
-                            var dataProtocolloRGS = header[i].ZdatRilievo
-                            this.getView().byId("dataProtocolloRGS").setValue(dataProtocolloRGS)
-                            var motivizioneRilievo = header[i].ZzMotrilievo
-                            this.getView().byId("motivizioneRilievo").setValue(motivizioneRilievo)
+                        if (header[i].ZcodiStatoni == "07") {
+                            this.setFiltriRilievo()
                         }
 
                     }
@@ -258,6 +253,76 @@ sap.ui.define(
 
             onBackButton: function () {
                 window.history.go(-1);
+            },
+
+            setFiltriRilievo: function () {
+                var that = this
+                var oModel = this.getOwnerComponent().getModel();
+
+                var url = location.href
+                var sUrl = url.split("/registrazioneRilievo/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                //var oItems = that.getView().byId("").getBinding("items").oList;
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+
+                        that.getView().byId("numProtocolloRGS").setValue(header[i].NProtocolloRag)
+
+                        var dataProtocolloRGS = header[i].ZdataProtRag
+                        var dataNuova = new Date(dataProtocolloRGS),
+                            mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
+                            day = ("0" + dataNuova.getDate()).slice(-2);
+                        var nData = [dataNuova.getFullYear(), mnth, day].join("-");
+                        var nDate = nData.split("-").reverse().join("/");
+                        that.getView().byId("dataProtocolloRGS").setValue(nDate)
+                    }
+                }
+
+                var chiavi = oModel.createKey("/RilievoNiSet", {
+                    Bukrs: Bukrs,
+                    Gjahr: Gjahr,
+                    Zamministr: Zamministr,
+                    ZchiaveNi: ZchiaveNi,
+                    ZidNi: ZidNi,
+                    ZRagioCompe: ZRagioCompe,
+                    ZidRilievo: ""
+                });
+
+                //var oMdlDisp = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read(chiavi, {
+                    success: function (data) {
+                        that.getView().getModel("temp").setProperty('/Rilievi', data)
+
+                        var ZdatRilievo = data.ZdatRilievo
+                        var dataNuova = new Date(ZdatRilievo),
+                            mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
+                            day = ("0" + dataNuova.getDate()).slice(-2);
+                        var nData = [dataNuova.getFullYear(), mnth, day].join("-");
+                        var nDate = nData.split("-").reverse().join("/");
+                        that.getView().byId("dataRilievo").setValue(nDate)
+
+                        that.getView().byId("motivizioneRilievo").setValue(data.Zmotrilievo)
+
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
+
             },
 
             onSave: function () {
@@ -298,6 +363,7 @@ sap.ui.define(
 
                             var deepEntity = {
                                 HeaderNISet: null,
+                                RilievoNiSet: null,
                                 Funzionalita: 'REGISTRAZIONERILIEVOVERIFICA',
                             }
 
@@ -310,18 +376,46 @@ sap.ui.define(
                                     if (oAction === sap.m.MessageBox.Action.YES) {
                                         var oModel = that.getOwnerComponent().getModel();
 
-                                        for (var i = 0; i < header.length; i++) {
-                                            // var item = header[i];
-                                            // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-                                            // var Zamministr = scompostaZamministr.split(".")[0]
+                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                        //deepEntity.ZchiaveNi = header[indice]
 
-                                            deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                            deepEntity.HeaderNISet = header[indice];
-                                            deepEntity.HeaderNISet.ZdatRilievo = new Date(that.getView().byId("dataRilievo").getValue())
-                                            deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
-                                            deepEntity.HeaderNISet.ZdataProtRag = new Date(that.getView().byId("dataProtocolloRGS").getValue())
-                                            deepEntity.HeaderNISet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()
-                                        }
+                                        deepEntity.HeaderNISet = header[indice];
+                                        //deepEntity.RilievoNiSet.ZdatRilievo = that.getView().byId("dataRilievo").mProperties.dateValue
+                                        deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
+                                        // var dataNuova = new Date(that.getView().byId("dataProtocolloRGS").getValue()),
+                                        //     mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
+                                        //     day = ("0" + dataNuova.getDate()).slice(-2);
+                                        // var nData = [dataNuova.getFullYear(), mnth, day].join("-");
+                                        var numeri = that.getView().byId("dataProtocolloRGS").getValue().split("/");
+                                        var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
+                                        var dataProvaUTC = new Date(nData)
+                                        var anno = dataProvaUTC.getUTCFullYear()
+                                        var nData = (anno + "-" + numeri[1] + "-" + numeri[0])
+                                        var dataNuova = new Date(nData)
+
+                                        deepEntity.HeaderNISet.ZdataProtRag = dataNuova
+                                        //deepEntity.RilievoNiSet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()
+
+                                        deepEntity.RilievoNiSet = {
+                                            Bukrs: header[indice].Bukrs,
+                                            Gjahr: header[indice].Gjahr,
+                                            Zamministr: header[indice].Zamministr,
+                                            ZidNi: header[indice].ZidNi,
+                                            ZchiaveNi: header[indice].ZchiaveNi,
+                                            ZRagioCompe: header[indice].ZRagioCompe,
+                                            //ZdatRilievo: that.getView().byId("dataRilievo").mProperties.dateValue,
+                                            Zmotrilievo: that.getView().byId("motivizioneRilievo").getValue()
+                                        }   
+
+                                        var numeri = that.getView().byId("dataRilievo").getValue().split("/");
+                                        var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
+                                        var dataProvaUTC = new Date(nData)
+                                        var anno = dataProvaUTC.getUTCFullYear()
+                                        var nData = (anno + "-" + numeri[1] + "-" + numeri[0])
+                                        var dataNuova = new Date(nData)
+                                        
+                                        deepEntity.RilievoNiSet.ZdatRilievo = dataNuova
+                                        
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",
@@ -357,6 +451,7 @@ sap.ui.define(
 
                             var deepEntity = {
                                 HeaderNISet: null,
+                                RilievoNiSet: null,
                                 Funzionalita: 'REGISTRAZIONERILIEVOCONFERMATA',
                             }
 
@@ -369,19 +464,39 @@ sap.ui.define(
                                     if (oAction === sap.m.MessageBox.Action.YES) {
                                         var oModel = that.getOwnerComponent().getModel();
 
-                                        for (var i = 0; i < header.length; i++) {
-                                            // var item = header[i];
-                                            // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-                                            // var Zamministr = scompostaZamministr.split(".")[0]
+                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                        //deepEntity.ZchiaveNi = header[indice]
 
-                                            deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                            deepEntity.HeaderNISet = header[indice];
-                                            deepEntity.HeaderNISet.ZdatRilievo = new Date(that.getView().byId("dataRilievo").getValue())
-                                            deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
-                                            deepEntity.HeaderNISet.ZdataProtRag = new Date(that.getView().byId("dataProtocolloRGS").getValue())
-                                            deepEntity.HeaderNISet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()
+                                        deepEntity.HeaderNISet = header[indice];
+                                        //deepEntity.RilievoNiSet.ZdatRilievo = that.getView().byId("dataRilievo").mProperties.dateValue
+                                        deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
+                                        // var dataNuova = new Date(that.getView().byId("dataProtocolloRGS").getValue()),
+                                        //     mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
+                                        //     day = ("0" + dataNuova.getDate()).slice(-2);
+                                        // var nData = [dataNuova.getFullYear(), mnth, day].join("-");
 
+                                        var numeri = that.getView().byId("dataProtocolloRGS").getValue().split("/");
+                                        var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
+                                        var dataProvaUTC = new Date(nData)
+                                        var anno = dataProvaUTC.getUTCFullYear()
+                                        var nData = (anno + "-" + numeri[1] + "-" + numeri[0])
+                                        var dataNuova = new Date(nData)
+
+                                        deepEntity.HeaderNISet.ZdataProtRag = dataNuova
+                                        //deepEntity.RilievoNiSet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()ù
+
+                                        deepEntity.RilievoNiSet = {
+                                            Bukrs: header[indice].Bukrs,
+                                            Gjahr: header[indice].Gjahr,
+                                            Zamministr: header[indice].Zamministr,
+                                            ZidNi: header[indice].ZidNi,
+                                            ZchiaveNi: header[indice].ZchiaveNi,
+                                            ZRagioCompe: header[indice].ZRagioCompe,
+                                            ZdatRilievo: that.getView().byId("dataRilievo").mProperties.dateValue,
+                                            Zmotrilievo: that.getView().byId("motivizioneRilievo").getValue()
                                         }
+
+
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",
@@ -417,6 +532,7 @@ sap.ui.define(
 
                             var deepEntity = {
                                 HeaderNISet: null,
+                                RilievoNiSet: null,
                                 Funzionalita: 'RETTIFICARILIEVO',
                             }
 
@@ -429,19 +545,24 @@ sap.ui.define(
                                     if (oAction === sap.m.MessageBox.Action.YES) {
                                         var oModel = that.getOwnerComponent().getModel();
 
-                                        for (var i = 0; i < header.length; i++) {
-                                            // var item = header[i];
-                                            // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-                                            // var Zamministr = scompostaZamministr.split(".")[0]
+                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                        //deepEntity.ZchiaveNi = header[indice]
 
-                                            deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                            deepEntity.HeaderNISet = header[indice];
-                                            deepEntity.HeaderNISet.ZdatRilievo = new Date(that.getView().byId("dataRilievo").getValue())
-                                            deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
-                                            deepEntity.HeaderNISet.ZdataProtRag = new Date(that.getView().byId("dataProtocolloRGS").getValue())
-                                            deepEntity.HeaderNISet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()
 
-                                        }
+                                        deepEntity.HeaderNISet = header[indice];
+
+                                        // deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
+                                        // deepEntity.HeaderNISet.ZdataProtRag = new Date(that.getView().byId("dataProtocolloRGS").getValue())
+
+
+                                        var rilievi = that.getView().getModel("temp").getData().Rilievi
+
+                                        deepEntity.RilievoNiSet = rilievi
+
+                                        //deepEntity.RilievoNiSet.ZdatRilievo = new Date(that.getView().byId("dataRilievo").getValue())
+                                        deepEntity.RilievoNiSet.Zmotrilievo = that.getView().byId("motivizioneRilievo").getValue()
+
+
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",

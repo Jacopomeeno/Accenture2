@@ -141,7 +141,7 @@
                                 </VBox>
                                 <VBox>
                                     <Label text="Data Rilievo:" required="true" />
-                                    <DatePicker id="dataRilievo" width="100%" displayFormat="dd/MM/yyyy" value="04/30/2023">
+                                    <DatePicker id="dataRilievo" width="100%" displayFormat="dd/MM/yyyy">
                                     </DatePicker>
                                 </VBox>
                                 <VBox>

@@ -3,10 +3,10 @@
  */
 
 sap.ui.define([
-        "sap/ui/core/UIComponent",
-        "sap/ui/Device",
-        "project1/model/models"
-    ],
+    "sap/ui/core/UIComponent",
+    "sap/ui/Device",
+    "project1/model/models"
+],
     function (UIComponent, Device, models) {
         "use strict";
 
@@ -26,14 +26,17 @@ sap.ui.define([
 
                 var sRootPath = jQuery.sap.getModulePath("project1");
                 jQuery.getScript(sRootPath + "/utils/underscore-min.js");
-                
+
                 // enable routing
                 this.getRouter().initialize();
 
                 // set the device model
                 this.setModel(models.createDeviceModel(), "device");
                 this.setModel(models.createTempModel(), "temp")
-            }
+                this.setModel(models.createcomboJSONModel(), "tabRendicontazione");
+
+
+            },
         });
     }
 );

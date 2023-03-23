@@ -19,6 +19,9 @@ sap.ui.define([
                 PNIButtonVisible: false,
                 header1Visible: true,
                 header2Visible: true,
+                SelezioneTitoliStep: true,
+                APFStep: true,
+                DatiNIStep: true
                 // HeaderNIWstep3Visible: true
             };
 
@@ -279,7 +282,8 @@ sap.ui.define([
 
             onSearch: function (oEvent) {
                 this.onCallHeader()
-                var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabRendicontazione.json");
+                var oModelP = this.getView().getModel("tabRendicontazione")
+                //var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabRendicontazione.json");
                 this.getView().setModel(oModelP, "HeaderNIW");
                 // var that = this;
                 this.getView().byId("HeaderNIW").setVisible(true);
@@ -514,6 +518,7 @@ sap.ui.define([
                 this._oSelectedStep = oNextStep;
                 this.controlPreNI();
                 this.controlHeader()
+                //this.controlStep()
             },
 
             onNextButton: function () {
@@ -558,9 +563,31 @@ sap.ui.define([
 
                 this.controlPreNI()
                 this.controlHeader()
+                //this.controlStep()
             }
             },
 
+            // controlStep:function(){
+            //     var oProprietà = this.getView().getModel();
+            //     switch (this._iSelectedStepIndex) {
+            //         case 0:
+            //             oProprietà.setProperty("/SelezioneTitoliStep", true);
+            //             oProprietà.setProperty("/APFStep", false);
+            //             oProprietà.setProperty("/DatiNIStep", false);
+            //             break;
+            //         case 1:
+            //             oProprietà.setProperty("/SelezioneTitoliStep", false);
+            //             oProprietà.setProperty("/APFStep", true);
+            //             oProprietà.setProperty("/DatiNIStep", false);
+            //             break;
+            //         case 2:
+            //             oProprietà.setProperty("/SelezioneTitoliStep", false);
+            //             oProprietà.setProperty("/APFStep", false);
+            //             oProprietà.setProperty("/DatiNIStep", true);
+            //             break;
+            //         default: break;
+            //     }
+            // },
 
             controlPreNI: function () {
                 var oProprietà = this.getView().getModel();
@@ -602,7 +629,8 @@ sap.ui.define([
                         oProprietà.setProperty("/header2Visible", true);
                         this.viewHeader2()
                         this.filtriStep2()
-                        this.selectedRow()
+                        //this.controlStep()
+                        this.selectedRow()          
                         break;
                     default: break;
                 }

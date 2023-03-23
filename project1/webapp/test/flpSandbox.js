@@ -40,6 +40,7 @@ sap.ui.define([
 								"tileType": "sap.ushell.ui.tile.StaticTile",
 								"properties": {
 									"title": "Gestione Note di Imputazione",
+									"icon": "sap-icon://action-settings",
 									"targetURL": "#project1-display"
 								}
 							}]
@@ -56,6 +57,7 @@ sap.ui.define([
 								"action": "display",
 								"description": "Ciao.",
 								"title": "Gestione Note di Imputazione",
+								"icon": "sap-icon://action-settings",
 								"signature": {
 									"parameters": {}
 								},

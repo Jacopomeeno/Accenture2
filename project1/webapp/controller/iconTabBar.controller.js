@@ -412,15 +412,6 @@ sap.ui.define([
                             oModel.create("/DeepPositionNISet", deepEntity, {
                                 // method: "PUT",
                                 success: function (result) {
-                                    if (result.Msgty == 'E') {
-                                        console.log(result.Message)
-                                        MessageBox.error("Operazione non eseguita correttamente", {
-                                            title:"Esito Operazione",
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                        })
-                                    }
-                                    if (result.Msgty == 'S') {
                                         MessageBox.success("Operazione eseguita correttamente", {
                                             title:"Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],
@@ -432,7 +423,7 @@ sap.ui.define([
                                                 }
                                             }
                                         })
-                                    }
+                                    
                                 },
                                 error: function (e) {
                                     //console.log("error");
@@ -492,6 +483,7 @@ sap.ui.define([
                                         var item = header[i];
                                         var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
                                         var Zamministr = scompostaZamministr.split(".")[0]
+                                        var Fistl = header[i].Fistl
                                         
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                         // deepEntity.Bukrs = item.Zamministr, //Passato Da BE
@@ -514,7 +506,7 @@ sap.ui.define([
                                             Zmese: that.getView().byId("mese1").mProperties.text,
                                             ZoggSpesa: that.getView().byId("oggSpesa1").mProperties.text,
                                             Fipex: that.getView().byId("SARWH2").mProperties.text,
-                                            Fistl: that.getView().byId("pos_FinWH2").mProperties.text,
+                                            Fistl: Fistl,
                                         };
                                     }
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
