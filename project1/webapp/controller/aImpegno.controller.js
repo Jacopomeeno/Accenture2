@@ -316,7 +316,7 @@ sap.ui.define([
                 for (var i = 0; i < rows.length; i++) {
                     if (this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value != "") {
                         var Zdisp = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[3].mProperties.text)
-                        //var impoAttributo = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value)
+                        var impoAttributo = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value)
                         //somma = somma + impoAttributo
                         if (impoAttributo <= Zdisp) {
                             this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(impoAttributo)

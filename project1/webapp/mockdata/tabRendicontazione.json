@@ -74,6 +74,36 @@
             "ZimpoAss": "30000000.00",
             "ZimpoRes": "166765437.00",
             "ZCodCla": "2022-020-0000-0000-0000001-01-005"
+        },
+        {
+            "ZcodIsin": "IT0002834561",
+            "Ztipo": "Interessi - 003 ",
+            "Zsottotipo": "",
+            "Zdescrizione": "BTP 2,05% 04.07.2013/01.08.2030",
+            "Ztassoint": "",
+            "ZdataInizio": "",
+            "Zfbdt": "",
+            "ZdataPag": "06.08.2021",
+            "ZcompRes": "",
+            "ZimpoTitolo": "500.00",
+            "ZimpoAss": "1000.00",
+            "ZimpoRes": "100.00",
+            "ZCodCla": "2022-020-0000-0000-0000001-01-006"
+        },
+        {
+            "ZcodIsin": "IT0004321845",
+            "Ztipo": "Interessi - 003 ",
+            "Zsottotipo": "",
+            "Zdescrizione": "BTP 2,05% 04.07.2012/01.08.2025",
+            "Ztassoint": "",
+            "ZdataInizio": "",
+            "Zfbdt": "",
+            "ZdataPag": "06.08.2021",
+            "ZcompRes": "",
+            "ZimpoTitolo": "800.00",
+            "ZimpoAss": "2000.00",
+            "ZimpoRes": "500.00",
+            "ZCodCla": "2022-020-0000-0000-0000001-01-007"
         }
     ]
 }

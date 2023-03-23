@@ -29,8 +29,8 @@
                         <fb:filterGroupItems>
 							<fb:FilterGroupItem groupName="Gruppo1" name="idState" label="{i18n>es_gestione}" tooltip="suggestion" visibleInFilterBar="true" mandatory="true">
                                 <fb:control>
-                                    <ComboBox id="es_gestione" items="{path: '/ZgjahrEngNiSet', sorter: { path: 'ZgjahrEng' }}">
-                                        <core:Item key="{ZgjahrEng}" text="{ZgjahrEng}"/>
+                                    <ComboBox id="es_gestione" items="{path: '/HeaderNISet', sorter: { path: 'Gjahr' }}">
+                                        <core:Item key="{Gjahr}" text="{Gjahr}"/>
                                     </ComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>
