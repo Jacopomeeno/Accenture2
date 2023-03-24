@@ -15,8 +15,8 @@
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{ZchiaveNi}"
-            app:key="{ZchiaveNi}"
+            title="{ZidNi}"
+            app:key="{ZidNi}"
              />    
 </SelectDialog>
              

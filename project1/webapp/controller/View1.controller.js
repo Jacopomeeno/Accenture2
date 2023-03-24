@@ -131,22 +131,22 @@ sap.ui.define([
 
             onNavToIconTB: function () {
                 var row = this.getView().byId("HeaderNI").getSelectedItem().getBindingContext("HeaderNI").getObject()
-                if(row.ZcodiStatoni == "00")
-                this.getOwnerComponent().getRouter().navTo("iconTabBar", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if(row.ZcodiStatoni == "01")
-                this.getOwnerComponent().getRouter().navTo("inserisciInvioFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if(row.ZcodiStatoni == "02")
-                this.getOwnerComponent().getRouter().navTo("revocaFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if(row.ZcodiStatoni == "03")
-                this.getOwnerComponent().getRouter().navTo("passaggioStato", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if(row.ZcodiStatoni == "04")
-                this.getOwnerComponent().getRouter().navTo("richiamaNI", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if(row.ZcodiStatoni == "05")
-                this.getOwnerComponent().getRouter().navTo("conferma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if(row.ZcodiStatoni == "06")
-                this.getOwnerComponent().getRouter().navTo("richiamoNIRGS", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if(row.ZcodiStatoni == "07")
-                this.getOwnerComponent().getRouter().navTo("richiamoRilievoRegistrato", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if (row.ZcodiStatoni == "00")
+                    this.getOwnerComponent().getRouter().navTo("iconTabBar", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if (row.ZcodiStatoni == "01")
+                    this.getOwnerComponent().getRouter().navTo("inserisciInvioFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if (row.ZcodiStatoni == "02")
+                    this.getOwnerComponent().getRouter().navTo("revocaFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if (row.ZcodiStatoni == "03")
+                    this.getOwnerComponent().getRouter().navTo("passaggioStato", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if (row.ZcodiStatoni == "04")
+                    this.getOwnerComponent().getRouter().navTo("richiamaNI", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if (row.ZcodiStatoni == "05")
+                    this.getOwnerComponent().getRouter().navTo("conferma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if (row.ZcodiStatoni == "06")
+                    this.getOwnerComponent().getRouter().navTo("richiamoNIRGS", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
+                if (row.ZcodiStatoni == "07")
+                    this.getOwnerComponent().getRouter().navTo("richiamoRilievoRegistrato", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
             },
 
             navToDettagliNI: function (oEvent) {
@@ -198,50 +198,86 @@ sap.ui.define([
                         path = oEvent.getParameters().selectionSet[i].getBindingInfo(bindingInfo)
                     }
                     var filtro = oEvent.getParameters().selectionSet[i]
+
                     if (filtro) {
+                        if (i == 4) {
+                            if (oEvent.getParameters().selectionSet[4].mProperties.value != '') {
+                                datiNI.push(new Filter({
+                                    path: "ZchiaveNi",
+                                    operator: FilterOperator.BT,
+                                    value1: oEvent.getParameters().selectionSet[4].mProperties.value,
+                                    value2: oEvent.getParameters().selectionSet[5].mProperties.value
+                                }));
+                            }
+                        }
+                        if (i == 6) {
+                            if (oEvent.getParameters().selectionSet[6].mProperties.value != '') {
+                                datiNI.push(new Filter({
+                                    path: "ZidNi",
+                                    operator: FilterOperator.BT,
+                                    value1: oEvent.getParameters().selectionSet[6].mProperties.value,
+                                    value2: oEvent.getParameters().selectionSet[7].mProperties.value
+                                }));
+                            }
+                        }
+                        if (i == 18) {
+                            if (oEvent.getParameters().selectionSet[18].mProperties.value != '') {
+                                datiNI.push(new Filter({
+                                    path: "ZzNumClaPos",
+                                    operator: FilterOperator.BT,
+                                    value1: oEvent.getParameters().selectionSet[18].mProperties.value,
+                                    value2: oEvent.getParameters().selectionSet[19].mProperties.value
+                                }));
+                            }
+                        }
+
+                        else if (i == 5 || i == 7 || i == 19) {
+                            continue
+                        }
+
                         if (filtro.mProperties.dateValue instanceof Date || !isNaN(filtro.mProperties.dateValue)) {
-                            if (i == 5) {
-                                if (oEvent.getParameters().selectionSet[5].mProperties.value != '') {
+                            if (i == 8) {
+                                if (oEvent.getParameters().selectionSet[8].mProperties.value != '') {
                                     datiNI.push(new Filter({
                                         path: "ZdataCreaz",
                                         operator: FilterOperator.BT,
-                                        value1: oEvent.getParameters().selectionSet[5].mProperties.value,
-                                        value2: oEvent.getParameters().selectionSet[6].mProperties.value
-                                    }));
-                                }
-                            }
-                            if (i == 18) {
-                                if (oEvent.getParameters().selectionSet[18].mProperties.value != '') {
-                                    datiNI.push(new Filter({
-                                        path: "ZdataFirmNi",
-                                        operator: FilterOperator.BT,
-                                        value1: oEvent.getParameters().selectionSet[18].mProperties.value,
-                                        value2: oEvent.getParameters().selectionSet[19].mProperties.value
+                                        value1: oEvent.getParameters().selectionSet[8].mProperties.value,
+                                        value2: oEvent.getParameters().selectionSet[9].mProperties.value
                                     }));
                                 }
                             }
                             if (i == 20) {
-                                if (oEvent.getParameters().selectionSet[20].mProperties.value != '') {
+                                if (oEvent.getParameters().selectionSet[18].mProperties.value != '') {
                                     datiNI.push(new Filter({
-                                        path: "ZdataProtAmm",
+                                        path: "ZdataFirmNi",
                                         operator: FilterOperator.BT,
                                         value1: oEvent.getParameters().selectionSet[20].mProperties.value,
                                         value2: oEvent.getParameters().selectionSet[21].mProperties.value
                                     }));
                                 }
                             }
-                            if (i == 23) {
+                            if (i == 22) {
+                                if (oEvent.getParameters().selectionSet[20].mProperties.value != '') {
+                                    datiNI.push(new Filter({
+                                        path: "ZdataProtAmm",
+                                        operator: FilterOperator.BT,
+                                        value1: oEvent.getParameters().selectionSet[22].mProperties.value,
+                                        value2: oEvent.getParameters().selectionSet[23].mProperties.value
+                                    }));
+                                }
+                            }
+                            if (i == 25) {
                                 if (oEvent.getParameters().selectionSet[23].mProperties.value != '') {
                                     datiNI.push(new Filter({
                                         path: "ZdataProtRag",
                                         operator: FilterOperator.BT,
-                                        value1: oEvent.getParameters().selectionSet[23].mProperties.value,
-                                        value2: oEvent.getParameters().selectionSet[24].mProperties.value
+                                        value1: oEvent.getParameters().selectionSet[25].mProperties.value,
+                                        value2: oEvent.getParameters().selectionSet[26].mProperties.value
                                     }));
                                 }
                             }
                         }
-                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '') {
+                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i != 18) {
                             datiNI.push(new Filter({
                                 path: path.sorter.sPath,
                                 operator: FilterOperator.EQ,
@@ -249,30 +285,39 @@ sap.ui.define([
                             }));
                             //datiNI.push("?$filter= "+path.sorter.sPath+" eq '" + filtro.getValue() + "'");
                         }
-                        else if (i == 6 || i == 19 || i == 21 || i == 24) {
+                        else if (i == 9 || i == 21 || i == 23 || i == 26) {
                             continue
+                        }
+                        
+                        else if (i == 0) {
+                            if (oEvent.getParameters().selectionSet[i].mProperties.value == '') {
+                                MessageBox.error("Esercizio di Gestione non inserito!", {
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    emphasizedAction: MessageBox.Action.OK,
+                                })
+                            }
                         }
                     }
                 }
-                //console.log(datiNI)
+                if (datiNI.length != 0 && datiNI[0].sPath == "Gjahr") {
+                    //console.log(datiNI)
+                    var that = this;
+                    var oMdl = new sap.ui.model.json.JSONModel();
+                    this.getView().getModel().read("/HeaderNISet", {
+                        filters: datiNI,
+                        urlParameters: "",
+                        success: function (data) {
+                            oMdl.setData(data.results);
+                            that.getView().getModel("temp").setProperty('/HeaderNISet', data.results)
+                        },
+                        error: function (error) {
+                            //that.getView().getModel("temp").setProperty(sProperty,[]);
+                            //that.destroyBusyDialog();
+                            var e = error;
+                        }
+                    });
 
-                var that = this;
-                var oMdl = new sap.ui.model.json.JSONModel();
-                this.getView().getModel().read("/HeaderNISet", {
-                    filters: datiNI,
-                    urlParameters: "",
-                    success: function (data) {
-                        oMdl.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/HeaderNISet', data.results)
-                    },
-                    error: function (error) {
-                        //that.getView().getModel("temp").setProperty(sProperty,[]);
-                        //that.destroyBusyDialog();
-                        var e = error;
-                    }
-                });
-
-
+                }
 
                 this.getOwnerComponent().setModel(oMdl, "HeaderNI");
                 //sap.ui.getCore().TableModel = oMdlW;

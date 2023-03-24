@@ -64,10 +64,10 @@
         <ColumnListItem>
             <Text text="{HeaderNIWstep3>ZcodIsin}" />
             <Text text="{HeaderNIWstep3>Ztipo}"/>
-            <Input value="{HeaderNIWstep3>Zdescrizione}" />
+            <Text text="{HeaderNIWstep3>Zdescrizione}" />
             <Text text="{path:'HeaderNIWstep3>ZdataPag', formatter:'.formatter.convert'}" />
             <Input value="{HeaderNIWstep3>ZimpoTitolo}" />
-            <Input value="{HeaderNIWstep3>ZimpoRes}" />
+            <Text text="{HeaderNIWstep3>ZimpoRes}" />
         </ColumnListItem>
     </Table>
 </core:FragmentDefinition>

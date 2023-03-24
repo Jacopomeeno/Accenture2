@@ -5,7 +5,7 @@
         growingThreshold="9999"
         class="sapUiPopupWithPadding"
         items="{
-            path: '/ZfmimpegniIpeSet'
+            path: '/HeaderNISet'
         }"
         search="_handleValueHelpSearch"
         confirm="_handleValueHelpValueClose"
@@ -15,8 +15,8 @@
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{ZNumCla}"
-            app:key="{ZNumCla}"
+            title="{ZzNumClaPos}"
+            app:key="{ZzNumClaPos}"
              />    
 </SelectDialog>
              

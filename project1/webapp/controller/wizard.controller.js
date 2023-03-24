@@ -273,10 +273,13 @@ sap.ui.define([
                 var oMdlWstep3 = new sap.ui.model.json.JSONModel();
                 for (var i = 0; i < rows.length; i++) {
                     var campo = rows[i].getBindingContext("HeaderNIW").getObject()
+                    campo.ZimpoTitolo = campo.ZimpoRes
+                    campo.ZimpoRes = "0.00"
                     array.push(campo)
                 }
                 oMdlWstep3.setData(array);
                 this.getView().setModel(oMdlWstep3, "HeaderNIWstep3");
+                
                 // console.log(oMdlWstep3)
             },
 

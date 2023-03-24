@@ -29,13 +29,13 @@
                                     <Label id="meseW1" text="{i18n>mese}" design="Bold"/>
                                     <Text id="meseWH1" wrapping="true"/>
                                 </VBox>
-                                <VBox id="idVBox13" class="sapUiSmallMargin" width="auto">
-                                    <Label id="n_righeTotW1" text="{i18n>n_righeTot}" design="Bold"/>
-                                    <Text id="n_righeTotWH1"/>
-                                </VBox>
                                 <VBox id="idVBox14" class="sapUiSmallMargin" width="auto">
                                     <Label id="compW1" text="{i18n>comp}" design="Bold"/>
                                     <Text id="compWH1"/>
+                                </VBox>
+                                <VBox id="idVBox13" class="sapUiSmallMargin" width="auto">
+                                    <Label id="n_righeTotW1" text="{i18n>n_righeTot}" design="Bold"/>
+                                    <Text id="n_righeTotWH1"/>
                                 </VBox>
                             </HBox>
                         </l:VerticalLayout>
@@ -238,8 +238,7 @@
                                         <l:content>
                                             <VBox>
                                                 <Label text="Oggetto della spesa:" required="true" />
-                                                <Input value="" id="oggSpesa" showValueHelp="false" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'ZoggSpesa' }}">
-                                                    <core:Item key="{temp>ZoggSpesa}"/>
+                                                <Input value="" id="oggSpesa" showValueHelp="false">
                                                 </Input>
                                                 <layoutData>
                                                     <l:GridData span="L3 M3 S3" />
