@@ -140,10 +140,17 @@
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
-                            <fb:FilterGroupItem id="numIPE" visibleInFilterBar="true" name="numIPE" groupName="Gruppo2" label="{i18n>numIPE}">
+                            <fb:FilterGroupItem id="numIPEDa" visibleInFilterBar="true" name="numIPEDa" groupName="Gruppo2" label="{i18n>numIPEDa}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="numIPE1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZCodIpe' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="numIPE1" app:filterTableField="numIPE1">
-                                        <core:Item key="{ZCodIpe}" text="{ZCodIpe}"/>
+                                    <Input showSuggestion="true" id="numIPEDa1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZCodIpe' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="numIPEDa1" app:filterTableField="numIPEDa1">
+                                        <core:Item key="{ZzCodIpePos}" text="{ZzCodIpePos}"/>
+                                    </Input>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem id="numIPEA" visibleInFilterBar="true" name="numIPEA" groupName="Gruppo2" label="{i18n>numIPEA}">
+                                <fb:control>
+                                    <Input showSuggestion="true" id="numIPEA1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZCodIpe' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="numIPEA1" app:filterTableField="numIPEA1">
+                                        <core:Item key="{ZzCodIpePos}" text="{ZzCodIpePos}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>

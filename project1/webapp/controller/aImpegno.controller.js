@@ -125,9 +125,27 @@ sap.ui.define([
                             array.push(campo)
                         }
                         if (array) {
+                            var sommaDisponibilità = 0.00
+                            var rows = this.getView().byId("HeaderNIAssImp").getSelectedItems()
+                            var impoTot = parseFloat(this.getView().byId("importoTot1").mProperties.text)
+                            for (var x = 0; x < rows.length; x++) {
+                            var Zdisp = parseFloat(rows[x].mAggregations.cells[3].mProperties.text)
+                            sommaDisponibilità = sommaDisponibilità+Zdisp
+                            var impoAttributo = parseFloat(rows[x].mAggregations.cells[4].mProperties.value)
+                            if(impoAttributo > Zdisp){
+                                MessageBox.error("Il valore del campo Importo Attribuito non può essere maggiore al campo Disponibilità Impegno")
+                                break
+                            }
+                            if(impoTot > sommaDisponibilità){
+                                MessageBox.error("Il valore del campo Importo Totale NI non può essere maggiore alla somma delle Disponibilità Impegno")
+                                break
+                            }
+                            else{
                             this.getView().getModel("temp").setProperty("/ImpegniSelezionati", array)
                             this.getOwnerComponent().getRouter().navTo("aImpegno2", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                            }
                         }
+                    }
 
                     }
                 }

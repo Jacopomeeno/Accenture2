@@ -220,7 +220,17 @@ sap.ui.define([
                                 }));
                             }
                         }
-                        if (i == 18) {
+                        if (i == 15) {
+                            if (oEvent.getParameters().selectionSet[6].mProperties.value != '') {
+                                datiNI.push(new Filter({
+                                    path: "ZzCodIpePos",
+                                    operator: FilterOperator.BT,
+                                    value1: oEvent.getParameters().selectionSet[6].mProperties.value,
+                                    value2: oEvent.getParameters().selectionSet[7].mProperties.value
+                                }));
+                            }
+                        }
+                        if (i == 17) {
                             if (oEvent.getParameters().selectionSet[18].mProperties.value != '') {
                                 datiNI.push(new Filter({
                                     path: "ZzNumClaPos",
@@ -231,7 +241,7 @@ sap.ui.define([
                             }
                         }
 
-                        else if (i == 5 || i == 7 || i == 19) {
+                        else if (i == 5 || i == 7 || i==16 || i == 18) {
                             continue
                         }
 
@@ -277,7 +287,7 @@ sap.ui.define([
                                 }
                             }
                         }
-                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i != 18) {
+                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i && i != 15 && i != 17) {
                             datiNI.push(new Filter({
                                 path: path.sorter.sPath,
                                 operator: FilterOperator.EQ,
@@ -288,7 +298,7 @@ sap.ui.define([
                         else if (i == 9 || i == 21 || i == 23 || i == 26) {
                             continue
                         }
-                        
+
                         else if (i == 0) {
                             if (oEvent.getParameters().selectionSet[i].mProperties.value == '') {
                                 MessageBox.error("Esercizio di Gestione non inserito!", {

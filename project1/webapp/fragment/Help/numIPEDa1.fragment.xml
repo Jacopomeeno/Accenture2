@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">   
 <SelectDialog
-        title="Seleziona Ufficio di 1^ Livello"
+        title="Seleziona IPE"
         growing="true"
         growingThreshold="9999"
         class="sapUiPopupWithPadding"
@@ -10,13 +10,13 @@
         search="_handleValueHelpSearch"
         confirm="_handleValueHelpValueClose"
         cancel="_handleValueHelpClose"
-        app:filterTableField="uff1Livello1"
+        app:filterTableField="numIPEDa1"
         >        
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{ZzUfficioliv1Pos}"
-            app:key="{ZzUfficioliv1Pos}"
+            title="{ZzCodIpePos}"
+            app:key="{ZzCodIpePos}"
              />    
 </SelectDialog>
              
