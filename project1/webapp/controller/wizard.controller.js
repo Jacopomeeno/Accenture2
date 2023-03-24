@@ -273,7 +273,7 @@ sap.ui.define([
                 //console.log(es_gestione)
                 var Mese = this.getView().byId("mese").getSelectedItem().mProperties.text;
                 var PF = this.getView().byId("input_PF").getValue();
-                var Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;
+                //var Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;
                 var SAR = this.getView().byId("strAmmResp").getValue()
                 var competenza = this.getView().byId("competenza").getValue()
 
@@ -400,9 +400,11 @@ sap.ui.define([
 
                 var N_es_gestione = this.getView().byId("es_gestione").getSelectedKey(); //header
                 var N_Mese = this.getView().byId("mese").getSelectedItem().mProperties.text; //header
-                //if(this.getView().byId("tipologia").getValue() != "")
+                if(this.getView().byId("tipologia").getValue() != '')
                 var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
+                if(this.getView().byId("sottotipologia").getSelectedItem() != null)
                 var N_Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;  //position
+                if(this.getView().byId("competenza").getSelectedItem() != null)
                 var N_CR = this.getView().byId("competenza").mProperties.value  //position
                 var N_ImportoTot = this.getView().byId("n_righeTotWH2").getText().split(" ")[5];
 
