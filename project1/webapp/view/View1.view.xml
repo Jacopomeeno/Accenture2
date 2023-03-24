@@ -107,8 +107,8 @@
     
                             <fb:FilterGroupItem id="es_decreto" visibleInFilterBar="true" name="es_decreto" groupName="Gruppo2" label="{i18n>es_decreto}">
                                 <fb:control>
-                                    <ComboBox id="es_decreto1" items="{path: '/HeaderNISet', sorter: { path: 'GjahrDecreto' }}">
-                                        <core:Item key="{GjahrDecreto}" text="{GjahrDecreto}"/>
+                                    <ComboBox id="es_decreto1" items="{path: 'temp>/ZgjahrEngNiSet', sorter: { path: 'temp>ZgjahrEng' }}">
+                                        <core:Item key="{temp>ZgjahrEng}" text="{temp>ZgjahrEng}"/>
                                     </ComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>
@@ -220,8 +220,8 @@
 
                             <fb:FilterGroupItem id="es_PF" visibleInFilterBar="true" name="es_PF" groupName="Gruppo5" label="{i18n>es_PF}">
                                 <fb:control>
-                                    <ComboBox id="es_PF1" items="{path: '/HeaderNISet', sorter: { path: 'Esercizio' }}">
-                                        <core:Item key="{Esercizio}" text="{Esercizio}"/>
+                                    <ComboBox id="es_PF1" items="{path: 'temp>/EsercizioNiSet', sorter: { path: 'temp>Esercizio' }}">
+                                        <core:Item key="{temp>Esercizio}" text="{temp>Esercizio}"/>
                                     </ComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>

@@ -19,7 +19,8 @@ sap.ui.define([
 
             onInit: function () {
                 //console.log("onInit View1 controller")
-                this.esercizioGestione()
+                this.esercizioDecreto()
+                this.EsercizioPosizioneFinanziaria()
             },
 
             onWarning2MessageBoxPress: function () {
@@ -35,7 +36,7 @@ sap.ui.define([
                 })
             },
 
-            esercizioGestione: function () {
+            esercizioDecreto: function () {
                 var that = this;
                 var oMdl = new sap.ui.model.json.JSONModel();
                 this.getOwnerComponent().getModel().read("/ZgjahrEngNiSet", {
@@ -178,6 +179,26 @@ sap.ui.define([
             //     this.getOwnerComponent().setModel(esGestioneModel, "esGestioneModel");
             // },
 
+            //ZgjahrEngNi
+
+            EsercizioPosizioneFinanziaria: function () {
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/EsercizioNiSet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/EsercizioNiSet', data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
             onSearch: function (oEvent) {
                 var that = this;
                 var datiNI = [];
@@ -221,12 +242,12 @@ sap.ui.define([
                             }
                         }
                         if (i == 15) {
-                            if (oEvent.getParameters().selectionSet[6].mProperties.value != '') {
+                            if (oEvent.getParameters().selectionSet[15].mProperties.value != '') {
                                 datiNI.push(new Filter({
                                     path: "ZzCodIpePos",
                                     operator: FilterOperator.BT,
-                                    value1: oEvent.getParameters().selectionSet[6].mProperties.value,
-                                    value2: oEvent.getParameters().selectionSet[7].mProperties.value
+                                    value1: oEvent.getParameters().selectionSet[15].mProperties.value,
+                                    value2: oEvent.getParameters().selectionSet[16].mProperties.value
                                 }));
                             }
                         }
@@ -235,8 +256,8 @@ sap.ui.define([
                                 datiNI.push(new Filter({
                                     path: "ZzNumClaPos",
                                     operator: FilterOperator.BT,
-                                    value1: oEvent.getParameters().selectionSet[18].mProperties.value,
-                                    value2: oEvent.getParameters().selectionSet[19].mProperties.value
+                                    value1: oEvent.getParameters().selectionSet[17].mProperties.value,
+                                    value2: oEvent.getParameters().selectionSet[18].mProperties.value
                                 }));
                             }
                         }
@@ -287,7 +308,7 @@ sap.ui.define([
                                 }
                             }
                         }
-                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i && i != 15 && i != 17) {
+                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i != 15 && i != 17) {
                             datiNI.push(new Filter({
                                 path: path.sorter.sPath,
                                 operator: FilterOperator.EQ,

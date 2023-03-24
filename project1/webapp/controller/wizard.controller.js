@@ -44,6 +44,7 @@ sap.ui.define([
                 this.esercizioGestione()
                 this.strutturaAmministrativa()
                 this.posizioneFinanziaria()
+                this.competenzaResidui()
                 //this.onSearch()
 
             },
@@ -102,6 +103,24 @@ sap.ui.define([
                 });
             },
 
+            competenzaResidui: function () {
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/FipexNiSet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/FipexNiSet', data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
             onCallHeader: function (oEvent) {
                 var that = this;
                 var oMdl = new sap.ui.model.json.JSONModel();
@@ -129,9 +148,43 @@ sap.ui.define([
                 var importoTot = 0
                 for (var i = 0; i < rows.length; i++) {
                     //var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
-                    var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
-                    importoTot = importoTot + campo
+                    //var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
+                    var numeri = (rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo).split(".")
+                    var numeroIntero = ""
+                    for (var n = 0; n < numeri.length; n++) {
+                        numeroIntero = numeroIntero + numeri[n]
+                        //var numeroFloat = parseFloat(numeroIntero)
+                        if(numeroIntero.split(",").length>1){
+                            var virgole = numeroIntero.split(",")
+                            numeroIntero = virgole[0]+"."+virgole[1]
+                        }
+                    }
+                    var numeroFloat = parseFloat(numeroIntero)
+                    importoTot = importoTot + numeroFloat
                 }
+                var num = importoTot.toString();
+                var importoPrimaVirgola = num.split(".")
+                //var indice = num.split("").length
+                var numPunti = ""
+                var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                    return x.split('').reverse().join('')
+                }).reverse()
+
+                for (var i = 0; i < migliaia.length; i++) {
+                    numPunti = (numPunti + migliaia[i] + ".")
+                }
+
+                //var ZimpoTotni = numPunti+importoPrimaVirgola[1]
+
+                // var puntiSeparati = numPunti.split(".")
+                // var numeroTotale = ""
+                // for (var i = 0; i < puntiSeparati.length; i++) {
+                //     if (puntiSeparati[i] != "")
+                //         numeroTotale = numeroTotale + puntiSeparati[i]
+                // }
+                var indice = numPunti.split("").length
+                var totale = numPunti.substring(0, indice - 1)+","+importoPrimaVirgola[1]
+
                 //console.log(importoTot)
                 var es_gestione = this.getView().byId("es_gestione").getSelectedKey();
                 //console.log(es_gestione)
@@ -140,7 +193,7 @@ sap.ui.define([
                 //console.log(Mese)
                 this.getView().byId("es_gestioneWH1").setText(es_gestione)
                 this.getView().byId("meseWH1").setText(Mese)
-                this.getView().byId("n_righeTotWH1").setText(lunghezza + " per un totale di " + importoTot)
+                this.getView().byId("n_righeTotWH1").setText(lunghezza + " per un totale di " + totale)
                 if (competenza == 'C') competenza = 'Competenza'
                 if (competenza == 'R') competenza = 'Residui'
                 this.getView().byId("compWH1").setText(competenza)
@@ -175,13 +228,46 @@ sap.ui.define([
                 //var oModelHeader = new sap.ui.model.json.JSONModel();
                 var rows = this.getView().byId("HeaderNIW").getSelectedItems()
                 var lunghezza = rows.length
-                //var arrayHeader=[]
                 var importoTot = 0
                 for (var i = 0; i < rows.length; i++) {
                     //var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
-                    var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
-                    importoTot = importoTot + campo
+                    //var campo = parseFloat(rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo)
+                    var numeri = (rows[i].getBindingContext("HeaderNIW").getObject().ZimpoTitolo).split(".")
+                    var numeroIntero = ""
+                    for (var n = 0; n < numeri.length; n++) {
+                        numeroIntero = numeroIntero + numeri[n]
+                        //var numeroFloat = parseFloat(numeroIntero)
+                        if(numeroIntero.split(",").length>1){
+                            var virgole = numeroIntero.split(",")
+                            numeroIntero = virgole[0]+"."+virgole[1]
+                        }
+                    }
+                    var numeroFloat = parseFloat(numeroIntero)
+                    importoTot = importoTot + numeroFloat
                 }
+                var num = importoTot.toString();
+                var importoPrimaVirgola = num.split(".")
+                //var indice = num.split("").length
+                var numPunti = ""
+                var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                    return x.split('').reverse().join('')
+                }).reverse()
+
+                for (var i = 0; i < migliaia.length; i++) {
+                    numPunti = (numPunti + migliaia[i] + ".")
+                }
+
+                //var ZimpoTotni = numPunti+importoPrimaVirgola[1]
+
+                // var puntiSeparati = numPunti.split(".")
+                // var numeroTotale = ""
+                // for (var i = 0; i < puntiSeparati.length; i++) {
+                //     if (puntiSeparati[i] != "")
+                //         numeroTotale = numeroTotale + puntiSeparati[i]
+                // }
+                var indice = numPunti.split("").length
+                var totale = numPunti.substring(0, indice - 1)+","+importoPrimaVirgola[1]
+
                 //console.log(importoTot)
                 var es_gestione = this.getView().byId("es_gestione").getSelectedKey();
                 //console.log(es_gestione)
@@ -195,7 +281,7 @@ sap.ui.define([
 
                 this.getView().byId("es_gestioneWH2").setText(es_gestione)
                 this.getView().byId("meseWH2").setText(Mese)
-                this.getView().byId("n_righeTotWH2").setText(lunghezza + " per un totale di " + importoTot)
+                this.getView().byId("n_righeTotWH2").setText(lunghezza + " per un totale di " + totale)
                 this.getView().byId("desc_CapWH2").setText("Nota di Imputazione")
                 this.getView().byId("pos_FinWH2").setText(PF)
                 this.getView().byId("SARWH2").setText(SAR)
@@ -279,7 +365,7 @@ sap.ui.define([
                 }
                 oMdlWstep3.setData(array);
                 this.getView().setModel(oMdlWstep3, "HeaderNIWstep3");
-                
+
                 // console.log(oMdlWstep3)
             },
 
@@ -314,190 +400,212 @@ sap.ui.define([
 
                 var N_es_gestione = this.getView().byId("es_gestione").getSelectedKey(); //header
                 var N_Mese = this.getView().byId("mese").getSelectedItem().mProperties.text; //header
+                //if(this.getView().byId("tipologia").getValue() != "")
                 var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
                 var N_Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;  //position
                 var N_CR = this.getView().byId("competenza").mProperties.value  //position
-                var N_ImportoTot = this.getView().byId("n_righeTotWH2").getText().split(" ")[5];  //header
+                var N_ImportoTot = this.getView().byId("n_righeTotWH2").getText().split(" ")[5];
+
+                var puntiSeparati = N_ImportoTot.split(".")
+                var numeroTotale = ""
+                for (var i = 0; i < puntiSeparati.length; i++) {
+                    if (puntiSeparati[i] != "")
+                        numeroTotale = numeroTotale + puntiSeparati[i]
+                }
+                var virgoleTot = numeroTotale.split(",")
+                var ZimpoTotni = virgoleTot[0]+"."+virgoleTot[1]
+
+
                 var N_oggSpesa = this.getView().byId("oggSpesa").getValue();  //header
                 var N_esercizioPF = this.getView().byId("input_PF").getValue();  //header
                 var N_strAmmResp = this.getView().byId("strAmmResp").getValue();  //header
 
-                
-                if(N_oggSpesa == ""){
+
+                if (N_oggSpesa == "") {
                     MessageBox.error("Oggetto della spesa non inserito!", {
                         actions: [sap.m.MessageBox.Action.OK],
                         emphasizedAction: MessageBox.Action.OK,
                     })
                 }
-                else{
+                else {
 
-                var oDataModel = self.getOwnerComponent().getModel();
-                //var sommaImporto = 0.00
+                    var oDataModel = self.getOwnerComponent().getModel();
+                    //var sommaImporto = 0.00
 
-                var oItems = self.getView().byId("HeaderNIWstep3").getBinding("items").oList;
-                var deepEntity = {
-                    HeaderNISet: null,
-                    PositionNISet: [],
-                    Funzionalita: "PREIMPOSTAZIONE"
-                }
+                    var oItems = self.getView().byId("HeaderNIWstep3").getBinding("items").oList;
+                    var deepEntity = {
+                        HeaderNISet: null,
+                        PositionNISet: [],
+                        Funzionalita: "PREIMPOSTAZIONE"
+                    }
 
-                for (var i = 0; i < oItems.length; i++) {
-                    var item = oItems[i];
+                    for (var i = 0; i < oItems.length; i++) {
+                        var item = oItems[i];
 
-                    deepEntity.PositionNISet.push({
+                        var puntiSeparati = item.ZimpoTitolo.split(".")
+                        var stringaImportoVirgola = ""
+                        for (var x = 0; x < puntiSeparati.length; x++) {
+                            if (puntiSeparati[x] != "")
+                            stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[x]
+                        }
+
+                        var virgole = stringaImportoVirgola.split(",")
+                        var ZimpoTitolo = virgole[0]+"."+virgole[1]
+
+                        deepEntity.PositionNISet.push({
+                            //Bukrs Passato Da BE
+                            Gjahr: N_es_gestione,
+                            //Zamministr: item.Zamministr, Passato Da BE
+                            //ZidNi: Valore Incrementato da BE
+                            //ZRagioCompe: item.ZRagioCompe, Passato Da BE
+
+                            ZposNi: item.ZposNi,
+                            ZgjahrEng: N_es_gestione,
+                            Ztipo: N_Tipologia,
+                            Zsottotipo: N_Sottotipologia,
+                            ZcompRes: N_CR,
+
+                            ZimpoTitolo: ZimpoTitolo,                 //aggiornare mock
+                            Zdescrizione: item.Zdescrizione,                //aggiornare mock 
+                            ZcodIsin: item.ZcodIsin,                       //aggiornare mock
+                            ZdataPag: new Date(),
+                        });
+                    }
+
+                    deepEntity.HeaderNISet = {
                         //Bukrs Passato Da BE
                         Gjahr: N_es_gestione,
                         //Zamministr: item.Zamministr, Passato Da BE
                         //ZidNi: Valore Incrementato da BE
                         //ZRagioCompe: item.ZRagioCompe, Passato Da BE
+                        ZcodiStatoni: "00",
+                        ZimpoTotni: ZimpoTotni,
+                        ZzGjahrEngPos: N_es_gestione,
+                        Zmese: N_Mese,
+                        ZoggSpesa: N_oggSpesa,
+                        Fipex: N_esercizioPF,
+                        Fistl: N_strAmmResp,
+                        ZdataCreaz: new Date(),
+                        //ZutenteCreazione: sap.ushell.Container.getService("UserInfo").getId(),
+                        ZdataModiNi: new Date(),
+                        //ZutenteModifica: sap.ushell.Container.getService("UserInfo").getId()
+                    };
 
-                        ZposNi: item.ZposNi,
-                        ZgjahrEng: N_es_gestione,
-                        Ztipo: N_Tipologia,
-                        Zsottotipo: N_Sottotipologia,
-                        ZcompRes: N_CR,
+                    var sommaImporto = 0.00
+                    for (var x = 0; x < deepEntity.PositionNISet.length; x++) {
+                        sommaImporto = sommaImporto + parseFloat(deepEntity.PositionNISet[x].ZimpoTitolo)
+                    }
+                    if (parseFloat(deepEntity.HeaderNISet.ZimpoTotni) != sommaImporto) {
 
-                        ZimpoTitolo: item.ZimpoTitolo,                 //aggiornare mock
-                        Zdescrizione: item.Zdescrizione,                //aggiornare mock 
-                        ZcodIsin: item.ZcodIsin,                       //aggiornare mock
-                        ZdataPag: new Date(),
-                    });
-                }
+                        MessageBox.warning("L’importo relativo ai seguenti codici ISIN è stato coperto parzialmente dalla Nota di Imputazione. Si intende procedere con l’operazione?", {
+                            title: "Copertura Importo",
+                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                            emphasizedAction: MessageBox.Action.YES,
+                            onClose: function (oAction) {
+                                if (oAction === sap.m.MessageBox.Action.YES) {
 
-                deepEntity.HeaderNISet = {
-                    //Bukrs Passato Da BE
-                    Gjahr: N_es_gestione,
-                    //Zamministr: item.Zamministr, Passato Da BE
-                    //ZidNi: Valore Incrementato da BE
-                    //ZRagioCompe: item.ZRagioCompe, Passato Da BE
-                    ZcodiStatoni: "00",
-                    ZimpoTotni: N_ImportoTot,
-                    ZzGjahrEngPos: N_es_gestione,
-                    Zmese: N_Mese,
-                    ZoggSpesa: N_oggSpesa,
-                    Fipex: N_esercizioPF,
-                    Fistl: N_strAmmResp,
-                    ZdataCreaz: new Date(),
-                    //ZutenteCreazione: sap.ushell.Container.getService("UserInfo").getId(),
-                    ZdataModiNi: new Date(),
-                    //ZutenteModifica: sap.ushell.Container.getService("UserInfo").getId()
-                };
+                                    MessageBox.warning("Sei sicuro di voler preimpostare la NI?", {
+                                        title: "Preimpostazione NI",
+                                        actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                                        emphasizedAction: MessageBox.Action.YES,
+                                        onClose: function (oAction) {
+                                            if (oAction === sap.m.MessageBox.Action.YES) {
 
-                var sommaImporto = 0.00
-                for (var x = 0; x < deepEntity.PositionNISet.length; x++) {
-                    sommaImporto = sommaImporto + parseFloat(deepEntity.PositionNISet[x].ZimpoTitolo)
-                }
-                if (parseFloat(deepEntity.HeaderNISet.ZimpoTotni) != sommaImporto) {
-
-                    MessageBox.warning("L’importo relativo ai seguenti codici ISIN è stato coperto parzialmente dalla Nota di Imputazione. Si intende procedere con l’operazione?", {
-                        title:"Copertura Importo",
-                        actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                        emphasizedAction: MessageBox.Action.YES,
-                        onClose: function (oAction) {
-                            if (oAction === sap.m.MessageBox.Action.YES) {
-
-                                MessageBox.warning("Sei sicuro di voler preimpostare la NI?", {
-                                    title:"Preimpostazione NI",
-                                    actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                                    emphasizedAction: MessageBox.Action.YES,
-                                    onClose: function (oAction) {
-                                        if (oAction === sap.m.MessageBox.Action.YES) {
-
-                                            oDataModel.create("/DeepZNIEntitySet", deepEntity, {
-                                                // urlParameters: {
-                                                //     'funzionalita': "PREIMPOSTAZIONE"
-                                                // },
-                                                success: function (result) {
-                                                    if (result.Msgty == 'E') {
-                                                        console.log(result.Message)
-                                                        MessageBox.error("Nota d'imputazione non creata correttamente", {
-                                                            title:"Esito Operazione",
-                                                            actions: [sap.m.MessageBox.Action.OK],
-                                                            emphasizedAction: MessageBox.Action.OK,
-                                                        })
-                                                    }
-                                                    if (result.Msgty == 'S') {
-                                                        MessageBox.success("Nota d'imputazione creata correttamente", {
-                                                            title:"Esito Operazione",
-                                                            actions: [sap.m.MessageBox.Action.OK],
-                                                            emphasizedAction: MessageBox.Action.OK,
-                                                            onClose: function (oAction) {
-                                                                if (oAction === sap.m.MessageBox.Action.OK) {
-                                                                    self.getOwnerComponent().getRouter().navTo("View1");
-                                                                    location.reload();
+                                                oDataModel.create("/DeepZNIEntitySet", deepEntity, {
+                                                    // urlParameters: {
+                                                    //     'funzionalita': "PREIMPOSTAZIONE"
+                                                    // },
+                                                    success: function (result) {
+                                                        if (result.Msgty == 'E') {
+                                                            console.log(result.Message)
+                                                            MessageBox.error("Nota d'imputazione non creata correttamente", {
+                                                                title: "Esito Operazione",
+                                                                actions: [sap.m.MessageBox.Action.OK],
+                                                                emphasizedAction: MessageBox.Action.OK,
+                                                            })
+                                                        }
+                                                        if (result.Msgty == 'S') {
+                                                            MessageBox.success(result.Message, {
+                                                                title: "Esito Operazione",
+                                                                actions: [sap.m.MessageBox.Action.OK],
+                                                                emphasizedAction: MessageBox.Action.OK,
+                                                                onClose: function (oAction) {
+                                                                    if (oAction === sap.m.MessageBox.Action.OK) {
+                                                                        self.getOwnerComponent().getRouter().navTo("View1");
+                                                                        location.reload();
+                                                                    }
                                                                 }
-                                                            }
+                                                            })
+                                                        }
+                                                    },
+                                                    error: function (err) {
+                                                        console.log(err);
+                                                        MessageBox.error("Nota d'imputazione non creata correttamente", {
+                                                            title: "Esito Operazione",
+                                                            actions: [sap.m.MessageBox.Action.OK],
+                                                            emphasizedAction: MessageBox.Action.OK,
                                                         })
-                                                    }
-                                                },
-                                                error: function (err) {
-                                                    console.log(err);
-                                                    MessageBox.error("Nota d'imputazione non creata correttamente", {
-                                                        title:"Esito Operazione",
-                                                        actions: [sap.m.MessageBox.Action.OK],
-                                                        emphasizedAction: MessageBox.Action.OK,
-                                                    })
-                                                },
-                                                async: true,  // execute async request to not stuck the main thread
-                                                urlParameters: {}  // send URL parameters if required 
-                                            });
+                                                    },
+                                                    async: true,  // execute async request to not stuck the main thread
+                                                    urlParameters: {}  // send URL parameters if required 
+                                                });
+                                            }
                                         }
-                                    }
-                                })
+                                    })
 
 
+                                }
                             }
-                        }
-                    })
-                }
-                else {
-                    MessageBox.warning("Sei sicuro di voler preimpostare la NI?", {
-                        actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                        emphasizedAction: MessageBox.Action.YES,
-                        onClose: function (oAction) {
-                            if (oAction === sap.m.MessageBox.Action.YES) {
+                        })
+                    }
+                    else {
+                        MessageBox.warning("Sei sicuro di voler preimpostare la NI?", {
+                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                            emphasizedAction: MessageBox.Action.YES,
+                            onClose: function (oAction) {
+                                if (oAction === sap.m.MessageBox.Action.YES) {
 
-                                oDataModel.create("/DeepZNIEntitySet", deepEntity, {
-                                    // urlParameters: {
-                                    //     "funzionalita": "PREIMPOSTAZIONE"
-                                    // },
-                                    success: function (result) {
-                                        if (result.Msgty == 'E') {
-                                            console.log(result.Message)
+                                    oDataModel.create("/DeepZNIEntitySet", deepEntity, {
+                                        // urlParameters: {
+                                        //     "funzionalita": "PREIMPOSTAZIONE"
+                                        // },
+                                        success: function (result) {
+                                            if (result.Msgty == 'E') {
+                                                console.log(result.Message)
+                                                MessageBox.error("Nota d'imputazione non creata correttamente", {
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                })
+                                            }
+                                            if (result.Msgty == 'S') {
+                                                MessageBox.success(result.Message, {
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                    onClose: function (oAction) {
+                                                        if (oAction === sap.m.MessageBox.Action.OK) {
+                                                            self.getOwnerComponent().getRouter().navTo("View1");
+                                                            location.reload();
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        },
+                                        error: function (err) {
+                                            console.log(err);
                                             MessageBox.error("Nota d'imputazione non creata correttamente", {
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
                                             })
-                                        }
-                                        if (result.Msgty == 'S') {
-                                            MessageBox.success("Nota d'imputazione creata correttamente", {
-                                                actions: [sap.m.MessageBox.Action.OK],
-                                                emphasizedAction: MessageBox.Action.OK,
-                                                onClose: function (oAction) {
-                                                    if (oAction === sap.m.MessageBox.Action.OK) {
-                                                        self.getOwnerComponent().getRouter().navTo("View1");
-                                                        location.reload();
-                                                    }
-                                                }
-                                            })
-                                        }
-                                    },
-                                    error: function (err) {
-                                        console.log(err);
-                                        MessageBox.error("Nota d'imputazione non creata correttamente", {
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                        })
-                                    },
-                                    async: true,  // execute async request to not stuck the main thread
-                                    urlParameters: {}  // send URL parameters if required 
-                                });
-                            
+                                        },
+                                        async: true,  // execute async request to not stuck the main thread
+                                        urlParameters: {}  // send URL parameters if required 
+                                    });
+
+                                }
                             }
-                        }
-                    })
+                        })
+                    }
                 }
-            }
             },
             onBackButton: function () {
                 this._oWizard = this.byId("CreateProductWizard");
@@ -529,45 +637,45 @@ sap.ui.define([
                 // this.onCommunicationPress()
                 // var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabGestNI.json");
                 // this.getView().setModel(oModelP, "HeaderNIW");
-                var es_gestione=this.getView().byId("es_gestione").getSelectedKey()
-                var mese=this.getView().byId("mese").getSelectedItem()
-                if(es_gestione == "" && mese == null){
+                var es_gestione = this.getView().byId("es_gestione").getSelectedKey()
+                var mese = this.getView().byId("mese").getSelectedItem()
+                if (es_gestione == "" && mese == null) {
                     MessageBox.error("Esercizio di Gestione e Mese non inseriti!", {
                         actions: [sap.m.MessageBox.Action.OK],
                         emphasizedAction: MessageBox.Action.OK,
                     })
                 }
-                else if(es_gestione == ""){
+                else if (es_gestione == "") {
                     MessageBox.error("Esercizio di Gestione non inserito!", {
                         actions: [sap.m.MessageBox.Action.OK],
                         emphasizedAction: MessageBox.Action.OK,
                     })
                 }
-                else if(mese == null){
+                else if (mese == null) {
                     MessageBox.error("Mese non inserito!", {
                         actions: [sap.m.MessageBox.Action.OK],
                         emphasizedAction: MessageBox.Action.OK,
                     })
                 }
-                else{
-                this._oWizard = this.byId("CreateProductWizard");
-                this._oSelectedStep = this._oWizard.getSteps()[this._iSelectedStepIndex];
-                this._iSelectedStepIndex = this._oWizard.getSteps().indexOf(this._oSelectedStep);
-                var oNextStep = this._oWizard.getSteps()[this._iSelectedStepIndex + 1];
+                else {
+                    this._oWizard = this.byId("CreateProductWizard");
+                    this._oSelectedStep = this._oWizard.getSteps()[this._iSelectedStepIndex];
+                    this._iSelectedStepIndex = this._oWizard.getSteps().indexOf(this._oSelectedStep);
+                    var oNextStep = this._oWizard.getSteps()[this._iSelectedStepIndex + 1];
 
-                if (this._oSelectedStep && !this._oSelectedStep.bLast) {
-                    this._oWizard.goToStep(oNextStep, true);
-                } else {
-                    this._oWizard.nextStep();
+                    if (this._oSelectedStep && !this._oSelectedStep.bLast) {
+                        this._oWizard.goToStep(oNextStep, true);
+                    } else {
+                        this._oWizard.nextStep();
+                    }
+
+                    this._iSelectedStepIndex++;
+                    this._oSelectedStep = oNextStep;
+
+                    this.controlPreNI()
+                    this.controlHeader()
+                    //this.controlStep()
                 }
-
-                this._iSelectedStepIndex++;
-                this._oSelectedStep = oNextStep;
-
-                this.controlPreNI()
-                this.controlHeader()
-                //this.controlStep()
-            }
             },
 
             // controlStep:function(){
@@ -633,13 +741,13 @@ sap.ui.define([
                         this.viewHeader2()
                         this.filtriStep2()
                         //this.controlStep()
-                        this.selectedRow()          
+                        this.selectedRow()
                         break;
                     default: break;
                 }
             },
 
-          
+
 
         });
     });

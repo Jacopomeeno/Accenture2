@@ -5,7 +5,7 @@
         growingThreshold="9999"
         class="sapUiPopupWithPadding"
         items="{
-            path: '/ZfmimpegniIpeSet'
+            path: 'temp>/ZgjahrEngNiSet'
         }"
         search="_handleValueHelpSearch"
         confirm="_handleValueHelpValueClose"
@@ -15,8 +15,8 @@
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{Zcoddecr}"
-            app:key="{Zcoddecr}"
+            title="{ZgjahrEngNi}"
+            app:key="{ZgjahrEngNi}"
              />    
 </SelectDialog>
              
