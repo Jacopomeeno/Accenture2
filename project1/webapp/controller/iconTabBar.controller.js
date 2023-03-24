@@ -412,19 +412,29 @@ sap.ui.define([
                             oModel.create("/DeepPositionNISet", deepEntity, {
                                 // method: "PUT",
                                 success: function (result) {
+                                    if (result.Msgty == 'E') {
+                                        console.log(result.Message)
+                                        MessageBox.error("Operazione eseguita non correttamente", {
+                                            title: "Esito Operazione",
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                        })
+                                    }
+                                    if (result.Msgty == 'S') {
                                         MessageBox.success("Operazione eseguita correttamente", {
-                                            title:"Esito Operazione",
+                                            title: "Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],
                                             emphasizedAction: MessageBox.Action.OK,
                                             onClose: function (oAction) {
                                                 if (oAction === sap.m.MessageBox.Action.OK) {
-                                                    that.getOwnerComponent().getRouter().navTo("View1");
+                                                    self.getOwnerComponent().getRouter().navTo("View1");
                                                     location.reload();
                                                 }
                                             }
                                         })
-                                    
+                                    }
                                 },
+                                error: func
                                 error: function (e) {
                                     //console.log("error");
                                     MessageBox.error("Operazione non eseguita", {
