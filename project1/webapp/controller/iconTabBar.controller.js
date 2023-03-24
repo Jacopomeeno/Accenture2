@@ -434,7 +434,6 @@ sap.ui.define([
                                         })
                                     }
                                 },
-                                error: func
                                 error: function (e) {
                                     //console.log("error");
                                     MessageBox.error("Operazione non eseguita", {
