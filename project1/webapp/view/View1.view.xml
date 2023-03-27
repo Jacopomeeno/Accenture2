@@ -133,9 +133,16 @@
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
-                            <fb:FilterGroupItem id="numDecreto" visibleInFilterBar="true" name="numDecreto" groupName="Gruppo2" label="{i18n>numDecreto}">
+                            <fb:FilterGroupItem id="numDecretoDa" visibleInFilterBar="true" name="numDecretoDa" groupName="Gruppo2" label="{i18n>numDecretoDa}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="numDecreto1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zcoddecr' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="numDecreto1" app:filterTableField="numDecreto1">
+                                    <Input showSuggestion="true" id="numDecretoDa1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zcoddecr' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="numDecretoDa1" app:filterTableField="numDecretoDa1">
+                                        <core:Item key="{Zcoddecr}" text="{Zcoddecr}"/>
+                                    </Input>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem id="numDecretoA" visibleInFilterBar="true" name="numDecretoA" groupName="Gruppo2" label="{i18n>numDecretoA}">
+                                <fb:control>
+                                    <Input showSuggestion="true" id="numDecretoA1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Zcoddecr' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="numDecretoA1" app:filterTableField="numDecretoA1">
                                         <core:Item key="{Zcoddecr}" text="{Zcoddecr}"/>
                                     </Input>
                                 </fb:control>

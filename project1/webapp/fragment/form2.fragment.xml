@@ -88,7 +88,7 @@
                     </layoutData>
                     <core:Item key="{Zcodgest}" text="{Zcodgest}" />
                 </Input>
-                <Label text="DescrizioneCodiceGest" class="sapUiTinyMarginBottom">
+                <Label text="Descrizione" class="sapUiTinyMarginBottom">
                     <layoutData>
                         <l:GridData indent="XL3 L2 M4 S5" />
                         <l:GridData span="XL3 L5 M4 S5" />

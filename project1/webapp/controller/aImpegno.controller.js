@@ -148,7 +148,7 @@ sap.ui.define([
                                     if (puntiSeparati[ps] != "")
                                         stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[ps]
                                 }
-    
+
                                 var virgole = stringaImportoVirgola.split(",")
                                 var Zdisp = virgole[0] + "." + virgole[1]
 
@@ -161,7 +161,7 @@ sap.ui.define([
                                     if (puntiSeparati[x] != "")
                                         stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[x]
                                 }
-    
+
                                 var virgole = stringaImportoVirgola.split(",")
                                 var impoAttributo = virgole[0] + "." + virgole[1]
 
@@ -378,19 +378,62 @@ sap.ui.define([
                 //var somma=0.00
                 var rows = this.getView().byId("HeaderNIAssImp").getSelectedItems()
                 var impoTot = this.getView().byId("importoTot1").mProperties.text
-                var deltaImportoTot = impoTot
+                var numeroIntero = ""
+
+                numeroIntero = impoTot
+                if (numeroIntero.split(".").length > 1) {
+                    var importoPrimaVirgola = numeroIntero.split(".")
+                    var numPunti = ""
+                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                        return x.split('').reverse().join('')
+                    }).reverse()
+
+                    for (var migl = 0; migl < migliaia.length; migl++) {
+                        numPunti = (numPunti + migliaia[migl] + ".")
+                    }
+                    var indice = numPunti.split("").length
+                    var impoTot = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+
+                }
+                else {
+                    var importoPrimaVirgola = numeroIntero.split(",")
+                    var impoTot = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                }
+                var deltaImportoTot = parseFloat(impoTot)
                 for (var i = 0; i < rows.length; i++) {
                     if (this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value != "") {
-                        var Zdisp = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[3].mProperties.text)
-                        var impoAttributo = parseFloat(this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value)
-                        //somma = somma + impoAttributo
-                        if (impoAttributo <= Zdisp) {
-                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(impoAttributo)
+                        var Zdisp = this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[3].mProperties.text
+                        numeroIntero = Zdisp
+                        var numInt =""
+                        if (numeroIntero.split(".").length > 1) {
+                            var numeri = numeroIntero.split(".")
+                            for (var n = 0; n < numeri.length; n++) {
+                                numInt = numInt + numeri[n]
+                                //var numeroFloat = parseFloat(numeroIntero)
+                                if (numInt.split(",").length > 1) {
+                                    var virgole = numInt.split(",")
+                                    numeroIntero = virgole[0] + "." + virgole[1]
+                                }
+                            }
+                            var numPunti = ""
+                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                return x.split('').reverse().join('')
+                            }).reverse()
+
+                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                numPunti = (numPunti + migliaia[migl] + ".")
+                            }
+                            var indice = numPunti.split("").length
+                            var Zdisp = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                        }
+                
+                        if (parseFloat(Zdisp) <= parseFloat(impoTot)) {
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(Zdisp)
                             break;
                         }
-                        else if (impoAttributo > Zdisp) {
-                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setText(Zdisp)
-                            deltaImportoTot = deltaImportoTot - Zdisp
+                        else if (parseFloat(Zdisp) > parseFloat(impoTot)) {
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setText(impoTot)
+                            deltaImportoTot = deltaImportoTot - parseFloat(Zdisp)
                             continue;
                         }
                     }

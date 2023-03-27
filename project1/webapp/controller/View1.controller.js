@@ -241,28 +241,40 @@ sap.ui.define([
                                 }));
                             }
                         }
-                        if (i == 15) {
-                            if (oEvent.getParameters().selectionSet[15].mProperties.value != '') {
+                        if (i == 16) {
+                            if (oEvent.getParameters().selectionSet[16].mProperties.value != '') {
                                 datiNI.push(new Filter({
-                                    path: "ZzCodIpePos",
+                                    path: "Zcoddecr",
                                     operator: FilterOperator.BT,
-                                    value1: oEvent.getParameters().selectionSet[15].mProperties.value,
-                                    value2: oEvent.getParameters().selectionSet[16].mProperties.value
+                                    value1: oEvent.getParameters().selectionSet[16].mProperties.value,
+                                    value2: oEvent.getParameters().selectionSet[17].mProperties.value
                                 }));
                             }
                         }
-                        if (i == 17) {
+                        if (i == 18) {
                             if (oEvent.getParameters().selectionSet[18].mProperties.value != '') {
+                                datiNI.push(new Filter({
+                                    path: "ZzCodIpePos",
+                                    operator: FilterOperator.BT,
+                                    value1: oEvent.getParameters().selectionSet[18].mProperties.value,
+                                    value2: oEvent.getParameters().selectionSet[19].mProperties.value
+                                }));
+                            }
+                        }
+                        if (i == 20) {
+                            if (oEvent.getParameters().selectionSet[20].mProperties.value != '') {
                                 datiNI.push(new Filter({
                                     path: "ZzNumClaPos",
                                     operator: FilterOperator.BT,
-                                    value1: oEvent.getParameters().selectionSet[17].mProperties.value,
-                                    value2: oEvent.getParameters().selectionSet[18].mProperties.value
+                                    value1: oEvent.getParameters().selectionSet[20].mProperties.value,
+                                    value2: oEvent.getParameters().selectionSet[21].mProperties.value
                                 }));
                             }
                         }
 
-                        else if (i == 5 || i == 7 || i == 16 || i == 18) {
+
+
+                        else if (i == 5 || i == 7 || i == 17 || i == 19 || i == 21) {
                             continue
                         }
 
@@ -308,7 +320,7 @@ sap.ui.define([
                                 }
                             }
                         }
-                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i != 15 && i != 17) {
+                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i != 16 && i != 18 && i != 20) {
                             datiNI.push(new Filter({
                                 path: path.sorter.sPath,
                                 operator: FilterOperator.EQ,

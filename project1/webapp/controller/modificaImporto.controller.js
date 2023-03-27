@@ -145,6 +145,31 @@ sap.ui.define(
                     success: function (data) {
                         oMdlM.setData(data.results);
                         that.getView().getModel("temp").setProperty('/PositionNISetFiltrata', data.results)
+
+                        for (var dr = 0; dr < data.results.length; dr++) {
+                            if (data.results[dr].ZimpoTitolo.split(".").length > 1) {
+                                var numeroIntero = data.results[dr].ZimpoTitolo
+                                var importoPrimaVirgola = numeroIntero.split(".")
+                                var numPunti = ""
+                                var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                    return x.split('').reverse().join('')
+                                }).reverse()
+
+                                for (var migl = 0; migl < migliaia.length; migl++) {
+                                    numPunti = (numPunti + migliaia[migl] + ".")
+                                }
+                                var indice = numPunti.split("").length
+                                var impoTitolo = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                that.getView().byId("PositionNIMI").mAggregations.items[dr].mAggregations.cells[4].setValue(impoTitolo)
+
+                            }
+                            else {
+                                var importoPrimaVirgola = numeroIntero.split(",")
+                                var impoTitolo = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                that.getView().byId("PositionNIMI").mAggregations.items[dr].mAggregations.cells[4].setValue(impoTitolo)
+                            }
+                        }
+
                     },
                     error: function (error) {
                         var e = error;
@@ -159,12 +184,12 @@ sap.ui.define(
                 var oItems = that.getView().byId("PositionNIMI").getBinding("items").oList;
 
                 var deepEntity = {
-                    Funzionalita:"RETTIFICANIPREIMPOSTATA",
+                    Funzionalita: "RETTIFICANIPREIMPOSTATA",
                     PositionNISet: []
                 }
                 //var dataOdierna = new Date()
                 MessageBox.warning("Sei sicuro di voler modificare la NI?", {
-                    title:"Salvataggio Modifiche NI",
+                    title: "Salvataggio Modifiche NI",
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
                     onClose: function (oAction) {
@@ -191,8 +216,27 @@ sap.ui.define(
                                         ZidNi: item.ZidNi,
                                         ZRagioCompe: item.ZRagioCompe,
 
-                                        ZimpoTitolo: item.ZimpoTitolo
+                                        //ZimpoTitolo: item.ZimpoTitolo
                                     })
+                                var numeroIntero = item.ZimpoTitolo
+                                if (numeroIntero.split(".").length > 1) {
+                                    var importoPrimaVirgola = numeroIntero.split(".")
+                                    var numPunti = ""
+                                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                        return x.split('').reverse().join('')
+                                    }).reverse()
+
+                                    for (var migl = 0; migl < migliaia.length; migl++) {
+                                        numPunti = (numPunti + migliaia[migl] + ".")
+                                    }
+                                    var indice = numPunti.split("").length
+                                    deepEntity.PositionNISet[i].ZimpoTitolo = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+
+                                }
+                                else {
+                                    var importoPrimaVirgola = numeroIntero.split(",")
+                                    deepEntity.PositionNISet[i].ZimpoTitolo = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                }
                             }
                             // var oEntry = {};
                             // oEntry.ZimpoTitolo = item.ZimpoTitolo;
@@ -201,22 +245,22 @@ sap.ui.define(
                             oModel.create("/DeepPositionNISet", deepEntity, {
                                 // method: "PUT",
                                 success: function (result) {
-                                        MessageBox.success("Modifica importo eseguita correttamente", {
-                                            title:"Esito Operazione",
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                            onClose: function (oAction) {
-                                                if (oAction === sap.m.MessageBox.Action.OK) {
-                                                    that.getOwnerComponent().getRouter().navTo("View1");
-                                                    location.reload();
-                                                }
+                                    MessageBox.success("Modifica importo eseguita correttamente", {
+                                        title: "Esito Operazione",
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                        onClose: function (oAction) {
+                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                that.getOwnerComponent().getRouter().navTo("View1");
+                                                location.reload();
                                             }
-                                        })
+                                        }
+                                    })
                                 },
                                 error: function (e) {
                                     //console.log("error");
                                     MessageBox.error("Modifica Importo non eseguito", {
-                                        title:"Esito Operazione",
+                                        title: "Esito Operazione",
                                         actions: [sap.m.MessageBox.Action.OK],
                                         emphasizedAction: MessageBox.Action.OK,
                                     })

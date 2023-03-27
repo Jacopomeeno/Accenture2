@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">   
 <SelectDialog
-        title="Seleziona Numero Decreto"
+        title="Seleziona Numero Decreto da"
         growing="true"
         growingThreshold="9999"
         class="sapUiPopupWithPadding"
@@ -10,7 +10,7 @@
         search="_handleValueHelpSearch"
         confirm="_handleValueHelpValueClose"
         cancel="_handleValueHelpClose"
-        app:filterTableField="numDecreto1"
+        app:filterTableField="numDecretoDa1"
         >        
         <StandardListItem
             iconDensityAware="false"

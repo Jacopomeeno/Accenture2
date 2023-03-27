@@ -198,24 +198,24 @@ sap.ui.define([
                             success: function (data) {
                                 oMdlITB.setData(data.results);
                                 that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
-                                for(var dr=0; dr<data.results.length; dr++){
+                                for (var dr = 0; dr < data.results.length; dr++) {
 
-                                var importoPrimaVirgola = data.results[dr].ZimpoTitolo.split(".")
-                                //var indice = num.split("").length
-                                var numPunti = ""
-                                var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
-                                    return x.split('').reverse().join('')
-                                }).reverse()
+                                    var importoPrimaVirgola = data.results[dr].ZimpoTitolo.split(".")
+                                    //var indice = num.split("").length
+                                    var numPunti = ""
+                                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                        return x.split('').reverse().join('')
+                                    }).reverse()
 
-                                for (var v = 0; v < migliaia.length; v++) {
-                                    numPunti = (numPunti + migliaia[v] + ".")
+                                    for (var v = 0; v < migliaia.length; v++) {
+                                        numPunti = (numPunti + migliaia[v] + ".")
+                                    }
+
+                                    var indice = numPunti.split("").length
+                                    var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                    that.getView().byId("HeaderITB").getItems()[dr].mAggregations.cells[4].setText(totale)
+
                                 }
-
-                                var indice = numPunti.split("").length
-                                var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-                                that.getView().byId("HeaderITB").getItems()[dr].mAggregations.cells[4].setText(totale)
-
-                            }
                                 that.viewHeader(data.results)
                             },
                             error: function (error) {
@@ -512,6 +512,29 @@ sap.ui.define([
                                         var Zamministr = scompostaZamministr.split(".")[0]
                                         var Fistl = header[i].Fistl
 
+
+                                        
+
+                                        var numeroIntero = that.getView().byId("importoTot1").mProperties.text
+                                        if (numeroIntero.split(".").length > 1) {
+                                            var importoPrimaVirgola = numeroIntero.split(".")
+                                            var numPunti = ""
+                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                                return x.split('').reverse().join('')
+                                            }).reverse()
+
+                                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                                numPunti = (numPunti + migliaia[migl] + ".")
+                                            }
+                                            var indice = numPunti.split("").length
+                                            var impoTot = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+
+                                        }
+                                        else {
+                                            var importoPrimaVirgola = numeroIntero.split(",")
+                                            var impoTot = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        }
+
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                         // deepEntity.Bukrs = item.Zamministr, //Passato Da BE
                                         // deepEntity.Gjahr = that.getView().byId("numNI1").mProperties.text.split("-")[0],
@@ -528,7 +551,7 @@ sap.ui.define([
                                             ZRagioCompe: ZRagioCompe, //Passato Da BE
                                             //ZcodiStatoni: "00",
                                             ZchiaveNi: ZchiaveNi,
-                                            ZimpoTotni: that.getView().byId("importoTot1").mProperties.text,
+                                            ZimpoTotni: impoTot,
                                             ZzGjahrEngPos: that.getView().byId("numNI1").mProperties.text.split("-")[0],
                                             Zmese: that.getView().byId("mese1").mProperties.text,
                                             ZoggSpesa: that.getView().byId("oggSpesa1").mProperties.text,

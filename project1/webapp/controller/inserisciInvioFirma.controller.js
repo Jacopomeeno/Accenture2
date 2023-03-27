@@ -121,6 +121,30 @@ sap.ui.define(
                             success: function (data) {
                                 oMdlITB.setData(data.results);
                                 that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+
+                                for (var dr = 0; dr < data.results.length; dr++) {
+                                    if (data.results[dr].ZimpoTitolo.split(".").length > 1) {
+                                        var numeroIntero = data.results[dr].ZimpoTitolo
+                                        var importoPrimaVirgola = numeroIntero.split(".")
+                                        var numPunti = ""
+                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                            return x.split('').reverse().join('')
+                                        }).reverse()
+        
+                                        for (var migl = 0; migl < migliaia.length; migl++) {
+                                            numPunti = (numPunti + migliaia[migl] + ".")
+                                        }
+                                        var indice = numPunti.split("").length
+                                        var impoTitolo = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        that.getView().byId("HeaderInserisci").mAggregations.items[dr].mAggregations.cells[5].setText(impoTitolo)
+        
+                                    }
+                                    else {
+                                        var importoPrimaVirgola = numeroIntero.split(",")
+                                        var impoTitolo = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        that.getView().byId("HeaderInserisci").mAggregations.items[dr].mAggregations.cells[5].setText(impoTitolo)
+                                    }
+                                }
                                 that.viewHeader(data.results)
                             },
                             error: function (error) {
@@ -346,7 +370,7 @@ sap.ui.define(
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
 
-                        var indice = i
+                        var indiceHeader = i
 
                         var deepEntity = {
                             HeaderNISet: null,
@@ -361,11 +385,6 @@ sap.ui.define(
                             onClose: function (oAction) {
                                 if (oAction === sap.m.MessageBox.Action.YES) {
                                     var oModel = that.getOwnerComponent().getModel();
-
-                                    for (var i = 0; i < header.length; i++) {
-                                        // var item = header[i];
-                                        // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-                                        // var Zamministr = scompostaZamministr.split(".")[0]
                                         
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                         // deepEntity.Bukrs = item.Zamministr, //Passato Da BE
@@ -375,8 +394,30 @@ sap.ui.define(
                                         // deepEntity.ZRagioCompe = item.ZRagioCompe, //Passato Da BE
                                             
 
-                                        deepEntity.HeaderNISet = header[indice];
-                                    }
+                                        var numeroIntero = that.getView().byId("importoTot1").mProperties.text
+                                        if (numeroIntero.split(".").length > 1) {
+                                            var importoPrimaVirgola = numeroIntero.split(".")
+                                            var numPunti = ""
+                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                                return x.split('').reverse().join('')
+                                            }).reverse()
+
+                                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                                numPunti = (numPunti + migliaia[migl] + ".")
+                                            }
+                                            var indice = numPunti.split("").length
+                                            var impoTot = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+
+                                        }
+                                        else {
+                                            var importoPrimaVirgola = numeroIntero.split(",")
+                                            var impoTot = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        }
+
+                                        header[indiceHeader].ZimpoTotni = impoTot
+                                        deepEntity.HeaderNISet = header[indiceHeader];
+                                        //deepEntity.HeaderNISet[indiceHeader].ZimpoTotni = impoTot
+                                    
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",

@@ -159,8 +159,11 @@ sap.ui.define([
                             numeroIntero = virgole[0]+"."+virgole[1]
                         }
                     }
+                    if(rows.length != 1){
                     var numeroFloat = parseFloat(numeroIntero)
                     importoTot = importoTot + numeroFloat
+                    }
+                    importoTot = numeroIntero
                 }
                 var num = importoTot.toString();
                 var importoPrimaVirgola = num.split(".")
@@ -242,9 +245,12 @@ sap.ui.define([
                             numeroIntero = virgole[0]+"."+virgole[1]
                         }
                     }
-                    var numeroFloat = parseFloat(numeroIntero)
-                    importoTot = importoTot + numeroFloat
-                }
+                    if(rows.length != 1){
+                        var numeroFloat = parseFloat(numeroIntero)
+                        importoTot = importoTot + numeroFloat
+                        }
+                        importoTot = numeroIntero
+                    }
                 var num = importoTot.toString();
                 var importoPrimaVirgola = num.split(".")
                 //var indice = num.split("").length

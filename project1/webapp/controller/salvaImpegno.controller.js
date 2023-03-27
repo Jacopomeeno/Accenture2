@@ -166,17 +166,18 @@ sap.ui.define([
             collegaClausole: function (oEvent) {
                 var self = this
 
+                var numeroIntero = ""
                 var position = this.getView().getModel("temp").getData().PositionNISet
                 var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
                 var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
                 var ZdescwelsBniSet = this.getView().getModel("temp").getData().ZdescwelsBniSet
 
 
-                
+
                 var Iban = valoriNuovi[8]
                 var Lifnr = valoriNuovi[0]
-                if (valoriNuovi[7] == ZdescwelsBniSet[0].Zdescwels){
-                var Zwels = ZdescwelsBniSet[0].Zwels
+                if (valoriNuovi[7] == ZdescwelsBniSet[0].Zdescwels) {
+                    var Zwels = ZdescwelsBniSet[0].Zwels
                 }
                 var Kostl = valoriNuovi[1]
                 var Ltext = valoriNuovi[2]
@@ -205,7 +206,30 @@ sap.ui.define([
                     position[i].Zcauspag = Zcauspag
 
                     deepEntity.PositionNISet.push(position[i]);
+
+                    numeroIntero = position[i].ZimpoTitolo
+                    if (numeroIntero.split(".").length > 1) {
+                        var importoPrimaVirgola = numeroIntero.split(".")
+                        var numPunti = ""
+                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                            return x.split('').reverse().join('')
+                        }).reverse()
+
+                        for (var migl = 0; migl < migliaia.length; migl++) {
+                            numPunti = (numPunti + migliaia[migl] + ".")
+                        }
+                        var indice = numPunti.split("").length
+                        var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                    }
+                    else {
+                        var virgole = numeroIntero.split(",")
+                        var totale = virgole[0] + "." + virgole[1]
+                    }
+                    position[i].ZimpoTitolo = totale
+
                 }
+
+
 
                 for (var l = 0; l < ImpegniSelezionati.length; l++) {
                     //var item = oItems[i];
@@ -213,6 +237,26 @@ sap.ui.define([
                     //ImpegniSelezionati[l].Attribuito = parseFloat(ImpegniSelezionati[l].Attribuito)
                     //ImpegniSelezionati[l].Attribuito = 1.00
                     deepEntity.ZfmimpegniIpeSet.push(ImpegniSelezionati[l]);
+
+                    numeroIntero = ImpegniSelezionati[l].Attribuito
+                    if (numeroIntero.split(".") > 1) {
+                        var importoPrimaVirgola = numeroIntero.split(".")
+                        var numPunti = ""
+                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                            return x.split('').reverse().join('')
+                        }).reverse()
+
+                        for (var migl = 0; migl < migliaia.length; migl++) {
+                            numPunti = (numPunti + migliaia[migl] + ".")
+                        }
+                        var indice = numPunti.split("").length
+                        var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                    }
+                    else {
+                        var virgole = numeroIntero.split(",")
+                        var totale = virgole[0] + "." + virgole[1]
+                    }
+                    ImpegniSelezionati[l].Attribuito = totale
                 }
                 var oDataModel = self.getOwnerComponent().getModel();
                 oDataModel.create("/DeepPositionNISet", deepEntity, {
@@ -391,57 +435,77 @@ sap.ui.define([
                         }
 
                         deepEntity.HeaderNISet = header[i];
+
+                        if (header[i].ZimpoTotni.split(".").length > 1) {
+                            var importoPrimaVirgola = header[i].ZimpoTotni.split(".")
+                            var numPunti = ""
+                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                return x.split('').reverse().join('')
+                            }).reverse()
+    
+                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                numPunti = (numPunti + migliaia[migl] + ".")
+                            }
+                            var indice = numPunti.split("").length
+                            var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                            header[i].ZimpoTotni = totale
+                        }
+                        else {
+                            var virgole = header[i].ZimpoTotni.split(",")
+                            var totale = virgole[0] + "." + virgole[1]
+                            header[i].ZimpoTotni = totale
+                        }
                     }
                 }
-                        MessageBox.warning("Sei sicuro di voler completare la NI?", {
-                            title:"Completamento NI",
-                            actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                            emphasizedAction: MessageBox.Action.YES,
-                            onClose: function (oAction) {
-                                if (oAction === sap.m.MessageBox.Action.YES) {
+                MessageBox.warning("Sei sicuro di voler completare la NI?", {
+                    title: "Completamento NI",
+                    actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                    emphasizedAction: MessageBox.Action.YES,
+                    onClose: function (oAction) {
+                        if (oAction === sap.m.MessageBox.Action.YES) {
 
-                                    oDataModel.create("/DeepZNIEntitySet", deepEntity, {
-                                        // urlParameters: {
-                                        //     'funzionalita': "PREIMPOSTAZIONE"
-                                        // },
-                                        success: function (result) {
-                                            if (result.Msgty == 'E') {
-                                                console.log(result.Message)
-                                                MessageBox.error("Nota d'imputazione non completata correttamente", {
-                                                    title:"Esito Operazione",
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                })
+                            oDataModel.create("/DeepZNIEntitySet", deepEntity, {
+                                // urlParameters: {
+                                //     'funzionalita': "PREIMPOSTAZIONE"
+                                // },
+                                success: function (result) {
+                                    if (result.Msgty == 'E') {
+                                        console.log(result.Message)
+                                        MessageBox.error("Nota d'imputazione non completata correttamente", {
+                                            title: "Esito Operazione",
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                        })
+                                    }
+                                    if (result.Msgty == 'S') {
+                                        MessageBox.success("Nota d'imputazione completata correttamente", {
+                                            title: "Esito Operazione",
+                                            actions: [sap.m.MessageBox.Action.OK],
+                                            emphasizedAction: MessageBox.Action.OK,
+                                            onClose: function (oAction) {
+                                                if (oAction === sap.m.MessageBox.Action.OK) {
+                                                    self.getOwnerComponent().getRouter().navTo("View1");
+                                                    location.reload();
+                                                }
                                             }
-                                            if (result.Msgty == 'S') {
-                                                MessageBox.success("Nota d'imputazione completata correttamente", {
-                                                    title:"Esito Operazione",
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                    onClose: function (oAction) {
-                                                        if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            self.getOwnerComponent().getRouter().navTo("View1");
-                                                            location.reload();
-                                                        }
-                                                    }
-                                                })
-                                            }
-                                        },
-                                        error: function (err) {
-                                            console.log(err);
-                                            MessageBox.error("Nota d'imputazione non completata correttamente", {
-                                                title:"Esito Operazione",
-                                                actions: [sap.m.MessageBox.Action.OK],
-                                                emphasizedAction: MessageBox.Action.OK,
-                                            })
-                                        },
-                                        async: true,  // execute async request to not stuck the main thread
-                                        urlParameters: {}  // send URL parameters if required 
-                                    });
-                                }
-                            }
-                        })
-                    
+                                        })
+                                    }
+                                },
+                                error: function (err) {
+                                    console.log(err);
+                                    MessageBox.error("Nota d'imputazione non completata correttamente", {
+                                        title: "Esito Operazione",
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                    })
+                                },
+                                async: true,  // execute async request to not stuck the main thread
+                                urlParameters: {}  // send URL parameters if required 
+                            });
+                        }
+                    }
+                })
+
             },
 
             onCancelNI: function () {
@@ -476,7 +540,7 @@ sap.ui.define([
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            title:"Annullamento Preimpostata",
+                            title: "Annullamento Preimpostata",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -518,7 +582,7 @@ sap.ui.define([
                                         success: function (data) {
                                             //console.log("success");
                                             MessageBox.success("Operazione eseguita con successo", {
-                                                title:"Esito Operazione",
+                                                title: "Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
                                                 onClose: function (oAction) {
@@ -532,7 +596,7 @@ sap.ui.define([
                                         error: function (e) {
                                             //console.log("error");
                                             MessageBox.error("Operazione non eseguita", {
-                                                title:"Esito Operazione",
+                                                title: "Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
                                             })
