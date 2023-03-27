@@ -171,7 +171,22 @@ sap.ui.define([
                         this.getView().byId("statoNI1").setText(statoNI)
 
                         var importoTot = header[i].ZimpoTotni
-                        this.getView().byId("importoTot1").setText(importoTot)
+
+                        var num = importoTot.toString();
+                        var importoPrimaVirgola = num.split(".")
+                        //var indice = num.split("").length
+                        var numPunti = ""
+                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                            return x.split('').reverse().join('')
+                        }).reverse()
+
+                        for (var v = 0; v < migliaia.length; v++) {
+                            numPunti = (numPunti + migliaia[v] + ".")
+                        }
+
+                        var indice = numPunti.split("").length
+                        var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                        this.getView().byId("importoTot1").setText(totale)
 
                     }
                 }
@@ -216,10 +231,29 @@ sap.ui.define([
                 //     oProprietà.setProperty("/HeaderNIWstep3Visible", false);
                 // }
                 var array = this.getView().getModel("temp").getData().PositionNISet
+                for (var arr = 0; arr < array.length; arr++) {
+                    var campo = array[arr]
+                    var importoPrimaVirgola = array[arr].ZimpoTitolo.split(".")
+                    //var indice = num.split("").length
+                    var numPunti = ""
+                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                        return x.split('').reverse().join('')
+                    }).reverse()
+
+                    for (var v = 0; v < migliaia.length; v++) {
+                        numPunti = (numPunti + migliaia[v] + ".")
+                    }
+
+                    var indice = numPunti.split("").length
+                    var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                    campo.ZimpoTitolo = totale
+                }
                 //var array = []
                 var oMdlWstep3 = new sap.ui.model.json.JSONModel();
                 for (var i = 0; i < rows.length; i++) {
                     var campo = rows[i].getBindingContext("HeaderNIW").getObject()
+                    campo.ZimpoTitolo = campo.ZimpoRes
+                    campo.ZimpoRes = "0.00"
                     array.push(campo)
                 }
                 oMdlWstep3.setData(array);
@@ -270,7 +304,7 @@ sap.ui.define([
                 //var selectedRows = self.getView().byId("HeaderNIW").getSelectedItems().length
 
                 var deepEntity = {
-                    Funzionalita:"RETTIFICANIPREIMPOSTATA",
+                    Funzionalita: "RETTIFICANIPREIMPOSTATA",
                     PositionNISet: []
                 }
 
@@ -286,6 +320,16 @@ sap.ui.define([
                 for (var i = 0; i < oItems.length; i++) {
                     var item = oItems[i];
 
+                    var puntiSeparati = item.ZimpoTitolo.split(".")
+                        var stringaImportoVirgola = ""
+                        for (var x = 0; x < puntiSeparati.length; x++) {
+                            if (puntiSeparati[x] != "")
+                            stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[x]
+                        }
+
+                        var virgole = stringaImportoVirgola.split(",")
+                        var ZimpoTitolo = virgole[0]+"."+virgole[1]
+
                     deepEntity.PositionNISet.push({
                         Bukrs: oItems[0].Bukrs,                     //campi chiave Posizione
                         Gjahr: oItems[0].Gjahr,                     //campi chiave Posizione
@@ -299,7 +343,7 @@ sap.ui.define([
                         Ztipo: N_Tipologia,
                         Zsottotipo: N_Sottotipologia,
                         ZcompRes: N_CR,
-                        ZimpoTitolo: item.ZimpoTitolo,                 //aggiornare mock
+                        ZimpoTitolo: ZimpoTitolo,                 //aggiornare mock
                         Zdescrizione: item.Zdescrizione,                //aggiornare mock 
                         ZcodIsin: item.ZcodIsin,                       //aggiornare mock
                         ZdataPag: new Date(item.ZdataPag),
@@ -307,7 +351,7 @@ sap.ui.define([
                 }
 
                 MessageBox.warning("Sei sicuro di voler rettificare la nota d'imputazione?", {
-                    title:"Inserire Posizione",
+                    title: "Inserire Posizione",
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                     emphasizedAction: MessageBox.Action.YES,
                     onClose: function (oAction) {
@@ -315,17 +359,17 @@ sap.ui.define([
 
                             oDataModel.create("/DeepPositionNISet", deepEntity, {
                                 success: function (result) {
-                                        MessageBox.success("Nota d'imputazione rettificata correttamente", {
-                                            title:"Esito Operazione",
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            emphasizedAction: MessageBox.Action.OK,
-                                            onClose: function (oAction) {
-                                                if (oAction === sap.m.MessageBox.Action.OK) {
-                                                    self.getOwnerComponent().getRouter().navTo("View1");
-                                                    location.reload();
-                                                }
+                                    MessageBox.success("Nota d'imputazione rettificata correttamente", {
+                                        title: "Esito Operazione",
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                        onClose: function (oAction) {
+                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                self.getOwnerComponent().getRouter().navTo("View1");
+                                                location.reload();
                                             }
-                                        })
+                                        }
+                                    })
                                 },
                                 error: function (err) {
                                     console.log(err);

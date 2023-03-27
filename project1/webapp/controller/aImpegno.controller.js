@@ -127,25 +127,58 @@ sap.ui.define([
                         if (array) {
                             var sommaDisponibilità = 0.00
                             var rows = this.getView().byId("HeaderNIAssImp").getSelectedItems()
-                            var impoTot = parseFloat(this.getView().byId("importoTot1").mProperties.text)
+                            var impoTot = this.getView().byId("importoTot1").mProperties.text
+
+                            var puntiSeparati = impoTot.split(".")
+                            var stringaImportoVirgola = ""
+                            for (var x = 0; x < puntiSeparati.length; x++) {
+                                if (puntiSeparati[x] != "")
+                                    stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[x]
+                            }
+
+                            var virgole = stringaImportoVirgola.split(",")
+                            var impoTot = virgole[0] + "." + virgole[1]
+
                             for (var x = 0; x < rows.length; x++) {
-                            var Zdisp = parseFloat(rows[x].mAggregations.cells[3].mProperties.text)
-                            sommaDisponibilità = sommaDisponibilità+Zdisp
-                            var impoAttributo = parseFloat(rows[x].mAggregations.cells[4].mProperties.value)
-                            if(impoAttributo > Zdisp){
-                                MessageBox.error("Il valore del campo Importo Attribuito non può essere maggiore al campo Disponibilità Impegno")
-                                break
-                            }
-                            if(impoTot > sommaDisponibilità){
-                                MessageBox.error("Il valore del campo Importo Totale NI non può essere maggiore alla somma delle Disponibilità Impegno")
-                                break
-                            }
-                            else{
-                            this.getView().getModel("temp").setProperty("/ImpegniSelezionati", array)
-                            this.getOwnerComponent().getRouter().navTo("aImpegno2", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                                var Zdisp = rows[x].mAggregations.cells[3].mProperties.text
+
+                                var puntiSeparati = Zdisp.split(".")
+                                var stringaImportoVirgola = ""
+                                for (var ps = 0; ps < puntiSeparati.length; ps++) {
+                                    if (puntiSeparati[ps] != "")
+                                        stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[ps]
+                                }
+    
+                                var virgole = stringaImportoVirgola.split(",")
+                                var Zdisp = virgole[0] + "." + virgole[1]
+
+                                sommaDisponibilità = sommaDisponibilità + parseFloat(Zdisp)
+                                var impoAttributo = rows[x].mAggregations.cells[4].mProperties.value
+
+                                var puntiSeparati = impoAttributo.split(".")
+                                var stringaImportoVirgola = ""
+                                for (var x = 0; x < puntiSeparati.length; x++) {
+                                    if (puntiSeparati[x] != "")
+                                        stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[x]
+                                }
+    
+                                var virgole = stringaImportoVirgola.split(",")
+                                var impoAttributo = virgole[0] + "." + virgole[1]
+
+                                if (parseFloat(impoAttributo) > parseFloat(Zdisp)) {
+                                    MessageBox.error("Il valore del campo Importo Attribuito non può essere maggiore al campo Disponibilità Impegno")
+                                    break
+                                }
+                                if (parseFloat(impoTot) > sommaDisponibilità) {
+                                    MessageBox.error("Il valore del campo Importo Totale NI non può essere maggiore alla somma delle Disponibilità Impegno")
+                                    break
+                                }
+                                else {
+                                    this.getView().getModel("temp").setProperty("/ImpegniSelezionati", array)
+                                    this.getOwnerComponent().getRouter().navTo("aImpegno2", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                                }
                             }
                         }
-                    }
 
                     }
                 }
@@ -201,128 +234,143 @@ sap.ui.define([
                         header[i].ZchiaveNi == ZchiaveNi &&
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
-                // var oModel = this.getOwnerComponent().getModel();
+                        // var oModel = this.getOwnerComponent().getModel();
 
-                // var path = oModel.createKey("/ZfmimpegniIpeSet", {
-                //     Gjahr: this.getView().byId("es_gestione").mProperties.value,
-                //     Zcoddecr: this.getView().byId("inputDecreto").mProperties.value,
-                //     Zammin: this.getView().byId("inputAmm").mProperties.value,
-                //     ZCodIpe: this.getView().byId("inputIPE").mProperties.value,
-                //     Zufficioliv1: this.getView().byId("inputaUff").mProperties.value,
-                //     Zufficioliv2: this.getView().byId("inputbUff").mProperties.value,
-                //     ZNumCla: this.getView().byId("inputClaus").mProperties.value
-                // });
+                        // var path = oModel.createKey("/ZfmimpegniIpeSet", {
+                        //     Gjahr: this.getView().byId("es_gestione").mProperties.value,
+                        //     Zcoddecr: this.getView().byId("inputDecreto").mProperties.value,
+                        //     Zammin: this.getView().byId("inputAmm").mProperties.value,
+                        //     ZCodIpe: this.getView().byId("inputIPE").mProperties.value,
+                        //     Zufficioliv1: this.getView().byId("inputaUff").mProperties.value,
+                        //     Zufficioliv2: this.getView().byId("inputbUff").mProperties.value,
+                        //     ZNumCla: this.getView().byId("inputClaus").mProperties.value
+                        // });
 
-                //FILTRI COMMENTATI IN ATTESA DI VALORI CORRETTI
+                        //FILTRI COMMENTATI IN ATTESA DI VALORI CORRETTI
 
-                if (this.getView().byId("es_gestione").mProperties.value != "") {
-                    filtriAssocia.push(new Filter({
-                        path: "Gjahr",
-                        operator: FilterOperator.EQ,
-                        value1: this.getView().byId("es_gestione").mProperties.value
-                    }));
-                }
-
-                if (this.getView().byId("inputDecreto").mProperties.value != "") {
-                    filtriAssocia.push(new Filter({
-                        path: "Zcoddecr",
-                        operator: FilterOperator.EQ,
-                        value1: this.getView().byId("inputDecreto").mProperties.value
-                    }));
-                }
-
-                if (this.getView().byId("inputAmm").mProperties.value != "") {
-                    filtriAssocia.push(new Filter({
-                        path: "Zammin",
-                        operator: FilterOperator.EQ,
-                        value1: this.getView().byId("inputAmm").mProperties.value
-                    }));
-                }
-
-                if (this.getView().byId("inputIPE").mProperties.value != "") {
-                    filtriAssocia.push(new Filter({
-                        path: "ZCodIpe",
-                        operator: FilterOperator.EQ,
-                        value1: this.getView().byId("inputIPE").mProperties.value
-                    }));
-                }
-
-                if (this.getView().byId("inputaUff").mProperties.value != "") {
-                    filtriAssocia.push(new Filter({
-                        path: "Zufficioliv1",
-                        operator: FilterOperator.EQ,
-                        value1: this.getView().byId("inputaUff").mProperties.value
-                    }));
-                }
-
-                if (this.getView().byId("inputbUff").mProperties.value != "") {
-                    filtriAssocia.push(new Filter({
-                        path: "Zufficioliv2",
-                        operator: FilterOperator.EQ,
-                        value1: this.getView().byId("inputbUff").mProperties.value
-                    }));
-                }
-
-                if (this.getView().byId("inputClaus").mProperties.value != "") {
-                    filtriAssocia.push(new Filter({
-                        path: "ZNumCla",
-                        operator: FilterOperator.EQ,
-                        value1: this.getView().byId("inputClaus").mProperties.value
-                    }));
-                }
-                if (header[i].Fipex != "") {
-                    filtriAssocia.push(new Filter({
-                        path: "Fipex",
-                        operator: FilterOperator.EQ,
-                        value1: header[i].Fipex 
-                    }));
-                }
-                if (header[i].Fistl  != "") {
-                    filtriAssocia.push(new Filter({
-                        path: "Fistl",
-                        operator: FilterOperator.EQ,
-                        value1: header[i].Fistl
-                    }));
-                }
-                if (header[i].Bukrs  != "") {
-                    filtriAssocia.push(new Filter({
-                        path: "Bukrs",
-                        operator: FilterOperator.EQ,
-                        value1: header[i].Bukrs
-                    }));
-                }
-                
-
-                var oMdlAImp = new sap.ui.model.json.JSONModel();
-                this.getOwnerComponent().getModel().read("/ZfmimpegniIpeSet", {
-                    filters: filtriAssocia,
-                    //filters: [],
-                    // urlParameters: "",
-                    success: function (data) {
-                        oMdlAImp.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/ZfmimpegniIpeSet', data.results)
-                        var impoTot = that.getView().byId("importoTot1").mProperties.text
-                        //var lunghezzaTab = that.getView().getModel("temp").ZfmimpegniIpeSet
-                        for (var i = 0; i < data.results.length; i++) {
-                            that.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue("0.00")
+                        if (this.getView().byId("es_gestione").mProperties.value != "") {
+                            filtriAssocia.push(new Filter({
+                                path: "Gjahr",
+                                operator: FilterOperator.EQ,
+                                value1: this.getView().byId("es_gestione").mProperties.value
+                            }));
                         }
-                        that.onCallZdispon(data.results)
-                    },
-                    error: function (error) {
-                        var e = error;
-                    }
-                });
-                this.getOwnerComponent().setModel(oMdlAImp, "HeaderNIAssImp");
-                //this.setDisponibilità()
-                //sap.ui.getCore().TableModel = oMdlW;
+
+                        if (this.getView().byId("inputDecreto").mProperties.value != "") {
+                            filtriAssocia.push(new Filter({
+                                path: "Zcoddecr",
+                                operator: FilterOperator.EQ,
+                                value1: this.getView().byId("inputDecreto").mProperties.value
+                            }));
                         }
+
+                        if (this.getView().byId("inputAmm").mProperties.value != "") {
+                            filtriAssocia.push(new Filter({
+                                path: "Zammin",
+                                operator: FilterOperator.EQ,
+                                value1: this.getView().byId("inputAmm").mProperties.value
+                            }));
+                        }
+
+                        if (this.getView().byId("inputIPE").mProperties.value != "") {
+                            filtriAssocia.push(new Filter({
+                                path: "ZCodIpe",
+                                operator: FilterOperator.EQ,
+                                value1: this.getView().byId("inputIPE").mProperties.value
+                            }));
+                        }
+
+                        if (this.getView().byId("inputaUff").mProperties.value != "") {
+                            filtriAssocia.push(new Filter({
+                                path: "Zufficioliv1",
+                                operator: FilterOperator.EQ,
+                                value1: this.getView().byId("inputaUff").mProperties.value
+                            }));
+                        }
+
+                        if (this.getView().byId("inputbUff").mProperties.value != "") {
+                            filtriAssocia.push(new Filter({
+                                path: "Zufficioliv2",
+                                operator: FilterOperator.EQ,
+                                value1: this.getView().byId("inputbUff").mProperties.value
+                            }));
+                        }
+
+                        if (this.getView().byId("inputClaus").mProperties.value != "") {
+                            filtriAssocia.push(new Filter({
+                                path: "ZNumCla",
+                                operator: FilterOperator.EQ,
+                                value1: this.getView().byId("inputClaus").mProperties.value
+                            }));
+                        }
+                        if (header[i].Fipex != "") {
+                            filtriAssocia.push(new Filter({
+                                path: "Fipex",
+                                operator: FilterOperator.EQ,
+                                value1: header[i].Fipex
+                            }));
+                        }
+                        if (header[i].Fistl != "") {
+                            filtriAssocia.push(new Filter({
+                                path: "Fistl",
+                                operator: FilterOperator.EQ,
+                                value1: header[i].Fistl
+                            }));
+                        }
+                        if (header[i].Bukrs != "") {
+                            filtriAssocia.push(new Filter({
+                                path: "Bukrs",
+                                operator: FilterOperator.EQ,
+                                value1: header[i].Bukrs
+                            }));
+                        }
+
+
+                        var oMdlAImp = new sap.ui.model.json.JSONModel();
+                        this.getOwnerComponent().getModel().read("/ZfmimpegniIpeSet", {
+                            filters: filtriAssocia,
+                            //filters: [],
+                            // urlParameters: "",
+                            success: function (data) {
+                                oMdlAImp.setData(data.results);
+                                that.getView().getModel("temp").setProperty('/ZfmimpegniIpeSet', data.results)
+                                var impoTot = that.getView().byId("importoTot1").mProperties.text
+                                //var lunghezzaTab = that.getView().getModel("temp").ZfmimpegniIpeSet
+                                for (var i = 0; i < data.results.length; i++) {
+                                    that.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue("0.00")
+                                }
+                                that.onCallZdispon(data.results)
+                            },
+                            error: function (error) {
+                                var e = error;
+                            }
+                        });
+                        this.getOwnerComponent().setModel(oMdlAImp, "HeaderNIAssImp");
+                        //this.setDisponibilità()
+                        //sap.ui.getCore().TableModel = oMdlW;
                     }
+                }
             },
 
             setDisponibilità: function (Zdisp) {
                 //var Zdisp = this.getView().getModel("temp").getData().ZdisponSet
                 for (var q = 0; q < Zdisp.length; q++) {
-                    this.getView().byId("HeaderNIAssImp").getItems()[q].mAggregations.cells[3].setText(Zdisp[q])
+
+                    var importoPrimaVirgola = Zdisp[q].split(".")
+                    //var indice = num.split("").length
+                    var numPunti = ""
+                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                        return x.split('').reverse().join('')
+                    }).reverse()
+
+                    for (var v = 0; v < migliaia.length; v++) {
+                        numPunti = (numPunti + migliaia[v] + ".")
+                    }
+
+                    var indice = numPunti.split("").length
+                    var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+
+                    this.getView().byId("HeaderNIAssImp").getItems()[q].mAggregations.cells[3].setText(totale)
                 }
             },
 

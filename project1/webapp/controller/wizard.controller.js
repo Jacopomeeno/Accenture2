@@ -493,11 +493,31 @@ sap.ui.define([
                         //ZutenteModifica: sap.ushell.Container.getService("UserInfo").getId()
                     };
 
-                    var sommaImporto = 0.00
-                    for (var x = 0; x < deepEntity.PositionNISet.length; x++) {
-                        sommaImporto = sommaImporto + parseFloat(deepEntity.PositionNISet[x].ZimpoTitolo)
+                    var importoTot = 0.00
+                    var rows = this.getView().byId("HeaderNIW").getSelectedItems()
+                    for (var p = 0; p < rows.length; p++) {
+                    var numeri = (rows[p].getBindingContext("HeaderNIW").getObject().ZimpoTitolo).split(".")
+                    var numeroIntero = ""
+                    for (var q = 0; q < numeri.length; q++) {
+                        numeroIntero = numeroIntero + numeri[q]
+                        //var numeroFloat = parseFloat(numeroIntero)
+                        if(numeroIntero.split(",").length>1){
+                            var virgole = numeroIntero.split(",")
+                            numeroIntero = virgole[0]+"."+virgole[1]
+                        }
                     }
-                    if (parseFloat(deepEntity.HeaderNISet.ZimpoTotni) != sommaImporto) {
+                    var numeroFloat = parseFloat(numeroIntero)
+                    importoTot = importoTot + numeroFloat
+                }
+                    // var sommaImporto = 0.00
+                    // for (var x = 0; x < deepEntity.PositionNISet.length; x++) {
+                    //     sommaImporto = sommaImporto + parseFloat(deepEntity.PositionNISet[x].ZimpoTitolo)
+                    // }
+                    if (parseFloat(deepEntity.HeaderNISet.ZimpoTotni) != importoTot) {
+
+                        var num = importoTot.toString();
+                        deepEntity.HeaderNISet.ZimpoTotni = num
+
 
                         MessageBox.warning("L’importo relativo ai seguenti codici ISIN è stato coperto parzialmente dalla Nota di Imputazione. Si intende procedere con l’operazione?", {
                             title: "Copertura Importo",

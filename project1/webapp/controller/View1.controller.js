@@ -262,7 +262,7 @@ sap.ui.define([
                             }
                         }
 
-                        else if (i == 5 || i == 7 || i==16 || i == 18) {
+                        else if (i == 5 || i == 7 || i == 16 || i == 18) {
                             continue
                         }
 
@@ -322,7 +322,7 @@ sap.ui.define([
 
                         else if (i == 0) {
                             if (oEvent.getParameters().selectionSet[i].mProperties.value == '') {
-                                MessageBox.error("Esercizio di Gestione non inserito!", {
+                                MessageBox.error("Valorizzare Esercizio di gestione", {
                                     actions: [sap.m.MessageBox.Action.OK],
                                     emphasizedAction: MessageBox.Action.OK,
                                 })
@@ -340,6 +340,7 @@ sap.ui.define([
                         success: function (data) {
                             oMdl.setData(data.results);
                             that.getView().getModel("temp").setProperty('/HeaderNISet', data.results)
+                            that.setVirgolaMigliaia(data.results)
                         },
                         error: function (error) {
                             //that.getView().getModel("temp").setProperty(sProperty,[]);
@@ -357,6 +358,30 @@ sap.ui.define([
                 this.getView().byId("PreimpostazioneNI").setEnabled(true);
 
                 //this.checkItemCB(oEvent)
+            },
+
+            setVirgolaMigliaia: function (header) {
+                for (var x = 0; x < header.length; x++) {
+                    var arrayVirgola = header[x].ZimpoTotni.split(".")
+                    // var importoVirgola = arrayVirgola[0]+","+arrayVirgola[1]
+
+                    var numPunti = ""
+                    var migliaia = arrayVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                        return x.split('').reverse().join('')
+                    }).reverse()
+                    for (var i = 0; i < migliaia.length; i++) {
+                        numPunti = (numPunti + migliaia[i] + ".")
+                    }
+
+                    var indice = numPunti.split("").length
+                    var totale = numPunti.substring(0, indice - 1) + "," + arrayVirgola[1]
+                    header[x].ZimpoTotni = totale
+                }
+
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getView().getModel("temp").setProperty('/HeaderNISet', header)
+                oMdl.setData(header);
+                this.getOwnerComponent().setModel(oMdl, "HeaderNI");
             },
 
             navToWizard: function (oEvent) {
