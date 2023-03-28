@@ -218,8 +218,19 @@ sap.ui.define(
 
                                         //ZimpoTitolo: item.ZimpoTitolo
                                     })
+
                                 var numeroIntero = item.ZimpoTitolo
+                                var numIntTot = ""
                                 if (numeroIntero.split(".").length > 1) {
+                                    var numeri = numeroIntero.split(".")
+                                    for (var n = 0; n < numeri.length; n++) {
+                                        numIntTot = numIntTot + numeri[n]
+                                        //var numeroFloat = parseFloat(numeroIntero)
+                                        if (numIntTot.split(",").length > 1) {
+                                            var virgole = numIntTot.split(",")
+                                            var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                        }
+                                    }
                                     var importoPrimaVirgola = numeroIntero.split(".")
                                     var numPunti = ""
                                     var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
@@ -230,12 +241,14 @@ sap.ui.define(
                                         numPunti = (numPunti + migliaia[migl] + ".")
                                     }
                                     var indice = numPunti.split("").length
-                                    deepEntity.PositionNISet[i].ZimpoTitolo = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-
+                                    var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                    deepEntity.PositionNISet[i].ZimpoTitolo = numeroInteroSM
                                 }
+
                                 else {
                                     var importoPrimaVirgola = numeroIntero.split(",")
-                                    deepEntity.PositionNISet[i].ZimpoTitolo = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                    var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                    deepEntity.PositionNISet[i].ZimpoTitolo = numeroInteroSM
                                 }
                             }
                             // var oEntry = {};

@@ -208,7 +208,17 @@ sap.ui.define([
                     deepEntity.PositionNISet.push(position[i]);
 
                     numeroIntero = position[i].ZimpoTitolo
+                    var numIntTitolo = ""
                     if (numeroIntero.split(".").length > 1) {
+                        var numeri = numeroIntero.split(".")
+                        for (var n = 0; n < numeri.length; n++) {
+                            numIntTitolo = numIntTitolo + numeri[n]
+                            //var numeroFloat = parseFloat(numeroIntero)
+                            if (numIntTitolo.split(",").length > 1) {
+                                var virgole = numIntTitolo.split(",")
+                                var numeroInteroSM = virgole[0] + "." + virgole[1]
+                            }
+                        }
                         var importoPrimaVirgola = numeroIntero.split(".")
                         var numPunti = ""
                         var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
@@ -219,13 +229,15 @@ sap.ui.define([
                             numPunti = (numPunti + migliaia[migl] + ".")
                         }
                         var indice = numPunti.split("").length
-                        var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                     }
+
                     else {
-                        var virgole = numeroIntero.split(",")
-                        var totale = virgole[0] + "." + virgole[1]
+                        var importoPrimaVirgola = numeroIntero.split(",")
+                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
                     }
-                    position[i].ZimpoTitolo = totale
+
+                    position[i].ZimpoTitolo = numeroInteroSM
 
                 }
 
@@ -239,7 +251,17 @@ sap.ui.define([
                     deepEntity.ZfmimpegniIpeSet.push(ImpegniSelezionati[l]);
 
                     numeroIntero = ImpegniSelezionati[l].Attribuito
-                    if (numeroIntero.split(".") > 1) {
+                    var numIntAttribuito = ""
+                    if (numeroIntero.split(".").length > 1) {
+                        var numeri = numeroIntero.split(".")
+                        for (var n = 0; n < numeri.length; n++) {
+                            numIntAttribuito = numIntAttribuito + numeri[n]
+                            //var numeroFloat = parseFloat(numeroIntero)
+                            if (numIntAttribuito.split(",").length > 1) {
+                                var virgole = numIntAttribuito.split(",")
+                                var numeroInteroSM = virgole[0] + "." + virgole[1]
+                            }
+                        }
                         var importoPrimaVirgola = numeroIntero.split(".")
                         var numPunti = ""
                         var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
@@ -250,13 +272,16 @@ sap.ui.define([
                             numPunti = (numPunti + migliaia[migl] + ".")
                         }
                         var indice = numPunti.split("").length
-                        var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                     }
+
                     else {
-                        var virgole = numeroIntero.split(",")
-                        var totale = virgole[0] + "." + virgole[1]
+                        var importoPrimaVirgola = numeroIntero.split(",")
+                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
                     }
-                    ImpegniSelezionati[l].Attribuito = totale
+
+
+                    ImpegniSelezionati[l].Attribuito = numeroInteroSM
                 }
                 var oDataModel = self.getOwnerComponent().getModel();
                 oDataModel.create("/DeepPositionNISet", deepEntity, {
@@ -268,9 +293,35 @@ sap.ui.define([
                         //    console.log(result.Message)
                         self.getView().getModel("temp").setProperty('/PositionNISet', result.PositionNISet.results)
                         self.viewHeader(result.PositionNISet.results)
+
                         var oMdlITB = new sap.ui.model.json.JSONModel();
                         oMdlITB.setData(result.PositionNISet.results);
                         self.getOwnerComponent().setModel(oMdlITB, "HeaderSalva");
+
+                        for (var dr = 0; dr < result.PositionNISet.results.length; dr++) {
+                            if (result.PositionNISet.results[dr].ZimpoTitolo.split(".").length > 1) {
+                                var numeroIntero = result.PositionNISet.results[dr].ZimpoTitolo
+                                var importoPrimaVirgola = numeroIntero.split(".")
+                                var numPunti = ""
+                                var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                    return x.split('').reverse().join('')
+                                }).reverse()
+
+                                for (var migl = 0; migl < migliaia.length; migl++) {
+                                    numPunti = (numPunti + migliaia[migl] + ".")
+                                }
+                                var indice = numPunti.split("").length
+                                var impoTitolo = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                that.getView().byId("HeaderSalva").mAggregations.items[dr].mAggregations.cells[4].setText(impoTitolo)
+
+                            }
+                            else {
+                                var importoPrimaVirgola = numeroIntero.split(",")
+                                var impoTitolo = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                that.getView().byId("HeaderSalva").mAggregations.items[dr].mAggregations.cells[4].setText(impoTitolo)
+                            }
+                        }
+
                         //}
                         //if (result.Msgty == 'S') {
                         //    console.log(result.Message)
@@ -442,7 +493,7 @@ sap.ui.define([
                             var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
                                 return x.split('').reverse().join('')
                             }).reverse()
-    
+
                             for (var migl = 0; migl < migliaia.length; migl++) {
                                 numPunti = (numPunti + migliaia[migl] + ".")
                             }
@@ -513,7 +564,7 @@ sap.ui.define([
                 var that = this
 
                 var url = location.href
-                var sUrl = url.split("/iconTabBar/")[1]
+                var sUrl = url.split("/salvaImpegno/")[1]
                 var aValori = sUrl.split(",")
 
                 var Bukrs = aValori[0]
@@ -533,13 +584,15 @@ sap.ui.define([
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
 
+                        var indiceHeader = i
+
                         var deepEntity = {
                             HeaderNISet: null,
                             Funzionalita: 'ANNULLAMENTOPREIMPOSTATA',
                         }
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
-                        MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                        MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[indiceHeader].ZchiaveNi + "?", {
                             title: "Annullamento Preimpostata",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
@@ -547,35 +600,43 @@ sap.ui.define([
                                 if (oAction === sap.m.MessageBox.Action.YES) {
                                     var oModel = that.getOwnerComponent().getModel();
 
-                                    for (var i = 0; i < header.length; i++) {
-                                        var item = header[i];
-                                        var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-                                        var Zamministr = scompostaZamministr.split(".")[0]
+                                    deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
 
-                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                        // deepEntity.Bukrs = item.Zamministr, //Passato Da BE
-                                        // deepEntity.Gjahr = that.getView().byId("numNI1").mProperties.text.split("-")[0],
-                                        // deepEntity.Zamministr = item.Zamministr, //Passato Da BE
-                                        // deepEntity.ZidNi = item.ZidNi, //Incrementato da BE
-                                        // deepEntity.ZRagioCompe = item.ZRagioCompe, //Passato Da BE
+                                    deepEntity.HeaderNISet = header[indiceHeader];
 
+                                    var numeroIntero = header[indiceHeader].ZimpoTotni
+                                    var numIntTot = ""
+                                    if (numeroIntero.split(".").length > 1) {
+                                        var numeri = numeroIntero.split(".")
+                                        for (var n = 0; n < numeri.length; n++) {
+                                            numIntTot = numIntTot + numeri[n]
+                                            //var numeroFloat = parseFloat(numeroIntero)
+                                            if (numIntTot.split(",").length > 1) {
+                                                var virgole = numIntTot.split(",")
+                                                var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                            }
+                                        }
+                                        var importoPrimaVirgola = numeroIntero.split(".")
+                                        var numPunti = ""
+                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                            return x.split('').reverse().join('')
+                                        }).reverse()
 
-                                        deepEntity.HeaderNISet = {
-                                            Bukrs: Bukrs, //Passato Da BE
-                                            Gjahr: Gjahr,
-                                            Zamministr: Zamministr, //Passato Da BE
-                                            ZidNi: ZidNi, //Incrementato da BE
-                                            ZRagioCompe: ZRagioCompe, //Passato Da BE
-                                            //ZcodiStatoni: "00",
-                                            ZchiaveNi: ZchiaveNi,
-                                            ZimpoTotni: that.getView().byId("importoTot1").mProperties.text,
-                                            ZzGjahrEngPos: that.getView().byId("numNI1").mProperties.text.split("-")[0],
-                                            Zmese: that.getView().byId("mese1").mProperties.text,
-                                            ZoggSpesa: that.getView().byId("oggSpesa1").mProperties.text,
-                                            Fipex: that.getView().byId("SARWH2").mProperties.text,
-                                            Fistl: that.getView().byId("pos_FinWH2").mProperties.text,
-                                        };
+                                        for (var migl = 0; migl < migliaia.length; migl++) {
+                                            numPunti = (numPunti + migliaia[migl] + ".")
+                                        }
+                                        var indice = numPunti.split("").length
+                                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
                                     }
+
+                                    else {
+                                        var importoPrimaVirgola = numeroIntero.split(",")
+                                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
+
+
                                     oModel.create("/DeepZNIEntitySet", deepEntity, {
                                         //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                         // method: "PUT",

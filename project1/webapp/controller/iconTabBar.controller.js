@@ -492,98 +492,75 @@ sap.ui.define([
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
 
+                        var indiceHeader = i
+
                         var deepEntity = {
                             HeaderNISet: null,
                             Funzionalita: 'ANNULLAMENTOPREIMPOSTATA',
                         }
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
-                        MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            title: "Annullamento NI",
+                        MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[indiceHeader].ZchiaveNi + "?", {
+                            title: "Annullamento Preimpostata",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
                                 if (oAction === sap.m.MessageBox.Action.YES) {
                                     var oModel = that.getOwnerComponent().getModel();
 
-                                    for (var i = 0; i < header.length; i++) {
-                                        var item = header[i];
-                                        var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-                                        var Zamministr = scompostaZamministr.split(".")[0]
-                                        var Fistl = header[i].Fistl
+                                    deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
 
+                                    deepEntity.HeaderNISet = header[indiceHeader];
 
-                                        
-
-                                        var numeroIntero = that.getView().byId("importoTot1").mProperties.text
-                                        if (numeroIntero.split(".").length > 1) {
-                                            var importoPrimaVirgola = numeroIntero.split(".")
-                                            var numPunti = ""
-                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
-                                                return x.split('').reverse().join('')
-                                            }).reverse()
-
-                                            for (var migl = 0; migl < migliaia.length; migl++) {
-                                                numPunti = (numPunti + migliaia[migl] + ".")
+                                    var numeroIntero = header[indiceHeader].ZimpoTotni
+                                    var numIntTot = ""
+                                    if (numeroIntero.split(".").length > 1) {
+                                        var numeri = numeroIntero.split(".")
+                                        for (var n = 0; n < numeri.length; n++) {
+                                            numIntTot = numIntTot + numeri[n]
+                                            //var numeroFloat = parseFloat(numeroIntero)
+                                            if (numIntTot.split(",").length > 1) {
+                                                var virgole = numIntTot.split(",")
+                                                var numeroInteroSM = virgole[0] + "." + virgole[1]
                                             }
-                                            var indice = numPunti.split("").length
-                                            var impoTot = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-
                                         }
-                                        else {
-                                            var importoPrimaVirgola = numeroIntero.split(",")
-                                            var impoTot = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        var importoPrimaVirgola = numeroIntero.split(".")
+                                        var numPunti = ""
+                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                            return x.split('').reverse().join('')
+                                        }).reverse()
+
+                                        for (var migl = 0; migl < migliaia.length; migl++) {
+                                            numPunti = (numPunti + migliaia[migl] + ".")
                                         }
-
-                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                        // deepEntity.Bukrs = item.Zamministr, //Passato Da BE
-                                        // deepEntity.Gjahr = that.getView().byId("numNI1").mProperties.text.split("-")[0],
-                                        // deepEntity.Zamministr = item.Zamministr, //Passato Da BE
-                                        // deepEntity.ZidNi = item.ZidNi, //Incrementato da BE
-                                        // deepEntity.ZRagioCompe = item.ZRagioCompe, //Passato Da BE
-
-
-                                        deepEntity.HeaderNISet = {
-                                            Bukrs: Bukrs, //Passato Da BE
-                                            Gjahr: Gjahr,
-                                            Zamministr: Zamministr, //Passato Da BE
-                                            ZidNi: ZidNi, //Incrementato da BE
-                                            ZRagioCompe: ZRagioCompe, //Passato Da BE
-                                            //ZcodiStatoni: "00",
-                                            ZchiaveNi: ZchiaveNi,
-                                            ZimpoTotni: impoTot,
-                                            ZzGjahrEngPos: that.getView().byId("numNI1").mProperties.text.split("-")[0],
-                                            Zmese: that.getView().byId("mese1").mProperties.text,
-                                            ZoggSpesa: that.getView().byId("oggSpesa1").mProperties.text,
-                                            Fipex: that.getView().byId("SARWH2").mProperties.text,
-                                            Fistl: Fistl,
-                                        };
+                                        var indice = numPunti.split("").length
+                                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
                                     }
+
+                                    else {
+                                        var importoPrimaVirgola = numeroIntero.split(",")
+                                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
+
+
                                     oModel.create("/DeepZNIEntitySet", deepEntity, {
                                         //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                         // method: "PUT",
-                                        success: function (result) {
-                                            if (result.Msgty == 'E') {
-                                                console.log(result.Message)
-                                                MessageBox.error("Operazione non eseguita correttamente", {
-                                                    title: "Esito Operazione",
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                })
-                                            }
-                                            if (result.Msgty == 'S') {
-                                                MessageBox.success("Operazione eseguita correttamente", {
-                                                    title: "Esito Operazione",
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                    onClose: function (oAction) {
-                                                        if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            that.getOwnerComponent().getRouter().navTo("View1");
-                                                            location.reload();
-                                                        }
+                                        success: function (data) {
+                                            //console.log("success");
+                                            MessageBox.success("Operazione eseguita con successo", {
+                                                title: "Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                                onClose: function (oAction) {
+                                                    if (oAction === sap.m.MessageBox.Action.OK) {
+                                                        that.getOwnerComponent().getRouter().navTo("View1");
+                                                        location.reload();
                                                     }
-                                                })
-                                            }
+                                                }
+                                            })
                                         },
                                         error: function (e) {
                                             //console.log("error");
@@ -594,33 +571,6 @@ sap.ui.define([
                                             })
                                         }
                                     });
-                                    // var path = oModel.createKey("/HeaderNISet", {
-                                    //     Bukrs:Bukrs,
-                                    //     Gjahr:Gjahr,
-                                    //     Zamministr:Zamministr,
-                                    //     ZchiaveNi:ZchiaveNi,
-                                    //     ZidNi:ZidNi,
-                                    //     ZRagioCompe:ZRagioCompe,
-                                    //     Funzionalita:"ANNULLAMENTOPREIMPOSTATA"
-                                    //     });
-
-                                    //     var oEntry = {};
-                                    //     oEntry.ZcodiStatoni = "09";
-                                    // }
-                                    // oModel.update(path, oEntry, {
-                                    //     //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                    //     // method: "PUT",
-                                    //     success: function (data) {
-                                    //         //console.log("success");
-                                    //         MessageBox.success("Operazione eseguita con successo")
-                                    //         that.getOwnerComponent().getRouter().navTo("View1")
-                                    //         location.reload();
-                                    //     },
-                                    //     error: function (e) {
-                                    //         //console.log("error");
-                                    //         MessageBox.error("Operazione non eseguita")
-                                    //     }
-                                    // });      
                                 }
                             }
                         });

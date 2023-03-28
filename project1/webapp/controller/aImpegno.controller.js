@@ -381,7 +381,18 @@ sap.ui.define([
                 var numeroIntero = ""
 
                 numeroIntero = impoTot
+
+                var numIntTot = ""
                 if (numeroIntero.split(".").length > 1) {
+                    var numeri = numeroIntero.split(".")
+                    for (var n = 0; n < numeri.length; n++) {
+                        numIntTot = numIntTot + numeri[n]
+                        //var numeroFloat = parseFloat(numeroIntero)
+                        if (numIntTot.split(",").length > 1) {
+                            var virgole = numIntTot.split(",")
+                            numeroIntero = virgole[0] + "." + virgole[1]
+                        }
+                    }
                     var importoPrimaVirgola = numeroIntero.split(".")
                     var numPunti = ""
                     var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
@@ -392,29 +403,31 @@ sap.ui.define([
                         numPunti = (numPunti + migliaia[migl] + ".")
                     }
                     var indice = numPunti.split("").length
-                    var impoTot = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-
+                    var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                 }
+
                 else {
                     var importoPrimaVirgola = numeroIntero.split(",")
-                    var impoTot = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                    var numeroIntero = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
                 }
-                var deltaImportoTot = parseFloat(impoTot)
+
+                var deltaImportoTot = parseFloat(numIntTot)
                 for (var i = 0; i < rows.length; i++) {
                     if (this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].mProperties.value != "") {
                         var Zdisp = this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[3].mProperties.text
-                        numeroIntero = Zdisp
-                        var numInt =""
-                        if (numeroIntero.split(".").length > 1) {
-                            var numeri = numeroIntero.split(".")
+                        var numeroInteroDisponibilità = Zdisp
+                        var numIntDisp = ""
+                        if (numeroInteroDisponibilità.split(".").length > 1) {
+                            var numeri = numeroInteroDisponibilità.split(".")
                             for (var n = 0; n < numeri.length; n++) {
-                                numInt = numInt + numeri[n]
+                                numIntDisp = numIntDisp + numeri[n]
                                 //var numeroFloat = parseFloat(numeroIntero)
-                                if (numInt.split(",").length > 1) {
-                                    var virgole = numInt.split(",")
-                                    numeroIntero = virgole[0] + "." + virgole[1]
+                                if (numIntDisp.split(",").length > 1) {
+                                    var virgole = numIntDisp.split(",")
+                                    numeroInteroDisponibilità = virgole[0] + "." + virgole[1]
                                 }
                             }
+                            var importoPrimaVirgola = numeroInteroDisponibilità.split(".")
                             var numPunti = ""
                             var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
                                 return x.split('').reverse().join('')
@@ -426,14 +439,14 @@ sap.ui.define([
                             var indice = numPunti.split("").length
                             var Zdisp = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                         }
-                
-                        if (parseFloat(Zdisp) <= parseFloat(impoTot)) {
+
+                        if (parseFloat(numIntDisp) <= parseFloat(numIntTot)) {
                             this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(Zdisp)
                             break;
                         }
-                        else if (parseFloat(Zdisp) > parseFloat(impoTot)) {
-                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setText(impoTot)
-                            deltaImportoTot = deltaImportoTot - parseFloat(Zdisp)
+                        else if (parseFloat(numIntDisp) > parseFloat(numIntTot)) {
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroIntero)
+                            var deltaImportoTot = deltaImportoTot - parseFloat(numIntDisp)
                             continue;
                         }
                     }

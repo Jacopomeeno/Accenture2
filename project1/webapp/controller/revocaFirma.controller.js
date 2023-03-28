@@ -121,6 +121,31 @@ sap.ui.define(
                             success: function (data) {
                                 oMdlITB.setData(data.results);
                                 that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+
+                                for (var dr = 0; dr < data.results.length; dr++) {
+                                    if (data.results[dr].ZimpoTitolo.split(".").length > 1) {
+                                        var numeroIntero = data.results[dr].ZimpoTitolo
+                                        var importoPrimaVirgola = numeroIntero.split(".")
+                                        var numPunti = ""
+                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                            return x.split('').reverse().join('')
+                                        }).reverse()
+
+                                        for (var migl = 0; migl < migliaia.length; migl++) {
+                                            numPunti = (numPunti + migliaia[migl] + ".")
+                                        }
+                                        var indice = numPunti.split("").length
+                                        var impoTitolo = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        that.getView().byId("revocaFirma").mAggregations.items[dr].mAggregations.cells[5].setText(impoTitolo)
+
+                                    }
+                                    else {
+                                        var importoPrimaVirgola = numeroIntero.split(",")
+                                        var impoTitolo = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        that.getView().byId("revocaFirma").mAggregations.items[dr].mAggregations.cells[5].setText(impoTitolo)
+                                    }
+                                }
+
                                 that.viewHeader(data.results)
                             },
                             error: function (error) {
@@ -294,7 +319,7 @@ sap.ui.define(
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
 
-                        var indice = i
+                        var indiceHeader = i
 
                         var deepEntity = {
                             HeaderNISet: null,
@@ -317,8 +342,27 @@ sap.ui.define(
 
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
 
+                                        if (header[indiceHeader].ZimpoTotni.split(".").length > 1) {
+                                            var importoPrimaVirgola = header[indiceHeader].ZimpoTotni.split(".")
+                                            var numPunti = ""
+                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                                return x.split('').reverse().join('')
+                                            }).reverse()
 
-                                        deepEntity.HeaderNISet = header[indice];
+                                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                                numPunti = (numPunti + migliaia[migl] + ".")
+                                            }
+                                            var indice = numPunti.split("").length
+                                            var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                            header[indiceHeader].ZimpoTotni = totale
+                                        }
+                                        else {
+                                            var virgole = header[indiceHeader].ZimpoTotni.split(",")
+                                            var totale = virgole[0] + "." + virgole[1]
+                                            header[indiceHeader].ZimpoTotni = totale
+                                        }
+
+                                        deepEntity.HeaderNISet = header[indiceHeader];
                                     }
                                     oModel.create("/DeepZNIEntitySet", deepEntity, {
                                         //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
@@ -387,11 +431,33 @@ sap.ui.define(
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
 
-                        var indice = i
+                        var indiceHeader = i
                         //var prova = new Date
 
                         for (var x = 0; x < oItems.length; x++) {
+                            var item = oItems[x]
                             deepEntity.PositionNISet.push(oItems[x]);
+
+                            var numeroIntero = item.ZimpoTitolo
+                                if (numeroIntero.split(".").length > 1) {
+                                    var importoPrimaVirgola = numeroIntero.split(".")
+                                    var numPunti = ""
+                                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                        return x.split('').reverse().join('')
+                                    }).reverse()
+
+                                    for (var migl = 0; migl < migliaia.length; migl++) {
+                                        numPunti = (numPunti + migliaia[migl] + ".")
+                                    }
+                                    var indice = numPunti.split("").length
+                                    deepEntity.PositionNISet[x].ZimpoTitolo = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+
+                                }
+                                else {
+                                    var importoPrimaVirgola = numeroIntero.split(",")
+                                    deepEntity.PositionNISet[x].ZimpoTitolo = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                }
+
                         }
 
                         //for (var x = 0; x < oItems.length; x++) {
@@ -399,7 +465,28 @@ sap.ui.define(
                         //}
 
                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                        deepEntity.HeaderNISet = header[indice];
+
+                        if (header[indiceHeader].ZimpoTotni.split(".").length > 1) {
+                            var importoPrimaVirgola = header[indiceHeader].ZimpoTotni.split(".")
+                            var numPunti = ""
+                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                return x.split('').reverse().join('')
+                            }).reverse()
+
+                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                numPunti = (numPunti + migliaia[migl] + ".")
+                            }
+                            var indice = numPunti.split("").length
+                            var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                            header[indiceHeader].ZimpoTotni = totale
+                        }
+                        else {
+                            var virgole = header[indiceHeader].ZimpoTotni.split(",")
+                            var totale = virgole[0] + "." + virgole[1]
+                            header[indiceHeader].ZimpoTotni = totale
+                        }
+
+                        deepEntity.HeaderNISet = header[indiceHeader];
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler inviare la firma della Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {

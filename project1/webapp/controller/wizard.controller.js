@@ -154,14 +154,14 @@ sap.ui.define([
                     for (var n = 0; n < numeri.length; n++) {
                         numeroIntero = numeroIntero + numeri[n]
                         //var numeroFloat = parseFloat(numeroIntero)
-                        if(numeroIntero.split(",").length>1){
+                        if (numeroIntero.split(",").length > 1) {
                             var virgole = numeroIntero.split(",")
-                            numeroIntero = virgole[0]+"."+virgole[1]
+                            numeroIntero = virgole[0] + "." + virgole[1]
                         }
                     }
-                    if(rows.length != 1){
-                    var numeroFloat = parseFloat(numeroIntero)
-                    importoTot = importoTot + numeroFloat
+                    if (rows.length != 1) {
+                        var numeroFloat = parseFloat(numeroIntero)
+                        importoTot = importoTot + numeroFloat
                     }
                     importoTot = numeroIntero
                 }
@@ -186,7 +186,7 @@ sap.ui.define([
                 //         numeroTotale = numeroTotale + puntiSeparati[i]
                 // }
                 var indice = numPunti.split("").length
-                var totale = numPunti.substring(0, indice - 1)+","+importoPrimaVirgola[1]
+                var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
 
                 //console.log(importoTot)
                 var es_gestione = this.getView().byId("es_gestione").getSelectedKey();
@@ -240,17 +240,17 @@ sap.ui.define([
                     for (var n = 0; n < numeri.length; n++) {
                         numeroIntero = numeroIntero + numeri[n]
                         //var numeroFloat = parseFloat(numeroIntero)
-                        if(numeroIntero.split(",").length>1){
+                        if (numeroIntero.split(",").length > 1) {
                             var virgole = numeroIntero.split(",")
-                            numeroIntero = virgole[0]+"."+virgole[1]
+                            numeroIntero = virgole[0] + "." + virgole[1]
                         }
                     }
-                    if(rows.length != 1){
+                    if (rows.length != 1) {
                         var numeroFloat = parseFloat(numeroIntero)
                         importoTot = importoTot + numeroFloat
-                        }
-                        importoTot = numeroIntero
                     }
+                    importoTot = numeroIntero
+                }
                 var num = importoTot.toString();
                 var importoPrimaVirgola = num.split(".")
                 //var indice = num.split("").length
@@ -272,7 +272,7 @@ sap.ui.define([
                 //         numeroTotale = numeroTotale + puntiSeparati[i]
                 // }
                 var indice = numPunti.split("").length
-                var totale = numPunti.substring(0, indice - 1)+","+importoPrimaVirgola[1]
+                var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
 
                 //console.log(importoTot)
                 var es_gestione = this.getView().byId("es_gestione").getSelectedKey();
@@ -406,12 +406,12 @@ sap.ui.define([
 
                 var N_es_gestione = this.getView().byId("es_gestione").getSelectedKey(); //header
                 var N_Mese = this.getView().byId("mese").getSelectedItem().mProperties.text; //header
-                if(this.getView().byId("tipologia").getValue() != '')
-                var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
-                if(this.getView().byId("sottotipologia").getSelectedItem() != null)
-                var N_Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;  //position
-                if(this.getView().byId("competenza").getSelectedItem() != null)
-                var N_CR = this.getView().byId("competenza").mProperties.value  //position
+                if (this.getView().byId("tipologia").getValue() != '')
+                    var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
+                if (this.getView().byId("sottotipologia").getSelectedItem() != null)
+                    var N_Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;  //position
+                if (this.getView().byId("competenza").getSelectedItem() != null)
+                    var N_CR = this.getView().byId("competenza").mProperties.value  //position
                 var N_ImportoTot = this.getView().byId("n_righeTotWH2").getText().split(" ")[5];
 
                 var puntiSeparati = N_ImportoTot.split(".")
@@ -421,7 +421,7 @@ sap.ui.define([
                         numeroTotale = numeroTotale + puntiSeparati[i]
                 }
                 var virgoleTot = numeroTotale.split(",")
-                var ZimpoTotni = virgoleTot[0]+"."+virgoleTot[1]
+                var ZimpoTotni = virgoleTot[0] + "." + virgoleTot[1]
 
 
                 var N_oggSpesa = this.getView().byId("oggSpesa").getValue();  //header
@@ -450,16 +450,6 @@ sap.ui.define([
                     for (var i = 0; i < oItems.length; i++) {
                         var item = oItems[i];
 
-                        var puntiSeparati = item.ZimpoTitolo.split(".")
-                        var stringaImportoVirgola = ""
-                        for (var x = 0; x < puntiSeparati.length; x++) {
-                            if (puntiSeparati[x] != "")
-                            stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[x]
-                        }
-
-                        var virgole = stringaImportoVirgola.split(",")
-                        var ZimpoTitolo = virgole[0]+"."+virgole[1]
-
                         deepEntity.PositionNISet.push({
                             //Bukrs Passato Da BE
                             Gjahr: N_es_gestione,
@@ -473,11 +463,44 @@ sap.ui.define([
                             Zsottotipo: N_Sottotipologia,
                             ZcompRes: N_CR,
 
-                            ZimpoTitolo: ZimpoTitolo,                 //aggiornare mock
+                            //ZimpoTitolo: ZimpoTitolo,                 //aggiornare mock
                             Zdescrizione: item.Zdescrizione,                //aggiornare mock 
                             ZcodIsin: item.ZcodIsin,                       //aggiornare mock
                             ZdataPag: new Date(),
                         });
+
+                        var numeroIntero = item.ZimpoTitolo
+                        var numIntTot = ""
+                        if (numeroIntero.split(".").length > 1) {
+                            var numeri = numeroIntero.split(".")
+                            for (var n = 0; n < numeri.length; n++) {
+                                numIntTot = numIntTot + numeri[n]
+                                //var numeroFloat = parseFloat(numeroIntero)
+                                if (numIntTot.split(",").length > 1) {
+                                    var virgole = numIntTot.split(",")
+                                    var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                }
+                            }
+                            var importoPrimaVirgola = numeroIntero.split(".")
+                            var numPunti = ""
+                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                return x.split('').reverse().join('')
+                            }).reverse()
+
+                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                numPunti = (numPunti + migliaia[migl] + ".")
+                            }
+                            var indice = numPunti.split("").length
+                            var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                            deepEntity.PositionNISet[i].ZimpoTitolo = numeroInteroSM
+                        }
+
+                        else {
+                            var importoPrimaVirgola = numeroIntero.split(",")
+                            var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                            deepEntity.PositionNISet[i].ZimpoTitolo = numeroInteroSM
+                        }
+
                     }
 
                     deepEntity.HeaderNISet = {
@@ -502,19 +525,19 @@ sap.ui.define([
                     var importoTot = 0.00
                     var rows = this.getView().byId("HeaderNIW").getSelectedItems()
                     for (var p = 0; p < rows.length; p++) {
-                    var numeri = (rows[p].getBindingContext("HeaderNIW").getObject().ZimpoTitolo).split(".")
-                    var numeroIntero = ""
-                    for (var q = 0; q < numeri.length; q++) {
-                        numeroIntero = numeroIntero + numeri[q]
-                        //var numeroFloat = parseFloat(numeroIntero)
-                        if(numeroIntero.split(",").length>1){
-                            var virgole = numeroIntero.split(",")
-                            numeroIntero = virgole[0]+"."+virgole[1]
+                        var numeri = (rows[p].getBindingContext("HeaderNIW").getObject().ZimpoTitolo).split(".")
+                        var numeroIntero = ""
+                        for (var q = 0; q < numeri.length; q++) {
+                            numeroIntero = numeroIntero + numeri[q]
+                            //var numeroFloat = parseFloat(numeroIntero)
+                            if (numeroIntero.split(",").length > 1) {
+                                var virgole = numeroIntero.split(",")
+                                numeroIntero = virgole[0] + "." + virgole[1]
+                            }
                         }
+                        var numeroFloat = parseFloat(numeroIntero)
+                        importoTot = importoTot + numeroFloat
                     }
-                    var numeroFloat = parseFloat(numeroIntero)
-                    importoTot = importoTot + numeroFloat
-                }
                     // var sommaImporto = 0.00
                     // for (var x = 0; x < deepEntity.PositionNISet.length; x++) {
                     //     sommaImporto = sommaImporto + parseFloat(deepEntity.PositionNISet[x].ZimpoTitolo)

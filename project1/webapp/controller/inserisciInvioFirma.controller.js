@@ -130,14 +130,14 @@ sap.ui.define(
                                         var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
                                             return x.split('').reverse().join('')
                                         }).reverse()
-        
+
                                         for (var migl = 0; migl < migliaia.length; migl++) {
                                             numPunti = (numPunti + migliaia[migl] + ".")
                                         }
                                         var indice = numPunti.split("").length
                                         var impoTitolo = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                                         that.getView().byId("HeaderInserisci").mAggregations.items[dr].mAggregations.cells[5].setText(impoTitolo)
-        
+
                                     }
                                     else {
                                         var importoPrimaVirgola = numeroIntero.split(",")
@@ -258,10 +258,10 @@ sap.ui.define(
                         this.getView().byId("statoNI1").setText(statoNI)
 
                         var importoTot = header[i].ZimpoTotni
-                        this.getView().byId("importoTot1").setText(importoTot) 
+                        this.getView().byId("importoTot1").setText(importoTot)
                         this.getView().byId("ImpLiq1").setText(importoTot)
 
-                       
+
                     }
                 }
             },
@@ -288,7 +288,7 @@ sap.ui.define(
             onBackButton: function () {
                 window.history.go(-1);
             },
-            
+
             onEditRow: function () {
                 var url = location.href
                 var sUrl = url.split("/inserisciInvioFirma/")[1]
@@ -346,7 +346,7 @@ sap.ui.define(
                 this.getView().byId("editRow").setEnabled(true);
             },
 
-            onCancelNI: function(){
+            onCancelNI: function () {
                 var that = this
 
                 var url = location.href
@@ -379,110 +379,121 @@ sap.ui.define(
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler annullare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            title:"Annullamento NI",
+                            title: "Annullamento NI",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
                                 if (oAction === sap.m.MessageBox.Action.YES) {
                                     var oModel = that.getOwnerComponent().getModel();
-                                        
-                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                        // deepEntity.Bukrs = item.Zamministr, //Passato Da BE
-                                        // deepEntity.Gjahr = that.getView().byId("numNI1").mProperties.text.split("-")[0],
-                                        // deepEntity.Zamministr = item.Zamministr, //Passato Da BE
-                                        // deepEntity.ZidNi = item.ZidNi, //Incrementato da BE
-                                        // deepEntity.ZRagioCompe = item.ZRagioCompe, //Passato Da BE
-                                            
 
-                                        var numeroIntero = that.getView().byId("importoTot1").mProperties.text
-                                        if (numeroIntero.split(".").length > 1) {
-                                            var importoPrimaVirgola = numeroIntero.split(".")
-                                            var numPunti = ""
-                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
-                                                return x.split('').reverse().join('')
-                                            }).reverse()
+                                    deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                    // deepEntity.Bukrs = item.Zamministr, //Passato Da BE
+                                    // deepEntity.Gjahr = that.getView().byId("numNI1").mProperties.text.split("-")[0],
+                                    // deepEntity.Zamministr = item.Zamministr, //Passato Da BE
+                                    // deepEntity.ZidNi = item.ZidNi, //Incrementato da BE
+                                    // deepEntity.ZRagioCompe = item.ZRagioCompe, //Passato Da BE
 
-                                            for (var migl = 0; migl < migliaia.length; migl++) {
-                                                numPunti = (numPunti + migliaia[migl] + ".")
+                                    deepEntity.HeaderNISet = header[indiceHeader];
+
+                                    var numeroIntero = header[indiceHeader].ZimpoTotni
+                                    var numIntTot = ""
+                                    if (numeroIntero.split(".").length > 1) {
+                                        var numeri = numeroIntero.split(".")
+                                        for (var n = 0; n < numeri.length; n++) {
+                                            numIntTot = numIntTot + numeri[n]
+                                            //var numeroFloat = parseFloat(numeroIntero)
+                                            if (numIntTot.split(",").length > 1) {
+                                                var virgole = numIntTot.split(",")
+                                                var numeroInteroSM = virgole[0] + "." + virgole[1]
                                             }
-                                            var indice = numPunti.split("").length
-                                            var impoTot = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-
                                         }
-                                        else {
-                                            var importoPrimaVirgola = numeroIntero.split(",")
-                                            var impoTot = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
-                                        }
+                                        var importoPrimaVirgola = numeroIntero.split(".")
+                                        var numPunti = ""
+                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                            return x.split('').reverse().join('')
+                                        }).reverse()
 
-                                        header[indiceHeader].ZimpoTotni = impoTot
-                                        deepEntity.HeaderNISet = header[indiceHeader];
-                                        //deepEntity.HeaderNISet[indiceHeader].ZimpoTotni = impoTot
-                                    
-                                        oModel.create("/DeepZNIEntitySet", deepEntity, {
-                                            //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                            // method: "PUT",
-                                            success: function (result) {
-                                                if (result.Msgty == 'E') {
-                                                    console.log(result.Message)
-                                                    MessageBox.error("Operazione non eseguita correttamente", {
-                                                        title:"Esito Operazione",
-                                                        actions: [sap.m.MessageBox.Action.OK],
-                                                        emphasizedAction: MessageBox.Action.OK,
-                                                    })
-                                                }
-                                                if (result.Msgty == 'S') {
-                                                    MessageBox.success("Operazione eseguita correttamente", {
-                                                        title:"Esito Operazione",
-                                                        actions: [sap.m.MessageBox.Action.OK],
-                                                        emphasizedAction: MessageBox.Action.OK,
-                                                        onClose: function (oAction) {
-                                                            if (oAction === sap.m.MessageBox.Action.OK) {
-                                                                that.getOwnerComponent().getRouter().navTo("View1");
-                                                                location.reload();
-                                                            }
-                                                        }
-                                                    })
-                                                }
-                                            },
-                                            error: function (e) {
-                                                //console.log("error");
-                                                MessageBox.error("Operazione non eseguita", {
-                                                    title:"Esito Operazione",
+                                        for (var migl = 0; migl < migliaia.length; migl++) {
+                                            numPunti = (numPunti + migliaia[migl] + ".")
+                                        }
+                                        var indice = numPunti.split("").length
+                                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
+
+                                    else {
+                                        var importoPrimaVirgola = numeroIntero.split(",")
+                                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
+
+                                    //deepEntity.HeaderNISet[indiceHeader].ZimpoTotni = impoTot
+
+                                    oModel.create("/DeepZNIEntitySet", deepEntity, {
+                                        //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                        // method: "PUT",
+                                        success: function (result) {
+                                            if (result.Msgty == 'E') {
+                                                console.log(result.Message)
+                                                MessageBox.error("Operazione non eseguita correttamente", {
+                                                    title: "Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                 })
                                             }
-                                        });
-                                        // var path = oModel.createKey("/HeaderNISet", {
-                                        //     Bukrs:Bukrs,
-                                        //     Gjahr:Gjahr,
-                                        //     Zamministr:Zamministr,
-                                        //     ZchiaveNi:ZchiaveNi,
-                                        //     ZidNi:ZidNi,
-                                        //     ZRagioCompe:ZRagioCompe,
-                                        //     Funzionalita:"ANNULLAMENTOPREIMPOSTATA"
-                                        //     });
+                                            if (result.Msgty == 'S') {
+                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                    title: "Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                    onClose: function (oAction) {
+                                                        if (oAction === sap.m.MessageBox.Action.OK) {
+                                                            that.getOwnerComponent().getRouter().navTo("View1");
+                                                            location.reload();
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        },
+                                        error: function (e) {
+                                            //console.log("error");
+                                            MessageBox.error("Operazione non eseguita", {
+                                                title: "Esito Operazione",
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                emphasizedAction: MessageBox.Action.OK,
+                                            })
+                                        }
+                                    });
+                                    // var path = oModel.createKey("/HeaderNISet", {
+                                    //     Bukrs:Bukrs,
+                                    //     Gjahr:Gjahr,
+                                    //     Zamministr:Zamministr,
+                                    //     ZchiaveNi:ZchiaveNi,
+                                    //     ZidNi:ZidNi,
+                                    //     ZRagioCompe:ZRagioCompe,
+                                    //     Funzionalita:"ANNULLAMENTOPREIMPOSTATA"
+                                    //     });
 
-                                        //     var oEntry = {};
-                                        //     oEntry.ZcodiStatoni = "09";
-                                        // }
-                                        // oModel.update(path, oEntry, {
-                                        //     //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
-                                        //     // method: "PUT",
-                                        //     success: function (data) {
-                                        //         //console.log("success");
-                                        //         MessageBox.success("Operazione eseguita con successo")
-                                        //         that.getOwnerComponent().getRouter().navTo("View1")
-                                        //         location.reload();
-                                        //     },
-                                        //     error: function (e) {
-                                        //         //console.log("error");
-                                        //         MessageBox.error("Operazione non eseguita")
-                                        //     }
-                                        // });      
-                                    }
+                                    //     var oEntry = {};
+                                    //     oEntry.ZcodiStatoni = "09";
+                                    // }
+                                    // oModel.update(path, oEntry, {
+                                    //     //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
+                                    //     // method: "PUT",
+                                    //     success: function (data) {
+                                    //         //console.log("success");
+                                    //         MessageBox.success("Operazione eseguita con successo")
+                                    //         that.getOwnerComponent().getRouter().navTo("View1")
+                                    //         location.reload();
+                                    //     },
+                                    //     error: function (e) {
+                                    //         //console.log("error");
+                                    //         MessageBox.error("Operazione non eseguita")
+                                    //     }
+                                    // });      
                                 }
-                            });
+                            }
+                        });
                     }
                 }
             }

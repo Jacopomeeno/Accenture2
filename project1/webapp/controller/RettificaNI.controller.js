@@ -316,7 +316,7 @@ sap.ui.define(
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
 
-                        var indice = i
+                        var indiceHeader = i
 
                         var deepEntity = {
                             HeaderNISet: null,
@@ -334,7 +334,26 @@ sap.ui.define(
 
                                     for (var i = 0; i < header.length; i++) {
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                        deepEntity.HeaderNISet = header[indice];
+                                        deepEntity.HeaderNISet = header[indiceHeader];
+                                    }
+                                    if (header[indiceHeader].ZimpoTotni.split(".").length > 1) {
+                                        var importoPrimaVirgola = header[indiceHeader].ZimpoTotni.split(".")
+                                        var numPunti = ""
+                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                            return x.split('').reverse().join('')
+                                        }).reverse()
+            
+                                        for (var migl = 0; migl < migliaia.length; migl++) {
+                                            numPunti = (numPunti + migliaia[migl] + ".")
+                                        }
+                                        var indice = numPunti.split("").length
+                                        var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = totale
+                                    }
+                                    else {
+                                        var virgole = header[indiceHeader].ZimpoTotni.split(",")
+                                        var totale = virgole[0] + "." + virgole[1]
+                                        header[indiceHeader].ZimpoTotni = totale
                                     }
                                         deepEntity.HeaderNISet.ZoggSpesa = that.getView().byId("idRettificaNI").mAggregations.items[0].mAggregations.cells[2].mProperties.value
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {

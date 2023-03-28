@@ -233,20 +233,37 @@ sap.ui.define([
                 var array = this.getView().getModel("temp").getData().PositionNISet
                 for (var arr = 0; arr < array.length; arr++) {
                     var campo = array[arr]
-                    var importoPrimaVirgola = array[arr].ZimpoTitolo.split(".")
-                    //var indice = num.split("").length
-                    var numPunti = ""
-                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
-                        return x.split('').reverse().join('')
-                    }).reverse()
+                    var numeroIntero = array[arr].ZimpoTitolo
+                    var numIntTot = ""
+                    if (numeroIntero.split(".").length > 1) {
+                        var numeri = numeroIntero.split(".")
+                        for (var n = 0; n < numeri.length; n++) {
+                            numIntTot = numIntTot + numeri[n]
+                            //var numeroFloat = parseFloat(numeroIntero)
+                            if (numIntTot.split(",").length > 1) {
+                                var virgole = numIntTot.split(",")
+                                var numeroInteroSM = virgole[0] + "." + virgole[1]
+                            }
+                        }
+                        var importoPrimaVirgola = numeroIntero.split(".")
+                        var numPunti = ""
+                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                            return x.split('').reverse().join('')
+                        }).reverse()
 
-                    for (var v = 0; v < migliaia.length; v++) {
-                        numPunti = (numPunti + migliaia[v] + ".")
+                        for (var migl = 0; migl < migliaia.length; migl++) {
+                            numPunti = (numPunti + migliaia[migl] + ".")
+                        }
+                        var indice = numPunti.split("").length
+                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                        campo.ZimpoTitolo = numIntTot
                     }
 
-                    var indice = numPunti.split("").length
-                    var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-                    campo.ZimpoTitolo = totale
+                    else {
+                        var importoPrimaVirgola = numeroIntero.split(",")
+                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                        campo.ZimpoTitolo = numeroIntero
+                    }
                 }
                 //var array = []
                 var oMdlWstep3 = new sap.ui.model.json.JSONModel();
@@ -320,16 +337,6 @@ sap.ui.define([
                 for (var i = 0; i < oItems.length; i++) {
                     var item = oItems[i];
 
-                    var puntiSeparati = item.ZimpoTitolo.split(".")
-                        var stringaImportoVirgola = ""
-                        for (var x = 0; x < puntiSeparati.length; x++) {
-                            if (puntiSeparati[x] != "")
-                            stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[x]
-                        }
-
-                        var virgole = stringaImportoVirgola.split(",")
-                        var ZimpoTitolo = virgole[0]+"."+virgole[1]
-
                     deepEntity.PositionNISet.push({
                         Bukrs: oItems[0].Bukrs,                     //campi chiave Posizione
                         Gjahr: oItems[0].Gjahr,                     //campi chiave Posizione
@@ -343,11 +350,45 @@ sap.ui.define([
                         Ztipo: N_Tipologia,
                         Zsottotipo: N_Sottotipologia,
                         ZcompRes: N_CR,
-                        ZimpoTitolo: ZimpoTitolo,                 //aggiornare mock
+                        //ZimpoTitolo: ZimpoTitolo,                 //aggiornare mock
                         Zdescrizione: item.Zdescrizione,                //aggiornare mock 
                         ZcodIsin: item.ZcodIsin,                       //aggiornare mock
                         ZdataPag: new Date(item.ZdataPag),
                     });
+
+                    var numeroIntero = item.ZimpoTitolo
+                    var numIntTot = ""
+                    if (numeroIntero.split(".").length > 1) {
+                        var numeri = numeroIntero.split(".")
+                        for (var n = 0; n < numeri.length; n++) {
+                            numIntTot = numIntTot + numeri[n]
+                            //var numeroFloat = parseFloat(numeroIntero)
+                            if (numIntTot.split(",").length > 1) {
+                                var virgole = numIntTot.split(",")
+                                var numeroInteroSM = virgole[0] + "." + virgole[1]
+                            }
+                        }
+                        var importoPrimaVirgola = numeroIntero.split(".")
+                        var numPunti = ""
+                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                            return x.split('').reverse().join('')
+                        }).reverse()
+
+                        for (var migl = 0; migl < migliaia.length; migl++) {
+                            numPunti = (numPunti + migliaia[migl] + ".")
+                        }
+                        var indice = numPunti.split("").length
+                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                        deepEntity.PositionNISet[i].ZimpoTitolo = numeroInteroSM
+                    }
+
+                    else {
+                        var importoPrimaVirgola = numeroIntero.split(",")
+                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                        deepEntity.PositionNISet[i].ZimpoTitolo = numeroInteroSM
+                    }
+
+                    
                 }
 
                 MessageBox.warning("Sei sicuro di voler rettificare la nota d'imputazione?", {
