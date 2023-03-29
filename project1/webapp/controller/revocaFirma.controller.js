@@ -328,7 +328,7 @@ sap.ui.define(
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler revocare la Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
-                            title:"Revoca Invio Firma",
+                            title: "Revoca Invio Firma",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
                             onClose: function (oAction) {
@@ -370,7 +370,7 @@ sap.ui.define(
                                         success: function (data) {
                                             //console.log("success");
                                             MessageBox.success("Operazione eseguita con successo", {
-                                                title:"Esito Operazione",
+                                                title: "Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
                                                 onClose: function (oAction) {
@@ -384,7 +384,7 @@ sap.ui.define(
                                         error: function (e) {
                                             //console.log("error");
                                             MessageBox.error("Operazione non eseguita", {
-                                                title:"Esito Operazione",
+                                                title: "Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
                                             })
@@ -439,35 +439,58 @@ sap.ui.define(
                             deepEntity.PositionNISet.push(oItems[x]);
 
                             var numeroIntero = item.ZimpoTitolo
-                                if (numeroIntero.split(".").length > 1) {
-                                    var importoPrimaVirgola = numeroIntero.split(".")
-                                    var numPunti = ""
-                                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
-                                        return x.split('').reverse().join('')
-                                    }).reverse()
-
-                                    for (var migl = 0; migl < migliaia.length; migl++) {
-                                        numPunti = (numPunti + migliaia[migl] + ".")
+                            var numIntTot = ""
+                            if (numeroIntero.split(".").length > 1) {
+                                var numeri = numeroIntero.split(".")
+                                for (var n = 0; n < numeri.length; n++) {
+                                    numIntTot = numIntTot + numeri[n]
+                                    //var numeroFloat = parseFloat(numeroIntero)
+                                    if (numIntTot.split(",").length > 1) {
+                                        var virgole = numIntTot.split(",")
+                                        var numeroInteroSM = virgole[0] + "." + virgole[1]
                                     }
-                                    var indice = numPunti.split("").length
-                                    deepEntity.PositionNISet[x].ZimpoTitolo = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                }
+                                var importoPrimaVirgola = numeroIntero.split(".")
+                                var numPunti = ""
+                                var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                    return x.split('').reverse().join('')
+                                }).reverse()
 
+                                for (var migl = 0; migl < migliaia.length; migl++) {
+                                    numPunti = (numPunti + migliaia[migl] + ".")
                                 }
-                                else {
-                                    var importoPrimaVirgola = numeroIntero.split(",")
-                                    deepEntity.PositionNISet[x].ZimpoTitolo = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
-                                }
+                                var indice = numPunti.split("").length
+                                var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                deepEntity.PositionNISet[x].ZimpoTitolo = numeroInteroSM
+                            }
+
+                            else {
+                                var importoPrimaVirgola = numeroIntero.split(",")
+                                var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                deepEntity.PositionNISet[x].ZimpoTitolo = numeroInteroSM
+                            }
 
                         }
 
                         //for (var x = 0; x < oItems.length; x++) {
-                            // deepEntity.PositionNISet.push(oItems[x]);
+                        // deepEntity.PositionNISet.push(oItems[x]);
                         //}
 
                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
 
-                        if (header[indiceHeader].ZimpoTotni.split(".").length > 1) {
-                            var importoPrimaVirgola = header[indiceHeader].ZimpoTotni.split(".")
+                        var numeroIntero = header[indiceHeader].ZimpoTotni
+                        var numIntTot = ""
+                        if (numeroIntero.split(".").length > 1) {
+                            var numeri = numeroIntero.split(".")
+                            for (var n = 0; n < numeri.length; n++) {
+                                numIntTot = numIntTot + numeri[n]
+                                //var numeroFloat = parseFloat(numeroIntero)
+                                if (numIntTot.split(",").length > 1) {
+                                    var virgole = numIntTot.split(",")
+                                    var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                }
+                            }
+                            var importoPrimaVirgola = numeroIntero.split(".")
                             var numPunti = ""
                             var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
                                 return x.split('').reverse().join('')
@@ -477,13 +500,14 @@ sap.ui.define(
                                 numPunti = (numPunti + migliaia[migl] + ".")
                             }
                             var indice = numPunti.split("").length
-                            var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-                            header[indiceHeader].ZimpoTotni = totale
+                            var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                            header[indiceHeader].ZimpoTotni = numeroInteroSM
                         }
+
                         else {
-                            var virgole = header[indiceHeader].ZimpoTotni.split(",")
-                            var totale = virgole[0] + "." + virgole[1]
-                            header[indiceHeader].ZimpoTotni = totale
+                            var importoPrimaVirgola = numeroIntero.split(",")
+                            var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                            header[indiceHeader].ZimpoTotni = numeroInteroSM
                         }
 
                         deepEntity.HeaderNISet = header[indiceHeader];
@@ -503,14 +527,14 @@ sap.ui.define(
                                             if (result.Msgty == 'E') {
                                                 console.log(result.Message)
                                                 MessageBox.error("Invio non eseguito correttamente", {
-                                                    title:"Esito Operazione",
+                                                    title: "Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                 })
                                             }
                                             if (result.Msgty == 'S') {
                                                 MessageBox.success("Invio eseguito correttamente", {
-                                                    title:"Esito Operazione",
+                                                    title: "Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {

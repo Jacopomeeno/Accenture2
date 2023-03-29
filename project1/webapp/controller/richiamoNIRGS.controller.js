@@ -135,6 +135,24 @@ sap.ui.define(
                             success: function (data) {
                                 oMdlITB.setData(data.results);
                                 that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+                                for (var dr = 0; dr < data.results.length; dr++) {
+
+                                    var importoPrimaVirgola = data.results[dr].ZimpoTitolo.split(".")
+                                    //var indice = num.split("").length
+                                    var numPunti = ""
+                                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                        return x.split('').reverse().join('')
+                                    }).reverse()
+
+                                    for (var v = 0; v < migliaia.length; v++) {
+                                        numPunti = (numPunti + migliaia[v] + ".")
+                                    }
+
+                                    var indice = numPunti.split("").length
+                                    var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                    that.getView().byId("richiamoNIRGS").getItems()[dr].mAggregations.cells[5].setText(totale)
+
+                                }
                                 that.viewHeader(data.results)
                             },
                             error: function (error) {
@@ -308,7 +326,7 @@ sap.ui.define(
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
 
-                        var indice = i
+                        var indiceHeader = i
 
                         var deepEntity = {
                             HeaderNISet: null,
@@ -324,16 +342,42 @@ sap.ui.define(
                                 if (oAction === sap.m.MessageBox.Action.YES) {
                                     var oModel = that.getOwnerComponent().getModel();
 
-                                    for (var i = 0; i < header.length; i++) {
-                                        // var item = header[i];
-                                        // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-                                        // var Zamministr = scompostaZamministr.split(".")[0]
+                                    deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
 
-                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                    var numeroIntero = header[indiceHeader].ZimpoTotni
+                                    var numIntTot = ""
+                                    if (numeroIntero.split(".").length > 1) {
+                                        var numeri = numeroIntero.split(".")
+                                        for (var n = 0; n < numeri.length; n++) {
+                                            numIntTot = numIntTot + numeri[n]
+                                            //var numeroFloat = parseFloat(numeroIntero)
+                                            if (numIntTot.split(",").length > 1) {
+                                                var virgole = numIntTot.split(",")
+                                                var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                            }
+                                        }
+                                        var importoPrimaVirgola = numeroIntero.split(".")
+                                        var numPunti = ""
+                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                            return x.split('').reverse().join('')
+                                        }).reverse()
 
-
-                                        deepEntity.HeaderNISet = header[indice];
+                                        for (var migl = 0; migl < migliaia.length; migl++) {
+                                            numPunti = (numPunti + migliaia[migl] + ".")
+                                        }
+                                        var indice = numPunti.split("").length
+                                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
                                     }
+
+                                    else {
+                                        var importoPrimaVirgola = numeroIntero.split(",")
+                                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
+
+                                    deepEntity.HeaderNISet = header[indiceHeader];
+
                                     oModel.create("/DeepZNIEntitySet", deepEntity, {
                                         //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                         // method: "PUT",
@@ -445,7 +489,7 @@ sap.ui.define(
                                         header[i].ZidNi == aValori[4] &&
                                         header[i].ZRagioCompe == aValori[5]) {
 
-                                        var indice = i
+                                        var indiceHeader = i
 
                                         var deepEntity = {
                                             HeaderNISet: null,
@@ -453,15 +497,43 @@ sap.ui.define(
                                         }
                                         var oModel = that.getOwnerComponent().getModel();
 
-                                        for (var i = 0; i < header.length; i++) {
-                                            // var item = header[i];
-                                            // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-                                            // var Zamministr = scompostaZamministr.split(".")[0]
+                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
 
-                                            deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                            deepEntity.HeaderNISet = header[indice];
-                                            deepEntity.HeaderNISet.Zmotrichiamo = Core.byId("submissionNote").getValue();
+                                        var numeroIntero = header[indiceHeader].ZimpoTotni
+                                        var numIntTot = ""
+                                        if (numeroIntero.split(".").length > 1) {
+                                            var numeri = numeroIntero.split(".")
+                                            for (var n = 0; n < numeri.length; n++) {
+                                                numIntTot = numIntTot + numeri[n]
+                                                //var numeroFloat = parseFloat(numeroIntero)
+                                                if (numIntTot.split(",").length > 1) {
+                                                    var virgole = numIntTot.split(",")
+                                                    var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                                }
+                                            }
+                                            var importoPrimaVirgola = numeroIntero.split(".")
+                                            var numPunti = ""
+                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                                return x.split('').reverse().join('')
+                                            }).reverse()
+
+                                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                                numPunti = (numPunti + migliaia[migl] + ".")
+                                            }
+                                            var indice = numPunti.split("").length
+                                            var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                            header[indiceHeader].ZimpoTotni = numeroInteroSM
                                         }
+
+                                        else {
+                                            var importoPrimaVirgola = numeroIntero.split(",")
+                                            var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                            header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                        }
+
+                                        deepEntity.HeaderNISet = header[indiceHeader];
+                                        deepEntity.HeaderNISet.Zmotrichiamo = Core.byId("submissionNote").getValue();
+
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",

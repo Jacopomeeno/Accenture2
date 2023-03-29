@@ -440,13 +440,13 @@ sap.ui.define([
                             var Zdisp = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                         }
 
-                        if (parseFloat(numIntDisp) <= parseFloat(numIntTot)) {
+                        if (parseFloat(numeroInteroDisponibilità) <= parseFloat(numeroIntero)) {
                             this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(Zdisp)
                             break;
                         }
-                        else if (parseFloat(numIntDisp) > parseFloat(numIntTot)) {
-                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroIntero)
-                            var deltaImportoTot = deltaImportoTot - parseFloat(numIntDisp)
+                        else if (parseFloat(numeroInteroDisponibilità) > parseFloat(numeroIntero)) {
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(impoTot)
+                            var deltaImportoTot = deltaImportoTot - parseFloat(numeroInteroDisponibilità)
                             continue;
                         }
                     }

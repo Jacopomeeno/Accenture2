@@ -373,9 +373,20 @@ sap.ui.define(
                                     // deepEntity.ZidNi = item.ZidNi, //Incrementato da BE
                                     // deepEntity.ZRagioCompe = item.ZRagioCompe, //Passato Da BE
 
+                                    deepEntity.HeaderNISet = header[indiceHeader];
 
-                                    var numeroIntero = that.getView().byId("importoTot1").mProperties.text
+                                    var numeroIntero = header[indiceHeader].ZimpoTotni
+                                    var numIntTot = ""
                                     if (numeroIntero.split(".").length > 1) {
+                                        var numeri = numeroIntero.split(".")
+                                        for (var n = 0; n < numeri.length; n++) {
+                                            numIntTot = numIntTot + numeri[n]
+                                            //var numeroFloat = parseFloat(numeroIntero)
+                                            if (numIntTot.split(",").length > 1) {
+                                                var virgole = numIntTot.split(",")
+                                                var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                            }
+                                        }
                                         var importoPrimaVirgola = numeroIntero.split(".")
                                         var numPunti = ""
                                         var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
@@ -386,16 +397,16 @@ sap.ui.define(
                                             numPunti = (numPunti + migliaia[migl] + ".")
                                         }
                                         var indice = numPunti.split("").length
-                                        var impoTot = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-
+                                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
                                     }
+
                                     else {
                                         var importoPrimaVirgola = numeroIntero.split(",")
-                                        var impoTot = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
                                     }
 
-                                    header[indiceHeader].ZimpoTotni = impoTot
-                                    deepEntity.HeaderNISet = header[indiceHeader];
                                     //deepEntity.HeaderNISet[indiceHeader].ZimpoTotni = impoTot
 
                                     oModel.create("/DeepZNIEntitySet", deepEntity, {
@@ -483,46 +494,58 @@ sap.ui.define(
 
                                     var indice = i
 
-                                        // var item = header[i];
-                                        // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
-                                        // var Zamministr = scompostaZamministr.split(".")[0]
+                                    // var item = header[i];
+                                    // var scompostaZamministr = that.getView().byId("numNI1").mProperties.text.split("-")[1]
+                                    // var Zamministr = scompostaZamministr.split(".")[0]
 
-                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                    deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
 
-                                        if (header[indiceHeader].ZimpoTotni.split(".").length > 1) {
-                                            var importoPrimaVirgola = header[indiceHeader].ZimpoTotni.split(".")
-                                            var numPunti = ""
-                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
-                                                return x.split('').reverse().join('')
-                                            }).reverse()
-
-                                            for (var migl = 0; migl < migliaia.length; migl++) {
-                                                numPunti = (numPunti + migliaia[migl] + ".")
+                                    var numeroIntero = header[indiceHeader].ZimpoTotni
+                                    var numIntTot = ""
+                                    if (numeroIntero.split(".").length > 1) {
+                                        var numeri = numeroIntero.split(".")
+                                        for (var n = 0; n < numeri.length; n++) {
+                                            numIntTot = numIntTot + numeri[n]
+                                            //var numeroFloat = parseFloat(numeroIntero)
+                                            if (numIntTot.split(",").length > 1) {
+                                                var virgole = numIntTot.split(",")
+                                                var numeroInteroSM = virgole[0] + "." + virgole[1]
                                             }
-                                            var indice = numPunti.split("").length
-                                            var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-                                            header[indiceHeader].ZimpoTotni = totale
                                         }
-                                        else {
-                                            var virgole = header[indiceHeader].ZimpoTotni.split(",")
-                                            var totale = virgole[0] + "." + virgole[1]
-                                            header[indiceHeader].ZimpoTotni = totale
+                                        var importoPrimaVirgola = numeroIntero.split(".")
+                                        var numPunti = ""
+                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                            return x.split('').reverse().join('')
+                                        }).reverse()
+
+                                        for (var migl = 0; migl < migliaia.length; migl++) {
+                                            numPunti = (numPunti + migliaia[migl] + ".")
                                         }
+                                        var indice = numPunti.split("").length
+                                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
+
+                                    else {
+                                        var importoPrimaVirgola = numeroIntero.split(",")
+                                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
 
 
-                                        deepEntity.HeaderNISet = header[indiceHeader];
-                                        deepEntity.HeaderNISet.ZuffcontFirm = firmaSet[0]
-                                        deepEntity.HeaderNISet.ZdirncRich = firmaSet[1]
+                                    deepEntity.HeaderNISet = header[indiceHeader];
+                                    deepEntity.HeaderNISet.ZuffcontFirm = firmaSet[0]
+                                    deepEntity.HeaderNISet.ZdirncRich = firmaSet[1]
 
-                                        // var dataNuova = new Date(firmaSet[2]),
-                                        //     mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
-                                        //     day = ("0" + dataNuova.getDate()).slice(-2);
-                                        // var nData = [dataNuova.getFullYear(), mnth, day].join("-");
-                                        var numeri = firmaSet[2].split("/");
-                                        var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
-                                        deepEntity.HeaderNISet.ZdataProtAmm = new Date(nData)
-                                        deepEntity.HeaderNISet.NProtocolloAmm = firmaSet[3]
-                                    
+                                    // var dataNuova = new Date(firmaSet[2]),
+                                    //     mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
+                                    //     day = ("0" + dataNuova.getDate()).slice(-2);
+                                    // var nData = [dataNuova.getFullYear(), mnth, day].join("-");
+                                    var numeri = firmaSet[2].split("/");
+                                    var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
+                                    deepEntity.HeaderNISet.ZdataProtAmm = new Date(nData)
+                                    deepEntity.HeaderNISet.NProtocolloAmm = firmaSet[3]
+
                                     if (header[indiceHeader].ZchiaveNi == that.getView().byId("numNI1").mProperties.text) {
 
                                         // var dataProva = new Date(firmaSet[2])
@@ -563,8 +586,8 @@ sap.ui.define(
                                             }
                                         });
                                     }
-                                
-                            }
+
+                                }
                             }
                         });
 

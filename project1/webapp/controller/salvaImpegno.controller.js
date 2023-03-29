@@ -312,13 +312,13 @@ sap.ui.define([
                                 }
                                 var indice = numPunti.split("").length
                                 var impoTitolo = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-                                that.getView().byId("HeaderSalva").mAggregations.items[dr].mAggregations.cells[4].setText(impoTitolo)
+                                self.getView().byId("HeaderSalva").mAggregations.items[dr].mAggregations.cells[4].setText(impoTitolo)
 
                             }
                             else {
                                 var importoPrimaVirgola = numeroIntero.split(",")
                                 var impoTitolo = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
-                                that.getView().byId("HeaderSalva").mAggregations.items[dr].mAggregations.cells[4].setText(impoTitolo)
+                                self.getView().byId("HeaderSalva").mAggregations.items[dr].mAggregations.cells[4].setText(impoTitolo)
                             }
                         }
 
@@ -470,25 +470,68 @@ sap.ui.define([
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
 
+                        var indiceHeader = i
                         var deepEntity = {
                             HeaderNISet: null,
                             PositionNISet: [],
                             Funzionalita: "COMPLETAMENTO",
                             ZchiaveNi: header[i].ZchiaveNi
                         }
-                        var z = 0
 
                         for (var x = 0; x < oItems.length; x++) {
                             var item = oItems[x];
                             //item.Zwels = "12"
                             //item.Zcodgest = "001"
                             deepEntity.PositionNISet.push(item);
+
+                            var numeroIntero = item.ZimpoTitolo
+                            var numIntTot = ""
+                            if (numeroIntero.split(".").length > 1) {
+                                var numeri = numeroIntero.split(".")
+                                for (var n = 0; n < numeri.length; n++) {
+                                    numIntTot = numIntTot + numeri[n]
+                                    //var numeroFloat = parseFloat(numeroIntero)
+                                    if (numIntTot.split(",").length > 1) {
+                                        var virgole = numIntTot.split(",")
+                                        var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                    }
+                                }
+                                var importoPrimaVirgola = numeroIntero.split(".")
+                                var numPunti = ""
+                                var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                    return x.split('').reverse().join('')
+                                }).reverse()
+
+                                for (var migl = 0; migl < migliaia.length; migl++) {
+                                    numPunti = (numPunti + migliaia[migl] + ".")
+                                }
+                                var indice = numPunti.split("").length
+                                var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                deepEntity.PositionNISet[x].ZimpoTitolo = numeroInteroSM
+                            }
+
+                            else {
+                                var importoPrimaVirgola = numeroIntero.split(",")
+                                var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                deepEntity.PositionNISet[x].ZimpoTitolo = numeroInteroSM
+                            }
                         }
 
-                        deepEntity.HeaderNISet = header[i];
+                        deepEntity.HeaderNISet = header[indiceHeader];
 
-                        if (header[i].ZimpoTotni.split(".").length > 1) {
-                            var importoPrimaVirgola = header[i].ZimpoTotni.split(".")
+                        var numeroIntero = header[indiceHeader].ZimpoTotni
+                        var numIntTot = ""
+                        if (numeroIntero.split(".").length > 1) {
+                            var numeri = numeroIntero.split(".")
+                            for (var n = 0; n < numeri.length; n++) {
+                                numIntTot = numIntTot + numeri[n]
+                                //var numeroFloat = parseFloat(numeroIntero)
+                                if (numIntTot.split(",").length > 1) {
+                                    var virgole = numIntTot.split(",")
+                                    var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                }
+                            }
+                            var importoPrimaVirgola = numeroIntero.split(".")
                             var numPunti = ""
                             var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
                                 return x.split('').reverse().join('')
@@ -498,13 +541,14 @@ sap.ui.define([
                                 numPunti = (numPunti + migliaia[migl] + ".")
                             }
                             var indice = numPunti.split("").length
-                            var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-                            header[i].ZimpoTotni = totale
+                            var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                            header[indiceHeader].ZimpoTotni = numeroInteroSM
                         }
+
                         else {
-                            var virgole = header[i].ZimpoTotni.split(",")
-                            var totale = virgole[0] + "." + virgole[1]
-                            header[i].ZimpoTotni = totale
+                            var importoPrimaVirgola = numeroIntero.split(",")
+                            var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                            header[indiceHeader].ZimpoTotni = numeroInteroSM
                         }
                     }
                 }
