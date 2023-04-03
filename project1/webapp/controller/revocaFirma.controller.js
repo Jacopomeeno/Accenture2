@@ -368,18 +368,27 @@ sap.ui.define(
                                         //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                         // method: "PUT",
                                         success: function (data) {
-                                            //console.log("success");
-                                            MessageBox.success("Operazione eseguita con successo", {
-                                                title: "Esito Operazione",
-                                                actions: [sap.m.MessageBox.Action.OK],
-                                                emphasizedAction: MessageBox.Action.OK,
-                                                onClose: function (oAction) {
-                                                    if (oAction === sap.m.MessageBox.Action.OK) {
-                                                        that.getOwnerComponent().getRouter().navTo("View1");
-                                                        location.reload();
+                                            if (data.Msgty == 'E') {
+                                                console.log(data.Message)
+                                                MessageBox.error("Operazione non eseguita", {
+                                                    title: "Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                })
+                                            }
+                                            if (data.Msgty == 'S') {
+                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                    title: "Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                    onClose: function (oAction) {
+                                                        if (oAction === sap.m.MessageBox.Action.OK) {
+                                                            that.getOwnerComponent().getRouter().navTo("View1");
+                                                            location.reload();
+                                                        }
                                                     }
-                                                }
-                                            })
+                                                })
+                                            }
                                         },
                                         error: function (e) {
                                             //console.log("error");

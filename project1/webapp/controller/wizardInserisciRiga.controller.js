@@ -307,7 +307,7 @@ sap.ui.define([
             },
 
             onPreimpNI: function (oEvent) {
-                var self = this;
+                var that = this;
                 //var rows= this.getView().byId("HeaderNIW").getSelectedItem()
 
                 var N_es_gestione = this.getView().byId("es_gestione").mProperties.value; //header
@@ -315,10 +315,10 @@ sap.ui.define([
                 var N_Sottotipologia = this.getView().byId("sottotipologia").getValue()  //position
                 var N_CR = this.getView().byId("competenza").mProperties.value  //position
 
-                var oDataModel = self.getOwnerComponent().getModel();
+                var oDataModel = that.getOwnerComponent().getModel();
 
-                var oItems = self.getView().byId("HeaderNIWstep3").getBinding("items").oList;
-                //var selectedRows = self.getView().byId("HeaderNIW").getSelectedItems().length
+                var oItems = that.getView().byId("HeaderNIWstep3").getBinding("items").oList;
+                //var selectedRows = that.getView().byId("HeaderNIW").getSelectedItems().length
 
                 var deepEntity = {
                     Funzionalita: "RETTIFICANIPREIMPOSTATA",
@@ -406,7 +406,7 @@ sap.ui.define([
                                         emphasizedAction: MessageBox.Action.OK,
                                         onClose: function (oAction) {
                                             if (oAction === sap.m.MessageBox.Action.OK) {
-                                                self.getOwnerComponent().getRouter().navTo("View1");
+                                                that.getOwnerComponent().getRouter().navTo("View1");
                                                 location.reload();
                                             }
                                         }

@@ -358,8 +358,8 @@ sap.ui.define(
                         header[i].ZidNi == ZidNi &&
                         header[i].ZRagioCompe == ZRagioCompe) {
 
-                        var indice = i
-                        if (header[indice].ZcodiStatoni == "04") {
+                        var indiceHeader = i
+                        if (header[indiceHeader].ZcodiStatoni == "04") {
 
                             var deepEntity = {
                                 HeaderNISet: null,
@@ -368,7 +368,7 @@ sap.ui.define(
                             }
 
                             //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
-                            MessageBox.warning("Sei sicuro di voler registrare il rilievo della Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                            MessageBox.warning("Sei sicuro di voler registrare il rilievo della Nota d'Imputazione n° " + header[indiceHeader].ZchiaveNi + "?", {
                                 title: "Registrazione Rilievo Verifica",
                                 actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                                 emphasizedAction: MessageBox.Action.YES,
@@ -379,8 +379,35 @@ sap.ui.define(
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                         //deepEntity.ZchiaveNi = header[indice]
 
-                                        deepEntity.HeaderNISet = header[indice];
+                                        deepEntity.HeaderNISet = header[indiceHeader];
                                         //deepEntity.RilievoNiSet.ZdatRilievo = that.getView().byId("dataRilievo").mProperties.dateValue
+
+                                        var numeroIntero = header[indiceHeader].ZimpoTotni
+                                        var numIntTot = ""
+                                        if (numeroIntero.split(".").length > 1) {
+                                            var numeri = numeroIntero.split(".")
+                                            for (var n = 0; n < numeri.length; n++) {
+                                                numIntTot = numIntTot + numeri[n]
+                                                //var numeroFloat = parseFloat(numeroIntero)
+                                                if (numIntTot.split(",").length > 1) {
+                                                    var virgole = numIntTot.split(",")
+                                                    var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                                }
+                                            }
+                                            var importoPrimaVirgola = numeroIntero.split(".")
+                                            var numPunti = ""
+                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                                return x.split('').reverse().join('')
+                                            }).reverse()
+
+                                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                                numPunti = (numPunti + migliaia[migl] + ".")
+                                            }
+                                            var indice = numPunti.split("").length
+                                            var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                            header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                        }
+
                                         deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
                                         // var dataNuova = new Date(that.getView().byId("dataProtocolloRGS").getValue()),
                                         //     mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
@@ -397,15 +424,15 @@ sap.ui.define(
                                         //deepEntity.RilievoNiSet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()
 
                                         deepEntity.RilievoNiSet = {
-                                            Bukrs: header[indice].Bukrs,
-                                            Gjahr: header[indice].Gjahr,
-                                            Zamministr: header[indice].Zamministr,
-                                            ZidNi: header[indice].ZidNi,
-                                            ZchiaveNi: header[indice].ZchiaveNi,
-                                            ZRagioCompe: header[indice].ZRagioCompe,
+                                            Bukrs: header[indiceHeader].Bukrs,
+                                            Gjahr: header[indiceHeader].Gjahr,
+                                            Zamministr: header[indiceHeader].Zamministr,
+                                            ZidNi: header[indiceHeader].ZidNi,
+                                            ZchiaveNi: header[indiceHeader].ZchiaveNi,
+                                            ZRagioCompe: header[indiceHeader].ZRagioCompe,
                                             //ZdatRilievo: that.getView().byId("dataRilievo").mProperties.dateValue,
                                             Zmotrilievo: that.getView().byId("motivizioneRilievo").getValue()
-                                        }   
+                                        }
 
                                         var numeri = that.getView().byId("dataRilievo").getValue().split("/");
                                         var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
@@ -413,25 +440,34 @@ sap.ui.define(
                                         var anno = dataProvaUTC.getUTCFullYear()
                                         var nData = (anno + "-" + numeri[1] + "-" + numeri[0])
                                         var dataNuova = new Date(nData)
-                                        
+
                                         deepEntity.RilievoNiSet.ZdatRilievo = dataNuova
-                                        
+
                                         oModel.create("/DeepZNIEntitySet", deepEntity, {
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",
                                             success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo", {
-                                                    title: "Esito Operazione",
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                    onClose: function (oAction) {
-                                                        if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            that.getOwnerComponent().getRouter().navTo("View1");
-                                                            location.reload();
+                                                if (data.Msgty == 'E') {
+                                                    console.log(data.Message)
+                                                    MessageBox.error("Operazione non eseguita", {
+                                                        title: "Esito Operazione",
+                                                        actions: [sap.m.MessageBox.Action.OK],
+                                                        emphasizedAction: MessageBox.Action.OK,
+                                                    })
+                                                }
+                                                if (data.Msgty == 'S') {
+                                                    MessageBox.success("Operazione eseguita correttamente", {
+                                                        title: "Esito Operazione",
+                                                        actions: [sap.m.MessageBox.Action.OK],
+                                                        emphasizedAction: MessageBox.Action.OK,
+                                                        onClose: function (oAction) {
+                                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                                that.getOwnerComponent().getRouter().navTo("View1");
+                                                                location.reload();
+                                                            }
                                                         }
-                                                    }
-                                                })
+                                                    })
+                                                }
                                             },
                                             error: function (e) {
                                                 //console.log("error");
@@ -447,7 +483,7 @@ sap.ui.define(
                                 }
                             });
                         }
-                        else if (header[indice].ZcodiStatoni == "05") {
+                        else if (header[indiceHeader].ZcodiStatoni == "05") {
 
                             var deepEntity = {
                                 HeaderNISet: null,
@@ -467,7 +503,34 @@ sap.ui.define(
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                         //deepEntity.ZchiaveNi = header[indice]
 
-                                        deepEntity.HeaderNISet = header[indice];
+                                        deepEntity.HeaderNISet = header[indiceHeader];
+
+                                        var numeroIntero = header[indiceHeader].ZimpoTotni
+                                        var numIntTot = ""
+                                        if (numeroIntero.split(".").length > 1) {
+                                            var numeri = numeroIntero.split(".")
+                                            for (var n = 0; n < numeri.length; n++) {
+                                                numIntTot = numIntTot + numeri[n]
+                                                //var numeroFloat = parseFloat(numeroIntero)
+                                                if (numIntTot.split(",").length > 1) {
+                                                    var virgole = numIntTot.split(",")
+                                                    var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                                }
+                                            }
+                                            var importoPrimaVirgola = numeroIntero.split(".")
+                                            var numPunti = ""
+                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                                return x.split('').reverse().join('')
+                                            }).reverse()
+
+                                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                                numPunti = (numPunti + migliaia[migl] + ".")
+                                            }
+                                            var indice = numPunti.split("").length
+                                            var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                            header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                        }
+
                                         //deepEntity.RilievoNiSet.ZdatRilievo = that.getView().byId("dataRilievo").mProperties.dateValue
                                         deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
                                         // var dataNuova = new Date(that.getView().byId("dataProtocolloRGS").getValue()),
@@ -486,12 +549,12 @@ sap.ui.define(
                                         //deepEntity.RilievoNiSet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()ù
 
                                         deepEntity.RilievoNiSet = {
-                                            Bukrs: header[indice].Bukrs,
-                                            Gjahr: header[indice].Gjahr,
-                                            Zamministr: header[indice].Zamministr,
-                                            ZidNi: header[indice].ZidNi,
-                                            ZchiaveNi: header[indice].ZchiaveNi,
-                                            ZRagioCompe: header[indice].ZRagioCompe,
+                                            Bukrs: header[indiceHeader].Bukrs,
+                                            Gjahr: header[indiceHeader].Gjahr,
+                                            Zamministr: header[indiceHeader].Zamministr,
+                                            ZidNi: header[indiceHeader].ZidNi,
+                                            ZchiaveNi: header[indiceHeader].ZchiaveNi,
+                                            ZRagioCompe: header[indiceHeader].ZRagioCompe,
                                             ZdatRilievo: that.getView().byId("dataRilievo").mProperties.dateValue,
                                             Zmotrilievo: that.getView().byId("motivizioneRilievo").getValue()
                                         }
@@ -501,18 +564,27 @@ sap.ui.define(
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",
                                             success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo", {
-                                                    title: "Esito Operazione",
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                    onClose: function (oAction) {
-                                                        if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            that.getOwnerComponent().getRouter().navTo("View1");
-                                                            location.reload();
+                                                if (data.Msgty == 'E') {
+                                                    console.log(data.Message)
+                                                    MessageBox.error("Operazione non eseguita", {
+                                                        title: "Esito Operazione",
+                                                        actions: [sap.m.MessageBox.Action.OK],
+                                                        emphasizedAction: MessageBox.Action.OK,
+                                                    })
+                                                }
+                                                if (data.Msgty == 'S') {
+                                                    MessageBox.success("Operazione eseguita correttamente", {
+                                                        title: "Esito Operazione",
+                                                        actions: [sap.m.MessageBox.Action.OK],
+                                                        emphasizedAction: MessageBox.Action.OK,
+                                                        onClose: function (oAction) {
+                                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                                that.getOwnerComponent().getRouter().navTo("View1");
+                                                                location.reload();
+                                                            }
                                                         }
-                                                    }
-                                                })
+                                                    })
+                                                }
                                             },
                                             error: function (e) {
                                                 //console.log("error");
@@ -528,7 +600,7 @@ sap.ui.define(
                                 }
                             });
                         }
-                        else if (header[indice].ZcodiStatoni == "07") {
+                        else if (header[indiceHeader].ZcodiStatoni == "07") {
 
                             var deepEntity = {
                                 HeaderNISet: null,
@@ -547,9 +619,41 @@ sap.ui.define(
 
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                         //deepEntity.ZchiaveNi = header[indice]
+                                        deepEntity.HeaderNISet = header[indiceHeader];
 
+                                        deepEntity.HeaderNISet = header[indiceHeader];
 
-                                        deepEntity.HeaderNISet = header[indice];
+                                    var numeroIntero = header[indiceHeader].ZimpoTotni
+                                    var numIntTot = ""
+                                    if (numeroIntero.split(".").length > 1) {
+                                        var numeri = numeroIntero.split(".")
+                                        for (var n = 0; n < numeri.length; n++) {
+                                            numIntTot = numIntTot + numeri[n]
+                                            //var numeroFloat = parseFloat(numeroIntero)
+                                            if (numIntTot.split(",").length > 1) {
+                                                var virgole = numIntTot.split(",")
+                                                var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                            }
+                                        }
+                                        var importoPrimaVirgola = numeroIntero.split(".")
+                                        var numPunti = ""
+                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                            return x.split('').reverse().join('')
+                                        }).reverse()
+
+                                        for (var migl = 0; migl < migliaia.length; migl++) {
+                                            numPunti = (numPunti + migliaia[migl] + ".")
+                                        }
+                                        var indice = numPunti.split("").length
+                                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
+
+                                    else {
+                                        var importoPrimaVirgola = numeroIntero.split(",")
+                                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
 
                                         // deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
                                         // deepEntity.HeaderNISet.ZdataProtRag = new Date(that.getView().byId("dataProtocolloRGS").getValue())
@@ -567,18 +671,27 @@ sap.ui.define(
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",
                                             success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo", {
-                                                    title: "Esito Operazione",
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                    onClose: function (oAction) {
-                                                        if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            that.getOwnerComponent().getRouter().navTo("View1");
-                                                            location.reload();
+                                                if (data.Msgty == 'E') {
+                                                    console.log(data.Message)
+                                                    MessageBox.error("Operazione non eseguita", {
+                                                        title: "Esito Operazione",
+                                                        actions: [sap.m.MessageBox.Action.OK],
+                                                        emphasizedAction: MessageBox.Action.OK,
+                                                    })
+                                                }
+                                                if (data.Msgty == 'S') {
+                                                    MessageBox.success("Operazione eseguita correttamente", {
+                                                        title: "Esito Operazione",
+                                                        actions: [sap.m.MessageBox.Action.OK],
+                                                        emphasizedAction: MessageBox.Action.OK,
+                                                        onClose: function (oAction) {
+                                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                                that.getOwnerComponent().getRouter().navTo("View1");
+                                                                location.reload();
+                                                            }
                                                         }
-                                                    }
-                                                })
+                                                    })
+                                                }
                                             },
                                             error: function (e) {
                                                 //console.log("error");

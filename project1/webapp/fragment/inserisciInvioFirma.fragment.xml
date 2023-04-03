@@ -46,7 +46,7 @@
             </Column>
         </columns>
         <ColumnListItem>
-            <Text text="{HeaderInserisci>ZchiaveNi}" />
+            <Text text="{HeaderInserisci>ZchiaveSubni}" />
             <Text text="{HeaderInserisci>ZcodIsin}" />
             <Text text="{HeaderInserisci>Ztipo}" />
             <Text text="{HeaderInserisci>Zdescrizione}" />

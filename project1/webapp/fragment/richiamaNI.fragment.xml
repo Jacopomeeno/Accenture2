@@ -46,7 +46,7 @@
             </Column>
         </columns>
         <ColumnListItem>
-            <Text text="{richiamaNI>ZchiaveNi}" />
+            <Text text="{richiamaNI>ZchiaveSubni}" />
             <Text text="{richiamaNI>ZcodIsin}" />
             <Text text="{richiamaNI>Ztipo}" />
             <Text text="{richiamaNI>Zdescrizione}" />

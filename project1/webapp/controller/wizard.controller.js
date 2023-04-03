@@ -401,7 +401,7 @@ sap.ui.define([
             },
 
             onPreimpNI: function (oEvent) {
-                var self = this;
+                var that = this;
                 //var rows= this.getView().byId("HeaderNIW").getSelectedItem()
 
                 var N_es_gestione = this.getView().byId("es_gestione").getSelectedKey(); //header
@@ -437,10 +437,10 @@ sap.ui.define([
                 }
                 else {
 
-                    var oDataModel = self.getOwnerComponent().getModel();
+                    var oDataModel = that.getOwnerComponent().getModel();
                     //var sommaImporto = 0.00
 
-                    var oItems = self.getView().byId("HeaderNIWstep3").getBinding("items").oList;
+                    var oItems = that.getView().byId("HeaderNIWstep3").getBinding("items").oList;
                     var deepEntity = {
                         HeaderNISet: null,
                         PositionNISet: [],
@@ -582,7 +582,7 @@ sap.ui.define([
                                                                 emphasizedAction: MessageBox.Action.OK,
                                                                 onClose: function (oAction) {
                                                                     if (oAction === sap.m.MessageBox.Action.OK) {
-                                                                        self.getOwnerComponent().getRouter().navTo("View1");
+                                                                        that.getOwnerComponent().getRouter().navTo("View1");
                                                                         location.reload();
                                                                     }
                                                                 }
@@ -634,7 +634,7 @@ sap.ui.define([
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {
                                                         if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            self.getOwnerComponent().getRouter().navTo("View1");
+                                                            that.getOwnerComponent().getRouter().navTo("View1");
                                                             location.reload();
                                                         }
                                                     }

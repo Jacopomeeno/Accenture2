@@ -367,57 +367,66 @@ sap.ui.define(
                                 if (oAction === sap.m.MessageBox.Action.YES) {
                                     var oModel = that.getOwnerComponent().getModel();
 
-                                        deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
-                                        deepEntity.HeaderNISet = header[indiceHeader];
+                                    deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
+                                    deepEntity.HeaderNISet = header[indiceHeader];
 
-                                        var numeroIntero = header[indiceHeader].ZimpoTotni
-                                        var numIntTot = ""
-                                        if (numeroIntero.split(".").length > 1) {
-                                            var numeri = numeroIntero.split(".")
-                                            for (var n = 0; n < numeri.length; n++) {
-                                                numIntTot = numIntTot + numeri[n]
-                                                //var numeroFloat = parseFloat(numeroIntero)
-                                                if (numIntTot.split(",").length > 1) {
-                                                    var virgole = numIntTot.split(",")
-                                                    var numeroInteroSM = virgole[0] + "." + virgole[1]
-                                                }
+                                    var numeroIntero = header[indiceHeader].ZimpoTotni
+                                    var numIntTot = ""
+                                    if (numeroIntero.split(".").length > 1) {
+                                        var numeri = numeroIntero.split(".")
+                                        for (var n = 0; n < numeri.length; n++) {
+                                            numIntTot = numIntTot + numeri[n]
+                                            //var numeroFloat = parseFloat(numeroIntero)
+                                            if (numIntTot.split(",").length > 1) {
+                                                var virgole = numIntTot.split(",")
+                                                var numeroInteroSM = virgole[0] + "." + virgole[1]
                                             }
-                                            var importoPrimaVirgola = numeroIntero.split(".")
-                                            var numPunti = ""
-                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
-                                                return x.split('').reverse().join('')
-                                            }).reverse()
-
-                                            for (var migl = 0; migl < migliaia.length; migl++) {
-                                                numPunti = (numPunti + migliaia[migl] + ".")
-                                            }
-                                            var indice = numPunti.split("").length
-                                            var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-                                            header[indiceHeader].ZimpoTotni = numeroInteroSM
                                         }
+                                        var importoPrimaVirgola = numeroIntero.split(".")
+                                        var numPunti = ""
+                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                            return x.split('').reverse().join('')
+                                        }).reverse()
 
-                                        else {
-                                            var importoPrimaVirgola = numeroIntero.split(",")
-                                            var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
-                                            header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                        for (var migl = 0; migl < migliaia.length; migl++) {
+                                            numPunti = (numPunti + migliaia[migl] + ".")
                                         }
+                                        var indice = numPunti.split("").length
+                                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
+
+                                    else {
+                                        var importoPrimaVirgola = numeroIntero.split(",")
+                                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                    }
 
                                     oModel.create("/DeepZNIEntitySet", deepEntity, {
                                         //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                         // method: "PUT",
                                         success: function (data) {
-                                            //console.log("success");
-                                            MessageBox.success("Operazione eseguita con successo", {
-                                                title: "Esito Operazione",
-                                                actions: [sap.m.MessageBox.Action.OK],
-                                                emphasizedAction: MessageBox.Action.OK,
-                                                onClose: function (oAction) {
-                                                    if (oAction === sap.m.MessageBox.Action.OK) {
-                                                        that.getOwnerComponent().getRouter().navTo("View1");
-                                                        location.reload();
+                                            if (data.Msgty == 'E') {
+                                                console.log(data.Message)
+                                                MessageBox.error("Operazione non eseguita", {
+                                                    title: "Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                })
+                                            }
+                                            if (data.Msgty == 'S') {
+                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                    title: "Esito Operazione",
+                                                    actions: [sap.m.MessageBox.Action.OK],
+                                                    emphasizedAction: MessageBox.Action.OK,
+                                                    onClose: function (oAction) {
+                                                        if (oAction === sap.m.MessageBox.Action.OK) {
+                                                            that.getOwnerComponent().getRouter().navTo("View1");
+                                                            location.reload();
+                                                        }
                                                     }
-                                                }
-                                            })
+                                                })
+                                            }
                                         },
                                         error: function (e) {
                                             //console.log("error");
@@ -650,17 +659,27 @@ sap.ui.define(
                                             //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
                                             // method: "PUT",
                                             success: function (data) {
-                                                //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo", {
-                                                    actions: [sap.m.MessageBox.Action.OK],
-                                                    emphasizedAction: MessageBox.Action.OK,
-                                                    onClose: function (oAction) {
-                                                        if (oAction === sap.m.MessageBox.Action.OK) {
-                                                            that.getOwnerComponent().getRouter().navTo("View1");
-                                                            location.reload();
+                                                if (data.Msgty == 'E') {
+                                                    console.log(data.Message)
+                                                    MessageBox.error("Operazione non eseguita", {
+                                                        title: "Esito Operazione",
+                                                        actions: [sap.m.MessageBox.Action.OK],
+                                                        emphasizedAction: MessageBox.Action.OK,
+                                                    })
+                                                }
+                                                if (data.Msgty == 'S') {
+                                                    MessageBox.success("Operazione eseguita correttamente", {
+                                                        title: "Esito Operazione",
+                                                        actions: [sap.m.MessageBox.Action.OK],
+                                                        emphasizedAction: MessageBox.Action.OK,
+                                                        onClose: function (oAction) {
+                                                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                                                that.getOwnerComponent().getRouter().navTo("View1");
+                                                                location.reload();
+                                                            }
                                                         }
-                                                    }
-                                                })
+                                                    })
+                                                }
                                             },
                                             error: function (e) {
                                                 //console.log("error");

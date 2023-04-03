@@ -46,7 +46,7 @@
             </Column>
         </columns>
         <ColumnListItem>
-            <Text text="{FirmaInserita>ZchiaveNi}" />
+            <Text text="{FirmaInserita>ZchiaveSubni}" />
             <Text text="{FirmaInserita>ZcodIsin}" />
             <Text text="{FirmaInserita>Ztipo}" />
             <Text text="{FirmaInserita>Zdescrizione}" />

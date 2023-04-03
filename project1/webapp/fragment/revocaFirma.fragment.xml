@@ -38,7 +38,7 @@
             </Column>
         </columns>
         <ColumnListItem>
-            <Text text="{revocaFirma>ZchiaveNi}" />
+            <Text text="{revocaFirma>ZchiaveSubni}" />
             <Text text="{revocaFirma>ZcodIsin}" />
             <Text text="{revocaFirma>Ztipo}" />
             <Text text="{revocaFirma>Zdescrizione}" />

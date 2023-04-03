@@ -46,7 +46,7 @@
             </Column>
         </columns>
         <ColumnListItem>
-            <Text text="{richiamoNIRGS>ZchiaveNi}" />
+            <Text text="{richiamoNIRGS>ZchiaveSubni}" />
             <Text text="{richiamoNIRGS>ZcodIsin}" />
             <Text text="{richiamoNIRGS>Ztipo}" />
             <Text text="{richiamoNIRGS>Zdescrizione}" />

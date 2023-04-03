@@ -46,7 +46,7 @@
             </Column>
         </columns>
         <ColumnListItem>
-            <Text text="{conferma>ZchiaveNi}" />
+            <Text text="{conferma>ZchiaveSubni}" />
             <Text text="{conferma>ZcodIsin}" />
             <Text text="{conferma>Ztipo}" />
             <Text text="{conferma>Zdescrizione}" />
