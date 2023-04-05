@@ -352,25 +352,36 @@ sap.ui.define([
                 }
             },
 
-            setDisponibilità: function (Zdisp) {
-                //var Zdisp = this.getView().getModel("temp").getData().ZdisponSet
-                for (var q = 0; q < Zdisp.length; q++) {
+            setDisponibilità: function (data) {
+                var impegni = this.getView().getModel("temp").getData().ZfmimpegniIpeSet
+                for (var po = 0; po < impegni.length; po++) {
 
-                    var importoPrimaVirgola = Zdisp[q].split(".")
-                    //var indice = num.split("").length
-                    var numPunti = ""
-                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
-                        return x.split('').reverse().join('')
-                    }).reverse()
+                    if (data.Belnr == "0000000" + impegni[po].Belnr && data.Blpos == impegni[po].Blpos) {
 
-                    for (var v = 0; v < migliaia.length; v++) {
-                        numPunti = (numPunti + migliaia[v] + ".")
+
+                        //var Zdisp = this.getView().getModel("temp").getData().ZdisponSet
+
+                        var importoPrimaVirgola = data.Wtfree.split(".")
+                        //var indice = num.split("").length
+                        var numPunti = ""
+                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                            return x.split('').reverse().join('')
+                        }).reverse()
+
+                        for (var v = 0; v < migliaia.length; v++) {
+                            numPunti = (numPunti + migliaia[v] + ".")
+                        }
+
+                        var indice = numPunti.split("").length
+                        var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+
+                        this.getView().byId("HeaderNIAssImp").getItems()[po].mAggregations.cells[3].setText(totale)
+
                     }
-
-                    var indice = numPunti.split("").length
-                    var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-
-                    this.getView().byId("HeaderNIAssImp").getItems()[q].mAggregations.cells[3].setText(totale)
+                    else {
+                        if (this.getView().byId("HeaderNIAssImp").getItems()[po].mAggregations.cells[3].getText() == "")
+                            this.getView().byId("HeaderNIAssImp").getItems()[po].mAggregations.cells[3].setText("0,00")
+                    }
                 }
             },
 
@@ -461,7 +472,7 @@ sap.ui.define([
                 var oModel = this.getOwnerComponent().getModel();
 
                 for (var d = 0; d < dataResults.length; d++) {
-                    if (dataResults[d].Belnr != undefined && dataResults[d].Blpos != undefined || dataResults[d].Belnr != "" && dataResults[d].Blpos != "") {
+                    if (dataResults[d].Belnr != "" && dataResults[d].Blpos != "") {
 
                         var chiavi = oModel.createKey("/ZdisponSet", {
                             Belnr: dataResults[d].Belnr,
@@ -475,12 +486,10 @@ sap.ui.define([
                             //filters: [],
                             // urlParameters: "",
                             success: function (data) {
-                                risultati.push(data.Wtfree)
-                                if (risultati.length == dataResults.length) {
-                                    //oMdlDisp.setData(risultati);
-                                    //that.getView().getModel("temp").setProperty('/Zdispon', risultati)
-                                    that.setDisponibilità(risultati)
-                                }
+                                //risultati.push(data.Wtfree)             
+                                //oMdlDisp.setData(risultati);
+                                //that.getView().getModel("temp").setProperty('/Zdispon', risultati)
+                                that.setDisponibilità(data)
                             },
                             error: function (error) {
                                 var e = error;
