@@ -13,21 +13,15 @@
             showIcons="true"
 			sortOldestFirst="true"
 			height="100%"
-			content="">
+			content="{temp>/WFStateNI}"
+			>
 		<content>
 			<TimelineItem
 					id="idTemplateItem"
-					dateTime="{JobDate}"
-					title="{JobTitle}"
-					text="Registrato dall'utente {Name}"
+					dateTime="{temp>DataStato}"
+					title="{temp>ZstatoDescNi}"
+					text="Registrato dall'utente {temp>UtenteDescr}"
 					icon="sap-icon://person-placeholder">
-			</TimelineItem>
-			<TimelineItem
-					id="idTemplateItemCurrent"
-					dateTime="{JobDate}"
-					title="{JobTitle}"
-					text="Registrato dall'utente {Name}"
-					icon="sap-icon://favorite">
 			</TimelineItem>
 		</content>
 	</Timeline>

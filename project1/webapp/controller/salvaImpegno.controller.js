@@ -420,25 +420,25 @@ sap.ui.define([
             //     }
             // },
 
-            // onSelect: function (oEvent) {
-            //     var key = oEvent.getParameters().key;
-            //     if (key === "dettagliNI") {
-            //         //this.callPositionNI()
-            //         this.getView().byId("idIconTabBar").destroyContent()
+            onSelect: function (oEvent) {
+                var key = oEvent.getParameters().key;
+                if (key === "dettagliNI") {
+                    //this.callPositionNI()
+                    this.getView().byId("salvaImpegno").destroyContent()
 
 
-            //     }
+                }
 
-            //     else if (key === "Workflow") {
-            //         this.getView().byId("idIconTabBar").destroyContent()
+                else if (key === "Workflow") {
+                    this.getView().byId("salvaImpegno").destroyContent()
 
-            //     }
-            //     else if (key === "Fascicolo") {
+                }
+                else if (key === "Fascicolo") {
 
-            //     }
+                }
 
 
-            // },
+            },
 
             onBackButton: function () {
                 window.history.go(-1);

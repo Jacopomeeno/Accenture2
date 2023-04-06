@@ -213,6 +213,9 @@ sap.ui.define([
 
                                     var indice = numPunti.split("").length
                                     var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                    let array = totale.split(",")
+                                    let valoreTagliato = array[1].substring(0, 2)
+                                    var totale = array[0] + "," + valoreTagliato
                                     that.getView().byId("HeaderITB").getItems()[dr].mAggregations.cells[4].setText(totale)
 
                                 }
@@ -223,7 +226,53 @@ sap.ui.define([
                             }
                         });
                         this.getOwnerComponent().setModel(oMdlITB, "HeaderITB");
+                        this.callWorkflow(oEvent)
 
+                    }
+                }
+
+            },
+
+            callWorkflow: function (oEvent) {
+                var filtroNI = []
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                //var position = this.getView().getModel("temp").getData().PositionNISet
+                for (var i = 0; i < header.length; i++) {
+
+                    if (header[i].Bukrs == oEvent.getParameters().arguments.campo &&
+                        header[i].Gjahr == oEvent.getParameters().arguments.campo1 &&
+                        header[i].Zamministr == oEvent.getParameters().arguments.campo2 &&
+                        header[i].ZchiaveNi == oEvent.getParameters().arguments.campo3 &&
+                        header[i].ZidNi == oEvent.getParameters().arguments.campo4 &&
+                        header[i].ZRagioCompe == oEvent.getParameters().arguments.campo5) {
+
+                        //filtroNI.push({Bukrs:Bukrs, Gjahr:Gjahr, Zamministr,Zamministr, ZchiaveNi:ZchiaveNi, ZidNi:ZidNi, ZRagioCompe:ZRagioCompe})
+                        filtroNI.push(new Filter({
+                            path: "ZchiaveNi",
+                            operator: FilterOperator.EQ,
+                            value1: header[i].ZchiaveNi
+                        }));
+                        filtroNI.push(new Filter({
+                            path: "ZcodiStatoni",
+                            operator: FilterOperator.EQ,
+                            value1: header[i].ZcodiStatoni
+                        }));
+
+                        var that = this;
+                        //var oMdlITB = new sap.ui.model.json.JSONModel();
+                        this.getOwnerComponent().getModel().read("/WFStateNISet", {
+                            filters: filtroNI,
+                            //filters: [],
+                            urlParameters: "",
+
+                            success: function (data) {
+                                that.getView().getModel("temp").setProperty('/WFStateNI', data.results)
+                            
+                            },
+                            error: function (error) {
+                                var e = error;
+                            }
+                        });
                     }
                 }
 

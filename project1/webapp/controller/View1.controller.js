@@ -387,7 +387,9 @@ sap.ui.define([
 
                     var indice = numPunti.split("").length
                     var totale = numPunti.substring(0, indice - 1) + "," + arrayVirgola[1]
-                    header[x].ZimpoTotni = totale
+                    let array = totale.split(",")
+                    let valoreTagliato = array[1].substring(0, 2)
+                    header[x].ZimpoTotni = array[0]+","+valoreTagliato
                 }
 
                 var oMdl = new sap.ui.model.json.JSONModel();

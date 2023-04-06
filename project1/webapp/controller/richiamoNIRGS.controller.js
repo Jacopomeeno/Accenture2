@@ -150,6 +150,9 @@ sap.ui.define(
 
                                     var indice = numPunti.split("").length
                                     var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                    let array = totale.split(",")
+                                    let valoreTagliato = array[1].substring(0, 2)
+                                    var totale = array[0] + "," + valoreTagliato
                                     that.getView().byId("richiamoNIRGS").getItems()[dr].mAggregations.cells[5].setText(totale)
 
                                 }
@@ -160,6 +163,7 @@ sap.ui.define(
                             }
                         });
                         this.getOwnerComponent().setModel(oMdlITB, "richiamoNIRGS");
+                        this.callWorkflow()
 
                     }
                 }
@@ -279,16 +283,73 @@ sap.ui.define(
                 }
             },
 
+            callWorkflow: function () {
+                
+                var url = location.href
+                var sUrl = url.split("/richiamoNIRGS/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+                
+                var filtroNI = []
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                //var position = this.getView().getModel("temp").getData().PositionNISet
+                for (var i = 0; i < header.length; i++) {
+
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+
+                        //filtroNI.push({Bukrs:Bukrs, Gjahr:Gjahr, Zamministr,Zamministr, ZchiaveNi:ZchiaveNi, ZidNi:ZidNi, ZRagioCompe:ZRagioCompe})
+                        filtroNI.push(new Filter({
+                            path: "ZchiaveNi",
+                            operator: FilterOperator.EQ,
+                            value1: header[i].ZchiaveNi
+                        }));
+                        filtroNI.push(new Filter({
+                            path: "ZcodiStatoni",
+                            operator: FilterOperator.EQ,
+                            value1: header[i].ZcodiStatoni
+                        }));
+
+                        var that = this;
+                        //var oMdlITB = new sap.ui.model.json.JSONModel();
+                        this.getOwnerComponent().getModel().read("/WFStateNISet", {
+                            filters: filtroNI,
+                            //filters: [],
+                            urlParameters: "",
+
+                            success: function (data) {
+                                that.getView().getModel("temp").setProperty('/WFStateNI', data.results)
+                            
+                            },
+                            error: function (error) {
+                                var e = error;
+                            }
+                        });
+                    }
+                }
+
+            },
+
             onSelect: function (oEvent) {
 
                 var key = oEvent.getParameters().key;
 
                 if (key === "ListaDettagli") {
-
+                    this.getView().byId("richiamaNIRGS").destroyContent()
                 }
 
                 else if (key === "Workflow") {
-
+                    this.getView().byId("richiamaNIRGS").destroyContent()
                 }
 
                 else if (key === "Fascicolo") {

@@ -187,6 +187,9 @@ sap.ui.define([
                 // }
                 var indice = numPunti.split("").length
                 var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                let array = totale.split(",")
+                let valoreTagliato = array[1].substring(0, 2)
+                var totale = array[0]+","+valoreTagliato
 
                 //console.log(importoTot)
                 var es_gestione = this.getView().byId("es_gestione").getSelectedKey();
@@ -273,6 +276,9 @@ sap.ui.define([
                 // }
                 var indice = numPunti.split("").length
                 var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                let array = totale.split(",")
+                let valoreTagliato = array[1].substring(0, 2)
+                var totale = array[0]+","+valoreTagliato
 
                 //console.log(importoTot)
                 var es_gestione = this.getView().byId("es_gestione").getSelectedKey();
@@ -511,7 +517,7 @@ sap.ui.define([
                         //ZRagioCompe: item.ZRagioCompe, Passato Da BE
                         ZcodiStatoni: "00",
                         ZimpoTotni: ZimpoTotni,
-                        ZzGjahrEngPos: N_es_gestione,
+                        //ZzGjahrEngPos: N_es_gestione,
                         Zmese: N_Mese,
                         ZoggSpesa: N_oggSpesa,
                         Fipex: N_esercizioPF,
@@ -691,19 +697,19 @@ sap.ui.define([
                 var es_gestione = this.getView().byId("es_gestione").getSelectedKey()
                 var mese = this.getView().byId("mese").getSelectedItem()
                 if (es_gestione == "" && mese == null) {
-                    MessageBox.error("Esercizio di Gestione e Mese non inseriti!", {
+                    MessageBox.error("Alimentare tutti i campi obbligatori", {
                         actions: [sap.m.MessageBox.Action.OK],
                         emphasizedAction: MessageBox.Action.OK,
                     })
                 }
                 else if (es_gestione == "") {
-                    MessageBox.error("Esercizio di Gestione non inserito!", {
+                    MessageBox.error("Alimentare tutti i campi obbligatori", {
                         actions: [sap.m.MessageBox.Action.OK],
                         emphasizedAction: MessageBox.Action.OK,
                     })
                 }
                 else if (mese == null) {
-                    MessageBox.error("Mese non inserito!", {
+                    MessageBox.error("Alimentare tutti i campi obbligatori", {
                         actions: [sap.m.MessageBox.Action.OK],
                         emphasizedAction: MessageBox.Action.OK,
                     })

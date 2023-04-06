@@ -73,6 +73,7 @@
                         <core:Fragment fragmentName="project1.fragment.modificaDettaglio" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
+                        <core:Fragment fragmentName="project1.fragment.workflow" type="XML"/>
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://documents" text="Fascicolo" key="Fascicolo">
                     </IconTabFilter>
@@ -83,7 +84,7 @@
             <OverflowToolbar>
                 <Button text="Indietro" type="Emphasized" press="onBackButton" />
                 <ToolbarSpacer />
-                <Button type="Emphasized" text="Salva" press="onSaveDati" icon="sap-icon://save" />
+                <Button type="Emphasized" text="Salva" press="onSaveDati"/>
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

@@ -374,6 +374,10 @@ sap.ui.define([
 
                         var indice = numPunti.split("").length
                         var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                        let array = totale.split(",")
+                        let valoreTagliato = array[1].substring(0, 2)
+                        var totale = array[0] + "," + valoreTagliato
+                        
 
                         this.getView().byId("HeaderNIAssImp").getItems()[po].mAggregations.cells[3].setText(totale)
 

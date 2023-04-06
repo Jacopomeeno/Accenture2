@@ -114,12 +114,13 @@
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <IconTabBar id="inserisciInvioFirma" class="sapUiResponsiveContentPadding" select="onSelect">
+            <IconTabBar id="richiamaNI" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
                     <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
                         <core:Fragment fragmentName="project1.fragment.richiamaNI" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">
+                        <core:Fragment fragmentName="project1.fragment.workflow" type="XML"/>
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://documents" text="Fascicolo" key="Fascicolo">
                     </IconTabFilter>

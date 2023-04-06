@@ -105,7 +105,7 @@
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <IconTabBar id="idIconTabBar" class="sapUiResponsiveContentPadding" select="onSelect">
+            <IconTabBar id="salvaImpegno" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
                     <IconTabFilter icon="sap-icon://detail-view" text="Dettagli NI" key="dettagliNI">
                         <core:Fragment fragmentName="project1.fragment.salvaImpegno" type="XML" />

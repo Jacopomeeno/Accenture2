@@ -186,6 +186,9 @@ sap.ui.define([
 
                         var indice = numPunti.split("").length
                         var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                        let array = totale.split(",")
+                        let valoreTagliato = array[1].substring(0, 2)
+                        var totale = array[0] + "," + valoreTagliato
                         this.getView().byId("importoTot1").setText(totale)
 
                     }
@@ -388,7 +391,7 @@ sap.ui.define([
                         deepEntity.PositionNISet[i].ZimpoTitolo = numeroInteroSM
                     }
 
-                    
+
                 }
 
                 MessageBox.warning("Sei sicuro di voler rettificare la nota d'imputazione?", {
