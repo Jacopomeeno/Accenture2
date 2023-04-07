@@ -98,8 +98,8 @@
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="statoNI" visibleInFilterBar="true" name="statoNI" groupName="Gruppo1" label="{i18n>statoNI}">
                                 <fb:control>
-                                    <ComboBox id="statoNI1" items="{path: '/HeaderNISet', sorter: { path: 'ZcodiStatoni' }}">
-                                        <core:Item key="{ZcodiStatoni}" text="{ZcodiStatoni}"/>
+                                    <ComboBox id="statoNI1" items="{temp>/StateNI}">
+                                        <core:Item key="{temp>ZstatoDescNi}" text="{temp>ZstatoDescNi}"/>
                                     </ComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>

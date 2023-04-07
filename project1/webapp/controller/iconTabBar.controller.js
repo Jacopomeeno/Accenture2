@@ -252,11 +252,6 @@ sap.ui.define([
                             operator: FilterOperator.EQ,
                             value1: header[i].ZchiaveNi
                         }));
-                        filtroNI.push(new Filter({
-                            path: "ZcodiStatoni",
-                            operator: FilterOperator.EQ,
-                            value1: header[i].ZcodiStatoni
-                        }));
 
                         var that = this;
                         //var oMdlITB = new sap.ui.model.json.JSONModel();

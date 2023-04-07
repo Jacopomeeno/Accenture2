@@ -21,6 +21,7 @@ sap.ui.define([
                 //console.log("onInit View1 controller")
                 this.esercizioDecreto()
                 this.EsercizioPosizioneFinanziaria()
+                this.onCallStateNI()
             },
 
             onWarning2MessageBoxPress: function () {
@@ -320,7 +321,7 @@ sap.ui.define([
                                 }
                             }
                         }
-                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i != 16 && i != 18 && i != 20) {
+                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i != 11 && i != 16 && i != 18 && i != 20) {
                             datiNI.push(new Filter({
                                 path: path.sorter.sPath,
                                 operator: FilterOperator.EQ,
@@ -339,6 +340,20 @@ sap.ui.define([
                                     emphasizedAction: MessageBox.Action.OK,
                                 })
                             }
+                        }
+                        else if (i == 11) {
+                            var stati = this.getView().getModel("temp").getData().StateNI
+                            for (var st = 0; st < stati.length; st++) {
+                                if (oEvent.getParameters().selectionSet[i].mProperties.value == stati[st].ZstatoDescNi) {
+                                    datiNI.push(new Filter({
+                                        path: "ZcodiStatoni",
+                                        operator: FilterOperator.EQ,
+                                        value1: stati[st].ZcodiStatoni
+                                    }));
+                                }
+
+                            }
+
                         }
                     }
                 }
@@ -389,7 +404,7 @@ sap.ui.define([
                     var totale = numPunti.substring(0, indice - 1) + "," + arrayVirgola[1]
                     let array = totale.split(",")
                     let valoreTagliato = array[1].substring(0, 2)
-                    header[x].ZimpoTotni = array[0]+","+valoreTagliato
+                    header[x].ZimpoTotni = array[0] + "," + valoreTagliato
                 }
 
                 var oMdl = new sap.ui.model.json.JSONModel();
@@ -406,5 +421,23 @@ sap.ui.define([
                 this.getView().byId("PreimpostazioneNI").setEnabled(false);
                 this.getView().byId("DettagliNI").setEnabled(true);
             },
+
+            onCallStateNI: function () {
+                var that = this;
+                //var oMdlITB = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/StateNISet", {
+                    filters: [],
+                    //filters: [],
+                    urlParameters: "",
+
+                    success: function (data) {
+                        that.getView().getModel("temp").setProperty('/StateNI', data.results)
+
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
+            }
         });
     });
