@@ -331,11 +331,11 @@ sap.ui.define(
                 var key = oEvent.getParameters().key;
 
                 if (key === "ListaDettagli") {
-                    this.getView().byId("revocaFirma").destroyContent()
+                    this.getView().byId("revocaFirmaITB").destroyContent()
                 }
 
                 else if (key === "Workflow") {
-                    this.getView().byId("revocaFirma").destroyContent()
+                    this.getView().byId("revocaFirmaITB").destroyContent()
                 }
 
                 else if (key === "Fascicolo") {

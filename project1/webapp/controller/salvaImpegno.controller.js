@@ -424,13 +424,13 @@ sap.ui.define([
                 var key = oEvent.getParameters().key;
                 if (key === "dettagliNI") {
                     //this.callPositionNI()
-                    this.getView().byId("salvaImpegno").destroyContent()
+                    this.getView().byId("salvaImpegnoITB").destroyContent()
 
 
                 }
 
                 else if (key === "Workflow") {
-                    this.getView().byId("salvaImpegno").destroyContent()
+                    this.getView().byId("salvaImpegnoITB").destroyContent()
 
                 }
                 else if (key === "Fascicolo") {

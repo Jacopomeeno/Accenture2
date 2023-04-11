@@ -420,7 +420,7 @@ sap.ui.define(
                 var key = oEvent.getParameters().key;
 
                 if (key === "ListaDettagli") {
-                    this.getView().byId("richiamoRilievoRegistrato").destroyContent()
+                    this.getView().byId("richiamoRilievoRegistratoITB").destroyContent()
                 }
 
                 else if (key === "Workflow") {

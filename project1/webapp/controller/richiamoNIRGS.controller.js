@@ -340,11 +340,11 @@ sap.ui.define(
                 var key = oEvent.getParameters().key;
 
                 if (key === "ListaDettagli") {
-                    this.getView().byId("richiamaNIRGS").destroyContent()
+                    this.getView().byId("richiamaNIRGSITB").destroyContent()
                 }
 
                 else if (key === "Workflow") {
-                    this.getView().byId("richiamaNIRGS").destroyContent()
+                    this.getView().byId("richiamaNIRGSITB").destroyContent()
                 }
 
                 else if (key === "Fascicolo") {

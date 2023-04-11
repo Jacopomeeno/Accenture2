@@ -119,7 +119,7 @@
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <IconTabBar id="FirmaInserita" class="sapUiResponsiveContentPadding" select="onSelect">
+            <IconTabBar id="FirmaInseritaITB" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
                     <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
                         <core:Fragment fragmentName="project1.fragment.FirmaInserita" type="XML" />

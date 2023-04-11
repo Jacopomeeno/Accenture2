@@ -297,7 +297,9 @@ sap.ui.define(
                     var firmaSet = []
                     var codUff = this.getView().byId("codUfficio").getValue()
                     var dirigente = this.getView().byId("dirigente").getValue()
-                    var dataProtocollo = this.getView().byId("DataPro").getValue() 
+                    if(this.getView().byId("DataPro").getValue() != '')
+                    var dataProtocollo = this.getView().byId("DataPro").getValue()
+                    if(this.getView().byId("numProtocollo").getValue() != '') 
                     var numProtocollo = this.getView().byId("numProtocollo").getValue() 
 
                     firmaSet.push(codUff)

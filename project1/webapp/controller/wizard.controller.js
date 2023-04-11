@@ -416,7 +416,7 @@ sap.ui.define([
                     var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
                 if (this.getView().byId("sottotipologia").getSelectedItem() != null)
                     var N_Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;  //position
-                if (this.getView().byId("competenza").getSelectedItem() != null)
+                if (this.getView().byId("competenza").getSelectedItem() != null || this.getView().byId("competenza").getValue() != '')
                     var N_CR = this.getView().byId("competenza").mProperties.value  //position
                 var N_ImportoTot = this.getView().byId("n_righeTotWH2").getText().split(" ")[5];
 
@@ -465,7 +465,7 @@ sap.ui.define([
 
                             ZposNi: item.ZposNi,
                             ZgjahrEng: N_es_gestione,
-                            Ztipo: N_Tipologia,
+                            Ztipo: item.Ztipo,
                             Zsottotipo: N_Sottotipologia,
                             ZcompRes: N_CR,
 

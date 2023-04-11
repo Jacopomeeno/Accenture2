@@ -114,7 +114,7 @@
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <IconTabBar id="revocaFirma" class="sapUiResponsiveContentPadding" select="onSelect">
+            <IconTabBar id="revocaFirmaITB" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
                     <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
                         <core:Fragment fragmentName="project1.fragment.revocaFirma" type="XML" />

@@ -324,11 +324,11 @@ sap.ui.define(
                 var key = oEvent.getParameters().key;
 
                 if (key === "ListaDettagli") {
-
+                    this.getView().byId("inserisciInvioFirmaITB").destroyContent()
                 }
 
                 else if (key === "Workflow") {
-
+                    this.getView().byId("inserisciInvioFirmaITB").destroyContent()
                 }
 
                 else if (key === "Fascicolo") {
