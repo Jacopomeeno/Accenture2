@@ -235,7 +235,7 @@ sap.ui.define([
                         if (i == 6) {
                             if (oEvent.getParameters().selectionSet[6].mProperties.value != '') {
                                 datiNI.push(new Filter({
-                                    path: "ZidNi",
+                                    path: "ZzChiaveSubniPos",
                                     operator: FilterOperator.BT,
                                     value1: oEvent.getParameters().selectionSet[6].mProperties.value,
                                     value2: oEvent.getParameters().selectionSet[7].mProperties.value
@@ -368,6 +368,7 @@ sap.ui.define([
                             oMdl.setData(data.results);
                             that.getView().getModel("temp").setProperty('/HeaderNISet', data.results)
                             that.setVirgolaMigliaia(data.results)
+                            //that.setDescrizioneStato(data.results)
                         },
                         error: function (error) {
                             //that.getView().getModel("temp").setProperty(sProperty,[]);
@@ -412,6 +413,53 @@ sap.ui.define([
                 oMdl.setData(header);
                 this.getOwnerComponent().setModel(oMdl, "HeaderNI");
             },
+
+            // setDescrizioneStato: function (header) {
+            //     var that = this
+            //     for (var x = 0; x < header.length; x++) {
+            //         switch (header[x].ZcodiStatoni) {
+            //             case "00":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Preimpostata")
+            //                 break;
+            //             case "01":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Provvisoria")
+            //                 break;
+            //             case "02":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Inviata alla firma")
+            //                 break;
+            //             case "03":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Firmata Amm.")
+            //                 break;
+            //             case "04":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI In Verifica")
+            //                 break;
+            //             case "05":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Confermata")
+            //                 break;
+            //             case "06":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Validata RGS")
+            //                 break;
+            //             case "07":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI con Rilievo Registrato")
+            //                 break;
+            //             case "08":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI con Rilievo Validato RGS")
+            //                 break;
+            //             case "09":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Annullata")
+            //                 break;
+            //             case "10":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Annullata per Richiamo")
+            //                 break;
+            //             case "11":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Annullata per Rilievo")
+            //                 break;
+            //             case "12":
+            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Inviata a BKI")
+            //                 break;
+            //         }
+            //     }
+            // },
 
             navToWizard: function (oEvent) {
                 this.getOwnerComponent().getRouter().navTo("wizard");

@@ -954,7 +954,7 @@ sap.ui.define(
                                                     })
                                                 }
                                                 if (data.Msgty == 'S') {
-                                                    MessageBox.success("Operazione eseguita correttamente", {
+                                                    MessageBox.success("Nota di Imputazione n°"+header[indiceHeader].ZchiaveNi+" richiamata correttamente", {
                                                         actions: [sap.m.MessageBox.Action.OK],
                                                         emphasizedAction: MessageBox.Action.OK,
                                                         onClose: function (oAction) {

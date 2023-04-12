@@ -594,10 +594,14 @@ sap.ui.define(
                                     //     mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
                                     //     day = ("0" + dataNuova.getDate()).slice(-2);
                                     // var nData = [dataNuova.getFullYear(), mnth, day].join("-");
+                                    if (firmaSet[2] != ''){
                                     var numeri = firmaSet[2].split("/");
                                     var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
                                     deepEntity.HeaderNISet.ZdataProtAmm = new Date(nData)
+                                    }
+                                    if (firmaSet[3] != ''){
                                     deepEntity.HeaderNISet.NProtocolloAmm = firmaSet[3]
+                                    }
 
                                     if (header[indiceHeader].ZchiaveNi == that.getView().byId("numNI1").mProperties.text) {
 
@@ -616,7 +620,7 @@ sap.ui.define(
                                                     })
                                                 }
                                                 if (result.Msgty == 'S') {
-                                                    MessageBox.success("Operazione eseguita correttamente", {
+                                                    MessageBox.success("Nota di Imputazione n°"+header[indice].ZchiaveNi+" inviata alla firma correttamente", {
                                                         title: "Esito Operazione",
                                                         actions: [sap.m.MessageBox.Action.OK],
                                                         emphasizedAction: MessageBox.Action.OK,

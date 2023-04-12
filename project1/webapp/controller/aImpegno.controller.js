@@ -125,58 +125,113 @@ sap.ui.define([
                             array.push(campo)
                         }
                         if (array) {
-                            var sommaDisponibilità = 0.00
-                            var rows = this.getView().byId("HeaderNIAssImp").getSelectedItems()
-                            var impoTot = this.getView().byId("importoTot1").mProperties.text
+                            var sommaTotale = 0.00
 
-                            var puntiSeparati = impoTot.split(".")
-                            var stringaImportoVirgola = ""
-                            for (var x = 0; x < puntiSeparati.length; x++) {
-                                if (puntiSeparati[x] != "")
-                                    stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[x]
+                            for (var arr = 0; arr < array.length; arr++) {
+
+                                sommaTotale = sommaTotale + parseFloat(array[arr].Attribuito)
+
+                                var numeroIntero = array[arr].Attribuito
+                                var numIntTot = ""
+                                if (numeroIntero.split(".").length > 1) {
+                                    var numeri = numeroIntero.split(".")
+                                    for (var n = 0; n < numeri.length; n++) {
+                                        numIntTot = numIntTot + numeri[n]
+                                        //var numeroFloat = parseFloat(numeroIntero)
+                                        if (numIntTot.split(",").length > 1) {
+                                            var virgole = numIntTot.split(",")
+                                            var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                        }
+                                    }
+                                    var importoPrimaVirgola = numeroIntero.split(".")
+                                    var numPunti = ""
+                                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                        return x.split('').reverse().join('')
+                                    }).reverse()
+
+                                    for (var migl = 0; migl < migliaia.length; migl++) {
+                                        numPunti = (numPunti + migliaia[migl] + ".")
+                                    }
+                                    var indice = numPunti.split("").length
+                                    var numeroAttribuito = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                }
+
+                                else {
+                                    var importoPrimaVirgola = numeroIntero.split(",")
+                                    var numeroAttribuito = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+
+                                }
+
+                                var numeroIntero = rows[arr].mAggregations.cells[3].mProperties.text
+                                var numIntTot = ""
+                                if (numeroIntero.split(".").length > 1) {
+                                    var numeri = numeroIntero.split(".")
+                                    for (var n = 0; n < numeri.length; n++) {
+                                        numIntTot = numIntTot + numeri[n]
+                                        //var numeroFloat = parseFloat(numeroIntero)
+                                        if (numIntTot.split(",").length > 1) {
+                                            var virgole = numIntTot.split(",")
+                                            var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                        }
+                                    }
+                                    var importoPrimaVirgola = numeroIntero.split(".")
+                                    var numPunti = ""
+                                    var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                        return x.split('').reverse().join('')
+                                    }).reverse()
+
+                                    for (var migl = 0; migl < migliaia.length; migl++) {
+                                        numPunti = (numPunti + migliaia[migl] + ".")
+                                    }
+                                    var indice = numPunti.split("").length
+                                    var numeroDisp = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                }
+
+                                else {
+                                    var importoPrimaVirgola = numeroIntero.split(",")
+                                    var numeroDisp = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                }
+
+                                if (parseFloat(numeroAttribuito) > parseFloat(numeroDisp)) {
+                                    MessageBox.error("Il valore del campo Importo Attribuito non può essere maggiore al campo Disponibilità Impegno", {
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        emphasizedAction: MessageBox.Action.OK,
+                                    })
+                                    break
+                                }
+
                             }
 
-                            var virgole = stringaImportoVirgola.split(",")
-                            var impoTot = virgole[0] + "." + virgole[1]
+                            var arrayVirgola = sommaTotale.toString().split(".")
+                            // var importoVirgola = arrayVirgola[0]+","+arrayVirgola[1]
+                            if(arrayVirgola.length>1){
+                            var numPunti = ""
+                            var migliaia = arrayVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                return x.split('').reverse().join('')
+                            }).reverse()
+                            for (var i = 0; i < migliaia.length; i++) {
+                                numPunti = (numPunti + migliaia[i] + ".")
+                            }
 
-                            for (var x = 0; x < rows.length; x++) {
-                                var Zdisp = rows[x].mAggregations.cells[3].mProperties.text
+                            var indice = numPunti.split("").length
+                            var totale = numPunti.substring(0, indice - 1) + "," + arrayVirgola[1]
+                            let array = totale.split(",")
+                            let valoreTagliato = array[1].substring(0, 2)
+                            sommaTotale = array[0] + "," + valoreTagliato
+                        }
+                        else{
+                            sommaTotale = arrayVirgola+",00"
+                        }
 
-                                var puntiSeparati = Zdisp.split(".")
-                                var stringaImportoVirgola = ""
-                                for (var ps = 0; ps < puntiSeparati.length; ps++) {
-                                    if (puntiSeparati[ps] != "")
-                                        stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[ps]
-                                }
-
-                                var virgole = stringaImportoVirgola.split(",")
-                                var Zdisp = virgole[0] + "." + virgole[1]
-
-                                sommaDisponibilità = sommaDisponibilità + parseFloat(Zdisp)
-                                var impoAttributo = rows[x].mAggregations.cells[4].mProperties.value
-
-                                var puntiSeparati = impoAttributo.split(".")
-                                var stringaImportoVirgola = ""
-                                for (var x = 0; x < puntiSeparati.length; x++) {
-                                    if (puntiSeparati[x] != "")
-                                        stringaImportoVirgola = stringaImportoVirgola + puntiSeparati[x]
-                                }
-
-                                var virgole = stringaImportoVirgola.split(",")
-                                var impoAttributo = virgole[0] + "." + virgole[1]
-
-                                if (parseFloat(impoAttributo) > parseFloat(Zdisp)) {
-                                    MessageBox.error("Il valore del campo Importo Attribuito non può essere maggiore al campo Disponibilità Impegno")
-                                    break
-                                }
-                                if (parseFloat(impoTot) > sommaDisponibilità) {
-                                    MessageBox.error("Il valore del campo Importo Totale NI non può essere maggiore alla somma delle Disponibilità Impegno")
-                                    break
-                                }
-                                else {
-                                    this.getView().getModel("temp").setProperty("/ImpegniSelezionati", array)
-                                    this.getOwnerComponent().getRouter().navTo("aImpegno2", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
-                                }
+                            if (sommaTotale != header[i].ZimpoTotni) {
+                                MessageBox.error("La somma dei campi Importo Attribuito deve essere uguale all'Importo Totale della nota", {
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    emphasizedAction: MessageBox.Action.OK,
+                                })
+                            }
+                            else {
+                                this.getView().getModel("temp").setProperty("/ImpegniSelezionati", array)
+                                this.getOwnerComponent().getRouter().navTo("aImpegno2", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
                             }
                         }
 
@@ -337,7 +392,7 @@ sap.ui.define([
                                 var impoTot = that.getView().byId("importoTot1").mProperties.text
                                 //var lunghezzaTab = that.getView().getModel("temp").ZfmimpegniIpeSet
                                 for (var i = 0; i < data.results.length; i++) {
-                                    that.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue("0.00")
+                                    that.getView().byId("HeaderNIAssImp").getItems()[i].mAggregations.cells[4].setValue("0,00")
                                 }
                                 that.onCallZdispon(data.results)
                             },
@@ -377,7 +432,7 @@ sap.ui.define([
                         let array = totale.split(",")
                         let valoreTagliato = array[1].substring(0, 2)
                         var totale = array[0] + "," + valoreTagliato
-                        
+
 
                         this.getView().byId("HeaderNIAssImp").getItems()[po].mAggregations.cells[3].setText(totale)
 
@@ -456,13 +511,39 @@ sap.ui.define([
                         }
 
                         if (parseFloat(numeroInteroDisponibilità) <= parseFloat(numeroIntero)) {
+                            numeroIntero = parseFloat(numeroIntero) - parseFloat(numeroInteroDisponibilità)
                             this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(Zdisp)
-                            break;
+                            continue
+
                         }
-                        else if (parseFloat(numeroInteroDisponibilità) > parseFloat(numeroIntero)) {
-                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(impoTot)
-                            var deltaImportoTot = deltaImportoTot - parseFloat(numeroInteroDisponibilità)
-                            continue;
+
+                        else if (parseFloat(numeroInteroDisponibilità) > parseFloat(numeroIntero) && parseFloat(numeroIntero) > 0 && i != 0) {
+
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroIntero + ",00")
+                            numeroIntero = parseFloat(numeroIntero) - parseFloat(numeroInteroDisponibilità)
+                            continue
+
+                        }
+
+                        else if (i == 0) {
+
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroIntero)
+                            numeroIntero = parseFloat(numeroIntero) - parseFloat(numeroInteroDisponibilità)
+                            continue
+
+                        }
+
+                        else {
+                            if (parseFloat(numeroIntero) < 0) {
+                                this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue("0,00")
+                                continue
+                            }
+                            var numeroVirgola = arrayVirgola.split(".")
+                            var numeroComposto = numeroVirgola[0] + "," + numeroVirgola[1]
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroComposto)
+                            numeroIntero = parseFloat(numeroIntero) - parseFloat(numeroInteroDisponibilità)
+
+                            //var deltaImportoTot = deltaImportoTot - parseFloat(numeroInteroDisponibilità)
                         }
                     }
                 }

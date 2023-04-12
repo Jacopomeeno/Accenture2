@@ -1,11 +1,12 @@
 sap.ui.define([
     "./BaseController",
     "sap/ui/model/Filter",
+    "sap/m/MessageBox",
     "sap/ui/model/FilterOperator",
     "sap/ui/core/routing/History",
 
 ],
-    function (BaseController, Filter, FilterOperator, History) {
+    function (BaseController, Filter, MessageBox, FilterOperator, History) {
         "use strict";
         return BaseController.extend("project1.controller.aImpegno2", {
             onInit() {
@@ -149,7 +150,7 @@ sap.ui.define([
                 //var oModel= this.getView().getModel("comboBox")
                 //var codiceGestionale = this.getView().byId("inputCodiceGest").getValue()
                 var oTempModel = this.getView().getModel("temp")
-                
+
                 var KOSTL = _.findWhere(oTempModel.getProperty("/ZhfKostlSet"), { Kostl: value })
                 if (KOSTL != undefined) {
                     var centroCosto = _.findWhere(oTempModel.getProperty("/ZhfKostlSet"), { id: KOSTL.Kostl });
@@ -255,7 +256,7 @@ sap.ui.define([
                 var valoriNuovi = []
                 valoriNuovi.push(beneficiario)
                 if (beneficiario && this.getView().byId("DescCentroCosto").getValue() && this.getView().byId("DescCoGe").getValue() && this.getView().byId("inputCodiceGest").getValue()) {
-                    
+
                     var centroCosto = this.getView().byId("inputCentroCosto").getValue()
                     valoriNuovi.push(centroCosto)
 
@@ -283,29 +284,36 @@ sap.ui.define([
                     this.getView().getModel("temp").setProperty('/ValoriNuovi', valoriNuovi)
                     //console.log("eh")
                 }
-                var url = location.href
-                var sUrl = url.split("/aImpegno2/")[1]
-                var aValori = sUrl.split(",")
+                if (beneficiario != '' && centroCosto != '' && contoCOGE != '' && codiceGestionale != '' && causalePagamento != '' && modalitàPagamento != '' && Iban != '') {
+                    var url = location.href
+                    var sUrl = url.split("/aImpegno2/")[1]
+                    var aValori = sUrl.split(",")
 
-                var Bukrs = aValori[0]
-                var Gjahr = aValori[1]
-                var Zamministr = aValori[2]
-                var ZchiaveNi = aValori[3]
-                var ZidNi = aValori[4]
-                var ZRagioCompe = aValori[5]
+                    var Bukrs = aValori[0]
+                    var Gjahr = aValori[1]
+                    var Zamministr = aValori[2]
+                    var ZchiaveNi = aValori[3]
+                    var ZidNi = aValori[4]
+                    var ZRagioCompe = aValori[5]
 
-                var header = this.getView().getModel("temp").getData().HeaderNISet
-                for (var i = 0; i < header.length; i++) {
-                    if (header[i].Bukrs == Bukrs &&
-                        header[i].Gjahr == Gjahr &&
-                        header[i].Zamministr == Zamministr &&
-                        header[i].ZchiaveNi == ZchiaveNi &&
-                        header[i].ZidNi == ZidNi &&
-                        header[i].ZRagioCompe == ZRagioCompe) {
-                        this.getOwnerComponent().getRouter().navTo("salvaImpegno", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                    var header = this.getView().getModel("temp").getData().HeaderNISet
+                    for (var i = 0; i < header.length; i++) {
+                        if (header[i].Bukrs == Bukrs &&
+                            header[i].Gjahr == Gjahr &&
+                            header[i].Zamministr == Zamministr &&
+                            header[i].ZchiaveNi == ZchiaveNi &&
+                            header[i].ZidNi == ZidNi &&
+                            header[i].ZRagioCompe == ZRagioCompe) {
+                            this.getOwnerComponent().getRouter().navTo("salvaImpegno", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                        }
                     }
                 }
-
+                else {
+                    MessageBox.error("Alimentare tutti i campi obbligatori", {
+                        actions: [sap.m.MessageBox.Action.OK],
+                        emphasizedAction: MessageBox.Action.OK,
+                    })
+                }
             }
         })
     }

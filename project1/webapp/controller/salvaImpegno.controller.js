@@ -477,13 +477,13 @@ sap.ui.define([
                             Funzionalita: "COMPLETAMENTO",
                             ZchiaveNi: header[i].ZchiaveNi
                         }
-
+                        
                         for (var x = 0; x < oItems.length; x++) {
                             var item = oItems[x];
                             //item.Zwels = "12"
                             //item.Zcodgest = "001"
                             deepEntity.PositionNISet.push(item);
-
+                            
                             var numeroIntero = item.ZimpoTitolo
                             var numIntTot = ""
                             if (numeroIntero.split(".").length > 1) {
@@ -573,7 +573,11 @@ sap.ui.define([
                                         })
                                     }
                                     if (result.Msgty == 'S') {
-                                        MessageBox.success("Nota d'imputazione completata correttamente", {
+                                        var arraySubChiavi = []
+                                        for(var asc = 0; asc<result.PositionNISet.results.length; asc++){
+                                            arraySubChiavi.push(result.PositionNISet.results[asc].ZchiaveSubni)
+                                        }
+                                        MessageBox.success("Le seguenti Note di Imputazione sono state completate correttamente: "+header[indiceHeader].ZchiaveNi+" "+arraySubChiavi+"", {
                                             title: "Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],
                                             emphasizedAction: MessageBox.Action.OK,

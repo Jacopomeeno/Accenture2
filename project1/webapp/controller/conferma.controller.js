@@ -731,7 +731,7 @@ sap.ui.define(
                                             // method: "PUT",
                                             success: function (data) {
                                                 //console.log("success");
-                                                MessageBox.success("Operazione eseguita con successo", {
+                                                MessageBox.success("Nota di Imputazione n°"+header[indiceHeader].ZchiaveNi+" richiamata correttamente", {
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {

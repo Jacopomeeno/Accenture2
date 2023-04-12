@@ -408,19 +408,20 @@ sap.ui.define(
                                             header[indiceHeader].ZimpoTotni = numeroInteroSM
                                         }
 
-                                        deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
-                                        // var dataNuova = new Date(that.getView().byId("dataProtocolloRGS").getValue()),
-                                        //     mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
-                                        //     day = ("0" + dataNuova.getDate()).slice(-2);
-                                        // var nData = [dataNuova.getFullYear(), mnth, day].join("-");
-                                        var numeri = that.getView().byId("dataProtocolloRGS").getValue().split("/");
-                                        var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
-                                        var dataProvaUTC = new Date(nData)
-                                        var anno = dataProvaUTC.getUTCFullYear()
-                                        var nData = (anno + "-" + numeri[1] + "-" + numeri[0])
-                                        var dataNuova = new Date(nData)
+                                        if (that.getView().byId("numProtocolloRGS").getValue() != '') {
+                                            deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
+                                        }
 
-                                        deepEntity.HeaderNISet.ZdataProtRag = dataNuova
+                                        if (that.getView().byId("dataProtocolloRGS").getValue() != '') {
+                                            var numeri = that.getView().byId("dataProtocolloRGS").getValue().split("/");
+                                            var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
+                                            var dataProvaUTC = new Date(nData)
+                                            var anno = dataProvaUTC.getUTCFullYear()
+                                            var nData = (anno + "-" + numeri[1] + "-" + numeri[0])
+                                            var dataNuova = new Date(nData)
+
+                                            deepEntity.HeaderNISet.ZdataProtRag = dataNuova
+                                        }
                                         //deepEntity.RilievoNiSet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()
 
                                         deepEntity.RilievoNiSet = {
@@ -532,20 +533,20 @@ sap.ui.define(
                                         }
 
                                         //deepEntity.RilievoNiSet.ZdatRilievo = that.getView().byId("dataRilievo").mProperties.dateValue
-                                        deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
-                                        // var dataNuova = new Date(that.getView().byId("dataProtocolloRGS").getValue()),
-                                        //     mnth = ("0" + (dataNuova.getMonth() + 1)).slice(-2),
-                                        //     day = ("0" + dataNuova.getDate()).slice(-2);
-                                        // var nData = [dataNuova.getFullYear(), mnth, day].join("-");
+                                        if (that.getView().byId("numProtocolloRGS").getValue() != '') {
+                                            deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
+                                        }
 
-                                        var numeri = that.getView().byId("dataProtocolloRGS").getValue().split("/");
-                                        var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
-                                        var dataProvaUTC = new Date(nData)
-                                        var anno = dataProvaUTC.getUTCFullYear()
-                                        var nData = (anno + "-" + numeri[1] + "-" + numeri[0])
-                                        var dataNuova = new Date(nData)
+                                        if (that.getView().byId("dataProtocolloRGS").getValue() != '') {
+                                            var numeri = that.getView().byId("dataProtocolloRGS").getValue().split("/");
+                                            var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
+                                            var dataProvaUTC = new Date(nData)
+                                            var anno = dataProvaUTC.getUTCFullYear()
+                                            var nData = (anno + "-" + numeri[1] + "-" + numeri[0])
+                                            var dataNuova = new Date(nData)
 
-                                        deepEntity.HeaderNISet.ZdataProtRag = dataNuova
+                                            deepEntity.HeaderNISet.ZdataProtRag = dataNuova
+                                        }
                                         //deepEntity.RilievoNiSet.ZzMotrilievo = that.getView().byId("motivizioneRilievo").getValue()ù
 
                                         deepEntity.RilievoNiSet = {
@@ -623,37 +624,37 @@ sap.ui.define(
 
                                         deepEntity.HeaderNISet = header[indiceHeader];
 
-                                    var numeroIntero = header[indiceHeader].ZimpoTotni
-                                    var numIntTot = ""
-                                    if (numeroIntero.split(".").length > 1) {
-                                        var numeri = numeroIntero.split(".")
-                                        for (var n = 0; n < numeri.length; n++) {
-                                            numIntTot = numIntTot + numeri[n]
-                                            //var numeroFloat = parseFloat(numeroIntero)
-                                            if (numIntTot.split(",").length > 1) {
-                                                var virgole = numIntTot.split(",")
-                                                var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                        var numeroIntero = header[indiceHeader].ZimpoTotni
+                                        var numIntTot = ""
+                                        if (numeroIntero.split(".").length > 1) {
+                                            var numeri = numeroIntero.split(".")
+                                            for (var n = 0; n < numeri.length; n++) {
+                                                numIntTot = numIntTot + numeri[n]
+                                                //var numeroFloat = parseFloat(numeroIntero)
+                                                if (numIntTot.split(",").length > 1) {
+                                                    var virgole = numIntTot.split(",")
+                                                    var numeroInteroSM = virgole[0] + "." + virgole[1]
+                                                }
                                             }
-                                        }
-                                        var importoPrimaVirgola = numeroIntero.split(".")
-                                        var numPunti = ""
-                                        var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
-                                            return x.split('').reverse().join('')
-                                        }).reverse()
+                                            var importoPrimaVirgola = numeroIntero.split(".")
+                                            var numPunti = ""
+                                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                                return x.split('').reverse().join('')
+                                            }).reverse()
 
-                                        for (var migl = 0; migl < migliaia.length; migl++) {
-                                            numPunti = (numPunti + migliaia[migl] + ".")
+                                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                                numPunti = (numPunti + migliaia[migl] + ".")
+                                            }
+                                            var indice = numPunti.split("").length
+                                            var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                            header[indiceHeader].ZimpoTotni = numeroInteroSM
                                         }
-                                        var indice = numPunti.split("").length
-                                        var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
-                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
-                                    }
 
-                                    else {
-                                        var importoPrimaVirgola = numeroIntero.split(",")
-                                        var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
-                                        header[indiceHeader].ZimpoTotni = numeroInteroSM
-                                    }
+                                        else {
+                                            var importoPrimaVirgola = numeroIntero.split(",")
+                                            var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                            header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                        }
 
                                         // deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
                                         // deepEntity.HeaderNISet.ZdataProtRag = new Date(that.getView().byId("dataProtocolloRGS").getValue())

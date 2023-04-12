@@ -293,44 +293,52 @@ sap.ui.define(
                 }
             },
 
-            onConfirm: function(){
-                    var firmaSet = []
-                    var codUff = this.getView().byId("codUfficio").getValue()
-                    var dirigente = this.getView().byId("dirigente").getValue()
-                    if(this.getView().byId("DataPro").getValue() != '')
+            onConfirm: function () {
+                var firmaSet = []
+                var codUff = this.getView().byId("codUfficio").getValue()
+                var dirigente = this.getView().byId("dirigente").getValue()
+                if (this.getView().byId("DataPro").getValue() != '') {
                     var dataProtocollo = this.getView().byId("DataPro").getValue()
-                    if(this.getView().byId("numProtocollo").getValue() != '') 
-                    var numProtocollo = this.getView().byId("numProtocollo").getValue() 
+                }
+                else {
+                    var dataProtocollo = ''
+                }
+                if (this.getView().byId("numProtocollo").getValue() != '') {
+                    var numProtocollo = this.getView().byId("numProtocollo").getValue()
+                }
+                else {
+                    var numProtocollo = ''
+                }
 
-                    firmaSet.push(codUff)
-                    firmaSet.push(dirigente)
-                    firmaSet.push(dataProtocollo)
-                    firmaSet.push(numProtocollo)
+                firmaSet.push(codUff)
+                firmaSet.push(dirigente)
+                firmaSet.push(dataProtocollo)
+                firmaSet.push(numProtocollo)
 
-                    this.getView().getModel("temp").setProperty('/firmaSet', firmaSet)
+                this.getView().getModel("temp").setProperty('/firmaSet', firmaSet)
 
-                    var url = location.href
-                    var sUrl = url.split("/inserisciFirma/")[1]
-                    var aValori = sUrl.split(",")
-    
-                    var Bukrs = aValori[0]
-                    var Gjahr = aValori[1]
-                    var Zamministr = aValori[2]
-                    var ZchiaveNi = aValori[3]
-                    var ZidNi = aValori[4]
-                    var ZRagioCompe = aValori[5]
-    
-                    var header = this.getView().getModel("temp").getData().HeaderNISet
-                    for (var i = 0; i < header.length; i++) {
-                        if (header[i].Bukrs == Bukrs &&
-                            header[i].Gjahr == Gjahr &&
-                            header[i].Zamministr == Zamministr &&
-                            header[i].ZchiaveNi == ZchiaveNi &&
-                            header[i].ZidNi == ZidNi &&
-                            header[i].ZRagioCompe == ZRagioCompe) {
-                            this.getOwnerComponent().getRouter().navTo("FirmaInserita", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
-                        }
-                    }      
+                var url = location.href
+                var sUrl = url.split("/inserisciFirma/")[1]
+                var aValori = sUrl.split(",")
+
+                var Bukrs = aValori[0]
+                var Gjahr = aValori[1]
+                var Zamministr = aValori[2]
+                var ZchiaveNi = aValori[3]
+                var ZidNi = aValori[4]
+                var ZRagioCompe = aValori[5]
+
+                var header = this.getView().getModel("temp").getData().HeaderNISet
+                for (var i = 0; i < header.length; i++) {
+                    if (header[i].Bukrs == Bukrs &&
+                        header[i].Gjahr == Gjahr &&
+                        header[i].Zamministr == Zamministr &&
+                        header[i].ZchiaveNi == ZchiaveNi &&
+                        header[i].ZidNi == ZidNi &&
+                        header[i].ZRagioCompe == ZRagioCompe) {
+                        this.getOwnerComponent().getRouter().navTo("FirmaInserita", { campo: header[i].Bukrs, campo1: header[i].Gjahr, campo2: header[i].Zamministr, campo3: header[i].ZchiaveNi, campo4: header[i].ZidNi, campo5: header[i].ZRagioCompe });
+                    }
+                }
             },
 
             onBackButton: function () {

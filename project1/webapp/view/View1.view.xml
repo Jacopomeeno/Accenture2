@@ -67,15 +67,15 @@
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="NumNIDa" visibleInFilterBar="true" name="NumNIDa" groupName="Gruppo1" label="{i18n>NumNIDa}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="NumNIDa1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZidNi' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="NumNIDa1" app:filterTableField="NumNIDa1">
-                                        <core:Item key="{ZidNi}" text="{ZidNi}"/>
+                                    <Input showSuggestion="true" id="NumNIDa1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZzChiaveSubniPos' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="NumNIDa1" app:filterTableField="NumNIDa1">
+                                        <core:Item key="{ZzChiaveSubniPos}" text="{ZzChiaveSubniPos}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="NumNIA" visibleInFilterBar="true" name="NumNIA" groupName="Gruppo1" label="{i18n>NumNIA}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="NumNIA1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZidNi' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="NumNIA1" app:filterTableField="NumNIA1">
-                                        <core:Item key="{ZidNi}" text="{ZidNi}"/>
+                                    <Input showSuggestion="true" id="NumNIA1" showValueHelp="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'ZzChiaveSubniPos' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="NumNIA1" app:filterTableField="NumNIA1">
+                                        <core:Item key="{ZzChiaveSubniPos}" text="{ZzChiaveSubniPos}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>

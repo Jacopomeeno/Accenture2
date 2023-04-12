@@ -189,7 +189,7 @@ sap.ui.define([
                 var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                 let array = totale.split(",")
                 let valoreTagliato = array[1].substring(0, 2)
-                var totale = array[0]+","+valoreTagliato
+                var totale = array[0] + "," + valoreTagliato
 
                 //console.log(importoTot)
                 var es_gestione = this.getView().byId("es_gestione").getSelectedKey();
@@ -278,7 +278,7 @@ sap.ui.define([
                 var totale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                 let array = totale.split(",")
                 let valoreTagliato = array[1].substring(0, 2)
-                var totale = array[0]+","+valoreTagliato
+                var totale = array[0] + "," + valoreTagliato
 
                 //console.log(importoTot)
                 var es_gestione = this.getView().byId("es_gestione").getSelectedKey();
@@ -382,28 +382,50 @@ sap.ui.define([
             },
 
             onSearch: function (oEvent) {
-                this.onCallHeader()
-                var oModelP = this.getView().getModel("tabRendicontazione")
-                //var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabRendicontazione.json");
-                this.getView().setModel(oModelP, "HeaderNIW");
-                // var that = this;
-                this.getView().byId("HeaderNIW").setVisible(true);
+                var es_gestione = this.getView().byId("es_gestione").getSelectedKey()
+                var mese = this.getView().byId("mese").getSelectedItem()
 
-                // var that = this;
-                // var oMdlW = new sap.ui.model.json.JSONModel();
-                // this.getOwnerComponent().getModel().read("/PositionNISet", {
-                //     success: function (data) {
-                //         oMdlW.setData(data.results);
-                //         that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
-                //     },
-                //     error: function (error) {
-                //         var e = error;
-                //     }
-                // });
+                if (es_gestione == "" && mese == null) {
+                    MessageBox.error("Alimentare tutti i campi obbligatori", {
+                        actions: [sap.m.MessageBox.Action.OK],
+                        emphasizedAction: MessageBox.Action.OK,
+                    })
+                }
+                else if (es_gestione == "") {
+                    MessageBox.error("Alimentare tutti i campi obbligatori", {
+                        actions: [sap.m.MessageBox.Action.OK],
+                        emphasizedAction: MessageBox.Action.OK,
+                    })
+                }
+                else if (mese == null) {
+                    MessageBox.error("Alimentare tutti i campi obbligatori", {
+                        actions: [sap.m.MessageBox.Action.OK],
+                        emphasizedAction: MessageBox.Action.OK,
+                    })
+                }
+                else {
+                    this.onCallHeader()
+                    var oModelP = this.getView().getModel("tabRendicontazione")
+                    //var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabRendicontazione.json");
+                    this.getView().setModel(oModelP, "HeaderNIW");
+                    // var that = this;
+                    this.getView().byId("HeaderNIW").setVisible(true);
 
-                // this.getOwnerComponent().setModel(oMdlW, "HeaderNIW");
-                //sap.ui.getCore().TableModel = oMdlW;
+                    // var that = this;
+                    // var oMdlW = new sap.ui.model.json.JSONModel();
+                    // this.getOwnerComponent().getModel().read("/PositionNISet", {
+                    //     success: function (data) {
+                    //         oMdlW.setData(data.results);
+                    //         that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
+                    //     },
+                    //     error: function (error) {
+                    //         var e = error;
+                    //     }
+                    // });
 
+                    // this.getOwnerComponent().setModel(oMdlW, "HeaderNIW");
+                    //sap.ui.getCore().TableModel = oMdlW;
+                }
             },
 
             onPreimpNI: function (oEvent) {
@@ -694,44 +716,90 @@ sap.ui.define([
                 // this.onCommunicationPress()
                 // var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabGestNI.json");
                 // this.getView().setModel(oModelP, "HeaderNIW");
-                var es_gestione = this.getView().byId("es_gestione").getSelectedKey()
-                var mese = this.getView().byId("mese").getSelectedItem()
-                if (es_gestione == "" && mese == null) {
-                    MessageBox.error("Alimentare tutti i campi obbligatori", {
-                        actions: [sap.m.MessageBox.Action.OK],
-                        emphasizedAction: MessageBox.Action.OK,
-                    })
-                }
-                else if (es_gestione == "") {
-                    MessageBox.error("Alimentare tutti i campi obbligatori", {
-                        actions: [sap.m.MessageBox.Action.OK],
-                        emphasizedAction: MessageBox.Action.OK,
-                    })
-                }
-                else if (mese == null) {
-                    MessageBox.error("Alimentare tutti i campi obbligatori", {
-                        actions: [sap.m.MessageBox.Action.OK],
-                        emphasizedAction: MessageBox.Action.OK,
-                    })
-                }
-                else {
-                    this._oWizard = this.byId("CreateProductWizard");
-                    this._oSelectedStep = this._oWizard.getSteps()[this._iSelectedStepIndex];
-                    this._iSelectedStepIndex = this._oWizard.getSteps().indexOf(this._oSelectedStep);
-                    var oNextStep = this._oWizard.getSteps()[this._iSelectedStepIndex + 1];
 
-                    if (this._oSelectedStep && !this._oSelectedStep.bLast) {
-                        this._oWizard.goToStep(oNextStep, true);
-                    } else {
-                        this._oWizard.nextStep();
+                this._oWizard = this.byId("CreateProductWizard");
+                this._oSelectedStep = this._oWizard.getSteps()[this._iSelectedStepIndex];
+                this._iSelectedStepIndex = this._oWizard.getSteps().indexOf(this._oSelectedStep);
+
+                if (this._iSelectedStepIndex == 0) {
+                    var es_gestione = this.getView().byId("es_gestione").getSelectedKey()
+                    var mese = this.getView().byId("mese").getSelectedItem()
+
+                    if (es_gestione == "" && mese == null) {
+                        MessageBox.error("Alimentare tutti i campi obbligatori", {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            emphasizedAction: MessageBox.Action.OK,
+                        })
                     }
+                    else if (es_gestione == "") {
+                        MessageBox.error("Alimentare tutti i campi obbligatori", {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            emphasizedAction: MessageBox.Action.OK,
+                        })
+                    }
+                    else if (mese == null) {
+                        MessageBox.error("Alimentare tutti i campi obbligatori", {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            emphasizedAction: MessageBox.Action.OK,
+                        })
+                    }
+                    else if (es_gestione != "" && mese != null) {
+                        var oNextStep = this._oWizard.getSteps()[this._iSelectedStepIndex + 1];
 
-                    this._iSelectedStepIndex++;
-                    this._oSelectedStep = oNextStep;
+                        if (this._oSelectedStep && !this._oSelectedStep.bLast) {
+                            this._oWizard.goToStep(oNextStep, true);
+                        } else {
+                            this._oWizard.nextStep();
+                        }
 
-                    this.controlPreNI()
-                    this.controlHeader()
-                    //this.controlStep()
+                        this._iSelectedStepIndex++;
+                        this._oSelectedStep = oNextStep;
+
+                        this.controlPreNI()
+                        this.controlHeader()
+
+                    }
+                }
+
+
+                else if (this._iSelectedStepIndex == 1) {
+                    var strutturaAmministrativa = this.getView().byId("strAmmResp").getValue()
+                    var posizioneFinanziaria = this.getView().byId("input_PF").getValue()
+
+                    if (posizioneFinanziaria == '') {
+                        MessageBox.error("Alimentare tutti i campi obbligatori", {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            emphasizedAction: MessageBox.Action.OK,
+                        })
+                    }
+                    else if (strutturaAmministrativa == '') {
+                        MessageBox.error("Alimentare tutti i campi obbligatori", {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            emphasizedAction: MessageBox.Action.OK,
+                        })
+                    }
+                    else if (strutturaAmministrativa == '' && posizioneFinanziaria == '') {
+                        MessageBox.error("Alimentare tutti i campi obbligatori", {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            emphasizedAction: MessageBox.Action.OK,
+                        })
+                    }
+                    else if (strutturaAmministrativa != '' && posizioneFinanziaria != '' && strutturaAmministrativa != undefined && posizioneFinanziaria != undefined) {
+                        var oNextStep = this._oWizard.getSteps()[this._iSelectedStepIndex + 1];
+
+                        if (this._oSelectedStep && !this._oSelectedStep.bLast) {
+                            this._oWizard.goToStep(oNextStep, true);
+                        } else {
+                            this._oWizard.nextStep();
+                        }
+
+                        this._iSelectedStepIndex++;
+                        this._oSelectedStep = oNextStep;
+
+                        this.controlPreNI()
+                        this.controlHeader()
+
+                    }
                 }
             },
 
