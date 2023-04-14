@@ -13,22 +13,22 @@
     
     <Table class="sapUiSizeCompact" id="PositionNIMI" includeItemInSelection="true" items="{PositionNIMI>/}" visible="true">
         <columns>
-            <Column width="auto">
+            <Column width="auto" hAlign="Left">
                 <Label text="Codice ISIN" />
             </Column>
-            <Column width="25%">
+            <Column width="25%" hAlign="Left">
                 <Label text="Sottotipologia primo livello " />
             </Column>
-            <Column width="auto">
+            <Column width="auto" hAlign="Left">
                 <Label text="Descrizione" />
             </Column>
-            <Column width="auto">
+            <Column width="auto" hAlign="Left">
                 <Label text="Data Pagamento" />
             </Column>
-            <Column width="auto">
+            <Column width="auto" hAlign="Right">
                 <Label text="Importo NI" />
             </Column>
-            <Column width="auto">
+            <Column width="auto" hAlign="Right">
                 <Label text="Importo Residuo" />
             </Column>
         </columns>
@@ -37,8 +37,8 @@
             <Text text="{PositionNIMI>Ztipo}"/>
             <Text text="{PositionNIMI>Zdescrizione}" />
             <Text text="{path: 'PositionNIMI>ZdataPag', formatter:'.formatter.convert'}" />
-            <Input value="{PositionNIMI>ZimpoTitolo}" />
-            <Input value ="{PositionNIMI>ZimpoRes}" />
+            <Input value="{PositionNIMI>ZimpoTitolo}" textAlign="Right"/>
+            <Input value ="{PositionNIMI>ZimpoRes}" textAlign="Right"/>
         </ColumnListItem>
     </Table>
 

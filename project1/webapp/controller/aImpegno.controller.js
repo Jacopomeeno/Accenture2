@@ -189,10 +189,10 @@ sap.ui.define([
 
                                 else {
                                     var importoPrimaVirgola = numeroIntero.split(",")
-                                    var numeroDisp = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                    var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
                                 }
 
-                                if (parseFloat(numeroAttribuito) > parseFloat(numeroDisp)) {
+                                if (parseFloat(numeroAttribuito) > parseFloat(numeroInteroSM)) {
                                     MessageBox.error("Il valore del campo Importo Attribuito non può essere maggiore al campo Disponibilità Impegno", {
                                         actions: [sap.m.MessageBox.Action.OK],
                                         emphasizedAction: MessageBox.Action.OK,
@@ -460,10 +460,10 @@ sap.ui.define([
                         //var numeroFloat = parseFloat(numeroIntero)
                         if (numIntTot.split(",").length > 1) {
                             var virgole = numIntTot.split(",")
-                            numeroIntero = virgole[0] + "." + virgole[1]
+                            numeroIT = virgole[0] + "." + virgole[1]
                         }
                     }
-                    var importoPrimaVirgola = numeroIntero.split(".")
+                    var importoPrimaVirgola = numeroIT.split(".")
                     var numPunti = ""
                     var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
                         return x.split('').reverse().join('')
@@ -473,12 +473,12 @@ sap.ui.define([
                         numPunti = (numPunti + migliaia[migl] + ".")
                     }
                     var indice = numPunti.split("").length
-                    var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                    var numeroInteroTotale = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                 }
 
                 else {
                     var importoPrimaVirgola = numeroIntero.split(",")
-                    var numeroIntero = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                    var numeroIT = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
                 }
 
                 var deltaImportoTot = parseFloat(numIntTot)
@@ -510,38 +510,38 @@ sap.ui.define([
                             var Zdisp = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                         }
 
-                        if (parseFloat(numeroInteroDisponibilità) <= parseFloat(numeroIntero)) {
-                            numeroIntero = parseFloat(numeroIntero) - parseFloat(numeroInteroDisponibilità)
+                        if (parseFloat(numeroInteroDisponibilità) <= parseFloat(numeroIT)) {
+                            numeroIT = parseFloat(numeroIT) - parseFloat(numeroInteroDisponibilità)
                             this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(Zdisp)
                             continue
 
                         }
 
-                        else if (parseFloat(numeroInteroDisponibilità) > parseFloat(numeroIntero) && parseFloat(numeroIntero) > 0 && i != 0) {
+                        else if (parseFloat(numeroInteroDisponibilità) > parseFloat(numeroIT) && parseFloat(numeroIT) > 0 && i != 0) {
 
-                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroIntero + ",00")
-                            numeroIntero = parseFloat(numeroIntero) - parseFloat(numeroInteroDisponibilità)
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroIT + ",00")
+                            numeroIT = parseFloat(numeroIT) - parseFloat(numeroInteroDisponibilità)
                             continue
 
                         }
 
                         else if (i == 0) {
 
-                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroIntero)
-                            numeroIntero = parseFloat(numeroIntero) - parseFloat(numeroInteroDisponibilità)
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroIT)
+                            numeroIT = parseFloat(numeroIT) - parseFloat(numeroInteroDisponibilità)
                             continue
 
                         }
 
                         else {
-                            if (parseFloat(numeroIntero) < 0) {
+                            if (parseFloat(numeroIT) < 0) {
                                 this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue("0,00")
                                 continue
                             }
                             var numeroVirgola = arrayVirgola.split(".")
                             var numeroComposto = numeroVirgola[0] + "," + numeroVirgola[1]
                             this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroComposto)
-                            numeroIntero = parseFloat(numeroIntero) - parseFloat(numeroInteroDisponibilità)
+                            numeroIT = parseFloat(numeroIT) - parseFloat(numeroInteroDisponibilità)
 
                             //var deltaImportoTot = deltaImportoTot - parseFloat(numeroInteroDisponibilità)
                         }

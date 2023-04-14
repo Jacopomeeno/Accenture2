@@ -42,22 +42,22 @@
     </Table> -->
     <Table class="sapUiSizeCompact" id="HeaderNIWstep3" includeItemInSelection="true" items="{HeaderNIWstep3>/}" visible="true">
         <columns>
-            <Column width="auto">
+            <Column width="auto" hAlign="Left">
                 <Label text="Codice ISIN" />
             </Column>
-            <Column width="25%">
+            <Column width="25%" hAlign="Left">
                 <Label text="Sottotipologia primo livello " />
             </Column>
-            <Column width="auto">
+            <Column width="auto" hAlign="Left">
                 <Label text="Descrizione" />
             </Column>
-            <Column width="auto">
+            <Column width="auto" hAlign="Left">
                 <Label text="Data Pagamento" />
             </Column>
-            <Column width="auto">
+            <Column width="auto" hAlign="Right">
                 <Label text="Importo NI" />
             </Column>
-            <Column width="auto">
+            <Column width="auto" hAlign="Right">
                 <Label text="Importo Residuo" />
             </Column>
         </columns>
@@ -66,7 +66,7 @@
             <Text text="{HeaderNIWstep3>Ztipo}"/>
             <Text text="{HeaderNIWstep3>Zdescrizione}" />
             <Text text="{path:'HeaderNIWstep3>ZdataPag', formatter:'.formatter.convert'}" />
-            <Input value="{HeaderNIWstep3>ZimpoTitolo}" />
+            <Input value="{HeaderNIWstep3>ZimpoTitolo}" textAlign="Right"/>
             <Text text="{HeaderNIWstep3>ZimpoRes}" />
         </ColumnListItem>
     </Table>

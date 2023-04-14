@@ -19,16 +19,16 @@
             </OverflowToolbar>
         </headerToolbar>
         <columns>
-            <Column demandPopin="true" hAlign="Center">
+            <Column demandPopin="true" hAlign="Left">
                 <Label text="Struttura Amministrativa Responsabile" />
             </Column>
-            <Column demandPopin="true" hAlign="Center">
+            <Column demandPopin="true" hAlign="Left">
                 <Label text="Posizione Finanziaria" />
             </Column>
-            <Column demandPopin="true" hAlign="Center">
+            <Column demandPopin="true" hAlign="Left">
                 <Label text="Oggetto della spesa" />
             </Column>
-            <Column demandPopin="true" hAlign="Center">
+            <Column demandPopin="true" hAlign="Left">
                 <Label text="Mese" />
             </Column>
         </columns>
