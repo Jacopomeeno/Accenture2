@@ -576,7 +576,7 @@ sap.ui.define(
                         deepEntity.HeaderNISet = header[indiceHeader];
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
-                        MessageBox.warning("Sei sicuro di voler inviare la firma della Nota d'Imputazione n° " + header[i].ZchiaveNi + "?", {
+                        MessageBox.warning("Sei sicuro di voler inviare la firma della Nota d'Imputazione n° " + header[indiceHeader].ZchiaveNi + "?", {
 
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                             emphasizedAction: MessageBox.Action.YES,
@@ -596,7 +596,7 @@ sap.ui.define(
                                                 })
                                             }
                                             if (result.Msgty == 'S') {
-                                                MessageBox.success("Nota di Imputazione n°"+header[i].ZchiaveNi+" firmata correttamente", {
+                                                MessageBox.success("Nota di Imputazione n°"+header[indiceHeader].ZchiaveNi+" firmata correttamente", {
                                                     title: "Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,

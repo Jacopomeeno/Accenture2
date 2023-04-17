@@ -620,7 +620,7 @@ sap.ui.define(
                                                     })
                                                 }
                                                 if (result.Msgty == 'S') {
-                                                    MessageBox.success("Nota di Imputazione n°"+header[indice].ZchiaveNi+" inviata alla firma correttamente", {
+                                                    MessageBox.success("Nota di Imputazione n°"+header[indiceHeader].ZchiaveNi+" inviata alla firma correttamente", {
                                                         title: "Esito Operazione",
                                                         actions: [sap.m.MessageBox.Action.OK],
                                                         emphasizedAction: MessageBox.Action.OK,

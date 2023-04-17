@@ -242,6 +242,27 @@
                     "titleTarget": "",
                     "greedy": false,
                     "target": "TargetrichiamoRilievoRegistrato"
+                },
+                {
+                    "name": "annullataNI",
+                    "pattern": "annullataNI/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "TargetannullataNI"
+                },
+                {
+                    "name": "annullataNIRichiamo",
+                    "pattern": "annullataNIRichiamo/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "TargetannullataNIRichiamo"
+                },
+                {
+                    "name": "annullataNIRilievo",
+                    "pattern": "annullataNIRilievo/{campo},{campo1},{campo2},{campo3},{campo4},{campo5}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": "TargetannullataNIRilievo"
                 }
             ],
             "targets": {
@@ -419,6 +440,30 @@
                     "clearControlAggregation": false,
                     "viewId": "richiamoRilievoRegistrato",
                     "viewName": "richiamoRilievoRegistrato",
+                    "viewLevel": 1
+                },
+                "TargetannullataNI": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "annullataNI",
+                    "viewName": "annullataNI",
+                    "viewLevel": 1
+                },
+                "TargetannullataNIRichiamo": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "annullataNIRichiamo",
+                    "viewName": "annullataNIRichiamo",
+                    "viewLevel": 1
+                },
+                "TargetannullataNIRilievo": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "annullataNIRilievo",
+                    "viewName": "annullataNIRilievo",
                     "viewLevel": 1
                 }
             }
