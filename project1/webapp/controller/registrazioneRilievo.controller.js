@@ -407,6 +407,11 @@ sap.ui.define(
                                             var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
                                             header[indiceHeader].ZimpoTotni = numeroInteroSM
                                         }
+                                        else {
+                                            var importoPrimaVirgola = numeroIntero.split(",")
+                                            var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                                            header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                        }
 
                                         if (that.getView().byId("numProtocolloRGS").getValue() != '') {
                                             deepEntity.HeaderNISet.NProtocolloRag = that.getView().byId("numProtocolloRGS").getValue()
@@ -529,6 +534,11 @@ sap.ui.define(
                                             }
                                             var indice = numPunti.split("").length
                                             var numeroIntero = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+                                            header[indiceHeader].ZimpoTotni = numeroInteroSM
+                                        }
+                                        else {
+                                            var importoPrimaVirgola = numeroIntero.split(",")
+                                            var numeroInteroSM = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
                                             header[indiceHeader].ZimpoTotni = numeroInteroSM
                                         }
 
