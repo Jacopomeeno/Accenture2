@@ -20,7 +20,7 @@
                 </f:DynamicPageTitle>
             </f:title>
             <f:header>
-                <f:DynamicPageHeader pinnable="false">
+                <f:DynamicPageHeader pinnable="true">
                     <fb:FilterBar id="filterbar" showClearOnFB="false" showFilterConfiguration="false" useToolbar="false" search="onSearch">
                         <fb:filterGroupItems>
                             <fb:FilterGroupItem groupName="Gruppo1" name="idState" label="{i18n>es_gestione}" tooltip="suggestion" visibleInFilterBar="true" mandatory="true">
