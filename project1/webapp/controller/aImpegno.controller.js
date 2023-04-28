@@ -84,6 +84,7 @@ sap.ui.define([
                         this.getView().byId("statoNI1").setText(statoNI)
 
                         var importoTot = header[i].ZimpoTotni
+                        header[i].ZimpoTotni = importoTot
                         this.getView().byId("importoTot1").setText(importoTot)
 
                         //var impoTot = this.getView().byId("importoTot1").getText()
@@ -527,7 +528,7 @@ sap.ui.define([
 
                         else if (i == 0) {
 
-                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroIT)
+                            this.getView().byId("HeaderNIAssImp").getSelectedItems()[i].mAggregations.cells[4].setValue(numeroIntero)
                             numeroIT = parseFloat(numeroIT) - parseFloat(numeroInteroDisponibilità)
                             continue
 
