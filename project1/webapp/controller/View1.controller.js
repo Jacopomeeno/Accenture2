@@ -1,4 +1,5 @@
 sap.ui.define([
+    "sap/ui/model/odata/v2/ODataModel",
     // "sap/ui/core/mvc/Controller",
     "./BaseController",
     "sap/ui/model/Filter",
@@ -9,7 +10,7 @@ sap.ui.define([
 
 ],
 
-    function (BaseController, Filter, FilterOperator, MessageBox, Spreadsheet, DateFormatter) {
+    function (ODataModel, BaseController, Filter, FilterOperator, MessageBox, Spreadsheet, DateFormatter) {
         "use strict";
         var EdmType = sap.ui.export.EdmType
 
@@ -19,7 +20,10 @@ sap.ui.define([
 
             onInit: function () {
                 //console.log("onInit View1 controller")
+                this.callVisibilità()
                 this.esercizioDecreto()
+                //this.chiaveNI()
+                this.esercizioGestione()
                 this.EsercizioPosizioneFinanziaria()
                 this.onCallStateNI()
             },
@@ -37,6 +41,50 @@ sap.ui.define([
                 })
             },
 
+            callVisibilità: function () {
+                var that = this
+                var filters = []
+                filters.push(
+                    new Filter({ path: "SEM_OBJ", operator: FilterOperator.EQ, value1: "ZS4_NOTEIMPUTAZIONI_SRV" }),
+                    new Filter({ path: "AUTH_OBJ", operator: FilterOperator.EQ, value1: "Z_GEST_NI" })
+                )
+                // "ODataModel" required from module "sap/ui/model/odata/v2/ODataModel"
+                var visibilità = new ODataModel("http://10.38.125.80:8000/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/");
+                visibilità.read("/ZES_CONIAUTH_SET", {
+                    filters: filters,
+                    urlParameters: "",
+                    success: function (data) {
+                        console.log("success")
+                        //oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/Visibilità', data.results)
+                        that.pulsantiVisibiltà(data.results)
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
+            pulsantiVisibiltà: function (data) {
+                for (var d = 0; d < data.length; d++) {
+                    if (data[d].ACTV_1 == "Z01") {
+                        this.getView().byId("PreimpostazioneNI").setEnabled(true);
+                    }
+                    else {
+                        this.getView().byId("PreimpostazioneNI").setEnabled(false);
+                    }
+                    if (data[d].ACTV_3 == "Z03") {
+                        this.getView().byId("DettagliNI").setEnabled(true);
+                    }
+                    else {
+                        this.getView().byId("DettagliNI").setEnabled(false);
+                    }
+                }
+            },
+
             esercizioDecreto: function () {
                 var that = this;
                 var oMdl = new sap.ui.model.json.JSONModel();
@@ -46,6 +94,24 @@ sap.ui.define([
                     success: function (data) {
                         oMdl.setData(data.results);
                         that.getView().getModel("temp").setProperty('/ZgjahrEngNiSet', data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
+            esercizioGestione: function () {
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/GjahrNiSet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/GjahrNiSet', data.results)
                     },
                     error: function (error) {
                         //that.getView().getModel("temp").setProperty(sProperty,[]);
@@ -133,27 +199,27 @@ sap.ui.define([
 
             onNavToIconTB: function () {
                 var row = this.getView().byId("HeaderNI").getSelectedItem().getBindingContext("HeaderNI").getObject()
-                if (row.ZcodiStatoni == "00")
+                if (row.ZcodiStatoni == "NI Preimpostata")
                     this.getOwnerComponent().getRouter().navTo("iconTabBar", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "01")
+                if (row.ZcodiStatoni == "NI Provvisoria")
                     this.getOwnerComponent().getRouter().navTo("inserisciInvioFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "02")
+                if (row.ZcodiStatoni == "NI Inviata alla firma")
                     this.getOwnerComponent().getRouter().navTo("revocaFirma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "03")
+                if (row.ZcodiStatoni == "")
                     this.getOwnerComponent().getRouter().navTo("passaggioStato", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "04")
+                if (row.ZcodiStatoni == "NI In Verifica")
                     this.getOwnerComponent().getRouter().navTo("richiamaNI", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "05")
+                if (row.ZcodiStatoni == "NI Confermata")
                     this.getOwnerComponent().getRouter().navTo("conferma", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "06")
+                if (row.ZcodiStatoni == "NI Validata RGS")
                     this.getOwnerComponent().getRouter().navTo("richiamoNIRGS", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "07")
+                if (row.ZcodiStatoni == "NI con Rilievo Registrato")
                     this.getOwnerComponent().getRouter().navTo("richiamoRilievoRegistrato", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "09")
+                if (row.ZcodiStatoni == "NI Annullata")
                     this.getOwnerComponent().getRouter().navTo("annullataNI", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "10")
+                if (row.ZcodiStatoni == "NI Annullata per Richiamo")
                     this.getOwnerComponent().getRouter().navTo("annullataNIRichiamo", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
-                if (row.ZcodiStatoni == "11")
+                if (row.ZcodiStatoni == "NI Annullata per Rilievo")
                     this.getOwnerComponent().getRouter().navTo("annullataNIRilievo", { campo: row.Bukrs, campo1: row.Gjahr, campo2: row.Zamministr, campo3: row.ZchiaveNi, campo4: row.ZidNi, campo5: row.ZRagioCompe })
             },
 
@@ -188,6 +254,34 @@ sap.ui.define([
 
             //ZgjahrEngNi
 
+            chiaveNI: function () {
+                var that = this
+                var datiNI = []
+                var visibilità = this.getView().getModel("temp").getData().Visibilità[0]
+                var Gjahr = this.getView().byId("es_gestione").getSelectedItem().mProperties.text
+
+                datiNI.push(new Filter({
+                    path: "Gjahr",
+                    operator: FilterOperator.EQ,
+                    value1: Gjahr,
+                }));
+
+                this.getView().getModel().read("/ZhfNotabozzaSet", {
+                    filters: datiNI,
+                    urlParameters: { "AutorityRole": visibilità.AGR_NAME, "AutorityFikrs": visibilità.FIKRS, "AutorityPrctr": visibilità.PRCTR },
+                    success: function (data) {
+                        //oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/ZhfNotabozzaSet', data.results)
+                        //that.setDescrizioneStato(data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                })
+            },
+
             EsercizioPosizioneFinanziaria: function () {
                 var that = this;
                 var oMdl = new sap.ui.model.json.JSONModel();
@@ -206,7 +300,12 @@ sap.ui.define([
                 });
             },
 
+
+
             onSearch: function (oEvent) {
+                this.getView().byId("PreimpostazioneNI").setEnabled(true);
+                var visibilità = this.getView().getModel("temp").getData().Visibilità[0]
+
                 var that = this;
                 var datiNI = [];
 
@@ -367,14 +466,21 @@ sap.ui.define([
                     //console.log(datiNI)
                     var that = this;
                     var oMdl = new sap.ui.model.json.JSONModel();
+
+                    // var path = this.getView().getModel().createKey("/HeaderNISet", {
+                    //     AutorityRole:visibilità.AGR_NAME,
+                    //     AutorityFikrs:visibilità.FIKRS,
+                    //     AutorityPrctr:visibilità.PRCTR,
+                    //     });
+
                     this.getView().getModel().read("/HeaderNISet", {
                         filters: datiNI,
-                        urlParameters: "",
+                        urlParameters: { "AutorityRole": visibilità.AGR_NAME, "AutorityFikrs": visibilità.FIKRS, "AutorityPrctr": visibilità.PRCTR },
                         success: function (data) {
                             oMdl.setData(data.results);
                             that.getView().getModel("temp").setProperty('/HeaderNISet', data.results)
                             that.setVirgolaMigliaia(data.results)
-                            //that.setDescrizioneStato(data.results)
+                            that.setDescrizioneStato(data.results)
                         },
                         error: function (error) {
                             //that.getView().getModel("temp").setProperty(sProperty,[]);
@@ -388,8 +494,6 @@ sap.ui.define([
                 this.getOwnerComponent().setModel(oMdl, "HeaderNI");
                 //sap.ui.getCore().TableModel = oMdlW;
                 this.getView().byId("Esporta").setEnabled(true);
-                this.getView().byId("DettagliNI").setEnabled(false);
-                this.getView().byId("PreimpostazioneNI").setEnabled(true);
 
                 //this.checkItemCB(oEvent)
             },
@@ -420,52 +524,52 @@ sap.ui.define([
                 this.getOwnerComponent().setModel(oMdl, "HeaderNI");
             },
 
-            // setDescrizioneStato: function (header) {
-            //     var that = this
-            //     for (var x = 0; x < header.length; x++) {
-            //         switch (header[x].ZcodiStatoni) {
-            //             case "00":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Preimpostata")
-            //                 break;
-            //             case "01":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Provvisoria")
-            //                 break;
-            //             case "02":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Inviata alla firma")
-            //                 break;
-            //             case "03":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Firmata Amm.")
-            //                 break;
-            //             case "04":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI In Verifica")
-            //                 break;
-            //             case "05":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Confermata")
-            //                 break;
-            //             case "06":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Validata RGS")
-            //                 break;
-            //             case "07":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI con Rilievo Registrato")
-            //                 break;
-            //             case "08":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI con Rilievo Validato RGS")
-            //                 break;
-            //             case "09":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Annullata")
-            //                 break;
-            //             case "10":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Annullata per Richiamo")
-            //                 break;
-            //             case "11":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Annullata per Rilievo")
-            //                 break;
-            //             case "12":
-            //                 that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Inviata a BKI")
-            //                 break;
-            //         }
-            //     }
-            // },
+            setDescrizioneStato: function (header) {
+                var that = this
+                for (var x = 0; x < header.length; x++) {
+                    switch (header[x].ZcodiStatoni) {
+                        case "00":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Preimpostata")
+                            break;
+                        case "01":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Provvisoria")
+                            break;
+                        case "02":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Inviata alla firma")
+                            break;
+                        case "03":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Firmata Amm.")
+                            break;
+                        case "04":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI In Verifica")
+                            break;
+                        case "05":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Confermata")
+                            break;
+                        case "06":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Validata RGS")
+                            break;
+                        case "07":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI con Rilievo Registrato")
+                            break;
+                        case "08":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI con Rilievo Validato RGS")
+                            break;
+                        case "09":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Annullata")
+                            break;
+                        case "10":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Annullata per Richiamo")
+                            break;
+                        case "11":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Annullata per Rilievo")
+                            break;
+                        case "12":
+                            that.getView().byId("HeaderNI").getItems()[x].mAggregations.cells[5].setText("NI Inviata a BKI")
+                            break;
+                    }
+                }
+            },
 
             navToWizard: function (oEvent) {
                 this.getOwnerComponent().getRouter().navTo("wizard");

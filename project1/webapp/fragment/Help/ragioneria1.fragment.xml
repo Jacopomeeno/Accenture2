@@ -4,9 +4,7 @@
         growing="true"
         growingThreshold="9999"
         class="sapUiPopupWithPadding"
-        items="{
-            path: '/HeaderNISet'
-        }"
+        items="{temp>/ZhfNotabozzaSet}"
         search="_handleValueHelpSearch"
         confirm="_handleValueHelpValueClose"
         cancel="_handleValueHelpClose"
@@ -15,8 +13,8 @@
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{ZRagioCompe}"
-            app:key="{ZRagioCompe}"
+            title="{temp>ZRagioCompe}"
+            app:key="{temp>ZRagioCompe}"
              />    
 </SelectDialog>
              

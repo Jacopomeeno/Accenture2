@@ -472,7 +472,7 @@ sap.ui.define([
                     var deepEntity = {
                         HeaderNISet: null,
                         PositionNISet: [],
-                        Funzionalita: "PREIMPOSTAZIONE"
+                        Funzionalita: 'PREIMPOSTAZIONE'
                     }
 
                     for (var i = 0; i < oItems.length; i++) {
@@ -604,7 +604,9 @@ sap.ui.define([
                                                             })
                                                         }
                                                         if (result.Msgty == 'S') {
-                                                            MessageBox.success(result.Message, {
+                                                            var risultato = result.Message.split(" ")
+                                                            let frase=risultato[0]+" "+risultato[1]+" "+risultato[2]+" "+risultato[3]+" preimpostata correttamente"
+                                                            MessageBox.success(frase, {
                                                                 title: "Esito Operazione",
                                                                 actions: [sap.m.MessageBox.Action.OK],
                                                                 emphasizedAction: MessageBox.Action.OK,
@@ -717,6 +719,7 @@ sap.ui.define([
                 // var oModelP = new sap.ui.model.json.JSONModel("../mockdata/tabGestNI.json");
                 // this.getView().setModel(oModelP, "HeaderNIW");
 
+                var rows = this.getView().byId("HeaderNIW").getSelectedItems()
                 this._oWizard = this.byId("CreateProductWizard");
                 this._oSelectedStep = this._oWizard.getSteps()[this._iSelectedStepIndex];
                 this._iSelectedStepIndex = this._oWizard.getSteps().indexOf(this._oSelectedStep);
@@ -739,6 +742,12 @@ sap.ui.define([
                     }
                     else if (mese == null) {
                         MessageBox.error("Alimentare tutti i campi obbligatori", {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            emphasizedAction: MessageBox.Action.OK,
+                        })
+                    }
+                    else if (rows.length == 0) {
+                        MessageBox.error("Selezionare almeno un pagamento", {
                             actions: [sap.m.MessageBox.Action.OK],
                             emphasizedAction: MessageBox.Action.OK,
                         })
@@ -785,24 +794,49 @@ sap.ui.define([
                         })
                     }
                     else if (strutturaAmministrativa != '' && posizioneFinanziaria != '' && strutturaAmministrativa != undefined && posizioneFinanziaria != undefined) {
-                        var oNextStep = this._oWizard.getSteps()[this._iSelectedStepIndex + 1];
-
-                        if (this._oSelectedStep && !this._oSelectedStep.bLast) {
-                            this._oWizard.goToStep(oNextStep, true);
-                        } else {
-                            this._oWizard.nextStep();
-                        }
-
-                        this._iSelectedStepIndex++;
-                        this._oSelectedStep = oNextStep;
-
-                        this.controlPreNI()
-                        this.controlHeader()
-
+                        this.callSecurity()
                     }
                 }
             },
 
+            callSecurity: function () {
+                var that = this
+                var visibilità = this.getView().getModel("temp").getData().Visibilità[0]
+                var Fipex = this.getView().byId("input_PF").getValue();
+                var Fistl = this.getView().byId("strAmmResp").getValue();
+                var Gjahr = this.getView().byId("es_gestione").getSelectedKey();
+
+                that.getOwnerComponent().getModel().callFunction("/AutImputazioneContabile", {
+                    method: "GET",
+                    urlParameters: { "AutorityRole": visibilità.AGR_NAME, "AutorityFikrs": visibilità.FIKRS, "AutorityPrctr": visibilità.PRCTR, "Fipex": Fipex, "Fistl": Fistl, "Gjahr": Gjahr },
+                    success: function (Value, response) {
+                        that.getView().getModel("temp").setProperty('/Autorizzazioni', Value);
+
+                            var oNextStep = that._oWizard.getSteps()[that._iSelectedStepIndex + 1];
+
+                            if (that._oSelectedStep && !that._oSelectedStep.bLast) {
+                                that._oWizard.goToStep(oNextStep, true);
+                            } else {
+                                that._oWizard.nextStep();
+                            }
+
+                            that._iSelectedStepIndex++;
+                            that._oSelectedStep = oNextStep;
+
+                            that.controlPreNI()
+                            that.controlHeader()
+                        
+                    },
+                    error: function (oError) {
+                        var err = oError
+                        MessageBox.error(oError.Message, {
+                            title: "Esito Operazione",
+                            actions: [sap.m.MessageBox.Action.OK],
+                            emphasizedAction: MessageBox.Action.OK,
+                        })
+                    }
+                })
+            },
             // controlStep:function(){
             //     var oProprietà = this.getView().getModel();
             //     switch (this._iSelectedStepIndex) {

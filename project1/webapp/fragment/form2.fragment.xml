@@ -8,19 +8,19 @@
             <f:content>
                 <core:Title text=" " />
                 <Label text="Beneficiario" required="true" />
-                <Input id="inputBeneficiario" type="Text" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Lifnr' }}" enabled="true" editable="true">
+                <Input id="inputBeneficiario" type="Text" showValueHelp="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Lifnr' }}" enabled="true" editable="false">
                     <core:Item key="{Lifnr}" text="{Lifnr}" />
                 </Input>
                 <Label text="Modalità di Pagamento" required="true" />
-                <ComboBox id="ModPagamento" enabled="true" editable="true" items="{path: 'temp>/ZdescwelsBniSet', sorter: { path: 'temp>Zdescwels' }}">
+                <ComboBox id="ModPagamento" enabled="true" editable="false" items="{path: 'temp>/ZdescwelsBniSet', sorter: { path: 'temp>Zdescwels' }}">
                     <core:Item key="{temp>Zdescwels}" text="{temp>Zdescwels}"/>
                 </ComboBox>
                 <!-- <core:Item key="{}" text="{}"/> -->
                 <core:Title text=" " />
                 <Label text="Nome" />
-                <Input id="inputNome" type="Text" enabled="true" editable="true" />
+                <Input id="inputNome" type="Text" enabled="true" editable="false" />
                 <Label text="IBAN" required="true" />
-                <Input id="inputIBAN" type="Text" showValueHelp="true" enabled="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Iban' }}" editable="true" value="IT60X0542811101000000123456">
+                <Input id="inputIBAN" type="Text" showValueHelp="true" enabled="true" showSuggestion="true" suggestionItems="{path: '/HeaderNISet', sorter: { path: 'Iban' }}" editable="false" value="IT60X0542811101000000123456">
                     <core:Item key="{Iban}" text="{Iban}" />
                 </Input>
                 <core:Title text=" " />
@@ -30,7 +30,7 @@
             <f:content>
                 <core:Title text=" " />
                 <Label text="Centro di Costo" required="true" />
-                <Input id="inputCentroCosto" type="Text" showValueHelp="true" suggestionItems="{path: '/LtextIcSet', sorter: { path: 'Kostl' }}" enabled="true" editable="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCentroCosto" app:filterTableField="inputCentroCosto" value="D010069910">
+                <Input id="inputCentroCosto" type="Text" showValueHelp="true" suggestionItems="{path: '/LtextIcSet', sorter: { path: 'Kostl' }}" enabled="true" editable="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="inputCentroCosto" app:filterTableField="inputCentroCosto">
                     <core:Item key="{Kostl}" text="{Kostl}" />
                 </Input>
                 <Label text="Conto Co. Ge." required="true" />
@@ -39,7 +39,7 @@
                 </Input>
                 <core:Title text=" " />
                 <Label text="Descrizione" />
-                <Input id="DescCentroCosto" type="Text" value="test" editable="false"/>
+                <Input id="DescCentroCosto" type="Text" editable="false"/>
                 <Label text="Descrizione" />
                 <Input id="DescCoGe" type="Text" value="test" editable="false"/>
             </f:content>
@@ -56,11 +56,11 @@
                 <core:Title text="" />
                 <Label text="Data Protocollo" class="sapUiTinyMarginBottom">
                     <layoutData>
-                        <l:GridData span="XL3 L2 M4 S5" />
+                        <l:GridData span="XL3 L1 M4 S5" />
                     </layoutData>
                 </Label>
 
-                <DatePicker id="DP1" valueFormat="dd-mm-yyyy" displayFormat="long" class="sapUiTinyyMarginBottom">
+                <DatePicker id="DP1" displayFormat="dd.MM.yyyy" class="sapUiTinyyMarginBottom">
                     <layoutData>
                         <l:GridData span="XL3 L2 M4 S5" />
                     </layoutData>
@@ -119,11 +119,11 @@
 
                 <Label text="Data esigibilità" class="sapUiTinyMarginBottom">
                     <layoutData>
-                        <l:GridData span="XL3 L2 M4 S5" />
+                        <l:GridData span="XL3 L1 M4 S5" />
                     </layoutData>
                 </Label>
 
-                <DatePicker id="DP2" valueFormat="dd-mm-yyyy" displayFormat="long" class="sapUiTinyyMarginBottom">
+                <DatePicker id="DP2" displayFormat="dd.MM.yyyy" class="sapUiTinyyMarginBottom">
                     <layoutData>
                         <l:GridData span="XL3 L2 M4 S5" />
                     </layoutData>

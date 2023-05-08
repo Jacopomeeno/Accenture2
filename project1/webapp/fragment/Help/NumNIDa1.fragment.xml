@@ -15,8 +15,8 @@
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{ZidNi}"
-            app:key="{ZidNi}"
+            title="{ZzChiaveSubniPos}"
+            app:key="{ZzChiaveSubniPos}"
              />    
 </SelectDialog>
              

@@ -187,7 +187,7 @@ sap.ui.define(
                 var oItems = that.getView().byId("PositionNIMI").getBinding("items").oList;
 
                 var deepEntity = {
-                    Funzionalita: "RETTIFICANIPREIMPOSTATA",
+                    Funzionalita: 'RETTIFICANIPREIMPOSTATA',
                     PositionNISet: []
                 }
                 //var dataOdierna = new Date()
@@ -261,7 +261,7 @@ sap.ui.define(
                             oModel.create("/DeepPositionNISet", deepEntity, {
                                 // method: "PUT",
                                 success: function (result) {
-                                    MessageBox.success("Modifica importo eseguita correttamente", {
+                                    MessageBox.success("Nota di Imputazione "+item.ZchiaveNi+" rettificata correttamente", {
                                         title: "Esito Operazione",
                                         actions: [sap.m.MessageBox.Action.OK],
                                         emphasizedAction: MessageBox.Action.OK,

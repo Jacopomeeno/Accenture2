@@ -306,7 +306,7 @@ sap.ui.define(
                                         // method: "PUT",
                                         success: function (data) {
                                             //console.log("success");
-                                            MessageBox.success("Operazione eseguita con successo", {
+                                            MessageBox.success("Nota di Imputazione "+header[indiceHeader].ZchiaveNi+" revocata correttamente", {
                                                 title:"Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,

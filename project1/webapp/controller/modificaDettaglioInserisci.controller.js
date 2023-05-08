@@ -207,7 +207,7 @@ sap.ui.define(
                                     ZchiaveNi:item.ZchiaveNi,
                                     ZidNi:item.ZidNi,
                                     ZRagioCompe:item.ZRagioCompe,
-                                    Funzionalita:"RETTIFICAPROVVISORIA"
+                                    Funzionalita: 'RETTIFICAPROVVISORIA'
                                     });
 
                                     var oEntry = {};

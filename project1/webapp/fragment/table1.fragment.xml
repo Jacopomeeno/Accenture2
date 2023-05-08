@@ -46,7 +46,7 @@
         <ColumnListItem type="Active">
             <Text text="{HeaderNI>ZchiaveNi}" />
             <Text text="{HeaderNI>Fistl}" />
-            <Text text="{HeaderNI>Fipex}" />
+            <Text text="{HeaderNI>Fipex}"/>
             <Text text="{HeaderNI>ZoggSpesa}" />
             <Text text="{path: 'HeaderNI>Zmese', formatter:'.formatter.getMonthName'}" wrapping="false"/>
             <Text text="{HeaderNI>ZcodiStatoni}" />

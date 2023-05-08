@@ -324,7 +324,7 @@ sap.ui.define([
                 //var selectedRows = that.getView().byId("HeaderNIW").getSelectedItems().length
 
                 var deepEntity = {
-                    Funzionalita: "RETTIFICANIPREIMPOSTATA",
+                    Funzionalita: 'RETTIFICANIPREIMPOSTATA',
                     PositionNISet: []
                 }
 
@@ -403,7 +403,7 @@ sap.ui.define([
 
                             oDataModel.create("/DeepPositionNISet", deepEntity, {
                                 success: function (result) {
-                                    MessageBox.success("Nota d'imputazione rettificata correttamente", {
+                                    MessageBox.success("Nota di Imputazione "+oItems[0].ZchiaveNi+" rettificata correttamente", {
                                         title: "Esito Operazione",
                                         actions: [sap.m.MessageBox.Action.OK],
                                         emphasizedAction: MessageBox.Action.OK,

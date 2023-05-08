@@ -359,7 +359,7 @@ sap.ui.define(
                         header[i].ZRagioCompe == ZRagioCompe) {
 
                         var indiceHeader = i
-                        if (header[indiceHeader].ZcodiStatoni == "04") {
+                        if (header[indiceHeader].ZcodiStatoni == "NI In Verifica") {
 
                             var deepEntity = {
                                 HeaderNISet: null,
@@ -380,6 +380,7 @@ sap.ui.define(
                                         //deepEntity.ZchiaveNi = header[indice]
 
                                         deepEntity.HeaderNISet = header[indiceHeader];
+                                        deepEntity.HeaderNISet.ZcodiStatoni = "04"
                                         //deepEntity.RilievoNiSet.ZdatRilievo = that.getView().byId("dataRilievo").mProperties.dateValue
 
                                         var numeroIntero = header[indiceHeader].ZimpoTotni
@@ -462,7 +463,7 @@ sap.ui.define(
                                                     })
                                                 }
                                                 if (data.Msgty == 'S') {
-                                                    MessageBox.success("Operazione eseguita correttamente", {
+                                                    MessageBox.success("Rilievo della Nota di Imputazione n."+header[indiceHeader].ZchiaveNi+" registrato correttamente", {
                                                         title: "Esito Operazione",
                                                         actions: [sap.m.MessageBox.Action.OK],
                                                         emphasizedAction: MessageBox.Action.OK,
@@ -489,7 +490,7 @@ sap.ui.define(
                                 }
                             });
                         }
-                        else if (header[indiceHeader].ZcodiStatoni == "05") {
+                        else if (header[indiceHeader].ZcodiStatoni == "NI Confermata") {
 
                             var deepEntity = {
                                 HeaderNISet: null,
@@ -510,6 +511,7 @@ sap.ui.define(
                                         //deepEntity.ZchiaveNi = header[indice]
 
                                         deepEntity.HeaderNISet = header[indiceHeader];
+                                        deepEntity.HeaderNISet.ZcodiStatoni = "05"
 
                                         var numeroIntero = header[indiceHeader].ZimpoTotni
                                         var numIntTot = ""
@@ -584,7 +586,7 @@ sap.ui.define(
                                                     })
                                                 }
                                                 if (data.Msgty == 'S') {
-                                                    MessageBox.success("Operazione eseguita correttamente", {
+                                                    MessageBox.success("Rilievo della Nota di Imputazione n."+header[indiceHeader].ZchiaveNi+" registrato correttamente", {
                                                         title: "Esito Operazione",
                                                         actions: [sap.m.MessageBox.Action.OK],
                                                         emphasizedAction: MessageBox.Action.OK,
@@ -611,7 +613,7 @@ sap.ui.define(
                                 }
                             });
                         }
-                        else if (header[indiceHeader].ZcodiStatoni == "07") {
+                        else if (header[indiceHeader].ZcodiStatoni == "NI con Rilievo Registrato") {
 
                             var deepEntity = {
                                 HeaderNISet: null,
@@ -632,7 +634,7 @@ sap.ui.define(
                                         //deepEntity.ZchiaveNi = header[indice]
                                         deepEntity.HeaderNISet = header[indiceHeader];
 
-                                        deepEntity.HeaderNISet = header[indiceHeader];
+                                        deepEntity.HeaderNISet.ZcodiStatoni = "07"
 
                                         var numeroIntero = header[indiceHeader].ZimpoTotni
                                         var numIntTot = ""
@@ -691,7 +693,7 @@ sap.ui.define(
                                                     })
                                                 }
                                                 if (data.Msgty == 'S') {
-                                                    MessageBox.success("Operazione eseguita correttamente", {
+                                                    MessageBox.success("Rilievo della Nota di Imputazione n."+header[indiceHeader].ZchiaveNi+" rettificato", {
                                                         title: "Esito Operazione",
                                                         actions: [sap.m.MessageBox.Action.OK],
                                                         emphasizedAction: MessageBox.Action.OK,

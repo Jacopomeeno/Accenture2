@@ -13,7 +13,7 @@ sap.ui.define([
                 this.onCallImpegni()
                 this.getOwnerComponent().getModel("temp");
                 this.onCallKostl()
-                this.onCallLtextIc()
+                //this.onCallLtextIc()
                 this.onCallTxt50Ic()
                 this.getRouter().getRoute("aImpegno2").attachPatternMatched(this._onObjectMatched, this);
             },
@@ -64,38 +64,38 @@ sap.ui.define([
                 });
             },
 
-            onCallLtextIc: function () {
-                var filtriLtextIc = []
-                var position = this.getOwnerComponent().getModel("temp").getData().PositionNISet
-                var Kokrs = position[0].Bukrs
-                var Kostl = "A04017ZZZZ"
+            // onCallLtextIc: function () {
+            //     var filtriLtextIc = []
+            //     var position = this.getOwnerComponent().getModel("temp").getData().PositionNISet
+            //     var Kokrs = position[0].Bukrs
+            //     var Kostl = "A04017ZZZZ"
 
-                filtriLtextIc.push(new Filter({
-                    path: "Kokrs",
-                    operator: FilterOperator.EQ,
-                    value1: Kokrs
-                }));
-                filtriLtextIc.push(new Filter({
-                    path: "Kostl",
-                    operator: FilterOperator.EQ,
-                    value1: Kostl
-                }));
+            //     filtriLtextIc.push(new Filter({
+            //         path: "Kokrs",
+            //         operator: FilterOperator.EQ,
+            //         value1: Kokrs
+            //     }));
+            //     filtriLtextIc.push(new Filter({
+            //         path: "Kostl",
+            //         operator: FilterOperator.EQ,
+            //         value1: Kostl
+            //     }));
 
-                var that = this
-                var oMdlText = new sap.ui.model.json.JSONModel();
-                this.getOwnerComponent().getModel().read("/LtextIcSet", {
-                    filters: filtriLtextIc,
-                    //filters: [],
-                    // urlParameters: "",
-                    success: function (data) {
-                        oMdlText.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/LtextIcSet', data.results)
-                    },
-                    error: function (error) {
-                        var e = error;
-                    }
-                });
-            },
+            //     var that = this
+            //     var oMdlText = new sap.ui.model.json.JSONModel();
+            //     this.getOwnerComponent().getModel().read("/LtextIcSet", {
+            //         filters: filtriLtextIc,
+            //         //filters: [],
+            //         // urlParameters: "",
+            //         success: function (data) {
+            //             oMdlText.setData(data.results);
+            //             that.getView().getModel("temp").setProperty('/LtextIcSet', data.results)
+            //         },
+            //         error: function (error) {
+            //             var e = error;
+            //         }
+            //     });
+            // },
 
             onCallModalità: function () {
                 var filtriModalità = []
@@ -114,6 +114,8 @@ sap.ui.define([
                     success: function (data) {
                         oMdlMod.setData(data.results);
                         that.getView().getModel("temp").setProperty('/ZdescwelsBniSet', data.results)
+                        that.getView().byId("ModPagamento").setValue(data.results[0].Zdescwels)
+                        
                     },
                     error: function (error) {
                         var e = error;
@@ -125,16 +127,16 @@ sap.ui.define([
                 var filtriTxt50Ic = []
                 var that = this
                 var oMdlText = new sap.ui.model.json.JSONModel();
-                var Saknr = "1021049999"
+                //var Saknr = "1021049999"
 
-                filtriTxt50Ic.push(new Filter({
-                    path: "Saknr",
-                    operator: FilterOperator.EQ,
-                    value1: Saknr
-                }));
+                // filtriTxt50Ic.push(new Filter({
+                //     path: "Saknr",
+                //     operator: FilterOperator.EQ,
+                //     value1: Saknr
+                // }));
 
                 this.getOwnerComponent().getModel().read("/Txt50IcSet", {
-                    filters: filtriTxt50Ic,
+                    filters: [],
                     success: function (data) {
                         oMdlText.setData(data.results);
                         that.getView().getModel("temp").setProperty('/Txt50IcSet', data.results)

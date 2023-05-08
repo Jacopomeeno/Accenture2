@@ -417,6 +417,7 @@ sap.ui.define(
                                         }
 
                                         deepEntity.HeaderNISet = header[indiceHeader];
+                                        deepEntity.HeaderNISet.ZcodiStatoni = "02"
                                     }
                                     oModel.create("/DeepZNIEntitySet", deepEntity, {
                                         //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
@@ -431,7 +432,7 @@ sap.ui.define(
                                                 })
                                             }
                                             if (data.Msgty == 'S') {
-                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                MessageBox.success("Nota di Imputazione "+header[indiceHeader].ZchiaveNi+" revocata correttamente", {
                                                     title: "Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
@@ -574,6 +575,7 @@ sap.ui.define(
                         }
 
                         deepEntity.HeaderNISet = header[indiceHeader];
+                        deepEntity.HeaderNISet.ZcodiStatoni = "02"
 
                         //var statoNI = this.getView().byId("idModificaDettaglio").mBindingInfos.items.binding.oModel.oZcodiStatoni
                         MessageBox.warning("Sei sicuro di voler inviare la firma della Nota d'Imputazione n° " + header[indiceHeader].ZchiaveNi + "?", {

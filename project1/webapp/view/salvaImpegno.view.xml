@@ -107,7 +107,7 @@
         <f:content>
             <IconTabBar id="salvaImpegnoITB" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
-                    <IconTabFilter icon="sap-icon://detail-view" text="Dettagli NI" key="dettagliNI">
+                    <IconTabFilter icon="sap-icon://detail-view" text="Dettaglio NI" key="dettagliNI">
                         <core:Fragment fragmentName="project1.fragment.salvaImpegno" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">

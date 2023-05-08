@@ -425,6 +425,7 @@ sap.ui.define(
 
                                     deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                     deepEntity.HeaderNISet = header[indiceHeader];
+                                    deepEntity.HeaderNISet.ZcodiStatoni = "02"
 
                                     var numeroIntero = header[indiceHeader].ZimpoTotni
                                     var numIntTot = ""
@@ -471,7 +472,7 @@ sap.ui.define(
                                                 })
                                             }
                                             if (data.Msgty == 'S') {
-                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                MessageBox.success("Nota di Imputazione "+header[indiceHeader].ZchiaveNi+" confermata correttamente", {
                                                     title: "Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
@@ -677,6 +678,7 @@ sap.ui.define(
 
                                             deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                             deepEntity.HeaderNISet = header[indiceHeader];
+                                            deepEntity.HeaderNISet.ZcodiStatoni = "02"
                                             var numeroIntero = header[indiceHeader].ZimpoTotni
                                             var numIntTot = ""
                                             if (numeroIntero.split(".").length > 1) {

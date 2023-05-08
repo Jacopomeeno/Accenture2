@@ -1,4 +1,5 @@
 sap.ui.define([
+    "sap/ui/model/odata/v2/ODataModel",
     "./BaseController",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
@@ -9,7 +10,7 @@ sap.ui.define([
     "project1/model/DateFormatter"
 ],
 
-    function (BaseController, Filter, FilterOperator, JSONModel, MessageBox, Spreadsheet, CoreLibrary, DateFormatter) {
+    function (ODataModel, BaseController, Filter, FilterOperator, JSONModel, MessageBox, Spreadsheet, CoreLibrary, DateFormatter) {
         "use strict";
         var EdmType = sap.ui.export.EdmType
 
@@ -29,6 +30,7 @@ sap.ui.define([
                 oProprietà.setData(oInitialModelState);
                 this.getView().setModel(oProprietà);
                 this.getOwnerComponent().getModel("temp");
+                this.controlloRuoli()
                 //this.prePosition()
                 this.getRouter().getRoute("iconTabBar").attachPatternMatched(this._onObjectMatched, this);
 
@@ -46,21 +48,55 @@ sap.ui.define([
                 this.callPositionNI(oEvent)
             },
 
-            // prePosition: function(){
-            //     var that = this;
-            //     var oMdlITB = new sap.ui.model.json.JSONModel();
-            //     this.getOwnerComponent().getModel().read("/PositionNISet", {
-            //         filters: [],
-            //         urlParameters: "",
-            //         success: function (data) {
-            //             oMdlITB.setData(data.results);
-            //             that.getView().getModel("temp").setProperty('/PositionNISet', data.results)
-            //         },
-            //         error: function (error) {
-            //             var e = error;
-            //         }
-            //     });
-            // },  
+            controlloRuoli: function () {
+                var that = this
+                var filters = []
+                filters.push(
+                    new Filter({ path: "SEM_OBJ", operator: FilterOperator.EQ, value1: "ZS4_NOTEIMPUTAZIONI_SRV" }),
+                    new Filter({ path: "AUTH_OBJ", operator: FilterOperator.EQ, value1: "Z_GEST_NI" })
+                )
+                // "ODataModel" required from module "sap/ui/model/odata/v2/ODataModel"
+                var visibilità = new ODataModel("http://10.38.125.80:8000/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/");
+                visibilità.read("/ZES_CONIAUTH_SET", {
+                    filters: filters,
+                    urlParameters: "",
+                    success: function (data) {
+                        console.log("success")
+                        //oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/Visibilità', data.results)
+                        that.pulsantiVisibiltà(data.results)
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
+            pulsantiVisibiltà: function (data) {
+                for (var d = 0; d < data.length; d++) {
+                    if (data[d].ACTV_1 == "Z01") {
+                        this.getView().byId("pressAssImpegno").setEnabled(true);
+                    }
+                    else {
+                        this.getView().byId("pressAssImpegno").setEnabled(false);
+                    }
+                    if (data[d].ACTV_2 == "Z02") {
+                        this.getView().byId("rettificaNI").setEnabled(true);
+                    }
+                    else {
+                        this.getView().byId("rettificaNI").setEnabled(false);
+                    }
+                    if (data[d].ACTV_4 == "Z07") {
+                        this.getView().byId("AnnullaNI").setEnabled(true);
+                    }
+                    else {
+                        this.getView().byId("AnnullaNI").setEnabled(false);
+                    }
+                }
+            },
 
             viewHeader: function (data) {
 
@@ -262,7 +298,7 @@ sap.ui.define([
 
                             success: function (data) {
                                 that.getView().getModel("temp").setProperty('/WFStateNI', data.results)
-                            
+
                             },
                             error: function (error) {
                                 var e = error;
@@ -436,7 +472,7 @@ sap.ui.define([
                 var selectedPosition = this.getView().byId("HeaderITB").getSelectedItems()
 
                 var deepEntity = {
-                    Funzionalita: "RETTIFICANIPREIMPOSTATA",
+                    Funzionalita: 'RETTIFICANIPREIMPOSTATA',
                     PositionNISet: []
                 }
 
@@ -483,7 +519,7 @@ sap.ui.define([
                                         })
                                     }
                                     if (result.Msgty == 'S') {
-                                        MessageBox.success("Operazione eseguita correttamente", {
+                                        MessageBox.success("Nota di Imputazione "+item.ZchiaveNi+" rettificata correttamente", {
                                             title: "Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],
                                             emphasizedAction: MessageBox.Action.OK,
@@ -555,6 +591,7 @@ sap.ui.define([
                                     deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
 
                                     deepEntity.HeaderNISet = header[indiceHeader];
+                                    deepEntity.HeaderNISet.ZcodiStatoni = "00"
 
                                     var numeroIntero = header[indiceHeader].ZimpoTotni
                                     var numIntTot = ""
@@ -594,7 +631,7 @@ sap.ui.define([
                                         // method: "PUT",
                                         success: function (data) {
                                             //console.log("success");
-                                            MessageBox.success("Operazione eseguita con successo", {
+                                            MessageBox.success("Nota di Imputazione "+header[indiceHeader].ZchiaveNi+" annullata correttamente", {
                                                 title: "Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,

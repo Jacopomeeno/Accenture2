@@ -459,6 +459,7 @@ sap.ui.define(
                                     }
 
                                     deepEntity.HeaderNISet = header[indiceHeader];
+                                    deepEntity.HeaderNISet.ZcodiStatoni = "05"
 
                                     oModel.create("/DeepZNIEntitySet", deepEntity, {
                                         //urlParameters: {'funzionalita': 'ANNULLAMENTOPREIMPOSTATA'},
@@ -575,7 +576,7 @@ sap.ui.define(
                                         // method: "PUT",
                                         success: function (data) {
                                             //console.log("success");
-                                            MessageBox.success("Operazione eseguita con successo", {
+                                            MessageBox.success("Nota di Imputazione "+header[indiceHeader].ZchiaveNi+" revocata correttamente", {
                                                 title: "Esito Operazione",
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 emphasizedAction: MessageBox.Action.OK,
@@ -691,6 +692,7 @@ sap.ui.define(
 
                                         deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                         deepEntity.HeaderNISet = header[indiceHeader];
+                                        deepEntity.HeaderNISet.ZcodiStatoni = "05"
 
                                         var numeroIntero = header[indiceHeader].ZimpoTotni
                                         var numIntTot = ""

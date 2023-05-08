@@ -484,6 +484,7 @@ sap.ui.define(
                                     //deepEntity.ZchiaveNi = header[indice]
 
                                     deepEntity.HeaderNISet = header[indiceHeader];
+                                    deepEntity.HeaderNISet.ZcodiStatoni = "07"
 
                                     var numeroIntero = header[indiceHeader].ZimpoTotni
                                     var numIntTot = ""
@@ -531,7 +532,7 @@ sap.ui.define(
                                                 })
                                             }
                                             if (data.Msgty == 'S') {
-                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                MessageBox.success("Rilievo della Nota di Imputazione n."+header[indiceHeader].ZchiaveNi+" validato", {
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {
@@ -655,7 +656,7 @@ sap.ui.define(
                                                 })
                                             }
                                             if (data.Msgty == 'S') {
-                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                MessageBox.success("Nota di Imputazione "+header[indiceHeader].ZchiaveNi+" revocata correttamente", {
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {
@@ -734,6 +735,7 @@ sap.ui.define(
 
 
                                         deepEntity.HeaderNISet = header[indiceHeader];
+                                        deepEntity.HeaderNISet.ZcodiStatoni = "07"
 
 
                                         var numeroIntero = header[indiceHeader].ZimpoTotni
@@ -907,6 +909,7 @@ sap.ui.define(
 
                                             deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
                                             deepEntity.HeaderNISet = header[indiceHeader];
+                                            deepEntity.HeaderNISet.ZcodiStatoni = "07"
 
                                             var numeroIntero = header[indiceHeader].ZimpoTotni
                                             var numIntTot = ""

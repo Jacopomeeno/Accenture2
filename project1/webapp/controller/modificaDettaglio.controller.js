@@ -99,6 +99,8 @@ sap.ui.define(
 
 
             onModificaNI: function () {
+                var visibilità = this.getOwnerComponent().getModel("temp").getData().Visibilità[0]
+                
 
                 var filtroNI = []
                 var url = location.href
@@ -148,7 +150,7 @@ sap.ui.define(
                 var oMdlM = new sap.ui.model.json.JSONModel();
                 this.getOwnerComponent().getModel().read("/HeaderNISet", {
                     filters: filtroNI,
-                    urlParameters: "",
+                    urlParameters: { "AutorityRole": visibilità.AGR_NAME, "AutorityFikrs": visibilità.FIKRS, "AutorityPrctr": visibilità.PRCTR },
                     success: function (data) {
                         oMdlM.setData(data.results);
                         //that.getView().getModel("temp").setProperty('/HeaderNISet', data.results)
@@ -207,7 +209,7 @@ sap.ui.define(
                                     ZchiaveNi:item.ZchiaveNi,
                                     ZidNi:item.ZidNi,
                                     ZRagioCompe:item.ZRagioCompe,
-                                    Funzionalita:"RETTIFICANIPREIMPOSTATA"
+                                    Funzionalita: 'RETTIFICANIPREIMPOSTATA'
                                     });
 
                                     var oEntry = {};
@@ -218,7 +220,7 @@ sap.ui.define(
                                     // method: "PUT",
                                     success: function (data) {
                                         //console.log("success");
-                                        MessageBox.success("Operazione Eseguita con successo", {
+                                        MessageBox.success("Nota di Imputazione "+item.ZchiaveNi+" rettificata correttamente", {
                                             title:"Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],
                                             emphasizedAction: MessageBox.Action.OK,

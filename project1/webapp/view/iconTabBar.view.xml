@@ -63,14 +63,14 @@
                 <OverflowToolbar>
                     <ToolbarSpacer />
                     <Button text="Associa Impegno" type="Emphasized" press="pressAssociaImpegno" enabled="true" id="pressAssImpegno"/>
-                    <Button text="Rettifica NI" type="Emphasized" press="pressRettificaNI" />
+                    <Button text="Rettifica NI" id="rettificaNI" type="Emphasized" press="pressRettificaNI" />
                 </OverflowToolbar>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
             <IconTabBar id="idIconTabBar" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
-                    <IconTabFilter icon="sap-icon://detail-view" text="Dettagli NI" key="dettagliNI">
+                    <IconTabFilter icon="sap-icon://detail-view" text="Dettaglio NI" key="dettagliNI">
                         <core:Fragment fragmentName="project1.fragment.dettagliNI" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">

@@ -447,6 +447,7 @@ sap.ui.define(
                                     // deepEntity.ZRagioCompe = item.ZRagioCompe, //Passato Da BE
 
                                     deepEntity.HeaderNISet = header[indiceHeader];
+                                    deepEntity.HeaderNISet.ZcodiStatoni = "01"
 
                                     var numeroIntero = header[indiceHeader].ZimpoTotni
                                     var numIntTot = ""
@@ -495,7 +496,7 @@ sap.ui.define(
                                                 })
                                             }
                                             if (result.Msgty == 'S') {
-                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                MessageBox.success("Nota di Imputazione "+header[indiceHeader].ZchiaveNi+" annullata correttamente", {
                                                     title: "Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
