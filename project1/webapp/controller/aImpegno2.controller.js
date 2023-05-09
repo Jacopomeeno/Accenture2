@@ -286,7 +286,7 @@ sap.ui.define([
                     this.getView().getModel("temp").setProperty('/ValoriNuovi', valoriNuovi)
                     //console.log("eh")
                 }
-                if (beneficiario != '' && centroCosto != '' && contoCOGE != '' && codiceGestionale != '' && causalePagamento != '' && modalitàPagamento != '' && Iban != '') {
+                if (beneficiario != undefined && centroCosto != undefined && contoCOGE != undefined && codiceGestionale != undefined && causalePagamento != undefined && modalitàPagamento != undefined && Iban != undefined) {
                     var url = location.href
                     var sUrl = url.split("/aImpegno2/")[1]
                     var aValori = sUrl.split(",")

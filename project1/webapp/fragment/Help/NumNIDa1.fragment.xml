@@ -5,7 +5,7 @@
         growingThreshold="9999"
         class="sapUiPopupWithPadding"
         items="{
-            path: '/HeaderNISet'
+            path: 'temp>/ZhfNotaimpSet'
         }"
         search="_handleValueHelpSearch"
         confirm="_handleValueHelpValueClose"
@@ -15,8 +15,8 @@
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{ZzChiaveSubniPos}"
-            app:key="{ZzChiaveSubniPos}"
+            title="{temp>ZchiaveSubni}"
+            app:key="{temp>ZchiaveSubni}"
              />    
 </SelectDialog>
              

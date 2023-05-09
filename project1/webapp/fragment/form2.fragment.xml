@@ -68,8 +68,7 @@
 
                 <Label text="N. Protocollo" class="sapUiTinyMarginBottom">
                     <layoutData>
-                        <l:GridData indent="XL3 L4 M4 S5" />
-                        <l:GridData span="XL3 L4 M4 S5" />
+                        <l:GridData span="XL2 L2 M4 S5" />
                     </layoutData>
                 </Label>
 
@@ -131,8 +130,7 @@
 
                 <Label text="Zona di intervento" class="sapUiTinyMarginBottom">
                     <layoutData>
-                        <l:GridData indent="XL3 L4 M4 S5" />
-                        <l:GridData span="XL3 L4 M4 S5" />
+                        <l:GridData span="XL2 L2 M4 S5" />
                     </layoutData>
                 </Label>
 

@@ -30,6 +30,7 @@ server:
         backend:
           - path: /sap
             url: http://10.38.125.80:8000
+            client: '100'
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:

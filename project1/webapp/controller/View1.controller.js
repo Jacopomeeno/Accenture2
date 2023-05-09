@@ -255,6 +255,7 @@ sap.ui.define([
             //ZgjahrEngNi
 
             chiaveNI: function () {
+                this.chiaveSubNI()
                 var that = this
                 var datiNI = []
                 var visibilità = this.getView().getModel("temp").getData().Visibilità[0]
@@ -272,6 +273,34 @@ sap.ui.define([
                     success: function (data) {
                         //oMdl.setData(data.results);
                         that.getView().getModel("temp").setProperty('/ZhfNotabozzaSet', data.results)
+                        //that.setDescrizioneStato(data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                })
+            },
+
+            chiaveSubNI: function () {
+                var that = this
+                var datiNI = []
+                var visibilità = this.getView().getModel("temp").getData().Visibilità[0]
+                var Gjahr = this.getView().byId("es_gestione").getSelectedItem().mProperties.text
+
+                datiNI.push(new Filter({
+                    path: "Gjahr",
+                    operator: FilterOperator.EQ,
+                    value1: Gjahr,
+                }));
+
+                this.getView().getModel().read("/ZhfNotaimpSet", {
+                    filters: datiNI,
+                    urlParameters: { "AutorityRole": visibilità.AGR_NAME, "AutorityFikrs": visibilità.FIKRS, "AutorityPrctr": visibilità.PRCTR },
+                    success: function (data) {
+                        //oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/ZhfNotaimpSet', data.results)
                         //that.setDescrizioneStato(data.results)
                     },
                     error: function (error) {

@@ -284,6 +284,43 @@
                 <Property Name="Fipex" Type="Edm.String" Nullable="false" MaxLength="24" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Fikrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
             </EntityType>
+            <EntityType Name="ZhfNotabozza" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ZchiaveNi"/>
+                    <PropertyRef Name="Bukrs"/>
+                    <PropertyRef Name="Gjahr"/>
+                    <PropertyRef Name="Zamministr"/>
+                    <PropertyRef Name="ZRagioCompe"/>
+                    <PropertyRef Name="Zcapitolo"/>
+                    <PropertyRef Name="ZidNi"/>
+                </Key>
+                <Property Name="ZchiaveNi" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Gjahr" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Zamministr" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZRagioCompe" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Zcapitolo" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZidNi" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ZhfNotaimp" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Bukrs"/>
+                    <PropertyRef Name="Gjahr"/>
+                    <PropertyRef Name="Zamministr"/>
+                    <PropertyRef Name="ZRagioCompe"/>
+                    <PropertyRef Name="ZchiaveNi"/>
+                    <PropertyRef Name="ZidNi"/>
+                    <PropertyRef Name="ZidSubni"/>
+                </Key>
+                <Property Name="ZchiaveSubni" Type="Edm.String" Nullable="false" MaxLength="24" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Gjahr" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Zamministr" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZRagioCompe" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZchiaveNi" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZidNi" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZidSubni" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
             <EntityType Name="WFStateNI" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="Esercizio"/>
@@ -311,9 +348,9 @@
                 <Property Name="Funzionalita" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Msgty" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Message Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Message" Type="Edm.String" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <NavigationProperty Name="RilievoNiSet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToRilievoNi" FromRole="FromRole_DeepEntityToRilievoNi" ToRole="ToRole_DeepEntityToRilievoNi"/>
-                <NavigationProperty Name="HeaderNISet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToHeader" FromRole="FromRole_DeepEntityToHeader" ToRole="ToRole_DeepEntityToHeader"/>
                 <NavigationProperty Name="PositionNISet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToPositions" FromRole="FromRole_DeepEntityToPositions" ToRole="ToRole_DeepEntityToPositions"/>
+                <NavigationProperty Name="HeaderNISet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToHeader" FromRole="FromRole_DeepEntityToHeader" ToRole="ToRole_DeepEntityToHeader"/>
+                <NavigationProperty Name="RilievoNiSet" Relationship="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToRilievoNi" FromRole="FromRole_DeepEntityToRilievoNi" ToRole="ToRole_DeepEntityToRilievoNi"/>
             </EntityType>
             <EntityType Name="ShZdirncRich" sap:content-version="1">
                 <Key>
@@ -453,6 +490,13 @@
                 <Property Name="ZcodiStatoni" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="ZstatoDescNi" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
+            <EntityType Name="Response" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Value"/>
+                </Key>
+                <Property Name="Value" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Message" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
             <Association Name="DeepEntityToPositions" sap:content-version="1">
                 <End Type="ZS4_NOTEIMPUTAZIONI_SRV.DeepZNIEntity" Multiplicity="1" Role="FromRole_DeepEntityToPositions"/>
                 <End Type="ZS4_NOTEIMPUTAZIONI_SRV.PositionNI" Multiplicity="*" Role="ToRole_DeepEntityToPositions"/>
@@ -546,6 +590,8 @@
                 <EntitySet Name="ZamministrNiSet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.ZamministrNi" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="FistlNiSet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.FistlNi" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="FipexNiSet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.FipexNi" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ZhfNotabozzaSet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.ZhfNotabozza" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ZhfNotaimpSet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.ZhfNotaimp" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="WFStateNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.WFStateNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="DeepZNIEntitySet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.DeepZNIEntity" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="ShZdirncRichSet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.ShZdirncRich" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
@@ -561,6 +607,7 @@
                 <EntitySet Name="RilievoNiSet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.RilievoNi" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="ZcompResNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.ZcompResNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="StateNISet" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.StateNI" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ResponseCollection" EntityType="ZS4_NOTEIMPUTAZIONI_SRV.Response" sap:content-version="1"/>
                 <AssociationSet Name="DeepEntityToPositionsSet" Association="ZS4_NOTEIMPUTAZIONI_SRV.DeepEntityToPositions" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="DeepZNIEntitySet" Role="FromRole_DeepEntityToPositions"/>
                     <End EntitySet="PositionNISet" Role="ToRole_DeepEntityToPositions"/>
@@ -585,6 +632,14 @@
                     <End EntitySet="HeaderNISet" Role="FromRole_HeaderNIToPositionNI"/>
                     <End EntitySet="PositionNISet" Role="ToRole_HeaderNIToPositionNI"/>
                 </AssociationSet>
+                <FunctionImport Name="AutImputazioneContabile" ReturnType="ZS4_NOTEIMPUTAZIONI_SRV.Response" EntitySet="ResponseCollection" m:HttpMethod="GET">
+                    <Parameter Name="Gjahr" Type="Edm.String" Mode="In" MaxLength="4"/>
+                    <Parameter Name="Fistl" Type="Edm.String" Mode="In" MaxLength="16"/>
+                    <Parameter Name="Fipex" Type="Edm.String" Mode="In" MaxLength="24"/>
+                    <Parameter Name="AutorityRole" Type="Edm.String" Mode="In" MaxLength="30"/>
+                    <Parameter Name="AutorityFikrs" Type="Edm.String" Mode="In" MaxLength="4"/>
+                    <Parameter Name="AutorityPrctr" Type="Edm.String" Mode="In" MaxLength="10"/>
+                </FunctionImport>
             </EntityContainer>
             <atom:link rel="self" href="http://10.38.125.80:8000/sap/opu/odata/sap/ZS4_NOTEIMPUTAZIONI_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
             <atom:link rel="latest-version" href="http://10.38.125.80:8000/sap/opu/odata/sap/ZS4_NOTEIMPUTAZIONI_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
