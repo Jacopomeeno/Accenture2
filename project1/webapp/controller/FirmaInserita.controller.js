@@ -1,5 +1,6 @@
 sap.ui.define(
     [
+        "sap/ui/model/odata/v2/ODataModel",
         "./BaseController",
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
@@ -12,7 +13,7 @@ sap.ui.define(
     /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
-    function (BaseController, Filter, FilterOperator, JSONModel, Spreadsheet, CoreLibrary, DateFormatter, MessageBox) {
+    function (ODataModel, BaseController, Filter, FilterOperator, JSONModel, Spreadsheet, CoreLibrary, DateFormatter, MessageBox) {
         "use strict";
         var EdmType = sap.ui.export.EdmType
 
@@ -31,9 +32,62 @@ sap.ui.define(
                 oProprietà.setData(oInitialModelState);
                 this.getView().setModel(oProprietà);
                 this.getOwnerComponent().getModel("temp");
+                //this.callVisibilità()
                 this.getRouter().getRoute("FirmaInserita").attachPatternMatched(this._onObjectMatched, this);
 
             },
+
+            // callVisibilità: function () {
+            //     var that = this
+            //     var filters = []
+            //     filters.push(
+            //         new Filter({ path: "SEM_OBJ", operator: FilterOperator.EQ, value1: "ZS4_NOTEIMPUTAZIONI_SRV" }),
+            //         new Filter({ path: "AUTH_OBJ", operator: FilterOperator.EQ, value1: "Z_GEST_NI" })
+            //     )
+            //     // "ODataModel" required from module "sap/ui/model/odata/v2/ODataModel"
+            //     var visibilità = new ODataModel("http://10.38.125.80:8000/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/");
+            //     visibilità.read("/ZES_CONIAUTH_SET", {
+            //         filters: filters,
+            //         urlParameters: "",
+            //         success: function (data) {
+            //             console.log("success")
+            //             //oMdl.setData(data.results);
+            //             that.getView().getModel("temp").setProperty('/Visibilità', data.results)
+            //             that.pulsantiVisibiltà(data.results)
+            //         },
+            //         error: function (error) {
+            //             console.log(error)
+            //             //that.getView().getModel("temp").setProperty(sProperty,[]);
+            //             //that.destroyBusyDialog();
+            //             var e = error;
+            //         }
+            //     });
+            // },
+
+            // pulsantiVisibiltà: function (data) {
+            //     for (var d = 0; d < data.length; d++) {
+            //         if (data[d].ACTV_2 == "Z02") {
+            //             this.getView().byId("editRow").setEnabled(true);
+            //         }
+            //         else {
+            //             this.getView().byId("editRow").setEnabled(false);
+            //         }
+            //         if (data[d].ACTV_4 == "Z04") {
+            //             this.getView().byId("pressFirma").setEnabled(false);
+            //             this.getView().byId("InviaNI").setEnabled(true);
+            //         }
+            //         else {
+            //             this.getView().byId("pressFirma").setEnabled(false);
+            //             this.getView().byId("InviaNI").setEnabled(false);
+            //         }
+            //         if (data[d].ACTV_4 == "Z07") {
+            //             this.getView().byId("AnnullaNI2").setEnabled(true);
+            //         }
+            //         else {
+            //             this.getView().byId("AnnullaNI2").setEnabled(false);
+            //         }
+            //     }
+            // },
 
             _onObjectMatched: function (oEvent) {
                 this.getView().bindElement(
@@ -555,8 +609,8 @@ sap.ui.define(
                                     deepEntity.ZchiaveNi = that.getView().byId("numNI1").mProperties.text
 
                                     var numeroIntero = header[indiceHeader].ZimpoTotni
-                                    deepEntity.HeaderNISet.ZcodiStatoni = "01"
                                     
+
                                     var numIntTot = ""
                                     if (numeroIntero.split(".").length > 1) {
                                         var numeri = numeroIntero.split(".")
@@ -590,6 +644,7 @@ sap.ui.define(
 
 
                                     deepEntity.HeaderNISet = header[indiceHeader];
+                                    deepEntity.HeaderNISet.ZcodiStatoni = "01"
                                     deepEntity.HeaderNISet.ZuffcontFirm = firmaSet[0]
                                     deepEntity.HeaderNISet.ZdirncRich = firmaSet[1]
 

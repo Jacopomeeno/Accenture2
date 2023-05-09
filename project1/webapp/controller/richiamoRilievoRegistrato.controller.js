@@ -45,9 +45,66 @@ sap.ui.define(
                 oProprietà.setData(oInitialModelState);
                 this.getView().setModel(oProprietà);
                 this.getOwnerComponent().getModel("temp");
+                //this.callVisibilità()
                 this.getRouter().getRoute("richiamoRilievoRegistrato").attachPatternMatched(this._onObjectMatched, this);
 
             },
+
+            // callVisibilità: function () {
+            //     var that = this
+            //     var filters = []
+            //     filters.push(
+            //         new Filter({ path: "SEM_OBJ", operator: FilterOperator.EQ, value1: "ZS4_NOTEIMPUTAZIONI_SRV" }),
+            //         new Filter({ path: "AUTH_OBJ", operator: FilterOperator.EQ, value1: "Z_GEST_NI" })
+            //     )
+            //     // "ODataModel" required from module "sap/ui/model/odata/v2/ODataModel"
+            //     var visibilità = new ODataModel("http://10.38.125.80:8000/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/");
+            //     visibilità.read("/ZES_CONIAUTH_SET", {
+            //         filters: filters,
+            //         urlParameters: "",
+            //         success: function (data) {
+            //             console.log("success")
+            //             //oMdl.setData(data.results);
+            //             that.getView().getModel("temp").setProperty('/Visibilità', data.results)
+            //             that.pulsantiVisibiltà(data.results)
+            //         },
+            //         error: function (error) {
+            //             console.log(error)
+            //             //that.getView().getModel("temp").setProperty(sProperty,[]);
+            //             //that.destroyBusyDialog();
+            //             var e = error;
+            //         }
+            //     });
+            // },
+
+            // pulsantiVisibiltà: function (data) {
+            //     for (var d = 0; d < data.length; d++) {
+            //         if (data[d].ACTV_4 == "Z17") {
+            //             this.getView().byId("richiama2").setEnabled(true);
+            //         }
+            //         else {
+            //             this.getView().byId("richiama2").setEnabled(false);
+            //         }
+            //         if (data[d].ACTV_4 == "Z19") {
+            //             this.getView().byId("rettificaRilievo").setEnabled(true);
+            //         }
+            //         else {
+            //             this.getView().byId("rettificaRilievo").setEnabled(false);
+            //         }
+            //         if (data[d].ACTV_4 == "Z19") {
+            //             this.getView().byId("CancellaRilievo").setEnabled(true);
+            //         }
+            //         else {
+            //             this.getView().byId("CancellaRilievo").setEnabled(false);
+            //         }
+            //         if (data[d].ACTV_4 == "Z20") {
+            //             this.getView().byId("ValidaRilievo").setEnabled(true);
+            //         }
+            //         else {
+            //             this.getView().byId("ValidaRilievo").setEnabled(false);
+            //         }  
+            //     }
+            // },
 
             _onObjectMatched: function (oEvent) {
                 this.getView().bindElement(
@@ -787,7 +844,7 @@ sap.ui.define(
                                                 })
                                             }
                                             if (data.Msgty == 'S') {
-                                                MessageBox.success("Operazione eseguita correttamente", {
+                                                MessageBox.success("Rilievo della Nota di Imputazione n."+header[indiceHeader].ZchiaveNi+" cancellato", {
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {

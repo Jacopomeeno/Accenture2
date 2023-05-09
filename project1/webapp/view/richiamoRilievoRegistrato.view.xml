@@ -130,7 +130,7 @@
                 </layout:HorizontalLayout>
             <OverflowToolbar>
                     <ToolbarSpacer />
-                    <Button text="Rettifica Rilievo NI" type="Emphasized" press="pressRettificaRilievo" />
+                    <Button text="Rettifica Rilievo NI" type="Emphasized" press="pressRettificaRilievo" id="rettificaRilievo" />
                 </OverflowToolbar>
             </f:DynamicPageHeader>
         </f:header>
