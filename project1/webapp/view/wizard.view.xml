@@ -101,20 +101,8 @@
                                             </VBox>
                                             <VBox>
                                                 <Label text="Mese:" required="true" />
-                                                <ComboBox id="mese" width="50%">
-                                                    <core:Item text=""/>
-                                                    <core:Item text="1"/>
-                                                    <core:Item text="2"/>
-                                                    <core:Item text="3"/>
-                                                    <core:Item text="4"/>
-                                                    <core:Item text="5"/>
-                                                    <core:Item text="6"/>
-                                                    <core:Item text="7"/>
-                                                    <core:Item text="8"/>
-                                                    <core:Item text="9"/>
-                                                    <core:Item text="10"/>
-                                                    <core:Item text="11"/>
-                                                    <core:Item text="12"/>
+                                                <ComboBox id="mese" width="50%" items="{path: 'temp>/ZmeseSet'}">
+                                                    <core:Item key="{temp>Descrizione}" text="{temp>Descrizione}"/>
                                                 </ComboBox>
 
                                                 <layoutData>
@@ -157,9 +145,8 @@
                                             </VBox>
                                             <VBox>
                                                 <Label text="Competenza/Residui:" />
-                                                <ComboBox id="competenza" width="100%" value="C">
-                                                    <core:Item text="C"/>
-                                                    <core:Item text="R"/>
+                                                <ComboBox id="competenza" width="100%" items="{path: 'temp>/ZcompResNISet', sorter: { path: 'Descrizione' }}" value="Competenza">
+                                                    <core:Item key="{temp>Descrizione}" text="{temp>Descrizione}"/>
                                                 </ComboBox>
                                                 <layoutData>
                                                     <l:GridData span="L3 M3 S3" />
@@ -196,7 +183,7 @@
                                                 </VBox>
                                                 <VBox>
                                                     <Label text="Posizione Finanziaria:" required="true"/>
-                                                    <Input id="input_PF" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'Fipex' }}">
+                                                    <Input id="input_PF" showSuggestion="true" showValueHelp="true" suggestionItems="{path: 'temp>/HeaderNISet', sorter: { path: 'Fipex' }}" liveChange="ZdescPgNi">
                                                         <suggestionItems>
                                                             <core:ListItem text="{temp>Fipex}"/>
                                                         </suggestionItems>
@@ -207,7 +194,7 @@
                                                 </VBox>
                                                 <VBox>
                                                     <Label text="Descrizione Capitolo:" />
-                                                    <Input showValueHelp="false" editable="false" suggestionItems="{path: 'temp>/', sorter: { path: '' }}">
+                                                    <Input id="descrizioneCap" showValueHelp="false" editable="false" suggestionItems="{path: 'temp>/', sorter: { path: '' }}">
                                                         <core:Item key="{temp>}"/>
                                                     </Input>
                                                     <layoutData>
@@ -216,7 +203,7 @@
                                                 </VBox>
                                                 <VBox>
                                                     <Label text="Descrizione PG:" />
-                                                    <Input showValueHelp="false" editable="false" suggestionItems="{path: 'temp>/', sorter: { path: '' }}">
+                                                    <Input id="descrizionePG" showValueHelp="false" editable="false" suggestionItems="{path: 'temp>/', sorter: { path: '' }}">
                                                         <core:Item key="{temp>}"/>
                                                     </Input>
                                                     <layoutData>

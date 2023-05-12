@@ -346,7 +346,47 @@ sap.ui.define(
                         this.getView().byId("oggSpesa1").setText(oggSpesa)
 
                         var mese = header[i].Zmese
-                        this.getView().byId("mese1").setText(mese)
+                        switch (mese) {
+                            case "1":
+                                var nMese = "Gennaio"
+                                break;
+                            case "2":
+                                var nMese = "Febbraio"
+                                break;
+                            case "3":
+                                var nMese = "Marzo"
+                                break;
+                            case "4":
+                                var nMese = "Aprile"
+                                break;
+                            case "5":
+                                var nMese = "Maggio"
+                                break;
+                            case "6":
+                                var nMese = "Giugno"
+                                break;
+                            case "7":
+                                var nMese = "Luglio"
+                                break;
+                            case "8":
+                                var nMese = "Agosto"
+                                break;
+                            case "9":
+                                var nMese = "Settembre"
+                                break;
+                            case "10":
+                                var nMese = "Ottobre"
+                                break;
+                            case "11":
+                                var nMese = "Novembre"
+                                break;
+                            case "12":
+                                var nMese = "Dicembre"
+                                break;
+                            default: break;
+        
+                        }
+                        this.getView().byId("mese1").setText(nMese)
 
                         for (var x = 0; x < position.length; x++) {
                             if (position[x].Bukrs == Bukrs &&
@@ -379,7 +419,8 @@ sap.ui.define(
                                 var modalitàPagamento = position[x].Zwels
                                 this.getView().byId("Zwels1").setText(modalitàPagamento)
 
-                                //var Zattribuito = impegni[o].Zattribuito
+                                var ZzragSoc =  
+                                this.getView().byId("Nome1").setText(ZzragSoc)
 
                                 // var Zcodgest = data[x].Zcodgest
                                 // this.getView().byId("CodiceGes1").setText(Zcodgest)
@@ -589,7 +630,7 @@ sap.ui.define(
                                                 })
                                             }
                                             if (data.Msgty == 'S') {
-                                                MessageBox.success("Rilievo della Nota di Imputazione n."+header[indiceHeader].ZchiaveNi+" validato", {
+                                                MessageBox.success("Rilievo della Nota di Imputazione n."+header[indiceHeader].ZchiaveNi+" validato correttamente", {
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {
@@ -713,7 +754,7 @@ sap.ui.define(
                                                 })
                                             }
                                             if (data.Msgty == 'S') {
-                                                MessageBox.success("Nota di Imputazione "+header[indiceHeader].ZchiaveNi+" revocata correttamente", {
+                                                MessageBox.success("Validazione Nota di Imputazione n."+header[indiceHeader].ZchiaveNi+"revocata correttamente", {
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,
                                                     onClose: function (oAction) {

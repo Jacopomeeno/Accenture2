@@ -32,15 +32,15 @@
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem groupName="Gruppo1" id="amministrazioneEG" visibleInFilterBar="true" name="amministrazioneEG" label="{i18n>amministrazioneEG}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="amministrazioneEG1" showValueHelp="true" suggestionItems="{path: 'temp>/ZhfNotabozzaSet', sorter: { path: 'Zamministr' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="amministrazioneEG1" app:filterTableField="amministrazioneEG1">
+                                    <Input showSuggestion="true" id="amministrazioneEG1" showValueHelp="true" editable="false" suggestionItems="{path: 'temp>/ZhfNotabozzaSet', sorter: { path: 'Zamministr' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="amministrazioneEG1" app:filterTableField="amministrazioneEG1">
                                         <core:Item key="{temp>Zamministr}" text="{temp>Zamministr}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="ragioneria" visibleInFilterBar="true" name="ragioneria" groupName="Gruppo1" label="{i18n>ragioneria}">
                                 <fb:control>
-                                    <Input showSuggestion="true" id="ragioneria1" showValueHelp="true" suggestionItems="{path: 'temp>/ZhfNotabozzaSet', sorter: { path: 'ZRagioCompe' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="ragioneria1" app:filterTableField="ragioneria1">
-                                        <core:Item key="{temp>ZRagioCompe}" text="{temp>ZRagioCompe}"/>
+                                    <Input showSuggestion="true" id="ragioneria1" showValueHelp="true" editable="false" suggestionItems="{path: 'temp>/ZRagioCompeSet', sorter: { path: 'ZRagioCompe' }}" valueHelpOnly="true" valueHelpRequest="handleValueHelp" app:fieldName="ragioneria1" app:filterTableField="ragioneria1">
+                                        <core:Item key="{temp>CodiceRagioneria}" text="{temp>CodiceRagioneria}"/>
                                     </Input>
                                 </fb:control>
                             </fb:FilterGroupItem>
@@ -81,18 +81,18 @@
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="dataRegNIDa" visibleInFilterBar="true" name="dateFrom" groupName="Gruppo1" label="{i18n>coFrom}">
                                 <fb:control>
-                                    <DatePicker id="dataRegNIDa1" displayFormat="dd/MM/yyyy" />
+                                    <DatePicker id="dataRegNIDa1" displayFormat="dd.MM.yyyy" />
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="dataRegNIA" visibleInFilterBar="true" name="dateTo" groupName="Gruppo1" label="{i18n>coTo}">
                                 <fb:control>
-                                    <DatePicker id="dataRegNIA1" displayFormat="dd/MM/yyyy" />
+                                    <DatePicker id="dataRegNIA1" displayFormat="dd.MM.yyyy" />
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="mese" visibleInFilterBar="true" name="mese" groupName="Gruppo1" label="{i18n>mese}">
                                 <fb:control>
-                                    <ComboBox id="mese1" items="{path: '/HeaderNISet', sorter: { path: 'Zmese' }}">
-                                        <core:Item key="{Zmese}" text="{Zmese}"/>
+                                    <ComboBox id="mese1" items="{path: 'temp>/ZmeseSet'}">
+                                        <core:Item key="{temp>Descrizione}" text="{temp>Descrizione}"/>
                                     </ComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>
@@ -179,22 +179,22 @@
 
                             <fb:FilterGroupItem id="dataFirmaAmmDa" visibleInFilterBar="true" name="dataFirmaAmmDa" groupName="Gruppo3" label="{i18n>dataFirmaAmmDa}">
                                 <fb:control>
-                                    <DatePicker id="dataFirmaAmmDa1" displayFormat="dd/MM/yyyy" />
+                                    <DatePicker id="dataFirmaAmmDa1" displayFormat="dd.MM.yyyy" />
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="dataFirmaAmmA" visibleInFilterBar="true" name="dataFirmaAmmA" groupName="Gruppo3" label="{i18n>dataFirmaAmmA}">
                                 <fb:control>
-                                    <DatePicker id="dataFirmaAmmA1" displayFormat="dd/MM/yyyy" />
+                                    <DatePicker id="dataFirmaAmmA1" displayFormat="dd.MM.yyyy" />
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="dataProtocolloAmmDa" visibleInFilterBar="true" name="dataProtocolloAmmDa" groupName="Gruppo3" label="{i18n>dataProtocolloAmmDa}">
                                 <fb:control>
-                                    <DatePicker id="dataProtocolloAmmDa1" displayFormat="dd/MM/yyyy" />
+                                    <DatePicker id="dataProtocolloAmmDa1" displayFormat="dd.MM.yyyy" />
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="dataProtocolloAmmA" visibleInFilterBar="true" name="dataProtocolloAmmA" groupName="Gruppo3" label="{i18n>dataProtocolloAmmA}">
                                 <fb:control>
-                                    <DatePicker id="dataProtocolloAmmA1" displayFormat="dd/MM/yyyy" />
+                                    <DatePicker id="dataProtocolloAmmA1" displayFormat="dd.MM.yyyy" />
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="numProtocolloAmm" visibleInFilterBar="true" name="numProtocolloAmm" groupName="Gruppo3" label="{i18n>numProtocolloAmm}">
@@ -208,12 +208,12 @@
 
                             <fb:FilterGroupItem id="dataProtocolloRGSDa" visibleInFilterBar="true" name="dataProtocolloRGSDa" groupName="Gruppo4" label="{i18n>dataProtocolloRGSDa}">
                                 <fb:control>
-                                    <DatePicker id="dataProtocolloRGSDa1" displayFormat="dd/MM/yyyy" />
+                                    <DatePicker id="dataProtocolloRGSDa1" displayFormat="dd.MM.yyyy" />
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="dataProtocolloRGSA" visibleInFilterBar="true" name="dataProtocolloRGSA" groupName="Gruppo4" label="{i18n>dataProtocolloRGSA}">
                                 <fb:control>
-                                    <DatePicker id="dataProtocolloRGSA1" displayFormat="dd/MM/yyyy" />
+                                    <DatePicker id="dataProtocolloRGSA1" displayFormat="dd.MM.yyyy" />
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem id="numProtocolloRGS" visibleInFilterBar="true" name="numProtocolloRGS" groupName="Gruppo4" label="{i18n>numProtocolloRGS}">

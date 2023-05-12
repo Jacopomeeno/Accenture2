@@ -23,6 +23,9 @@ sap.ui.define([
                 this.callVisibilità()
                 this.esercizioDecreto()
                 //this.chiaveNI()
+                this.Zamministr()
+                //this.ZRagioCompe()
+                this.mese()
                 this.esercizioGestione()
                 this.EsercizioPosizioneFinanziaria()
                 this.onCallStateNI()
@@ -83,6 +86,85 @@ sap.ui.define([
                         this.getView().byId("DettagliNI").setEnabled(false);
                     }
                 }
+            },
+
+            mese: function () {
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/ZmeseSet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/ZmeseSet', data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
+            Zamministr: function(){
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/ZamministrNiSet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/ZamministrNiSet', data.results)
+                        that.getView().byId("amministrazioneEG1").setValue(data.results[0].Zamministr)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
+            ZRagioCompe: function(){
+                var that = this;
+                var oModel = this.getOwnerComponent().getModel();
+                var oMdl = new sap.ui.model.json.JSONModel();
+                var ZamministrNiSet = this.getView().getModel("temp").getData().ZamministrNiSet
+                var Gjahr = this.getView().byId("es_gestione").getSelectedItem().mProperties.text
+                var Zamministr = ZamministrNiSet[0].Zamministr
+
+                //var datiNI = []
+
+                // datiNI.push(new Filter({
+                //     path: "Gjahr",
+                //     operator: FilterOperator.EQ,
+                //     value1: Gjahr,
+                // }));
+                // datiNI.push(new Filter({
+                //     path: "Zamministr",
+                //     operator: FilterOperator.EQ,
+                //     value1: Zamministr,
+                // }));
+
+                 var path = oModel.createKey("/ZRagioCompeSet", {
+                        Gjahr:Gjahr,
+                        Zamministr:Zamministr
+                        });
+                
+                this.getOwnerComponent().getModel().read(path, {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data);
+                        that.getView().getModel("temp").setProperty('/ZRagioCompeSet', data)
+                        that.getView().byId("ragioneria1").setValue(data.CodiceRagioneria)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
             },
 
             esercizioDecreto: function () {
@@ -256,6 +338,7 @@ sap.ui.define([
 
             chiaveNI: function () {
                 this.chiaveSubNI()
+                this.ZRagioCompe()
                 var that = this
                 var datiNI = []
                 var visibilità = this.getView().getModel("temp").getData().Visibilità[0]
@@ -455,7 +538,7 @@ sap.ui.define([
                                 }
                             }
                         }
-                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i != 11 && i != 16 && i != 18 && i != 20) {
+                        else if (oEvent.getParameters().selectionSet[i].mProperties.value != '' && i != 4 && i != 6 && i != 11 && i != 10 && i != 16 && i != 18 && i != 20) {
                             datiNI.push(new Filter({
                                 path: path.sorter.sPath,
                                 operator: FilterOperator.EQ,
@@ -489,6 +572,60 @@ sap.ui.define([
                             }
 
                         }
+                        else if (i == 10) {
+                            var mese = this.getView().getModel("temp").getData().ZmeseSet
+                            for (var me = 0; me < mese.length; me++) {
+                                if (oEvent.getParameters().selectionSet[i].mProperties.value == mese[me].Descrizione) {
+                                    switch (mese[me].Descrizione) {
+                                        case "Gennaio":
+                                            var nMese = "1"
+                                            break;
+                                        case "Febbraio":
+                                            var nMese = "2"
+                                            break;
+                                        case "Marzo":
+                                            var nMese = "3"
+                                            break;
+                                        case "Aprile":
+                                            var nMese = "4"
+                                            break;
+                                        case "Maggio":
+                                            var nMese = "5"
+                                            break;
+                                        case "Giugno":
+                                            var nMese = "6"
+                                            break;
+                                        case "Luglio":
+                                            var nMese = "7"
+                                            break;
+                                        case "Agosto":
+                                            var nMese = "8"
+                                            break;
+                                        case "Settembre":
+                                            var nMese = "9"
+                                            break;
+                                        case "Ottobre":
+                                            var nMese = "10"
+                                            break;
+                                        case "Novembre":
+                                            var nMese = "11"
+                                            break;
+                                        case "Dicembre":
+                                            var nMese = "12"
+                                            break;
+                                        default: break;
+                                    }
+
+                                    datiNI.push(new Filter({
+                                        path: "Zmese",
+                                        operator: FilterOperator.EQ,
+                                        value1: nMese
+                                    }));
+                                }
+
+                            }
+
+                        }
                     }
                 }
                 if (datiNI.length != 0 && datiNI[0].sPath == "Gjahr") {
@@ -512,9 +649,10 @@ sap.ui.define([
                             that.setDescrizioneStato(data.results)
                         },
                         error: function (error) {
-                            //that.getView().getModel("temp").setProperty(sProperty,[]);
-                            //that.destroyBusyDialog();
-                            var e = error;
+                            MessageBox.error("Errore durante l'estrazione della tabella", {
+                                actions: [sap.m.MessageBox.Action.OK],
+                                emphasizedAction: MessageBox.Action.OK,
+                            })
                         }
                     });
 

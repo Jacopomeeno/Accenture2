@@ -136,12 +136,12 @@
                                     <Input id="Surname" width="100%" value="Moro">
                                     </Input>
                                     <Label text="Data Protocollo RGS:" />
-                                    <DatePicker id="dataProtocolloRGS" width="100%" displayFormat="dd/MM/yyyy">
+                                    <DatePicker id="dataProtocolloRGS" width="100%" displayFormat="dd.MM.yyyy">
                                     </DatePicker>
                                 </VBox>
                                 <VBox>
                                     <Label text="Data Rilievo:" required="true" />
-                                    <DatePicker id="dataRilievo" width="100%" displayFormat="dd/MM/yyyy">
+                                    <DatePicker id="dataRilievo" width="100%" displayFormat="dd.MM.yyyy">
                                     </DatePicker>
                                 </VBox>
                                 <VBox>

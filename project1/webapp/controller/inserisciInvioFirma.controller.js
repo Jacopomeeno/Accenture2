@@ -26,7 +26,7 @@ sap.ui.define(
 
         return BaseController.extend("project1.controller.inserisciInvioFirma", {
             formatter: DateFormatter,
-            onInit() {  
+            onInit() {
                 var oProprietà = new JSONModel(),
                     oInitialModelState = Object.assign({}, oData);
                 oProprietà.setData(oInitialModelState);
@@ -232,7 +232,7 @@ sap.ui.define(
 
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 var position = position
-                //var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
+                var valoriNuovi = this.getView().getModel("temp").getData().ValoriNuovi
                 //var ImpegniSelezionati = this.getView().getModel("temp").getData().ImpegniSelezionati
 
                 for (var i = 0; i < header.length; i++) {
@@ -264,7 +264,47 @@ sap.ui.define(
                         this.getView().byId("oggSpesa1").setText(oggSpesa)
 
                         var mese = header[i].Zmese
-                        this.getView().byId("mese1").setText(mese)
+                        switch (mese) {
+                            case "1":
+                                var nMese = "Gennaio"
+                                break;
+                            case "2":
+                                var nMese = "Febbraio"
+                                break;
+                            case "3":
+                                var nMese = "Marzo"
+                                break;
+                            case "4":
+                                var nMese = "Aprile"
+                                break;
+                            case "5":
+                                var nMese = "Maggio"
+                                break;
+                            case "6":
+                                var nMese = "Giugno"
+                                break;
+                            case "7":
+                                var nMese = "Luglio"
+                                break;
+                            case "8":
+                                var nMese = "Agosto"
+                                break;
+                            case "9":
+                                var nMese = "Settembre"
+                                break;
+                            case "10":
+                                var nMese = "Ottobre"
+                                break;
+                            case "11":
+                                var nMese = "Novembre"
+                                break;
+                            case "12":
+                                var nMese = "Dicembre"
+                                break;
+                            default: break;
+
+                        }
+                        this.getView().byId("mese1").setText(nMese)
 
                         for (var x = 0; x < position.length; x++) {
                             if (position[x].Bukrs == Bukrs &&
@@ -297,7 +337,8 @@ sap.ui.define(
                                 var modalitàPagamento = position[x].Zwels
                                 this.getView().byId("Zwels1").setText(modalitàPagamento)
 
-                                //var Zattribuito = impegni[o].Zattribuito
+                                var ZzragSoc =  
+                                this.getView().byId("Nome1").setText(ZzragSoc)
 
                                 // var Zcodgest = data[x].Zcodgest
                                 // this.getView().byId("CodiceGes1").setText(Zcodgest)
@@ -331,7 +372,7 @@ sap.ui.define(
                 var ZchiaveNi = aValori[3]
                 var ZidNi = aValori[4]
                 var ZRagioCompe = aValori[5]
-                
+
                 var filtroNI = []
                 var header = this.getView().getModel("temp").getData().HeaderNISet
                 //var position = this.getView().getModel("temp").getData().PositionNISet
@@ -360,7 +401,7 @@ sap.ui.define(
 
                             success: function (data) {
                                 that.getView().getModel("temp").setProperty('/WFStateNI', data.results)
-                            
+
                             },
                             error: function (error) {
                                 var e = error;
@@ -548,7 +589,7 @@ sap.ui.define(
                                                 })
                                             }
                                             if (result.Msgty == 'S') {
-                                                MessageBox.success("Nota di Imputazione "+header[indiceHeader].ZchiaveNi+" annullata correttamente", {
+                                                MessageBox.success("Nota di Imputazione " + header[indiceHeader].ZchiaveNi + " annullata correttamente", {
                                                     title: "Esito Operazione",
                                                     actions: [sap.m.MessageBox.Action.OK],
                                                     emphasizedAction: MessageBox.Action.OK,

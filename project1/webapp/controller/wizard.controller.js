@@ -1,7 +1,9 @@
 sap.ui.define([
+    "sap/ui/model/odata/v2/ODataModel",
     "./BaseController",
-    "sap/ui/model/Filter",
     "sap/m/MessageBox",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
     'sap/ui/model/json/JSONModel',
     "sap/ui/core/library",
     "project1/model/DateFormatter"
@@ -9,7 +11,7 @@ sap.ui.define([
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (BaseController, Filter, MessageBox, JSONModel, CoreLibrary, DateFormatter) {
+    function (ODataModel, BaseController, MessageBox, Filter, FilterOperator, JSONModel, CoreLibrary, DateFormatter) {
         "use strict";
 
         var ValueState = CoreLibrary.ValueState,
@@ -41,10 +43,14 @@ sap.ui.define([
 
                 this.controlPreNI()
                 this.controlHeader()
+                this.callVisibilità()
                 this.esercizioGestione()
+                this.mese()
+                this.ZcompRes()
                 this.strutturaAmministrativa()
                 this.posizioneFinanziaria()
-                this.competenzaResidui()
+                // this.ZdescPgNi()
+                // this.ZdescCap()
                 //this.onSearch()
 
             },
@@ -58,6 +64,43 @@ sap.ui.define([
                     success: function (data) {
                         oMdl.setData(data.results);
                         that.getView().getModel("temp").setProperty('/ZgjahrEngNiSet', data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
+            mese: function(){
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/ZmeseSet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/ZmeseSet', data.results)
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
+            ZcompRes: function () {
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                this.getOwnerComponent().getModel().read("/ZcompResNISet", {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/ZcompResNISet', data.results)
+                        
                     },
                     error: function (error) {
                         //that.getView().getModel("temp").setProperty(sProperty,[]);
@@ -103,15 +146,92 @@ sap.ui.define([
                 });
             },
 
-            competenzaResidui: function () {
+            ZdescPgNi: function(){
                 var that = this;
                 var oMdl = new sap.ui.model.json.JSONModel();
-                this.getOwnerComponent().getModel().read("/FipexNiSet", {
+                var datiNI  = []
+                var oModel = this.getOwnerComponent().getModel();
+                var Zamministr = this.getView().getModel("temp").getData().ZamministrNiSet[0].Zamministr
+
+                // datiNI.push(new Filter({
+                //     path: "Fipex",
+                //     operator: FilterOperator.EQ,
+                //     value1: this.getView().byId("input_PF").getValue()
+                // }));
+
+                // datiNI.push(new Filter({
+                //     path: "Gjahr",
+                //     operator: FilterOperator.EQ,
+                //     value1: this.getView().byId("es_gestione").getSelectedKey()
+                // }));
+
+                // datiNI.push(new Filter({
+                //     path: "Zamministr",
+                //     operator: FilterOperator.EQ,
+                //     value1: Zamministr
+                // }));
+
+                var chiavi = oModel.createKey("/ZdescPgNiSet", {
+                    Fipex: this.getView().byId("input_PF").getValue(),
+                    Gjahr: this.getView().byId("es_gestione").getSelectedKey(),
+                    Zamministr: Zamministr,
+                });
+
+                oModel.read(chiavi, {
                     filters: [],
                     urlParameters: "",
                     success: function (data) {
-                        oMdl.setData(data.results);
-                        that.getView().getModel("temp").setProperty('/FipexNiSet', data.results)
+                        oMdl.setData(data);
+                        that.getView().getModel("temp").setProperty('/ZdescPgNiSet', data)
+                        that.getView().byId("descrizioneCap").setValue(data.DescrEstesa)
+                        that.ZdescCap()
+                    },
+                    error: function (error) {
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
+            ZdescCap: function(){
+                var that = this;
+                var oMdl = new sap.ui.model.json.JSONModel();
+                var datiNI  = []
+                var oModel = this.getOwnerComponent().getModel();
+                var Zamministr = this.getView().getModel("temp").getData().ZamministrNiSet[0].Zamministr
+
+                // datiNI.push(new Filter({
+                //     path: "Fipex",
+                //     operator: FilterOperator.EQ,
+                //     value1: this.getView().byId("input_PF").getValue()
+                // }));
+
+                // datiNI.push(new Filter({
+                //     path: "Gjahr",
+                //     operator: FilterOperator.EQ,
+                //     value1: this.getView().byId("es_gestione").getSelectedKey()
+                // }));
+
+                // datiNI.push(new Filter({
+                //     path: "Zamministr",
+                //     operator: FilterOperator.EQ,
+                //     value1: Zamministr
+                // }));
+
+                var chiavi = oModel.createKey("/ZdescCapSet", {
+                    Fipex: this.getView().byId("input_PF").getValue(),
+                    Gjahr: this.getView().byId("es_gestione").getSelectedKey(),
+                    Zamministr: Zamministr,
+                });
+
+                oModel.read(chiavi, {
+                    filters: [],
+                    urlParameters: "",
+                    success: function (data) {
+                        oMdl.setData(data);
+                        that.getView().getModel("temp").setProperty('/ZdescCapSet', data)
+                        that.getView().byId("descrizionePG").setValue(data.DescrEstesa)
                     },
                     error: function (error) {
                         //that.getView().getModel("temp").setProperty(sProperty,[]);
@@ -288,16 +408,18 @@ sap.ui.define([
                 //var Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;
                 var SAR = this.getView().byId("strAmmResp").getValue()
                 var competenza = this.getView().byId("competenza").getValue()
+                var descCap = this.getView().byId("descrizioneCap").getValue()
+                var descPG = this.getView().byId("descrizionePG").getValue()
 
                 //console.log(Mese)
 
                 this.getView().byId("es_gestioneWH2").setText(es_gestione)
                 this.getView().byId("meseWH2").setText(Mese)
                 this.getView().byId("n_righeTotWH2").setText(lunghezza + " per un totale di " + totale)
-                this.getView().byId("desc_CapWH2").setText("Nota di Imputazione")
+                this.getView().byId("desc_CapWH2").setText(descCap)
                 this.getView().byId("pos_FinWH2").setText(PF)
                 this.getView().byId("SARWH2").setText(SAR)
-                this.getView().byId("desc_PGWH2").setText("SOMMA DA ACCREDITARE ALLA CONTABILITA' SPECIALE 17")
+                this.getView().byId("desc_PGWH2").setText(descPG)
                 if (competenza == 'C') competenza = 'Competenza'
                 if (competenza == 'R') competenza = 'Residui'
                 this.getView().byId("compWH2").setText(competenza)
@@ -315,48 +437,48 @@ sap.ui.define([
                 var oModelHeader = new sap.ui.model.json.JSONModel();
                 var Mese = this.getView().byId("mese").getSelectedItem().mProperties.text;
 
-                switch (Mese) {
-                    case "1":
-                        var nMese = "Gennaio"
-                        break;
-                    case "2":
-                        var nMese = "Febbraio"
-                        break;
-                    case "3":
-                        var nMese = "Marzo"
-                        break;
-                    case "4":
-                        var nMese = "Aprile"
-                        break;
-                    case "5":
-                        var nMese = "Maggio"
-                        break;
-                    case "6":
-                        var nMese = "Giugno"
-                        break;
-                    case "7":
-                        var nMese = "Luglio"
-                        break;
-                    case "8":
-                        var nMese = "Agosto"
-                        break;
-                    case "9":
-                        var nMese = "Settembre"
-                        break;
-                    case "10":
-                        var nMese = "Ottobre"
-                        break;
-                    case "11":
-                        var nMese = "Novembre"
-                        break;
-                    case "12":
-                        var nMese = "Dicembre"
-                        break;
-                    default: break;
+                // switch (Mese) {
+                //     case "1":
+                //         var nMese = "Gennaio"
+                //         break;
+                //     case "2":
+                //         var nMese = "Febbraio"
+                //         break;
+                //     case "3":
+                //         var nMese = "Marzo"
+                //         break;
+                //     case "4":
+                //         var nMese = "Aprile"
+                //         break;
+                //     case "5":
+                //         var nMese = "Maggio"
+                //         break;
+                //     case "6":
+                //         var nMese = "Giugno"
+                //         break;
+                //     case "7":
+                //         var nMese = "Luglio"
+                //         break;
+                //     case "8":
+                //         var nMese = "Agosto"
+                //         break;
+                //     case "9":
+                //         var nMese = "Settembre"
+                //         break;
+                //     case "10":
+                //         var nMese = "Ottobre"
+                //         break;
+                //     case "11":
+                //         var nMese = "Novembre"
+                //         break;
+                //     case "12":
+                //         var nMese = "Dicembre"
+                //         break;
+                //     default: break;
 
-                }
+                // }
 
-                this.getView().byId("oggSpesa").setValue("Pagamenti interessi BTP di " + nMese)
+                this.getView().byId("oggSpesa").setValue("Pagamenti interessi BTP di " + Mese)
 
                 oModelHeader.setData();
                 //console.log(oModelHeader)
@@ -428,18 +550,90 @@ sap.ui.define([
                 }
             },
 
+            callVisibilità: function () {
+                var that = this
+                var filters = []
+                filters.push(
+                    new Filter({ path: "SEM_OBJ", operator: FilterOperator.EQ, value1: "ZS4_NOTEIMPUTAZIONI_SRV" }),
+                    new Filter({ path: "AUTH_OBJ", operator: FilterOperator.EQ, value1: "Z_GEST_NI" })
+                )
+                // "ODataModel" required from module "sap/ui/model/odata/v2/ODataModel"
+                var visibilità = new ODataModel("http://10.38.125.80:8000/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/");
+                visibilità.read("/ZES_CONIAUTH_SET", {
+                    filters: filters,
+                    urlParameters: "",
+                    success: function (data) {
+                        console.log("success")
+                        //oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/Visibilità', data.results)
+                        //that.pulsantiVisibiltà(data.results)
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
+
             onPreimpNI: function (oEvent) {
                 var that = this;
+                var visibilità = this.getView().getModel("temp").getData().Visibilità[0]
                 //var rows= this.getView().byId("HeaderNIW").getSelectedItem()
 
                 var N_es_gestione = this.getView().byId("es_gestione").getSelectedKey(); //header
                 var N_Mese = this.getView().byId("mese").getSelectedItem().mProperties.text; //header
+
+                switch (N_Mese) {
+                    case "Gennaio":
+                        var nMese = "1"
+                        break;
+                    case "Febbraio":
+                        var nMese = "2"
+                        break;
+                    case "Marzo":
+                        var nMese = "3"
+                        break;
+                    case "Aprile":
+                        var nMese = "4"
+                        break;
+                    case "Maggio":
+                        var nMese = "5"
+                        break;
+                    case "Giugno":
+                        var nMese = "6"
+                        break;
+                    case "Luglio":
+                        var nMese = "7"
+                        break;
+                    case "Agosto":
+                        var nMese = "8"
+                        break;
+                    case "Settembre":
+                        var nMese = "9"
+                        break;
+                    case "Ottobre":
+                        var nMese = "10"
+                        break;
+                    case "Novembre":
+                        var nMese = "11"
+                        break;
+                    case "Dicembre":
+                        var nMese = "12"
+                        break;
+                    default: break;
+
+                }
                 if (this.getView().byId("tipologia").getValue() != '')
                     var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
                 if (this.getView().byId("sottotipologia").getSelectedItem() != null)
                     var N_Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;  //position
-                if (this.getView().byId("competenza").getSelectedItem() != null || this.getView().byId("competenza").getValue() != '')
-                    var N_CR = this.getView().byId("competenza").mProperties.value  //position
+                if (this.getView().byId("competenza").getSelectedItem() != null || this.getView().byId("competenza").getValue() != ''){
+                    var competenza = this.getView().byId("competenza").mProperties.value  //position
+                    if(competenza == 'Competenza') var N_CR = "C"
+                    if(competenza == 'Residui') var N_CR = "R"
+                }
                 var N_ImportoTot = this.getView().byId("n_righeTotWH2").getText().split(" ")[5];
 
                 var puntiSeparati = N_ImportoTot.split(".")
@@ -455,6 +649,8 @@ sap.ui.define([
                 var N_oggSpesa = this.getView().byId("oggSpesa").getValue();  //header
                 var N_esercizioPF = this.getView().byId("input_PF").getValue();  //header
                 var N_strAmmResp = this.getView().byId("strAmmResp").getValue();  //header
+                var descrizioneCap = this.getView().byId("descrizioneCap").getValue()
+                var descrizionePG = this.getView().byId("descrizionePG").getValue()
 
 
                 if (N_oggSpesa == "") {
@@ -490,6 +686,7 @@ sap.ui.define([
                             Ztipo: item.Ztipo,
                             Zsottotipo: N_Sottotipologia,
                             ZcompRes: N_CR,
+                            
 
                             //ZimpoTitolo: ZimpoTitolo,                 //aggiornare mock
                             Zdescrizione: item.Zdescrizione,                //aggiornare mock 
@@ -540,7 +737,7 @@ sap.ui.define([
                         ZcodiStatoni: "00",
                         ZimpoTotni: ZimpoTotni,
                         //ZzGjahrEngPos: N_es_gestione,
-                        Zmese: N_Mese,
+                        Zmese: nMese,
                         ZoggSpesa: N_oggSpesa,
                         Fipex: N_esercizioPF,
                         Fistl: N_strAmmResp,
@@ -591,9 +788,7 @@ sap.ui.define([
                                             if (oAction === sap.m.MessageBox.Action.YES) {
 
                                                 oDataModel.create("/DeepZNIEntitySet", deepEntity, {
-                                                    // urlParameters: {
-                                                    //     'funzionalita': "PREIMPOSTAZIONE"
-                                                    // },
+                                                    urlParameters: { "AutorityRole": visibilità.AGR_NAME, "AutorityFikrs": visibilità.FIKRS, "AutorityPrctr": visibilità.PRCTR },
                                                     success: function (result) {
                                                         if (result.Msgty == 'E') {
                                                             console.log(result.Message)
@@ -647,9 +842,7 @@ sap.ui.define([
                                 if (oAction === sap.m.MessageBox.Action.YES) {
 
                                     oDataModel.create("/DeepZNIEntitySet", deepEntity, {
-                                        // urlParameters: {
-                                        //     "funzionalita": "PREIMPOSTAZIONE"
-                                        // },
+                                        urlParameters: { "AutorityRole": visibilità.AGR_NAME, "AutorityFikrs": visibilità.FIKRS, "AutorityPrctr": visibilità.PRCTR },
                                         success: function (result) {
                                             if (result.Msgty == 'E') {
                                                 console.log(result.Message)

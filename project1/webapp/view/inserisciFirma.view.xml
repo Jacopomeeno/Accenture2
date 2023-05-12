@@ -126,7 +126,7 @@
                                 </VBox>
                                 <VBox>
                                     <Label text="Data Protocollo" />
-                                    <DatePicker id="DataPro" displayFormat="dd/MM/yyyy" />
+                                    <DatePicker id="DataPro" displayFormat="dd.MM.yyyy" />
                                     <layoutData>
                                         <l:GridData span="L6 M6 S6" />
                                     </layoutData>

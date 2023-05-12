@@ -163,7 +163,47 @@ sap.ui.define([
                         this.getView().byId("oggSpesa1").setText(oggSpesa)
 
                         var mese = header[i].Zmese
-                        this.getView().byId("mese1").setText(mese)
+                        switch (mese) {
+                            case "1":
+                                var nMese = "Gennaio"
+                                break;
+                            case "2":
+                                var nMese = "Febbraio"
+                                break;
+                            case "3":
+                                var nMese = "Marzo"
+                                break;
+                            case "4":
+                                var nMese = "Aprile"
+                                break;
+                            case "5":
+                                var nMese = "Maggio"
+                                break;
+                            case "6":
+                                var nMese = "Giugno"
+                                break;
+                            case "7":
+                                var nMese = "Luglio"
+                                break;
+                            case "8":
+                                var nMese = "Agosto"
+                                break;
+                            case "9":
+                                var nMese = "Settembre"
+                                break;
+                            case "10":
+                                var nMese = "Ottobre"
+                                break;
+                            case "11":
+                                var nMese = "Novembre"
+                                break;
+                            case "12":
+                                var nMese = "Dicembre"
+                                break;
+                            default: break;
+        
+                        }
+                        this.getView().byId("mese1").setText(nMese)
 
                         for (var x = 0; x < data.length; x++) {
                             if (data[x].Bukrs == Bukrs &&
@@ -209,8 +249,8 @@ sap.ui.define([
                         this.getView().byId("CausalePagamento1").setText(causalePagamento)
                         var modalitàPagamento = valoriNuovi[7]
                         this.getView().byId("Zwels1").setText(modalitàPagamento)
-
-
+                        var ZzragSoc =  
+                        this.getView().byId("Nome1").setText(ZzragSoc)
 
                     }
                 }
@@ -227,7 +267,8 @@ sap.ui.define([
                 var ZdescwelsBniSet = this.getView().getModel("temp").getData().ZdescwelsBniSet
 
 
-
+                var ZzragSoc =  valoriNuovi[9]
+                var Zdataesig = valoriNuovi[10]
                 var Iban = valoriNuovi[8]
                 var Lifnr = valoriNuovi[0]
                 if (valoriNuovi[7] == ZdescwelsBniSet[0].Zdescwels) {
@@ -258,6 +299,8 @@ sap.ui.define([
                     //position[i].Txt50 = Txt50
                     position[i].Zcodgest = Zcodgest
                     position[i].Zcauspag = Zcauspag
+                    position[i].Zdataesig = Zdataesig
+                    position[i].ZzragSoc = ZzragSoc
 
                     deepEntity.PositionNISet.push(position[i]);
 
@@ -303,6 +346,7 @@ sap.ui.define([
                     //ImpegniSelezionati[l].Attribuito = parseFloat(ImpegniSelezionati[l].Attribuito)
                     //ImpegniSelezionati[l].Attribuito = 1.00
                     deepEntity.ZfmimpegniIpeSet.push(ImpegniSelezionati[l]);
+                    //deepEntity.ZfmimpegniIpeSet[l].ZzragSoc = ZzragSoc
 
                     numeroIntero = ImpegniSelezionati[l].Attribuito
                     var numIntAttribuito = ""
@@ -389,6 +433,8 @@ sap.ui.define([
                 });
 
             },
+
+            
 
             // callPositionNI: function () {
             //     var filtroNI = []
@@ -628,11 +674,16 @@ sap.ui.define([
                                         })
                                     }
                                     if (result.Msgty == 'S') {
-                                        var arraySubChiavi = []
-                                        for(var asc = 0; asc<result.PositionNISet.results.length; asc++){
-                                            arraySubChiavi.push(result.PositionNISet.results[asc].ZchiaveSubni)
+                                        //var arraySubChiavi = []
+                                        let unique = [];
+                                        for (asc = 0; i < asc.result.PositionNISet.results.length; asc++) {
+                                            if (unique.indexOf(result.PositionNISet.results.length[asc],ZchiaveSubni) === -1) {
+                                                unique.push(result.PositionNISet.results.length[asc],ZchiaveSubni);
+                                            }
                                         }
-                                        MessageBox.success("Le seguenti Note di Imputazione sono state completate correttamente: "+header[indiceHeader].ZchiaveNi+" "+arraySubChiavi+"", {
+
+                                        
+                                        MessageBox.success("Le seguenti Note di Imputazione sono state completate correttamente: "+header[indiceHeader].ZchiaveNi+" "+unique+"", {
                                             title: "Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],
                                             emphasizedAction: MessageBox.Action.OK,

@@ -115,7 +115,7 @@ sap.ui.define([
                         oMdlMod.setData(data.results);
                         that.getView().getModel("temp").setProperty('/ZdescwelsBniSet', data.results)
                         that.getView().byId("ModPagamento").setValue(data.results[0].Zdescwels)
-                        
+
                     },
                     error: function (error) {
                         var e = error;
@@ -242,8 +242,10 @@ sap.ui.define([
                         for (var m = 0; m < impegni.length; m++) {
                             var beneficiario = impegni[m].Lifnr
                             this.getView().byId("inputBeneficiario").setValue(beneficiario)
+
                         }
                         this.onCallModalità()
+                        this.onCallFornitore()
                     }
                 }
             },
@@ -251,6 +253,36 @@ sap.ui.define([
 
             onBackButton: function () {
                 window.history.go(-1);
+            },
+
+            onCallFornitore(){
+                var filtriFornitori = []
+                var that = this
+                var oMdlFor = new sap.ui.model.json.JSONModel();
+                var Lifnr = this.getView().byId("inputBeneficiario").getValue()
+
+                // filtriFornitori.push(new Filter({
+                //     path: "Lifnr",
+                //     operator: FilterOperator.EQ,
+                //     value1: Lifnr
+                // }));
+
+                var chiavi = this.getOwnerComponent().getModel().createKey("/FornitoreSet", {
+                    Lifnr: this.getView().byId("inputBeneficiario").getValue()
+                });
+
+                this.getOwnerComponent().getModel().read(chiavi, {
+                    filters: filtriFornitori,
+                    success: function (data) {
+                        oMdlFor.setData(data);
+                        that.getView().getModel("temp").setProperty('/FornitoreSet', data)
+                        that.getView().byId("inputNome").setValue(data.ZzragSoc)
+
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
             },
 
             onSaveButton: function () {
@@ -282,6 +314,18 @@ sap.ui.define([
 
                     var Iban = this.getView().byId("inputIBAN").getValue()
                     valoriNuovi.push(Iban)
+
+                    var ZzragSoc = this.getView().byId("inputNome").getValue()
+                    valoriNuovi.push(ZzragSoc)
+
+                    var dataEsigibilità = this.getView().byId("DP2").getValue()
+                    if (dataEsigibilità != '') {
+                        var numeri = dataEsigibilità.split("/");
+                        var nData = (numeri[1] + "/" + numeri[0] + "/" + numeri[2])
+                        var dataEsi = new Date(nData)
+                        valoriNuovi.push(dataEsi)
+                    }
+
 
                     this.getView().getModel("temp").setProperty('/ValoriNuovi', valoriNuovi)
                     //console.log("eh")
