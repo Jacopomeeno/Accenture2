@@ -76,14 +76,8 @@ sap.ui.define([
                     if (data[d].ACTV_1 == "Z01") {
                         this.getView().byId("PreimpostazioneNI").setEnabled(true);
                     }
-                    else {
-                        this.getView().byId("PreimpostazioneNI").setEnabled(false);
-                    }
                     if (data[d].ACTV_3 == "Z03") {
                         this.getView().byId("DettagliNI").setEnabled(true);
-                    }
-                    else {
-                        this.getView().byId("DettagliNI").setEnabled(false);
                     }
                 }
             },

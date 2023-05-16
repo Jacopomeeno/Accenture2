@@ -100,7 +100,7 @@
                 <OverflowToolbar>
                     <ToolbarSpacer />
                     <Button text="Associa Impegno" type="Emphasized" press="pressAssociaImpegno" enabled="false" id="pressAssImpegno"/>
-                    <Button text="Rettifica NI" type="Emphasized" press="pressRettificaNI" enabled="false"/>
+                    <Button text="Rettifica NI" type="Emphasized" press="pressRettificaNI" enabled="false" id="rettificaNI"/>
                 </OverflowToolbar>
             </f:DynamicPageHeader>
         </f:header>

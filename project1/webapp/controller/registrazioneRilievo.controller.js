@@ -244,6 +244,7 @@ sap.ui.define(
                                 this.getView().byId("comp1").setText(n_comp)
 
                                 var beneficiario = position[x].Lifnr
+                                this.onCallFornitore(beneficiario)
                                 this.getView().byId("Lifnr1").setText(beneficiario)
 
                                 var centroCosto = position[x].Kostl
@@ -260,9 +261,6 @@ sap.ui.define(
 
                                 var modalitàPagamento = position[x].Zwels
                                 this.getView().byId("Zwels1").setText(modalitàPagamento)
-
-                                var ZzragSoc =  
-                                this.getView().byId("Nome1").setText(ZzragSoc)
 
                                 // var Zcodgest = data[x].Zcodgest
                                 // this.getView().byId("CodiceGes1").setText(Zcodgest)
@@ -290,6 +288,36 @@ sap.ui.define(
 
                     }
                 }
+            },
+
+            onCallFornitore(beneficiario){
+                var filtriFornitori = []
+                var that = this
+                var oMdlFor = new sap.ui.model.json.JSONModel();
+                //var Lifnr = this.getView().byId("inputBeneficiario").getValue()
+
+                // filtriFornitori.push(new Filter({
+                //     path: "Lifnr",
+                //     operator: FilterOperator.EQ,
+                //     value1: Lifnr
+                // }));
+
+                var chiavi = this.getOwnerComponent().getModel().createKey("/FornitoreSet", {
+                    Lifnr: beneficiario
+                });
+
+                this.getOwnerComponent().getModel().read(chiavi, {
+                    filters: filtriFornitori,
+                    success: function (data) {
+                        oMdlFor.setData(data);
+                        that.getView().getModel("temp").setProperty('/FornitoreSet', data)
+                        that.getView().byId("Nome1").setText(data.ZzragSoc)
+
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
             },
 
             onBackButton: function () {

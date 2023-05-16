@@ -30,62 +30,52 @@ sap.ui.define([
                 this.getView().setModel(oProprietà);
                 this.getOwnerComponent().getModel("temp");
                 //this.prePosition()
-                //this.callVisibilità()
+                this.callVisibilità()
                 this.getRouter().getRoute("salvaImpegno").attachPatternMatched(this._onObjectMatched, this);
 
             },
 
-            // callVisibilità: function () {
-            //     var that = this
-            //     var filters = []
-            //     filters.push(
-            //         new Filter({ path: "SEM_OBJ", operator: FilterOperator.EQ, value1: "ZS4_NOTEIMPUTAZIONI_SRV" }),
-            //         new Filter({ path: "AUTH_OBJ", operator: FilterOperator.EQ, value1: "Z_GEST_NI" })
-            //     )
-            //     // "ODataModel" required from module "sap/ui/model/odata/v2/ODataModel"
-            //     var visibilità = new ODataModel("http://10.38.125.80:8000/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/");
-            //     visibilità.read("/ZES_CONIAUTH_SET", {
-            //         filters: filters,
-            //         urlParameters: "",
-            //         success: function (data) {
-            //             console.log("success")
-            //             //oMdl.setData(data.results);
-            //             that.getView().getModel("temp").setProperty('/Visibilità', data.results)
-            //             that.pulsantiVisibiltà(data.results)
-            //         },
-            //         error: function (error) {
-            //             console.log(error)
-            //             //that.getView().getModel("temp").setProperty(sProperty,[]);
-            //             //that.destroyBusyDialog();
-            //             var e = error;
-            //         }
-            //     });
-            // },
+            callVisibilità: function () {
+                var that = this
+                var filters = []
+                filters.push(
+                    new Filter({ path: "SEM_OBJ", operator: FilterOperator.EQ, value1: "ZS4_NOTEIMPUTAZIONI_SRV" }),
+                    new Filter({ path: "AUTH_OBJ", operator: FilterOperator.EQ, value1: "Z_GEST_NI" })
+                )
+                // "ODataModel" required from module "sap/ui/model/odata/v2/ODataModel"
+                var visibilità = new ODataModel("http://10.38.125.80:8000/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/");
+                visibilità.read("/ZES_CONIAUTH_SET", {
+                    filters: filters,
+                    urlParameters: "",
+                    success: function (data) {
+                        console.log("success")
+                        //oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/Visibilità', data.results)
+                        that.pulsantiVisibiltà(data.results)
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
 
-            // pulsantiVisibiltà: function (data) {
-            //     for (var d = 0; d < data.length; d++) {
-            //         if (data[d].ACTV_1 == "Z01") {
-            //             this.getView().byId("pressAssImpegno").setEnabled(false);
-            //             this.getView().byId("CompletaNI").setEnabled(true);
-            //         }
-            //         else {
-            //             this.getView().byId("pressAssImpegno").setEnabled(false);
-            //             this.getView().byId("CompletaNI").setEnabled(false);
-            //         }
-            //         if (data[d].ACTV_2 == "Z02") {
-            //             this.getView().byId("rettificaNI").setEnabled(true);
-            //         }
-            //         else {
-            //             this.getView().byId("rettificaNI").setEnabled(false);
-            //         }
-            //         if (data[d].ACTV_4 == "Z07") {
-            //             this.getView().byId("AnnullaNI").setEnabled(true);
-            //         }
-            //         else {
-            //             this.getView().byId("AnnullaNI").setEnabled(false);
-            //         }
-            //     }
-            // },
+            pulsantiVisibiltà: function (data) {
+                for (var d = 0; d < data.length; d++) {
+                    if (data[d].ACTV_1 == "Z01") {
+                        this.getView().byId("pressAssImpegno").setEnabled(false);
+                        this.getView().byId("CompletaNI").setEnabled(true);
+                    }
+                    if (data[d].ACTV_2 == "Z02") {
+                        this.getView().byId("rettificaNI").setEnabled(true);
+                    }
+                    if (data[d].ACTV_4 == "Z07") {
+                        this.getView().byId("AnnullaNI").setEnabled(true);
+                    }
+                }
+            },
 
             _onObjectMatched: function (oEvent) {
                 this.getView().bindElement(
@@ -238,6 +228,7 @@ sap.ui.define([
                             //var Zattribuito = impegni[o].Zattribuito
                             this.getView().byId("ImpLiq1").setText(importoTot)
                         }
+                        this.onCallFornitore(beneficiario)
 
                         var centroCosto = valoriNuovi[1]
                         this.getView().byId("CentroCosto1").setText(centroCosto)
@@ -255,6 +246,36 @@ sap.ui.define([
                     }
                 }
 
+            },
+
+            onCallFornitore(beneficiario){
+                var filtriFornitori = []
+                var that = this
+                var oMdlFor = new sap.ui.model.json.JSONModel();
+                //var Lifnr = this.getView().byId("inputBeneficiario").getValue()
+
+                // filtriFornitori.push(new Filter({
+                //     path: "Lifnr",
+                //     operator: FilterOperator.EQ,
+                //     value1: Lifnr
+                // }));
+
+                var chiavi = this.getOwnerComponent().getModel().createKey("/FornitoreSet", {
+                    Lifnr: beneficiario
+                });
+
+                this.getOwnerComponent().getModel().read(chiavi, {
+                    filters: filtriFornitori,
+                    success: function (data) {
+                        oMdlFor.setData(data);
+                        that.getView().getModel("temp").setProperty('/FornitoreSet', data)
+                        that.getView().byId("Nome1").setText(data.ZzragSoc)
+
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
             },
 
             collegaClausole: function (oEvent) {
@@ -300,7 +321,7 @@ sap.ui.define([
                     position[i].Zcodgest = Zcodgest
                     position[i].Zcauspag = Zcauspag
                     position[i].Zdataesig = Zdataesig
-                    position[i].ZzragSoc = ZzragSoc
+                    //position[i].ZzragSoc = ZzragSoc
 
                     deepEntity.PositionNISet.push(position[i]);
 
@@ -676,13 +697,12 @@ sap.ui.define([
                                     if (result.Msgty == 'S') {
                                         //var arraySubChiavi = []
                                         let unique = [];
-                                        for (asc = 0; i < asc.result.PositionNISet.results.length; asc++) {
-                                            if (unique.indexOf(result.PositionNISet.results.length[asc],ZchiaveSubni) === -1) {
-                                                unique.push(result.PositionNISet.results.length[asc],ZchiaveSubni);
+                                        for (var asc = 0; asc < result.PositionNISet.results.length; asc++) {
+                                            if (asc == 0 || (unique.includes(result.PositionNISet.results[asc].ZchiaveSubni)) == false) {
+                                                unique.push(result.PositionNISet.results[asc].ZchiaveSubni);
                                             }
                                         }
 
-                                        
                                         MessageBox.success("Le seguenti Note di Imputazione sono state completate correttamente: "+header[indiceHeader].ZchiaveNi+" "+unique+"", {
                                             title: "Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],

@@ -649,8 +649,8 @@ sap.ui.define([
                 var N_oggSpesa = this.getView().byId("oggSpesa").getValue();  //header
                 var N_esercizioPF = this.getView().byId("input_PF").getValue();  //header
                 var N_strAmmResp = this.getView().byId("strAmmResp").getValue();  //header
-                var descrizioneCap = this.getView().byId("descrizioneCap").getValue()
-                var descrizionePG = this.getView().byId("descrizionePG").getValue()
+                // var descrizioneCap = this.getView().byId("descrizioneCap").getValue()
+                // var descrizionePG = this.getView().byId("descrizionePG").getValue()
 
 
                 if (N_oggSpesa == "") {

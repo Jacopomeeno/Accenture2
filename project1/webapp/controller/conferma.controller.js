@@ -45,66 +45,54 @@ sap.ui.define(
                 oProprietà.setData(oInitialModelState);
                 this.getView().setModel(oProprietà);
                 this.getOwnerComponent().getModel("temp");
-                //this.callVisibilità()
+                this.callVisibilità()
                 this.getRouter().getRoute("conferma").attachPatternMatched(this._onObjectMatched, this);
 
             },
 
-            // callVisibilità: function () {
-            //     var that = this
-            //     var filters = []
-            //     filters.push(
-            //         new Filter({ path: "SEM_OBJ", operator: FilterOperator.EQ, value1: "ZS4_NOTEIMPUTAZIONI_SRV" }),
-            //         new Filter({ path: "AUTH_OBJ", operator: FilterOperator.EQ, value1: "Z_GEST_NI" })
-            //     )
-            //     // "ODataModel" required from module "sap/ui/model/odata/v2/ODataModel"
-            //     var visibilità = new ODataModel("http://10.38.125.80:8000/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/");
-            //     visibilità.read("/ZES_CONIAUTH_SET", {
-            //         filters: filters,
-            //         urlParameters: "",
-            //         success: function (data) {
-            //             console.log("success")
-            //             //oMdl.setData(data.results);
-            //             that.getView().getModel("temp").setProperty('/Visibilità', data.results)
-            //             that.pulsantiVisibiltà(data.results)
-            //         },
-            //         error: function (error) {
-            //             console.log(error)
-            //             //that.getView().getModel("temp").setProperty(sProperty,[]);
-            //             //that.destroyBusyDialog();
-            //             var e = error;
-            //         }
-            //     });
-            // },
+            callVisibilità: function () {
+                var that = this
+                var filters = []
+                filters.push(
+                    new Filter({ path: "SEM_OBJ", operator: FilterOperator.EQ, value1: "ZS4_NOTEIMPUTAZIONI_SRV" }),
+                    new Filter({ path: "AUTH_OBJ", operator: FilterOperator.EQ, value1: "Z_GEST_NI" })
+                )
+                // "ODataModel" required from module "sap/ui/model/odata/v2/ODataModel"
+                var visibilità = new ODataModel("http://10.38.125.80:8000/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/");
+                visibilità.read("/ZES_CONIAUTH_SET", {
+                    filters: filters,
+                    urlParameters: "",
+                    success: function (data) {
+                        console.log("success")
+                        //oMdl.setData(data.results);
+                        that.getView().getModel("temp").setProperty('/Visibilità', data.results)
+                        that.pulsantiVisibiltà(data.results)
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        //that.getView().getModel("temp").setProperty(sProperty,[]);
+                        //that.destroyBusyDialog();
+                        var e = error;
+                    }
+                });
+            },
 
-            // pulsantiVisibiltà: function (data) {
-            //     for (var d = 0; d < data.length; d++) {
-            //         if (data[d].ACTV_4 == "Z12" || data[d].ACTV_4 == "Z13") {
-            //             this.getView().byId("revocaConferma").setEnabled(true);
-            //         }
-            //         else {
-            //             this.getView().byId("revocaConferma").setEnabled(false);
-            //         }
-            //         if (data[d].ACTV_4 == "Z14") {
-            //             this.getView().byId("Valida").setEnabled(true);
-            //         }
-            //         else {
-            //             this.getView().byId("Valida").setEnabled(false);
-            //         }
-            //         if (data[d].ACTV_4 == "Z17") {
-            //             this.getView().byId("richiama").setEnabled(true);
-            //         }
-            //         else {
-            //             this.getView().byId("richiama").setEnabled(false);
-            //         }
-            //         if (data[d].ACTV_4 == "Z18") {
-            //             this.getView().byId("RegistraRilievoNI").setEnabled(true);
-            //         }
-            //         else {
-            //             this.getView().byId("RegistraRilievoNI").setEnabled(false);
-            //         }  
-            //     }
-            // },
+            pulsantiVisibiltà: function (data) {
+                for (var d = 0; d < data.length; d++) {
+                    if (data[d].ACTV_4 == "Z12" || data[d].ACTV_4 == "Z13") {
+                        this.getView().byId("revocaConferma").setEnabled(true);
+                    }
+                    if (data[d].ACTV_4 == "Z14") {
+                        this.getView().byId("Valida").setEnabled(true);
+                    }
+                    if (data[d].ACTV_4 == "Z17") {
+                        this.getView().byId("richiama").setEnabled(true);
+                    }
+                    if (data[d].ACTV_4 == "Z18") {
+                        this.getView().byId("RegistraRilievoNI").setEnabled(true);
+                    }
+                }
+            },
 
             _onObjectMatched: function (oEvent) {
                 this.getView().bindElement(
@@ -337,6 +325,7 @@ sap.ui.define(
                                 this.getView().byId("comp1").setText(n_comp)
 
                                 var beneficiario = position[x].Lifnr
+                                this.onCallFornitore(beneficiario)
                                 this.getView().byId("Lifnr1").setText(beneficiario)
 
                                 var centroCosto = position[x].Kostl
@@ -354,9 +343,6 @@ sap.ui.define(
                                 var modalitàPagamento = position[x].Zwels
                                 this.getView().byId("Zwels1").setText(modalitàPagamento)
                              
-                                var ZzragSoc = 
-                                this.getView().byId("Nome1").setText(ZzragSoc)
-
 
                                 //var Zattribuito = impegni[o].Zattribuito
 
@@ -382,6 +368,36 @@ sap.ui.define(
 
                     }
                 }
+            },
+
+            onCallFornitore(beneficiario){
+                var filtriFornitori = []
+                var that = this
+                var oMdlFor = new sap.ui.model.json.JSONModel();
+                //var Lifnr = this.getView().byId("inputBeneficiario").getValue()
+
+                // filtriFornitori.push(new Filter({
+                //     path: "Lifnr",
+                //     operator: FilterOperator.EQ,
+                //     value1: Lifnr
+                // }));
+
+                var chiavi = this.getOwnerComponent().getModel().createKey("/FornitoreSet", {
+                    Lifnr: beneficiario
+                });
+
+                this.getOwnerComponent().getModel().read(chiavi, {
+                    filters: filtriFornitori,
+                    success: function (data) {
+                        oMdlFor.setData(data);
+                        that.getView().getModel("temp").setProperty('/FornitoreSet', data)
+                        that.getView().byId("Nome1").setText(data.ZzragSoc)
+
+                    },
+                    error: function (error) {
+                        var e = error;
+                    }
+                });
             },
 
             callWorkflow: function () {
