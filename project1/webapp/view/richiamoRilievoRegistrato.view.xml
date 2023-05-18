@@ -137,7 +137,7 @@
         <f:content>
             <IconTabBar id="richiamoRilievoRegistratoITB" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
-                    <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
+                    <IconTabFilter icon="sap-icon://detail-view" text="Dettaglio NI" key="ListaDettagli">  
                         <core:Fragment fragmentName="project1.fragment.richiamoRilievoRegistrato" type="XML" />
                     </IconTabFilter>
                     <IconTabFilter icon="sap-icon://history" text="Workflow" key="Workflow">

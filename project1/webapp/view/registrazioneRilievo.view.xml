@@ -116,7 +116,7 @@
         <f:content>
             <IconTabBar id="registrazioneRilievoITB" class="sapUiResponsiveContentPadding" select="onSelect">
                 <items>
-                    <IconTabFilter icon="sap-icon://detail-view" text="Lista Dettagli" key="ListaDettagli">  
+                    <IconTabFilter icon="sap-icon://detail-view" text="Dettaglio NI" key="ListaDettagli">  
                         <form:SimpleForm editable="true">
                 <Panel height="100%">
                     <content>

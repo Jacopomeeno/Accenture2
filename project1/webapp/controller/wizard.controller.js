@@ -73,7 +73,7 @@ sap.ui.define([
                 });
             },
 
-            mese: function(){
+            mese: function () {
                 var that = this;
                 var oMdl = new sap.ui.model.json.JSONModel();
                 this.getOwnerComponent().getModel().read("/ZmeseSet", {
@@ -100,7 +100,7 @@ sap.ui.define([
                     success: function (data) {
                         oMdl.setData(data.results);
                         that.getView().getModel("temp").setProperty('/ZcompResNISet', data.results)
-                        
+
                     },
                     error: function (error) {
                         //that.getView().getModel("temp").setProperty(sProperty,[]);
@@ -146,10 +146,10 @@ sap.ui.define([
                 });
             },
 
-            ZdescPgNi: function(){
+            ZdescPgNi: function () {
                 var that = this;
                 var oMdl = new sap.ui.model.json.JSONModel();
-                var datiNI  = []
+                var datiNI = []
                 var oModel = this.getOwnerComponent().getModel();
                 var Zamministr = this.getView().getModel("temp").getData().ZamministrNiSet[0].Zamministr
 
@@ -194,10 +194,10 @@ sap.ui.define([
                 });
             },
 
-            ZdescCap: function(){
+            ZdescCap: function () {
                 var that = this;
                 var oMdl = new sap.ui.model.json.JSONModel();
-                var datiNI  = []
+                var datiNI = []
                 var oModel = this.getOwnerComponent().getModel();
                 var Zamministr = this.getView().getModel("temp").getData().ZamministrNiSet[0].Zamministr
 
@@ -486,6 +486,7 @@ sap.ui.define([
 
             selectedRow: function () {
                 var rows = this.getView().byId("HeaderNIW").getSelectedItems()
+                this.getView().getModel("temp").setProperty("/RigheSelezionate", rows)
                 // if(rows){
                 //     oProprietà.setProperty("/HeaderNIWstep3Visible", false);
                 // }
@@ -578,8 +579,10 @@ sap.ui.define([
             },
 
             onPreimpNI: function (oEvent) {
+                var countValoriMinori = 0
                 var that = this;
                 var visibilità = this.getView().getModel("temp").getData().Visibilità[0]
+                var RigheSelezionate = this.getView().getModel("temp").getData().RigheSelezionate
                 //var rows= this.getView().byId("HeaderNIW").getSelectedItem()
 
                 var N_es_gestione = this.getView().byId("es_gestione").getSelectedKey(); //header
@@ -629,10 +632,10 @@ sap.ui.define([
                     var N_Tipologia = this.getView().byId("tipologia").getValue();  //position
                 if (this.getView().byId("sottotipologia").getSelectedItem() != null)
                     var N_Sottotipologia = this.getView().byId("sottotipologia").getSelectedItem().mProperties.text;  //position
-                if (this.getView().byId("competenza").getSelectedItem() != null || this.getView().byId("competenza").getValue() != ''){
+                if (this.getView().byId("competenza").getSelectedItem() != null || this.getView().byId("competenza").getValue() != '') {
                     var competenza = this.getView().byId("competenza").mProperties.value  //position
-                    if(competenza == 'Competenza') var N_CR = "C"
-                    if(competenza == 'Residui') var N_CR = "R"
+                    if (competenza == 'Competenza') var N_CR = "C"
+                    if (competenza == 'Residui') var N_CR = "R"
                 }
                 var N_ImportoTot = this.getView().byId("n_righeTotWH2").getText().split(" ")[5];
 
@@ -686,7 +689,7 @@ sap.ui.define([
                             Ztipo: item.Ztipo,
                             Zsottotipo: N_Sottotipologia,
                             ZcompRes: N_CR,
-                            
+
 
                             //ZimpoTitolo: ZimpoTitolo,                 //aggiornare mock
                             Zdescrizione: item.Zdescrizione,                //aggiornare mock 
@@ -767,12 +770,80 @@ sap.ui.define([
                     // for (var x = 0; x < deepEntity.PositionNISet.length; x++) {
                     //     sommaImporto = sommaImporto + parseFloat(deepEntity.PositionNISet[x].ZimpoTitolo)
                     // }
-                    if (parseFloat(deepEntity.HeaderNISet.ZimpoTotni) != importoTot) {
 
-                        var num = importoTot.toString();
-                        deepEntity.HeaderNISet.ZimpoTotni = num
+                    for (var titolo = 0; titolo < this.getView().byId("HeaderNIWstep3").mAggregations.items.length; titolo++) {
+
+                        var numeroInteroTitolo = this.getView().byId("HeaderNIWstep3").mAggregations.items[titolo].oBindingContexts.HeaderNIWstep3.oModel.oData[titolo].ZimpoTitolo
+                        var numIntTot = ""
+                        if (numeroInteroTitolo.split(".").length > 1) {
+                            var numeri = numeroInteroTitolo.split(".")
+                            for (var n = 0; n < numeri.length; n++) {
+                                numIntTot = numIntTot + numeri[n]
+                                //var numeroFloat = parseFloat(numeroIntero)
+                                if (numIntTot.split(",").length > 1) {
+                                    var virgole = numIntTot.split(",")
+                                    var numeroInteroTitoloPunto = virgole[0] + "." + virgole[1]
+                                }
+                            }
+                            var importoPrimaVirgola = numeroIntero.split(".")
+                            var numPunti = ""
+                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                return x.split('').reverse().join('')
+                            }).reverse()
+
+                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                numPunti = (numPunti + migliaia[migl] + ".")
+                            }
+                            var indice = numPunti.split("").length
+                            var numeroInteroTitoloVirgola = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+
+                        }
+
+                        else {
+                            var importoPrimaVirgola = numeroInteroTitolo.split(",")
+                            var numeroInteroTitoloPunto = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                        }
+
+                        var numeroInteroResiduo = RigheSelezionate[titolo].mAggregations.cells[5].mProperties.text
+                        var numIntTot = ""
+                        if (numeroInteroResiduo.split(".").length > 1) {
+                            var numeri = numeroIntero.split(".")
+                            for (var n = 0; n < numeri.length; n++) {
+                                numIntTot = numIntTot + numeri[n]
+                                //var numeroFloat = parseFloat(numeroInteroResiduo)
+                                if (numIntTot.split(",").length > 1) {
+                                    var virgole = numIntTot.split(",")
+                                    var numeroInteroResiduoPunto = virgole[0] + "." + virgole[1]
+                                }
+                            }
+                            var importoPrimaVirgola = numeroIntero.split(".")
+                            var numPunti = ""
+                            var migliaia = importoPrimaVirgola[0].split('').reverse().join('').match(/.{1,3}/g).map(function (x) {
+                                return x.split('').reverse().join('')
+                            }).reverse()
+
+                            for (var migl = 0; migl < migliaia.length; migl++) {
+                                numPunti = (numPunti + migliaia[migl] + ".")
+                            }
+                            var indice = numPunti.split("").length
+                            var numeroInteroResiduoVirgola = numPunti.substring(0, indice - 1) + "," + importoPrimaVirgola[1]
+
+                        }
+
+                        else {
+                            var importoPrimaVirgola = numeroInteroResiduo.split(",")
+                            var numeroInteroResiduoPunto = importoPrimaVirgola[0] + "." + importoPrimaVirgola[1]
+                        }
 
 
+                        if (parseFloat(numeroInteroTitoloPunto) < parseFloat(numeroInteroResiduoPunto)) {
+                            countValoriMinori = countValoriMinori++
+                        }
+                    }
+                    var num = importoTot.toString();
+                    deepEntity.HeaderNISet.ZimpoTotni = num
+
+                    if (countValoriMinori >= 0) {
                         MessageBox.warning("L’importo relativo ai seguenti codici ISIN è stato coperto parzialmente dalla Nota di Imputazione. Si intende procedere con l’operazione?", {
                             title: "Copertura Importo",
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
@@ -800,7 +871,7 @@ sap.ui.define([
                                                         }
                                                         if (result.Msgty == 'S') {
                                                             var risultato = result.Message.split(" ")
-                                                            let frase=risultato[0]+" "+risultato[1]+" "+risultato[2]+" "+risultato[3]+" preimpostata correttamente"
+                                                            let frase = risultato[0] + " " + risultato[1] + " " + risultato[2] + " " + risultato[3] + " preimpostata correttamente"
                                                             MessageBox.success(frase, {
                                                                 title: "Esito Operazione",
                                                                 actions: [sap.m.MessageBox.Action.OK],
@@ -834,6 +905,7 @@ sap.ui.define([
                             }
                         })
                     }
+
                     else {
                         MessageBox.warning("Sei sicuro di voler preimpostare la NI?", {
                             actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
@@ -886,6 +958,7 @@ sap.ui.define([
                 this._oSelectedStep = this._oWizard.getSteps()[this._iSelectedStepIndex];
                 this._iSelectedStepIndex = this._oWizard.getSteps().indexOf(this._oSelectedStep);
                 //console.log(this._iSelectedStepIndex)
+
                 if (this._iSelectedStepIndex == 0) {
                     //console.log(this.getOwnerComponent().getRouter().navTo("View1"))
                     this._iSelectedStepIndex = 0
@@ -893,16 +966,35 @@ sap.ui.define([
                     this.getView().byId("HeaderNIW").setVisible(false);
                     return;
                 }
-                var oNextStep = this._oWizard.getSteps()[this._iSelectedStepIndex - 1];
-                if (this._oSelectedStep && !this._oSelectedStep.bLast) {
-                    this._oWizard.goToStep(oNextStep, true);
-                } else {
-                    this._oWizard.previousStep();
+
+                else if (this._iSelectedStepIndex == 1) {
+                    var oNextStep = this._oWizard.getSteps()[this._iSelectedStepIndex - 1];
+                    if (this._oSelectedStep && !this._oSelectedStep.bLast) {
+                        this._oWizard.goToStep(oNextStep, true);
+                    }
+                    else {
+                        this._oWizard.previousStep();
+                    }
+                    this._iSelectedStepIndex--
+                    this._oSelectedStep = oNextStep;
+                    this.controlPreNI();
+                    this.controlHeader()
                 }
-                this._iSelectedStepIndex--
-                this._oSelectedStep = oNextStep;
-                this.controlPreNI();
-                this.controlHeader()
+                
+                else if (this._iSelectedStepIndex == 2) {
+                    var oNextStep = this._oWizard.getSteps()[this._iSelectedStepIndex - 1];
+                    if (this._oSelectedStep && !this._oSelectedStep.bLast) {
+                        this._oWizard.goToStep(oNextStep, true);
+                    }
+                    else {
+                        this._oWizard.previousStep();
+                    }
+                    this._iSelectedStepIndex--
+                    this._oSelectedStep = oNextStep;
+                    this.controlPreNI();
+                    this.controlHeader()
+                }
+
                 //this.controlStep()
             },
 
@@ -957,6 +1049,12 @@ sap.ui.define([
                         this._iSelectedStepIndex++;
                         this._oSelectedStep = oNextStep;
 
+                        this.getView().byId("es_gestione").setEnabled(false)
+                        this.getView().byId("mese").setEnabled(false)
+                        this.getView().byId("tipologia").setEnabled(false)
+                        this.getView().byId("sottotipologia").setEnabled(false)
+                        this.getView().byId("competenza").setEnabled(false)
+
                         this.controlPreNI()
                         this.controlHeader()
 
@@ -987,6 +1085,9 @@ sap.ui.define([
                         })
                     }
                     else if (strutturaAmministrativa != '' && posizioneFinanziaria != '' && strutturaAmministrativa != undefined && posizioneFinanziaria != undefined) {
+                        this.getView().byId("input_PF").setEnabled(false)
+                        this.getView().byId("strAmmResp").setEnabled(false)
+
                         this.callSecurity()
                     }
                 }
@@ -1005,20 +1106,21 @@ sap.ui.define([
                     success: function (Value, response) {
                         that.getView().getModel("temp").setProperty('/Autorizzazioni', Value);
 
-                            var oNextStep = that._oWizard.getSteps()[that._iSelectedStepIndex + 1];
+                        var oNextStep = that._oWizard.getSteps()[that._iSelectedStepIndex + 1];
 
-                            if (that._oSelectedStep && !that._oSelectedStep.bLast) {
-                                that._oWizard.goToStep(oNextStep, true);
-                            } else {
-                                that._oWizard.nextStep();
-                            }
+                        if (that._oSelectedStep && !that._oSelectedStep.bLast) {
+                            that._oWizard.goToStep(oNextStep, true);
+                        } else {
+                            that._oWizard.nextStep();
+                        }
 
-                            that._iSelectedStepIndex++;
-                            that._oSelectedStep = oNextStep;
+                        that._iSelectedStepIndex++;
+                        that._oSelectedStep = oNextStep;
 
-                            that.controlPreNI()
-                            that.controlHeader()
-                        
+
+                        that.controlPreNI()
+                        that.controlHeader()
+
                     },
                     error: function (oError) {
                         var err = oError
