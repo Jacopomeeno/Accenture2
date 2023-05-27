@@ -703,7 +703,7 @@ sap.ui.define([
                                             }
                                         }
 
-                                        MessageBox.success("Le seguenti Note di Imputazione sono state completate correttamente: "+header[indiceHeader].ZchiaveNi+" "+unique+"", {
+                                        MessageBox.success("Le seguenti Note di Imputazione sono state completate correttamente: \n "+header[indiceHeader].ZchiaveNi+" \n"+unique+"", {
                                             title: "Esito Operazione",
                                             actions: [sap.m.MessageBox.Action.OK],
                                             emphasizedAction: MessageBox.Action.OK,
